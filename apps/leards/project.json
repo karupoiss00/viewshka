@@ -22,6 +22,7 @@
       "executor": "@nrwl/next:server",
       "defaultConfiguration": "development",
       "options": {
+        "hostname": "0.0.0.0",
         "buildTarget": "leards:build",
         "dev": true
       },

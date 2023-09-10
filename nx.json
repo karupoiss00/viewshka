@@ -1,6 +1,6 @@
 {
   "$schema": "./node_modules/nx/schemas/nx-schema.json",
-  "npmScope": "with-nx",
+  "npmScope": "viewshka",
   "affected": {
     "defaultBase": "main"
   },

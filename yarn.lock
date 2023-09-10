@@ -1908,6 +1908,91 @@
     schema-utils "^3.0.0"
     source-map "^0.7.3"
 
+"@reatom/async@^3.8.3":
+  version "3.8.3"
+  resolved "https://registry.yarnpkg.com/@reatom/async/-/async-3.8.3.tgz#339701a941d61320754e7fc2105fb80b424a29a3"
+  integrity sha512-XDRfEi2rjuo5gQPYG3BlSEydrbss1XvkWPvqOd52qyVmZJO8so5pNZOzJ7d1LXYBugbZMvESMI2EBaAc1+um7g==
+  dependencies:
+    "@reatom/core" "^3.4.0"
+    "@reatom/effects" "^3.3.0"
+    "@reatom/hooks" "^3.2.0"
+    "@reatom/primitives" "^3.1.0"
+    "@reatom/utils" "^3.4.0"
+
+"@reatom/core@^3.1.0", "@reatom/core@^3.1.1", "@reatom/core@^3.2.0", "@reatom/core@^3.4.0", "@reatom/core@^3.5.0":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@reatom/core/-/core-3.5.0.tgz#d5b6bf9611a18306336ca298e15a2cdcdc60f5c1"
+  integrity sha512-zCprMJQY1rsQOc3MU91d0ij0hgR7MPyYyZKqg29vSlrPtulYKx8FFClP78zm/QYt3XOizq8wIyGfeRQiU1hKKw==
+
+"@reatom/effects@^3.2.0", "@reatom/effects@^3.3.0", "@reatom/effects@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@reatom/effects/-/effects-3.4.0.tgz#f612aa837ce4fe176f9c11d11938fd79a9dbe30c"
+  integrity sha512-1CRMVJaRSbvT+MnrJvvhjR6aZELacNwMTEQnG//Y+JalxlY1TOWJIbJzhcvwX9kMhPUuqdrWAzhag+1fspxYRw==
+  dependencies:
+    "@reatom/core" "^3.2.0"
+    "@reatom/utils" "^3.2.0"
+
+"@reatom/framework@^3.4.9":
+  version "3.4.14"
+  resolved "https://registry.yarnpkg.com/@reatom/framework/-/framework-3.4.14.tgz#7cce697830c54c910f5a27fe68e0893c9445936d"
+  integrity sha512-oy1cbKh9hvaTkGuE0G/TpWOq2ayD8eVsTdxHw6+ByiHNLF/kmo5o+goYjZ0z0fvAmyfR2WaLt8RKErwv3y1MSA==
+  dependencies:
+    "@reatom/async" "^3.8.3"
+    "@reatom/core" "^3.5.0"
+    "@reatom/effects" "^3.4.0"
+    "@reatom/hooks" "^3.4.2"
+    "@reatom/lens" "^3.6.1"
+    "@reatom/logger" "^3.5.0"
+    "@reatom/primitives" "^3.2.1"
+    "@reatom/utils" "^3.4.0"
+
+"@reatom/hooks@^3.2.0", "@reatom/hooks@^3.3.1", "@reatom/hooks@^3.4.2":
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/@reatom/hooks/-/hooks-3.4.2.tgz#06b82cbab2a9e0c201d650fc5122fa997cd06839"
+  integrity sha512-IWr2mNlCc9QtB1VGoiMy1fT9mTDyh/1CW12tJCD4FsrWmtHmXwUs1IuGJYCLFAhaJ7VIeBRnK53bHrjokHra2Q==
+  dependencies:
+    "@reatom/core" "^3.2.0"
+    "@reatom/utils" "^3.3.0"
+
+"@reatom/lens@^3.1.0", "@reatom/lens@^3.6.1":
+  version "3.6.1"
+  resolved "https://registry.yarnpkg.com/@reatom/lens/-/lens-3.6.1.tgz#b4c9a918741980944e9ec58de42905cdde6bc5a5"
+  integrity sha512-RdYoVKf7zrT99Z51Bj8V1TvY/DjGM7E5WwfX+qYTwO/i99cbeqOl8K+boAo2DcljtMpOBcU1Hg+4wd5VCndHKQ==
+  dependencies:
+    "@reatom/core" "^3.4.0"
+    "@reatom/effects" "^3.2.0"
+    "@reatom/hooks" "^3.3.1"
+    "@reatom/utils" "^3.1.0"
+
+"@reatom/logger@^3.5.0":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@reatom/logger/-/logger-3.5.0.tgz#1e0cdcaaecba403c7411368200d93d4450864848"
+  integrity sha512-kQQcx4CeT7eh5112AKwh8kCsAEFmWpCGqpT/goSldPC9nqyNxN121GwpOlDZcEgwqNEgxJ6mAu0/UPBCnvQiGw==
+  dependencies:
+    "@reatom/core" "^3.1.0"
+
+"@reatom/npm-react@^3.4.2":
+  version "3.5.0"
+  resolved "https://registry.yarnpkg.com/@reatom/npm-react/-/npm-react-3.5.0.tgz#e5e2bf1da597121505ef9c802c4814e3663188e5"
+  integrity sha512-xbTqDtFVqBM1E8aao1Hc+d+H92tCUK94eMlYFiNfgYqJQyiqjGH8hT3sbzFMPvi5yA6y0Ts44yux6zWyDyrbJQ==
+  dependencies:
+    "@reatom/core" "^3.5.0"
+    "@reatom/lens" "^3.1.0"
+    use-sync-external-store "^1.2.0"
+
+"@reatom/primitives@^3.1.0", "@reatom/primitives@^3.2.1":
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/@reatom/primitives/-/primitives-3.2.1.tgz#026c9b8b2923058cf84b6121a266d05cc0c36efa"
+  integrity sha512-INZqbPbNG0bqRrlZ0LgaRCT8+q3g1ySjKOcpugHCFK0aCRlSK/jbPYQHIg2NYkB5PCamRdJJxaJeBrI8op6Miw==
+  dependencies:
+    "@reatom/core" "^3.1.1"
+    "@reatom/utils" "^3.1.1"
+
+"@reatom/utils@^3.1.0", "@reatom/utils@^3.1.1", "@reatom/utils@^3.2.0", "@reatom/utils@^3.3.0", "@reatom/utils@^3.4.0":
+  version "3.4.0"
+  resolved "https://registry.yarnpkg.com/@reatom/utils/-/utils-3.4.0.tgz#f797c183306a43023282c8022596640e62976b1d"
+  integrity sha512-Zj148FL2rcGwQypMdul3zWR9lScrE2xdiwTEQLGvXFOWWRIX5MIn2fBy1NXMPBPok/tOsxmlkVxGjxmG9lF1Yg==
+
 "@rollup/plugin-babel@^5.3.0":
   version "5.3.1"
   resolved "https://registry.yarnpkg.com/@rollup/plugin-babel/-/plugin-babel-5.3.1.tgz#04bc0608f4aa4b2e4b1aebf284344d0f68fda283"
@@ -9777,7 +9862,7 @@ url-parse@^1.5.3:
     querystringify "^2.1.1"
     requires-port "^1.0.0"
 
-use-sync-external-store@1.2.0:
+use-sync-external-store@1.2.0, use-sync-external-store@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/use-sync-external-store/-/use-sync-external-store-1.2.0.tgz#7dbefd6ef3fe4e767a0cf5d7287aacfb5846928a"
   integrity sha512-eEgnFxGQ1Ife9bzYs6VLi8/4X6CObHMw9Qr9tPY43iKwsPw8xE8+EFsf/2cFZ5S3esXgpWgtSCtLNS41F+sKPA==
