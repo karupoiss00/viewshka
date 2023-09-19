@@ -1,9 +1,14 @@
 import React, {PropsWithChildren} from "react";
 import styles from "./BaseLayout.module.css";
+import {classNames} from "@viewshka/core";
 
-function BaseLayout({children}: PropsWithChildren) {
+type BaseLayoutProps = PropsWithChildren & {
+    className?: string
+}
+
+function BaseLayout({children, className}: BaseLayoutProps) {
     return (
-<div className={styles.layout}>
+<div className={classNames(styles.layout, className)}>
     {children}
 </div>
     )

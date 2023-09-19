@@ -1,14 +1,20 @@
-import React from "react";
-import Image from "next/image";
+import React, {useState} from "react";
 import BaseLayout from "../common/BaseLayout";
-import {useScreenOrientation} from "@viewshka/core";
+import FormLayout from "./content/FormLayout";
+import styles from './Start.module.css'
+import LoginForm from "./content/forms/LoginForm";
+
+type FormState = 'initial' | 'login' | 'register'
 
 function Start() {
-    const screenOrientation = useScreenOrientation()
+    const [formState, setFormState] = useState<FormState>('initial')
 
     return (
-<BaseLayout>
-    <Image src={`/images/landing_background_${screenOrientation}.svg`} alt={'background'} layout={"fill"} draggable={false}/>
+<BaseLayout className={styles['page-layout']}>
+    <FormLayout>
+        {formState === 'initial' && <button onClick={() => setFormState('login')}>Начать</button>}
+        {formState === 'login' && <LoginForm goToRegister={() => setFormState('register')}/>}
+    </FormLayout>
 </BaseLayout>
     )
 }
