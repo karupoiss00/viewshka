@@ -1,7 +1,7 @@
 import React, {PropsWithChildren} from "react";
-import styles from "./PageLayout.module.css";
+import styles from "./BaseLayout.module.css";
 
-function PageLayout({children}: PropsWithChildren) {
+function BaseLayout({children}: PropsWithChildren) {
     return (
 <div className={styles.layout}>
     {children}
@@ -9,4 +9,4 @@ function PageLayout({children}: PropsWithChildren) {
     )
 }
 
-export default PageLayout
+export default BaseLayout
