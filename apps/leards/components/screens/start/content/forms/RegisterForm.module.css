@@ -1,0 +1,16 @@
+.password-text-field {
+    margin-block-start: 31px;
+}
+
+.auth-text {
+    margin-block-start: 5px;
+}
+
+.auth-text > span {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.submit-button {
+    margin-block-start: 26px;
+}

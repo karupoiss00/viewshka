@@ -19,3 +19,8 @@ body {
 html, body, #__next {
   height: 100%;
 }
+
+p {
+  margin: 0;
+  padding: 0;
+}

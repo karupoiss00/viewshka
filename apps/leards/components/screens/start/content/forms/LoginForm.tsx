@@ -1,19 +1,26 @@
 import React from "react";
 import FormContainer from "./common/FormContainer";
+import styles from './LoginForm.module.css'
 
 type LoginFormProps =  {
-    goToRegister: () => void,
-
+    onRegister: () => void,
+    onRecover: () => void,
 }
 
-function LoginForm({goToRegister}: LoginFormProps) {
+function LoginForm({onRegister, onRecover}: LoginFormProps) {
     return (
         <FormContainer>
-            <input/>
-            <input/>
-            <p>Забыл пароль</p>
-            <button></button>
-            <p onClick={goToRegister}>Создать аккаунт</p>
+            <input placeholder={'электронный адрес'}/>
+            <input className={styles.passwordTextField} placeholder={'пароль'}/>
+            <p className={styles.forgotPasswordText}>
+                <span onClick={onRecover}>Забыл пароль</span>
+            </p>
+            <button className={styles.submitButton}>
+                Войти
+            </button>
+            <p className={styles.registerText}>
+                <span onClick={onRegister}>Создать аккаунт</span>
+            </p>
         </FormContainer>
     )
 }

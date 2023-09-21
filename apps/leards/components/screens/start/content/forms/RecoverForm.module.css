@@ -1,0 +1,12 @@
+.return-text {
+    margin-block-start: 5px;
+}
+
+.return-text > span {
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.submit-button {
+    margin-block-start: 26px;
+}

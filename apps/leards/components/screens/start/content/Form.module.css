@@ -2,8 +2,12 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    background: var(--surface-color);
+    background: var(--surface-default);
     border-radius: 23px;
     border: 1px solid #909090;
     padding: 50px 60px;
+}
+
+.logo {
+    margin-block-end: 90px;
 }
