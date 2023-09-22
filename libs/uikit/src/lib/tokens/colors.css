@@ -1,5 +1,9 @@
 :root  {
-    --accent-color: #ffda76;
-    --primary-color: #fdfdfd;
-    --secondary-color: #000000;
+    --accent-color: #FFC56F;
+    --selection-color: #fdfdfd;
+    --error-color: #FB6C55;
+    --surface-default: #FFFFFF;
+    --text-color-default: #404040;
+    --text-color-subdued: #C0C0C0;
+    --stroke-color-default: #DCDCDC;
 }
