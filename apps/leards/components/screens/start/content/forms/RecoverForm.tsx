@@ -1,8 +1,8 @@
-import React from "react";
-import FormContainer from "./common/FormContainer";
-import styles from "./RecoverForm.module.css";
+import React from 'react'
+import FormContainer from './common/FormContainer'
+import styles from './RecoverForm.module.css'
 
-type RecoverFormProps =  {
+type RecoverFormProps = {
 	onLogin: () => void,
 }
 

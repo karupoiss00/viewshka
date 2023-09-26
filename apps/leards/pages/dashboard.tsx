@@ -1,8 +1,8 @@
-import React from 'react';
-import { withAuth } from '../wrappers/withAuth';
+import React from 'react'
+import {withAuth} from '../wrappers/withAuth'
 
 function Dashboard() {
-  return <h1>TODO: тут карточки</h1>;
+	return <h1>TODO: тут карточки</h1>
 }
 
-export default withAuth(Dashboard);
+export default withAuth(Dashboard)

@@ -1,9 +1,9 @@
-import Start from "../components/screens/start/Start";
+import Start from '../components/screens/start/Start'
 
 export function Index() {
-  return (
-      <Start />
-  );
+	return (
+		<Start />
+	)
 }
 
-export default Index;
+export default Index
