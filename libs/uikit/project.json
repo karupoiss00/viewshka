@@ -9,6 +9,7 @@
       "executor": "@nrwl/linter:eslint",
       "outputs": ["{options.outputFile}"],
       "options": {
+        "fix": true,
         "lintFilePatterns": ["libs/uikit/**/*.{ts,tsx,js,jsx}"]
       }
     },
