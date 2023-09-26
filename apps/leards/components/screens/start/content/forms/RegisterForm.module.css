@@ -1,4 +1,5 @@
-.password-text-field {
+.password-text-field,
+.username-text-field {
     margin-block-start: 31px;
 }
 

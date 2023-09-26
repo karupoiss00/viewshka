@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import BaseLayout from "../common/BaseLayout";
+import BaseLayout from '../../common/BaseLayout';
 
 function get404ImageSrc() {
     const isHorribleBackground = Math.round(Math.random() * 100) % 2 === 0

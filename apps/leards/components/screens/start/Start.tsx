@@ -1,5 +1,5 @@
 import React from "react";
-import BaseLayout from "../common/BaseLayout";
+import BaseLayout from '../../common/BaseLayout';
 import Form from "./content/Form";
 import styles from './Start.module.css'
 
