@@ -12,6 +12,14 @@
         "lintFilePatterns": ["libs/uikit/**/*.{ts,tsx,js,jsx}"]
       }
     },
+    "stylelint": {
+      "executor": "nx-stylelint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "fix": true,
+        "lintFilePatterns": ["libs/uikit/**/*.css"]
+      }
+    },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libs/uikit"],

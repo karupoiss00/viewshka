@@ -15,8 +15,8 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@viewshka/uikit": ["libs/uikit/src/index.ts"],
-      "@viewshka/core": ["libs/core/src/index.ts"]
+      "@viewshka/core": ["libs/core/src/index.ts"],
+      "@viewshka/uikit": ["libs/uikit/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

@@ -1,9 +1,4 @@
-/base.ts
-/api.ts
-/.openapi-generator/
-/.openapi-generator-ignore
-/.npmignore
-/configuration.ts
-/common.ts
-/git_push.sh
-/index.ts
+wwwroot/*.js
+node_modules
+typings
+dist

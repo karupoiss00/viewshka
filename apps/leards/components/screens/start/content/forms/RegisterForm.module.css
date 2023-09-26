@@ -1,17 +1,17 @@
 .password-text-field,
 .username-text-field {
-    margin-block-start: 31px;
+  margin-block-start: 31px;
 }
 
 .auth-text {
-    margin-block-start: 5px;
+  margin-block-start: 5px;
 }
 
 .auth-text > span {
-    text-decoration: underline;
-    cursor: pointer;
+  cursor: pointer;
+  text-decoration: underline;
 }
 
 .submit-button {
-    margin-block-start: 26px;
+  margin-block-start: 26px;
 }

@@ -1,25 +1,25 @@
 .password-text-field {
-    margin-block-start: 31px;
+  margin-block-start: 31px;
 }
 
 .forgot-password-text {
-    text-decoration: underline;
-    margin-block-start: 15px;
+  text-decoration: underline;
+  margin-block-start: 15px;
 }
 
 .forgot-password-text > span {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .register-text {
-    text-decoration: underline;
-    margin-block-start: 5px;
+  text-decoration: underline;
+  margin-block-start: 5px;
 }
 
 .register-text > span {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .submit-button {
-    margin-block-start: 25px;
+  margin-block-start: 25px;
 }
