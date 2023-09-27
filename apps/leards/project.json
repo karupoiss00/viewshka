@@ -15,6 +15,9 @@
         "outputPath": "dist/apps/leards",
         "commands": [
           {
+            "command": "nx run leards:stylelint"
+          },
+          {
             "command": "nx run leards:lint"
           },
           {

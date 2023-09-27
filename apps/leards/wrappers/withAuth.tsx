@@ -12,13 +12,13 @@ export const withAuth = (Component: NextComponentType) => () => {
 	const {status, data} = useAuthQuery()
 
 	useEffect(() => {
-		if (status === 'success') {
-			AuthProvider.setAuthToken(data.token)
-		}
-		if (status === 'error') {
-			router.replace('/')
-		}
-	}, [data.token, router, status])
+    if (status === 'success') {
+      AuthProvider.setAuthToken(data.token);
+    }
+    if (status === 'error') {
+      router.replace('/');
+    }
+  }, [data, router, status]);
 
 	return (
 		<BaseLayout>
