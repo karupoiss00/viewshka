@@ -1,5 +1,4 @@
 import {ReverseProxyPathMapper} from "reverse_proxy_pathmapper";
-import * as childProcess from 'child_process'
 
 const PROXY_PORT = 3000
 const FRONTEND_URL = "http://localhost:4200"
