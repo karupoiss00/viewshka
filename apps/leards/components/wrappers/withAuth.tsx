@@ -1,11 +1,11 @@
 import {NextComponentType} from 'next'
 import {useQuery} from 'react-query'
-import {AuthAPI} from '../api/AuthAPI'
-import AuthProvider from '../api/common/authProvider'
+import {AuthAPI} from '../../api/AuthAPI'
+import AuthProvider from '../../api/common/authProvider'
 import React, {useEffect} from 'react'
 import {useRouter} from 'next/router'
-import BaseLayout from '../components/common/BaseLayout'
-import {Preloader} from '../components/common/preloader/Preloader'
+import BaseLayout from '../common/BaseLayout'
+import {Preloader} from '../common/preloader/Preloader'
 
 export const withAuth = (Component: NextComponentType) => () => {
 	const router = useRouter()

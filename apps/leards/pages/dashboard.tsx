@@ -1,5 +1,5 @@
 import React from 'react'
-import {withAuth} from '../wrappers/withAuth'
+import {withAuth} from '../components/wrappers/withAuth'
 
 function Dashboard() {
 	return <h1>TODO: тут карточки</h1>
