@@ -21,7 +21,7 @@
             "command": "nx run leards:lint"
           },
           {
-            "command": "openapi-generator-cli generate -g typescript-axios -i ./apps/leards/api/schema.json -o ./apps/leards/api/generated/ --additional-properties=withoutPrefixEnums=true"
+            "command": "nx run leards:api-generate"
           }
         ]
       }
