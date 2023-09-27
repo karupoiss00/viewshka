@@ -6,10 +6,16 @@ import AuthProvider from './common/authProvider'
 export const AuthAPI = wrapApi<AuthApi>(() => {
 	const baseAuth = AuthProvider.getBaseAuth()
 	const config = new Configuration({
-		basePath: 'http://localhost:8080/api/v1',
+		// eslint-disable-next-line no-process-env
+		basePath: process.env.NEXT_PUBLIC_API_URL,
 		username: baseAuth.username,
 		password: baseAuth.password,
-		apiKey: AuthProvider.getAuthToken(),
+		baseOptions: {
+			headers: {
+				crossOrigin: 'anonymous',
+				Authorization: `Bearer ${AuthProvider.getAuthToken()}`,
+			},
+		},
 	})
 
 	return new AuthApi(config)

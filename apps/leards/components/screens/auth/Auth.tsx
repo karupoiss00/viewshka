@@ -1,9 +1,9 @@
 import React from 'react'
 import BaseLayout from '../../common/BaseLayout'
 import Form from './content/Form'
-import styles from './Start.module.css'
+import styles from './Auth.module.css'
 
-function Start() {
+function Auth() {
 	return (
 		<BaseLayout className={styles.pageLayout}>
 			<Form/>
@@ -11,4 +11,4 @@ function Start() {
 	)
 }
 
-export default Start
+export default Auth

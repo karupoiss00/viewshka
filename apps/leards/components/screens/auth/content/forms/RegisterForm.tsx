@@ -28,6 +28,7 @@ function RegisterForm({onLogin}: RegisterFormProps) {
 	useEffect(() => {
 		if (status == 'success') {
 			AuthProvider.setAuthToken(data.token)
+			AuthProvider.setUserId(data.userId)
 			router.push('/dashboard')
 		}
 	}, [data, router, status])

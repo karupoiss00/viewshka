@@ -1,8 +1,8 @@
-import Start from '../components/screens/start/Start'
+import Auth from '../components/screens/auth/Auth'
 
 export function Index() {
 	return (
-		<Start />
+		<Auth />
 	)
 }
 

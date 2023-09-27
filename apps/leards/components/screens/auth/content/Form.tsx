@@ -9,19 +9,18 @@ type FormState = 'login' | 'register' | 'recover'
 
 function Form() {
 	const [formState, setFormState] = useState<FormState>('login')
-
-	const onLogin = () => setFormState('login')
-	const onRegister = () => setFormState('register')
-	const onRecover = () => setFormState('recover')
+	const goLogin = () => setFormState('login')
+	const goRegister = () => setFormState('register')
+	const goRecover = () => setFormState('recover')
 
 	return (
 		<div className={styles.layout}>
 			<div className={styles.logo}>
 				<Image src={'/images/Logo.svg'} width={326} height={200} alt={'logo'}/>
 			</div>
-			{formState === 'login' && <LoginForm onRegister={onRegister} onRecover={onRecover}/>}
-			{formState === 'register' && <RegisterForm onLogin={onLogin}/>}
-			{formState === 'recover' && <RecoverForm onLogin={onLogin}/>}
+			{formState === 'login' && <LoginForm onRegister={goRegister} onRecover={goRecover}/>}
+			{formState === 'register' && <RegisterForm onLogin={goLogin}/>}
+			{formState === 'recover' && <RecoverForm onLogin={goLogin}/>}
 		</div>
 	)
 }

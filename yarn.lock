@@ -9124,6 +9124,13 @@ reusify@^1.0.4:
   resolved "https://registry.yarnpkg.com/reusify/-/reusify-1.0.4.tgz#90da382b1e126efc02146e90845a88db12925d76"
   integrity sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==
 
+reverse_proxy_pathmapper@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/reverse_proxy_pathmapper/-/reverse_proxy_pathmapper-2.0.0.tgz#8777c18949e389a98d626f3ce78816f1e733ac34"
+  integrity sha512-sQTd9Qij7btXwCCRldh1gzxgVG4oLagbD32ehp2uffxJg7MLrfgIbo0rf91n50l61sQuqk6uwjlgIIgLWEQiPA==
+  dependencies:
+    http-proxy "^1.18.1"
+
 rfdc@^1.3.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/rfdc/-/rfdc-1.3.0.tgz#d0b7c441ab2720d05dc4cf26e01c89631d9da08b"

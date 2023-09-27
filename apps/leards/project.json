@@ -26,11 +26,22 @@
         ]
       }
     },
+    "api-generate": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "root": "apps/leards",
+        "outputPath": "dist/apps/leards",
+        "commands": [
+          {
+            "command": "openapi-generator-cli generate -g typescript-axios -i ./apps/leards/api/schema.json -o ./apps/leards/api/generated/ --additional-properties=withoutPrefixEnums=true"
+          }
+        ]
+      }
+    },
     "serve": {
       "executor": "@nrwl/next:server",
       "defaultConfiguration": "development",
       "options": {
-        "hostname": "0.0.0.0",
         "buildTarget": "leards:build",
         "dev": true
       },
@@ -43,6 +54,21 @@
           "buildTarget": "leards:build:production",
           "dev": false
         }
+      }
+    },
+    "proxy-serve": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "root": "apps/leards",
+        "outputPath": "dist/apps/leards",
+        "commands": [
+          {
+            "command": "nx run leards:serve"
+          },
+          {
+            "command": "node ./apps/leards/scripts/proxy.mjs"
+          }
+        ]
       }
     },
     "export": {

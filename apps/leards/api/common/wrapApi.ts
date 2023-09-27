@@ -11,5 +11,8 @@ export function wrapApi<T extends BaseAPI>(apiCreator: () => T) {
 
 			return api
 		},
+		reset: () => {
+			api = null
+		},
 	}
 }

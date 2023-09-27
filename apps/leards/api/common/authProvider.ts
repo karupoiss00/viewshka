@@ -21,7 +21,7 @@ const AuthProvider: UserDataProvider = {
 	setUserId: (id: string) => window.localStorage.setItem(USER_ID_KEY, id),
 	getAuthToken: () => window.localStorage.getItem(AUTH_TOKEN_KEY),
 	setAuthToken: (token: string) => {
-		window.localStorage.setItem(AUTH_TOKEN_KEY, token)
+		window.localStorage.setItem(AUTH_TOKEN_KEY, btoa(token))
 	},
 	getBaseAuth: () => {
 		const authData = JSON.parse(

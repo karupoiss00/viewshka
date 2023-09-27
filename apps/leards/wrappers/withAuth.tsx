@@ -30,6 +30,7 @@ export const withAuth = (Component: NextComponentType) => () => {
 
 function useAuthQuery() {
 	return useQuery('auth', async () => {
+		console.log(AuthProvider.getUserId())
 		const response = await AuthAPI.get().authIdGet(AuthProvider.getUserId())
 		return response.data
 	})
