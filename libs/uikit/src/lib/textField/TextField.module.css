@@ -1,4 +1,42 @@
 .text-field {
-    height: 50px;
+    display: flex;
+    height: 60px;
     width: 100%;
+    background-color: var(--surface-default);
+    align-items: center;
+    border-radius: 10px;
+    border: 1px solid;
+    padding: 19px 18px;
+}
+
+.text-field--default {
+    border-color: var(--stroke-color-default);
+}
+
+.text-field--error {
+    border-color: var(--error-color);
+}
+
+.text-field-input {
+    background-color: var(--surface-default);
+    width: 100%;
+    outline: none;
+    font: var(--input-text);
+}
+
+.text--input::placeholder {
+    color: var(--stroke-color-default);
+}
+
+.eye {
+    width: 40px;
+    height: 40px;
+}
+
+.error-text {
+    color: var(--error-color);
+    font: var(--breadcrums-text);
+    padding-left: 19px;
+    padding-top: 5px;
+    user-select: none;
 }
