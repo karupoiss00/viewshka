@@ -3,12 +3,16 @@ import TextField from "libs/uikit/src/lib/textField/TextField";
 
 export function Index() {
   return (
-      <TextField 
+    <div style={{width: 500}}>
+      <TextField
+        placeholder="Пиши..." 
         onChange={str => {console.log(str)}}
         onInput={str => {console.log(str)}}
-        contentVisible = {true}
-        isValidate={str => false}
+        contentHidden = {true}
+        validate={str => {return false}}
+        errorMessage="Научись писать"
       />
+    </div>
   );
 }
 
