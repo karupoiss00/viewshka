@@ -45,7 +45,14 @@ function TextField({className, placeholder, errorMessage, contentHidden, onChang
 					}}
 				>
 				</input>
-				{contentHidden !== undefined && <VisibilityButton isVisibility={isVisible} onClick={() => setIsVisible(!isVisible)}/>}
+				<TextVisibilitySwitcher
+					className={classnames({
+						[styles['empty-text-field']]:  !text,
+					})}
+					state={isVisible ? 'visible' : 'hidden'}
+					hidden={contentHidden === undefined}
+					onClick={() => setIsVisible(!isVisible)}
+				/>
 			</div>
 			<p className={styles['error-text']} hidden={isValidData}>{errorMessage}</p>
 		</div>
@@ -53,14 +60,23 @@ function TextField({className, placeholder, errorMessage, contentHidden, onChang
 }
 
 type VisibilityButtonProps = {
-	isVisibility: boolean
+	state: 'visible' | 'hidden'
+	className?: string
 	onClick: () => void
+	hidden?: boolean
 }
 
-function VisibilityButton({isVisibility, onClick}: VisibilityButtonProps) {
-	return <div className={styles['eye-container']} onClick={onClick}>
-		{isVisibility ? <IconOpenEye/> : <IconCloseEye/>}
+function TextVisibilitySwitcher({className, state, onClick, hidden}: VisibilityButtonProps) {
+	if (hidden) {
+		return null
+	}
+
+	return <div className={classnames(styles['eye-container'], className)} onClick={onClick}>
+		{state === 'visible' && <IconOpenEye/>}
+		{state === 'hidden' && <IconCloseEye/>}
 	</div>
 }
 
-export default TextField
+export {
+	TextField,
+}

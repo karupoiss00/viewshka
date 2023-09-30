@@ -1,13 +1,16 @@
 @import "../font/stylesheet.css";
 
 :root {
-    --word-learning-text: 44px "Euclid Circular B";
-    --name-learning-text: 400 32px "Euclid Circular B";
-    --main-button-text: 400 24px "Euclid Circular B";
-    --input-text: 24px "Euclid Circular B";
-    --word-card-text: 20px "Euclid Circular B";
-    --interface-text: 400 18px "Euclid Circular B";
-    --storage-names-text: 18px "Euclid Circular B";
-    --breadcrumbs-text: 16px "Euclid Circular B";
-    --xsmall-regular-text: 12px "Euclid Circular B";
+    --large-regular-text: normal 44px "Euclid Circular B";
+    --large-light-text: light 32px "Euclid Circular B";
+
+    --normal-medium-text: medium 24px "Euclid Circular B";
+    --normal-regular-text: normal 24px "Euclid Circular B";
+    --normal-ligh-text: light 20px "Euclid Circular B";
+
+    --small-medium-text: medium 18px "Euclid Circular B";
+    --small-regular-text: normal 18px "Euclid Circular B";
+    --small-light-text: light 16px "Euclid Circular B";
+
+    --xsmall-light-text: light 12px "Euclid Circular B";
 }

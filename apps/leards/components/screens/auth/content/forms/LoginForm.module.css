@@ -5,8 +5,10 @@
 .forgot-password-text {
   text-decoration: underline;
   margin-block-start: 15px;
-  font: var(--input-text);
+  font: var(--small-regular-text);
   color: var(--text-color-subdued);
+  user-select: none;
+  padding-inline-start: 18px;
 }
 
 .forgot-password-text > span {
@@ -14,10 +16,12 @@
 }
 
 .register-text {
-  font: var(--input-text);
+  font: var(--small-regular-text);
   color: var(--text-color-subdued);
+  user-select: none;
   text-decoration: underline;
-  margin-block-start: 5px;
+  margin-block-start: 31px;
+  padding-inline-start: 18px;
 }
 
 .register-text > span {
@@ -27,4 +31,19 @@
 .submit-button {
   margin-block-start: 25px;
   height: 60px;
+  background: var(--accent-color);
+  color: #404040;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  font: var(--small-regular-text);
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background: #F4D4A3;
+}
+
+.submit-button:active {
+  background: var(--selection-color);
 }

@@ -4,14 +4,31 @@
 }
 
 .auth-text {
-  margin-block-start: 5px;
-}
-
-.auth-text > span {
+  margin-block-start: 31px;
+  font: var(--interface-text);
+  color: var(--text-color-subdued);
+  user-select: none;
   cursor: pointer;
   text-decoration: underline;
+  padding-inline-start: 18px;
 }
 
 .submit-button {
   margin-block-start: 26px;
+  height: 60px;
+  background: var(--accent-color);
+  color: #404040;
+  border-radius: 5px;
+  outline: none;
+  border: none;
+  font: var(--interface-text);
+  cursor: pointer;
+}
+
+.submit-button:hover {
+  background: #F4D4A3;
+}
+
+.submit-button:active {
+  background: var(--selection-color);
 }

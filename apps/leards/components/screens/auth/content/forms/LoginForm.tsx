@@ -5,7 +5,8 @@ import {useRouter} from 'next/router'
 import {useMutation} from 'react-query'
 import AuthProvider from '../../../../../api/common/authProvider'
 import {AccountsAPI} from '../../../../../api/AccountsAPI'
-import TextField from '../../../../../../../libs/uikit/src/lib/textField/TextField'
+import {useEnterHandler} from './hooks/useEnterHandler'
+import {TextField} from '@viewshka/uikit'
 
 type LoginFormProps = {
     onRegister: () => void,
@@ -21,18 +22,17 @@ function LoginForm({onRegister, onRecover}: LoginFormProps) {
 	const router = useRouter()
 	const {status, data, mutate} = useLoginMutation()
 	const [email, setEmail] = useState('')
-	const [isValidEmail, setIsValidEmail] = useState(true)
 	const [password, setPassword] = useState('')
 	const [unauthorized, setUnauthorized] = useState(false)
 	const tryAuthorize = () => {
-		if (email) {
+		if (email && password) {
 			mutate({
 				email,
 				password,
 			})
 		}
 		else {
-			setIsValidEmail(false)
+			setUnauthorized(true)
 		}
 	}
 	const onPasswordChange = (data: string) => {
@@ -57,17 +57,16 @@ function LoginForm({onRegister, onRecover}: LoginFormProps) {
 	return (
 		<FormContainer>
 			<TextField
-				placeholder={'электронный адрес'}
+				placeholder={'Почта'}
 				onChange={setEmail}
-				valid={isValidEmail}
-				errorMessage={'Неверный электорнный адрес'}
+				valid={!unauthorized}
 			/>
 			<TextField
 				className={styles.passwordTextField}
-				placeholder={'пароль'}
+				placeholder={'Пароль'}
 				onChange={onPasswordChange}
 				valid={!unauthorized}
-				errorMessage={'Неверный пароль'}
+				errorMessage={'Неверный логин или пароль'}
 				contentHidden={true}
 			/>
 			<p className={styles.forgotPasswordText}>
@@ -92,20 +91,5 @@ function useLoginMutation() {
 	})
 }
 
-function useEnterHandler(callback: () => void) {
-	useEffect(() => {
-		const onKeyDown = (e: KeyboardEvent) => {
-			if (e.key === 'Enter') {
-				callback()
-			}
-		}
-
-		window.addEventListener('keydown', onKeyDown)
-
-		return () => {
-			window.removeEventListener('keydown', onKeyDown)
-		}
-	}, [callback])
-}
 
 export default LoginForm
