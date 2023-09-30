@@ -1,4 +1,4 @@
-interface UserDataProvider {
+interface IAuthProvider {
   getUserId(): string | null;
 
   setUserId(id: string): void;
@@ -16,7 +16,7 @@ const USER_ID_KEY = 'uid'
 const AUTH_TOKEN_KEY = 'tkn'
 const BASE_AUTH_DATA_KEY = 'bsauth'
 
-const AuthProvider: UserDataProvider = {
+const AuthProvider: IAuthProvider = {
 	getUserId: () => window.localStorage.getItem(USER_ID_KEY),
 	setUserId: (id: string) => window.localStorage.setItem(USER_ID_KEY, id),
 	getAuthToken: () => window.localStorage.getItem(AUTH_TOKEN_KEY),

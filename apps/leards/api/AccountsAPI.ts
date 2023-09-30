@@ -1,4 +1,4 @@
-import AuthProvider from './common/authProvider'
+import AuthProvider from '../providers/authProvider'
 import {wrapApi} from './common/wrapApi'
 import {AccountsApi} from './generated/api'
 import {Configuration} from './generated/configuration'

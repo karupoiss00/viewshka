@@ -3,7 +3,8 @@ import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
 import {useMutation} from 'react-query'
 import {AccountsAPI} from '../../../../../api/AccountsAPI'
-import AuthProvider from '../../../../../api/common/authProvider'
+import {useMessages} from '../../../../../i18n/hooks/useMessages'
+import AuthProvider from '../../../../../providers/authProvider'
 import FormContainer from './common/FormContainer'
 import {useEnterHandler} from './hooks/useEnterHandler'
 import styles from './LoginForm.module.css'
@@ -18,6 +19,7 @@ type LoginData = {
 }
 
 function LoginForm({onRegister}: LoginFormProps) {
+	const getMessage = useMessages()
 	const router = useRouter()
 	const {status, data, mutate} = useLoginMutation()
 	const [email, setEmail] = useState('')
@@ -56,23 +58,23 @@ function LoginForm({onRegister}: LoginFormProps) {
 	return (
 		<FormContainer>
 			<TextField
-				placeholder={'Почта'}
+				placeholder={getMessage('TextField.Email.Placeholder')}
 				onChange={setEmail}
 				valid={!unauthorized}
 			/>
 			<TextField
 				className={styles.passwordTextField}
-				placeholder={'Пароль'}
+				placeholder={getMessage('TextField.Password.Placeholder')}
 				onChange={onPasswordChange}
 				valid={!unauthorized}
-				errorMessage={'Неверный логин или пароль'}
+				errorMessage={getMessage('InvalidCredentials')}
 				contentHidden={true}
 			/>
 			<button className={styles.submitButton} onClick={tryAuthorize}>
-                Войти
+				{getMessage('Login.Button.Submit')}
 			</button>
 			<p className={styles.registerText}>
-				<span onClick={onRegister}>Создать аккаунт</span>
+				<span onClick={onRegister}>{getMessage('Link.CreateAccount')}</span>
 			</p>
 		</FormContainer>
 	)

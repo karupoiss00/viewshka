@@ -4,12 +4,12 @@ import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
 import {useMutation} from 'react-query'
 import {AccountsAPI} from '../../../../../api/AccountsAPI'
-import AuthProvider from '../../../../../api/common/authProvider'
 import {HttputilsCreateUserRequest} from '../../../../../api/generated'
+import {useMessages} from '../../../../../i18n/hooks/useMessages'
+import AuthProvider from '../../../../../providers/authProvider'
 import FormContainer from './common/FormContainer'
 import {useEnterHandler} from './hooks/useEnterHandler'
 import styles from './RegisterForm.module.css'
-
 
 type RegisterFormProps = {
 	onLogin: () => void;
@@ -17,6 +17,7 @@ type RegisterFormProps = {
 
 function RegisterForm({onLogin}: RegisterFormProps) {
 	const router = useRouter()
+	const getMessage = useMessages()
 	const {status, data, mutate} = useRegisterMutation()
 	const [email, setEmail] = useState('')
 	const [username, setUsername] = useState('')
@@ -79,42 +80,44 @@ function RegisterForm({onLogin}: RegisterFormProps) {
 	return (
 		<FormContainer>
 			<TextField
-				placeholder={'Почта'}
+				placeholder={getMessage('TextField.Email.Placeholder')}
 				onChange={setEmail}
 				onValidate={validateEmail}
 				valid={emailValid}
-				errorMessage={'Неверный электорнный адрес'}
+				errorMessage={getMessage('Error.InvalidEmailFormat')}
 			/>
 			<TextField
 				className={styles.passwordTextField}
-				placeholder={'Пароль'}
+				placeholder={getMessage('TextField.Password.Placeholder')}
 				onChange={setPassword}
 				onValidate={validatePassword}
 				valid={passwordValid}
-				errorMessage={'Пароль должен быть длиннее 8 символов и содержать цифру и заглавную букву'}
+				errorMessage={getMessage('Error.InvalidPasswordFormat')}
 				contentHidden={true}
 			/>
 			<TextField
 				className={styles.passwordTextField}
-				placeholder={'Повтор пароля'}
+				placeholder={getMessage('TextField.RepeatPassword.Placeholder')}
 				onChange={setRepeatedPassword}
 				onValidate={validatePasswordRepeat}
 				valid={passwordVerified}
-				errorMessage={'Пароли не совпадают'}
+				errorMessage={getMessage('Error.PasswordNotMatching')}
 				contentHidden={true}
 			/>
 			<TextField
 				className={styles.usernameTextField}
-				placeholder={'Как вас зовут?'}
+				placeholder={getMessage('TextField.Username.Placeholder')}
 				onChange={setUsername}
 				onValidate={validateUsername}
 				valid={usernameValid}
-				errorMessage={'Неверное имя пользователя'}
+				errorMessage={getMessage('Error.InvalidUsernameFormat')}
 			/>
 			<button className={styles.submitButton} onClick={tryRegister}>
-				Зарегистрироваться
+				{getMessage('Register.Button.Submit')}
 			</button>
-			<p className={styles.authText} onClick={onLogin}>Авторизоваться</p>
+			<p className={styles.authText} onClick={onLogin}>
+				{getMessage('Link.Authorize')}
+			</p>
 		</FormContainer>
 	)
 }

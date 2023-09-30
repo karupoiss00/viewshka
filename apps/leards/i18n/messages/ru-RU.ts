@@ -1,0 +1,15 @@
+export const ruMessages = {
+	'TextField.Email.Placeholder': 'Почта',
+	'TextField.Password.Placeholder': 'Пароль',
+	'TextField.RepeatPassword.Placeholder': 'Повтор пароля',
+	'TextField.Username.Placeholder': 'Как вас зовут?',
+	'Link.CreateAccount': 'Создать аккаунт',
+	'Link.Authorize': 'Авторизоваться',
+	'Login.Button.Submit': 'Войти',
+	'Register.Button.Submit': 'Зарегистрироваться',
+	'Error.InvalidCredentials': 'Неверный логин или пароль',
+	'Error.InvalidEmailFormat': 'Неверная электронная почта',
+	'Error.InvalidUsernameFormat': 'Неверное имя пользователя',
+	'Error.InvalidPasswordFormat': 'Пароль должен содержать минимум 8 символов',
+	'Error.PasswordNotMatching': 'Пароли не совпадают',
+}

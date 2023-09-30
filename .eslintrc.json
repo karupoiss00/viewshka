@@ -32,7 +32,6 @@
     }
   ],
   "rules": {
-    "import/consistent-type-specifier-style": ["error", "prefer-top-level"],
     "import/export": "error",
     "import/exports-last": "error",
     "import/group-exports": "error",
