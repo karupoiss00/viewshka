@@ -1,11 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import FormContainer from './common/FormContainer'
 import styles from './LoginForm.module.css'
 import {useRouter} from 'next/router'
 import {useMutation} from 'react-query'
-import {AuthAPI} from '../../../../../api/AuthAPI'
 import AuthProvider from '../../../../../api/common/authProvider'
-import {AccountsApi} from '../../../../../api/generated'
 import {AccountsAPI} from '../../../../../api/AccountsAPI'
 import TextField from '../../../../../../../libs/uikit/src/lib/textField/TextField'
 
@@ -14,25 +12,45 @@ type LoginFormProps = {
     onRecover: () => void,
 }
 
+type LoginData = {
+	email: string,
+	password: string
+}
+
 function LoginForm({onRegister, onRecover}: LoginFormProps) {
 	const router = useRouter()
 	const {status, data, mutate} = useLoginMutation()
 	const [email, setEmail] = useState('')
+	const [isValidEmail, setIsValidEmail] = useState(true)
 	const [password, setPassword] = useState('')
-
-	const handleLogin = () => {
-		mutate({
-			email,
-			password,
-		})
+	const [unauthorized, setUnauthorized] = useState(false)
+	const tryAuthorize = () => {
+		if (email) {
+			mutate({
+				email,
+				password,
+			})
+		}
+		else {
+			setIsValidEmail(false)
+		}
+	}
+	const onPasswordChange = (data: string) => {
+		setPassword(data)
+		if (unauthorized) {
+			setUnauthorized(false)
+		}
 	}
 
-	useEnterHandler(handleLogin)
+	useEnterHandler(tryAuthorize)
 	useEffect(() => {
-		if (status == 'success') {
+		if (status === 'success') {
 			AuthProvider.setAuthToken(data.token)
 			AuthProvider.setUserId(data.userId)
 			router.replace('/dashboard')
+		}
+		if (status === 'error') {
+			setUnauthorized(true)
 		}
 	}, [data, router, status])
 
@@ -41,17 +59,21 @@ function LoginForm({onRegister, onRecover}: LoginFormProps) {
 			<TextField
 				placeholder={'электронный адрес'}
 				onChange={setEmail}
+				valid={isValidEmail}
+				errorMessage={'Неверный электорнный адрес'}
 			/>
 			<TextField
 				className={styles.passwordTextField}
 				placeholder={'пароль'}
-				onChange={setPassword}
+				onChange={onPasswordChange}
+				valid={!unauthorized}
+				errorMessage={'Неверный пароль'}
 				contentHidden={true}
 			/>
 			<p className={styles.forgotPasswordText}>
 				<span onClick={onRecover}>Забыл пароль</span>
 			</p>
-			<button className={styles.submitButton} onClick={handleLogin}>
+			<button className={styles.submitButton} onClick={tryAuthorize}>
                 Войти
 			</button>
 			<p className={styles.registerText}>
@@ -59,11 +81,6 @@ function LoginForm({onRegister, onRecover}: LoginFormProps) {
 			</p>
 		</FormContainer>
 	)
-}
-
-type LoginData = {
-	email: string,
-	password: string
 }
 
 function useLoginMutation() {
@@ -88,7 +105,7 @@ function useEnterHandler(callback: () => void) {
 		return () => {
 			window.removeEventListener('keydown', onKeyDown)
 		}
-	}, [])
+	}, [callback])
 }
 
 export default LoginForm

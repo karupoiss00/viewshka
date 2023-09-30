@@ -1,5 +1,6 @@
 .text-field-container {
     display: flex;
+    flex-direction: column;
 }
 
 .text-field {
@@ -10,7 +11,6 @@
     align-items: center;
     border-radius: 10px;
     border: 1px solid;
-    padding: 0 20px;
 }
 
 .text-field--default {
@@ -27,6 +27,7 @@
     outline: none;
     border: none;
     font: var(--input-text);
+    padding-inline: 20px;
 }
 
 .text-field-input::placeholder {
@@ -42,8 +43,8 @@
 .error-text {
     color: var(--error-color);
     font: var(--breadcrums-text);
-    padding-left: 20px;
-    padding-top: 5px;
+    padding-inline-start: 20px;
+    padding-block-start: 5px;
     user-select: none;
 }
 
@@ -51,4 +52,5 @@
     display: flex;
     cursor: pointer;
     user-select: none;
+    padding-inline-end: 30px;
 }

@@ -8,7 +8,7 @@ import AuthProvider from '../../../../../api/common/authProvider'
 import {useRouter} from 'next/router'
 
 type RegisterFormProps = {
-  onLogin: () => void;
+	onLogin: () => void;
 };
 
 function RegisterForm({onLogin}: RegisterFormProps) {
