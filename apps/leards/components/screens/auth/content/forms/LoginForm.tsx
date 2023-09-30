@@ -10,7 +10,6 @@ import styles from './LoginForm.module.css'
 
 type LoginFormProps = {
     onRegister: () => void,
-    onRecover: () => void,
 }
 
 type LoginData = {
@@ -18,7 +17,7 @@ type LoginData = {
 	password: string
 }
 
-function LoginForm({onRegister, onRecover}: LoginFormProps) {
+function LoginForm({onRegister}: LoginFormProps) {
 	const router = useRouter()
 	const {status, data, mutate} = useLoginMutation()
 	const [email, setEmail] = useState('')
@@ -69,9 +68,6 @@ function LoginForm({onRegister, onRecover}: LoginFormProps) {
 				errorMessage={'Неверный логин или пароль'}
 				contentHidden={true}
 			/>
-			<p className={styles.forgotPasswordText}>
-				<span onClick={onRecover}>Забыл пароль</span>
-			</p>
 			<button className={styles.submitButton} onClick={tryAuthorize}>
                 Войти
 			</button>

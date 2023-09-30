@@ -2,10 +2,13 @@
   display: flex;
   align-items: center;
   flex-direction: column;
-  padding: 50px 60px;
-  border: 1px solid #909090;
+  padding-block: 50px;
+  padding-inline: 60px;
+  border: 1px solid var(--stroke-color-default);
   border-radius: 23px;
   background: var(--surface-default);
+  margin-block-start: 80px;
+  align-self: flex-start;
 }
 
 .logo {
