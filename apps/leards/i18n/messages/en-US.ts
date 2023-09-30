@@ -7,7 +7,7 @@ export const enMessages = {
 	'Link.Authorize': 'Authorize',
 	'Login.Button.Submit': 'Log In',
 	'Register.Button.Submit': 'Create',
-	'Error.InvalidCredentials': 'Invalid credentials',
+	'Error.InvalidCredentials': 'Invalid email or password',
 	'Error.InvalidEmailFormat': 'Invalid email',
 	'Error.InvalidUsernameFormat': 'Invalid username',
 	'Error.InvalidPasswordFormat': 'Password must contain at least 8 characters',

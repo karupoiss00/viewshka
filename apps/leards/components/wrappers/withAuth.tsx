@@ -1,15 +1,14 @@
 import {NextComponentType} from 'next'
 import {useRouter} from 'next/router'
 import React, {useEffect} from 'react'
-import {useQuery} from 'react-query'
+import {useMutation} from 'react-query'
 import {AuthAPI} from '../../api/AuthAPI'
 import AuthProvider from '../../providers/authProvider'
-import BaseLayout from '../common/BaseLayout'
-import {Preloader} from '../common/preloader/Preloader'
+import LoadingPage from '../screens/loading/LoadingPage'
 
-function useAuthQuery() {
-	return useQuery('auth', async () => {
-		console.log(AuthProvider.getUserId())
+function useAuthMutation() {
+	return useMutation('auth', async () => {
+		AuthAPI.update()
 		const response = await AuthAPI.get().authIdGet(AuthProvider.getUserId())
 		return response.data
 	})
@@ -17,7 +16,11 @@ function useAuthQuery() {
 
 export const withAuth = (Component: NextComponentType) => () => {
 	const router = useRouter()
-	const {status, data} = useAuthQuery()
+	const {status, data, mutate} = useAuthMutation()
+
+	useEffect(() => {
+		mutate()
+	}, [mutate])
 
 	useEffect(() => {
 		if (status === 'success') {
@@ -28,10 +31,9 @@ export const withAuth = (Component: NextComponentType) => () => {
 		}
 	}, [data, router, status])
 
-	return (
-		<BaseLayout>
-			{status === 'success' && <Component />}
-			{status === 'loading' && <Preloader />}
-		</BaseLayout>
-	)
+	if (status === 'success') {
+		return <Component />
+	}
+
+	return <LoadingPage />
 }

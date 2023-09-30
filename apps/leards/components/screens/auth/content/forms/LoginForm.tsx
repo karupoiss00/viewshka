@@ -67,7 +67,7 @@ function LoginForm({onRegister}: LoginFormProps) {
 				placeholder={getMessage('TextField.Password.Placeholder')}
 				onChange={onPasswordChange}
 				valid={!unauthorized}
-				errorMessage={getMessage('InvalidCredentials')}
+				errorMessage={getMessage('Error.InvalidCredentials')}
 				contentHidden={true}
 			/>
 			<button className={styles.submitButton} onClick={tryAuthorize}>
@@ -83,7 +83,7 @@ function LoginForm({onRegister}: LoginFormProps) {
 function useLoginMutation() {
 	return useMutation(async ({email, password}: LoginData) => {
 		AuthProvider.setBaseAuth(email, password)
-		AccountsAPI.reset()
+		AccountsAPI.update()
 		const response = await AccountsAPI.get().accountsGet()
 		return response.data
 	})
