@@ -10,4 +10,5 @@
 
 .logo {
   margin-block-end: 90px;
+  pointer-events: none;
 }

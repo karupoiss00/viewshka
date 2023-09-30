@@ -1,12 +1,12 @@
-import React, {useEffect, useState} from 'react'
-import FormContainer from './common/FormContainer'
-import styles from './LoginForm.module.css'
-import {useRouter} from 'next/router'
-import {useMutation} from 'react-query'
-import AuthProvider from '../../../../../api/common/authProvider'
-import {AccountsAPI} from '../../../../../api/AccountsAPI'
-import {useEnterHandler} from './hooks/useEnterHandler'
 import {TextField} from '@viewshka/uikit'
+import {useRouter} from 'next/router'
+import React, {useEffect, useState} from 'react'
+import {useMutation} from 'react-query'
+import {AccountsAPI} from '../../../../../api/AccountsAPI'
+import AuthProvider from '../../../../../api/common/authProvider'
+import FormContainer from './common/FormContainer'
+import {useEnterHandler} from './hooks/useEnterHandler'
+import styles from './LoginForm.module.css'
 
 type LoginFormProps = {
     onRegister: () => void,

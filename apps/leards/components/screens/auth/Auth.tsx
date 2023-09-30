@@ -1,7 +1,7 @@
 import React from 'react'
 import BaseLayout from '../../common/BaseLayout'
-import Form from './content/Form'
 import styles from './Auth.module.css'
+import Form from './content/Form'
 
 function Auth() {
 	return (

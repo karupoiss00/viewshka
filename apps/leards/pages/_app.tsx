@@ -1,9 +1,9 @@
-import {AppProps} from 'next/app'
-import Head from 'next/head'
 import './styles.css'
-import {QueryClient, QueryClientProvider} from 'react-query'
 import {createCtx} from '@reatom/core'
 import {reatomContext} from '@reatom/npm-react'
+import {AppProps} from 'next/app'
+import Head from 'next/head'
+import {QueryClient, QueryClientProvider} from 'react-query'
 
 const ctx = createCtx()
 const queryClient = new QueryClient()

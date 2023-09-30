@@ -1,9 +1,9 @@
+import Image from 'next/image'
 import React, {useState} from 'react'
 import styles from './Form.module.css'
-import Image from 'next/image'
 import LoginForm from './forms/LoginForm'
-import RegisterForm from './forms/RegisterForm'
 import RecoverForm from './forms/RecoverForm'
+import RegisterForm from './forms/RegisterForm'
 
 type FormState = 'login' | 'register' | 'recover'
 

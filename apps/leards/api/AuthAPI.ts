@@ -1,7 +1,7 @@
+import AuthProvider from './common/authProvider'
 import {wrapApi} from './common/wrapApi'
 import {AuthApi} from './generated/api'
 import {Configuration} from './generated/configuration'
-import AuthProvider from './common/authProvider'
 
 export const AuthAPI = wrapApi<AuthApi>(() => {
 	const baseAuth = AuthProvider.getBaseAuth()

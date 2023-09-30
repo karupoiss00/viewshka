@@ -1,6 +1,6 @@
+import {classNames} from '@viewshka/core'
 import React, {PropsWithChildren} from 'react'
 import styles from './BaseLayout.module.css'
-import {classNames} from '@viewshka/core'
 
 type BaseLayoutProps = PropsWithChildren & {
     className?: string

@@ -1,5 +1,5 @@
-import React from 'react'
 import Image from 'next/image'
+import React from 'react'
 import BaseLayout from '../../common/BaseLayout'
 
 function get404ImageSrc() {

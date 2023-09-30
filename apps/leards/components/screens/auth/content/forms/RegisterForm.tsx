@@ -1,14 +1,14 @@
+import {isValidEmail} from '@viewshka/core'
+import {TextField} from '@viewshka/uikit'
+import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
-import FormContainer from './common/FormContainer'
-import styles from './RegisterForm.module.css'
 import {useMutation} from 'react-query'
-import {HttputilsCreateUserRequest} from '../../../../../api/generated'
 import {AccountsAPI} from '../../../../../api/AccountsAPI'
 import AuthProvider from '../../../../../api/common/authProvider'
-import {useRouter} from 'next/router'
-import {isValidEmail} from '@viewshka/core'
+import {HttputilsCreateUserRequest} from '../../../../../api/generated'
+import FormContainer from './common/FormContainer'
 import {useEnterHandler} from './hooks/useEnterHandler'
-import {TextField} from '@viewshka/uikit'
+import styles from './RegisterForm.module.css'
 
 
 type RegisterFormProps = {
