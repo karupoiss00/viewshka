@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import FormContainer from './common/FormContainer'
 import styles from './LoginForm.module.css'
 import {useRouter} from 'next/router'
@@ -7,6 +7,7 @@ import {AuthAPI} from '../../../../../api/AuthAPI'
 import AuthProvider from '../../../../../api/common/authProvider'
 import {AccountsApi} from '../../../../../api/generated'
 import {AccountsAPI} from '../../../../../api/AccountsAPI'
+import TextField from '../../../../../../../libs/uikit/src/lib/textField/TextField'
 
 type LoginFormProps = {
     onRegister: () => void,
@@ -16,16 +17,17 @@ type LoginFormProps = {
 function LoginForm({onRegister, onRecover}: LoginFormProps) {
 	const router = useRouter()
 	const {status, data, mutate} = useLoginMutation()
-	const emailInputRef = useRef<HTMLInputElement>()
-	const passwordInputRef = useRef<HTMLInputElement>()
+	const [email, setEmail] = useState('')
+	const [password, setPassword] = useState('')
 
 	const handleLogin = () => {
 		mutate({
-			email: emailInputRef.current.value,
-			password: passwordInputRef.current.value,
+			email,
+			password,
 		})
 	}
 
+	useEnterHandler(handleLogin)
 	useEffect(() => {
 		if (status == 'success') {
 			AuthProvider.setAuthToken(data.token)
@@ -36,8 +38,16 @@ function LoginForm({onRegister, onRecover}: LoginFormProps) {
 
 	return (
 		<FormContainer>
-			<input placeholder={'электронный адрес'} ref={emailInputRef}/>
-			<input className={styles.passwordTextField} placeholder={'пароль'} ref={passwordInputRef}/>
+			<TextField
+				placeholder={'электронный адрес'}
+				onChange={setEmail}
+			/>
+			<TextField
+				className={styles.passwordTextField}
+				placeholder={'пароль'}
+				onChange={setPassword}
+				contentHidden={true}
+			/>
 			<p className={styles.forgotPasswordText}>
 				<span onClick={onRecover}>Забыл пароль</span>
 			</p>
@@ -63,6 +73,22 @@ function useLoginMutation() {
 		const response = await AccountsAPI.get().accountsGet()
 		return response.data
 	})
+}
+
+function useEnterHandler(callback: () => void) {
+	useEffect(() => {
+		const onKeyDown = (e: KeyboardEvent) => {
+			if (e.key === 'Enter') {
+				callback()
+			}
+		}
+
+		window.addEventListener('keydown', onKeyDown)
+
+		return () => {
+			window.removeEventListener('keydown', onKeyDown)
+		}
+	}, [])
 }
 
 export default LoginForm

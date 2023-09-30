@@ -5,6 +5,8 @@
 .forgot-password-text {
   text-decoration: underline;
   margin-block-start: 15px;
+  font: var(--input-text);
+  color: var(--text-color-subdued);
 }
 
 .forgot-password-text > span {
@@ -12,6 +14,8 @@
 }
 
 .register-text {
+  font: var(--input-text);
+  color: var(--text-color-subdued);
   text-decoration: underline;
   margin-block-start: 5px;
 }
@@ -22,4 +26,5 @@
 
 .submit-button {
   margin-block-start: 25px;
+  height: 60px;
 }

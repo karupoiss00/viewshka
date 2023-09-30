@@ -1,3 +1,7 @@
+.text-field-container {
+    display: flex;
+}
+
 .text-field {
     display: flex;
     height: 60px;
@@ -6,7 +10,7 @@
     align-items: center;
     border-radius: 10px;
     border: 1px solid;
-    padding: 19px 18px;
+    padding: 0 20px;
 }
 
 .text-field--default {
@@ -21,10 +25,12 @@
     background-color: var(--surface-default);
     width: 100%;
     outline: none;
+    border: none;
     font: var(--input-text);
 }
 
-.text--input::placeholder {
+.text-field-input::placeholder {
+    user-select: none;
     color: var(--stroke-color-default);
 }
 
@@ -36,7 +42,13 @@
 .error-text {
     color: var(--error-color);
     font: var(--breadcrums-text);
-    padding-left: 19px;
+    padding-left: 20px;
     padding-top: 5px;
+    user-select: none;
+}
+
+.eye-container {
+    display: flex;
+    cursor: pointer;
     user-select: none;
 }
