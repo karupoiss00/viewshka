@@ -4,15 +4,9 @@
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/next:build",
-      "outputs": [
-        "{options.outputPath}"
-      ],
-      "builder": "@nrwl/workspace:run-commands",
-      "defaultConfiguration": "production",
+      "executor": "@nrwl/workspace:run-commands",
       "options": {
-        "root": "apps/leards",
-        "outputPath": "dist/apps/leards",
+        "parallel": false,
         "commands": [
           {
             "command": "nx run leards:stylelint"
@@ -22,8 +16,23 @@
           },
           {
             "command": "nx run leards:api-generate"
+          },
+          {
+            "command": "nx run leards:build-bundle"
           }
         ]
+      }
+    },
+    "build-bundle": {
+      "executor": "@nrwl/next:build",
+      "outputs": [
+        "{options.outputPath}"
+      ],
+      "builder": "@nrwl/next:build",
+      "defaultConfiguration": "production",
+      "options": {
+        "root": "apps/leards",
+        "outputPath": "dist/apps/leards"
       }
     },
     "api-generate": {
