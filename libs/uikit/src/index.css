@@ -1,2 +1,11 @@
 @import './lib/tokens/colors.css';
 @import './lib/tokens/fonts.css';
+
+p {
+    margin: 0;
+    padding: 0;
+}
+
+img {
+    user-select: none;
+}

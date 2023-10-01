@@ -1,0 +1,9 @@
+.popover {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface-color);
+    border: 1px solid var(--stroke-color);
+    border-radius: 20px;
+    padding-block: 35px;
+    padding-inline: 28px;
+}
