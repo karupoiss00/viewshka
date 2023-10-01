@@ -1,0 +1,23 @@
+.layout {
+	display: flex;
+	flex-direction: row;
+	width: calc(100% - 40px);
+	height: calc(100% - 40px);
+	gap: 20px;
+	padding: 20px;
+}
+
+.column {
+	display: flex;
+	flex-direction: column;
+	width: 100%;
+	height: 100%;
+	gap: 20px;
+}
+
+.column-name {
+	display: flex;
+	width: 100%;
+	align-items: center;
+	font: var(--normal-light-text);
+}

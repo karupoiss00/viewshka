@@ -1,16 +1,16 @@
 @import "../font/stylesheet.css";
 
 :root {
-    --large-regular-text: normal 44px "Euclid Circular B";
-    --large-light-text: light 32px "Euclid Circular B";
+    --large-regular-text: 400 44px "Euclid Circular B";
+    --large-light-text: 300 32px "Euclid Circular B";
 
-    --normal-medium-text: medium 24px "Euclid Circular B";
-    --normal-regular-text: normal 24px "Euclid Circular B";
-    --normal-ligh-text: light 20px "Euclid Circular B";
+    --normal-medium-text: 500 24px "Euclid Circular B";
+    --normal-regular-text: 400 24px "Euclid Circular B";
+    --normal-light-text: 300 20px "Euclid Circular B";
 
-    --small-medium-text: medium 18px "Euclid Circular B";
-    --small-regular-text: normal 18px "Euclid Circular B";
-    --small-light-text: light 16px "Euclid Circular B";
+    --small-medium-text: 500 18px "Euclid Circular B";
+    --small-regular-text: 400 18px "Euclid Circular B";
+    --small-light-text: 300 16px "Euclid Circular B";
 
-    --xsmall-light-text: light 12px "Euclid Circular B";
+    --xsmall-light-text: 300 12px "Euclid Circular B";
 }

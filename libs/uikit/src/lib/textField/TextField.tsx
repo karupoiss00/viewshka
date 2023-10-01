@@ -9,15 +9,16 @@ type TextFieldProps = {
     placeholder?: string
     errorMessage?: string
     contentHidden?: boolean
+	initialValue?: string
 	valid?: boolean
     onChange: (value: string) => void
     onValidate?: (value: string) => boolean
 }
 
-function TextField({className, placeholder, errorMessage, contentHidden, onChange, onValidate, valid}: TextFieldProps) {
+function TextField({className, placeholder, errorMessage, contentHidden, onChange, onValidate, valid, initialValue}: TextFieldProps) {
 	const [isValidData, setIsValidData] = useState(true)
 	const [isVisible, setIsVisible] = useState(!contentHidden)
-	const [text, setText] = useState('')
+	const [text, setText] = useState(initialValue || '')
 
 	useEffect(() => {
 		if (valid !== undefined) {
@@ -38,6 +39,7 @@ function TextField({className, placeholder, errorMessage, contentHidden, onChang
 					className={styles['text-field-input']}
 					placeholder={placeholder}
 					type={isVisible ? 'text' : 'password'}
+					value={text}
 					onChange={event => {
 						setIsValidData(true)
 						onChange(event.target.value)
@@ -54,7 +56,7 @@ function TextField({className, placeholder, errorMessage, contentHidden, onChang
 					onClick={() => setIsVisible(!isVisible)}
 				/>
 			</div>
-			<p className={styles['error-text']} hidden={isValidData}>{errorMessage}</p>
+			{!!errorMessage && <p className={styles['error-text']} hidden={isValidData}>{errorMessage}</p>}
 		</div>
 	)
 }

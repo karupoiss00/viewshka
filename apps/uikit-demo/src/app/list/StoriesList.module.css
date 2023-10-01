@@ -1,0 +1,29 @@
+.items-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 300px;
+    height: 100%;
+
+    border-right: 2px solid var(--selection-color);
+}
+
+.item {
+    display: flex;
+    width: calc(100% - 20px);
+    height: 60px;
+    align-items: center;
+    padding-left: 20px;
+    user-select: none;
+    font: var(--small-medium-text);
+    cursor: pointer;
+}
+
+.item:hover {
+    background: #f4f4f4;
+}
+
+
+.item--selected {
+    background: var(--selection-color);
+}

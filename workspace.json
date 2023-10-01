@@ -4,6 +4,7 @@
   "projects": {
     "core": "libs/core",
     "leards": "apps/leards",
-    "uikit": "libs/uikit"
+    "uikit": "libs/uikit",
+    "uikit-demo": "apps/uikit-demo"
   }
 }
