@@ -5,6 +5,7 @@ import IconOpenEye from '../icons/IconOpenEye'
 import styles from './TextField.module.css'
 
 type TextFieldProps = {
+	size?: 'default' | 'small'
 	className?: string
     placeholder?: string
     errorMessage?: string
@@ -15,7 +16,17 @@ type TextFieldProps = {
     onValidate?: (value: string) => boolean
 }
 
-function TextField({className, placeholder, errorMessage, contentHidden, onChange, onValidate, valid, initialValue}: TextFieldProps) {
+function TextField({
+	size = 'default',
+	className,
+	placeholder,
+	errorMessage,
+	contentHidden,
+	onChange,
+	onValidate,
+	valid,
+	initialValue,
+}: TextFieldProps) {
 	const [isValidData, setIsValidData] = useState(true)
 	const [isVisible, setIsVisible] = useState(!contentHidden)
 	const [text, setText] = useState(initialValue || '')
@@ -32,11 +43,11 @@ function TextField({className, placeholder, errorMessage, contentHidden, onChang
 				className={classnames(styles['text-field'], {
 					[styles['text-field--default']]: isValidData,
 					[styles['text-field--error']]: !isValidData,
-				}, className)}
+				}, styles[`text-field-size-${size}`], className)}
 				onBlur={() => onValidate && setIsValidData(onValidate(text))}
 			>
 				<input
-					className={styles['text-field-input']}
+					className={classnames(styles['text-field-input'], styles[`text-field-input-${size}`])}
 					placeholder={placeholder}
 					type={isVisible ? 'text' : 'password'}
 					value={text}

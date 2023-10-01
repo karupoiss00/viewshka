@@ -1,14 +1,30 @@
 import {TextField} from '@viewshka/uikit'
 import React from 'react'
+import ComponentStory, {StoryColumn} from '../../common/ComponentStory'
 import {addStory} from '../../stories'
-import ComponentStory, {StoryColumn} from '../common/ComponentStory'
 
 function TextFieldStory() {
 	return (
 		<ComponentStory>
+			<StoryColumn width={400} name={'Small'}>
+				<TextField
+					size={'small'}
+					onChange={console.log}
+				/>
+				<TextField
+					size={'small'}
+					placeholder={'Введите текст'}
+					onChange={console.log}
+				/>
+			</StoryColumn>
 			<StoryColumn width={400} name={'Default'}>
-				<TextField onChange={console.log} />
-				<TextField placeholder={'Введите текст'} onChange={console.log} />
+				<TextField
+					onChange={console.log}
+				/>
+				<TextField
+					placeholder={'Введите текст'}
+					onChange={console.log}
+				/>
 			</StoryColumn>
 			<StoryColumn width={400} name={'Error'}>
 				<TextField

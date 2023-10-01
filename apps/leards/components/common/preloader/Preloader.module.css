@@ -5,30 +5,30 @@
   height: 35px;
   animation: dot-typing-frames 800ms infinite linear;
   border-radius: 17px;
-  box-shadow: 9825px 0 0 0 var(--stroke-color-default), 9900px 0 0 0 var(--stroke-color-default), 9975px 0 0 0 var(--stroke-color-default);
+  box-shadow: 9825px 0 0 0 var(--stroke-color), 9900px 0 0 0 var(--stroke-color), 9975px 0 0 0 var(--stroke-color);
 }
 
 @keyframes dot-typing-frames {
   0%,
   33% {
-    box-shadow: 9825px 0 0 0 var(--stroke-color-default), 9900px 0 0 0 var(--stroke-color-default), 9975px 0 0 0 var(--stroke-color-default);
+    box-shadow: 9825px 0 0 0 var(--stroke-color), 9900px 0 0 0 var(--stroke-color), 9975px 0 0 0 var(--stroke-color);
   }
   44.16% {
-    box-shadow: 9825px -20px 0 0 var(--stroke-color-default), 9900px 0 0 0 var(--stroke-color-default), 9975px 0 0 0 var(--stroke-color-default);
+    box-shadow: 9825px -20px 0 0 var(--stroke-color), 9900px 0 0 0 var(--stroke-color), 9975px 0 0 0 var(--stroke-color);
   }
   55.333% {
-    box-shadow: 9825px 0 0 0 var(--stroke-color-default), 9900px 0 0 0 var(--stroke-color-default), 9975px 0 0 0 var(--stroke-color-default);
+    box-shadow: 9825px 0 0 0 var(--stroke-color), 9900px 0 0 0 var(--stroke-color), 9975px 0 0 0 var(--stroke-color);
   }
   66.487% {
-    box-shadow: 9825px 0 0 0 var(--stroke-color-default), 9900px -20px 0 0 var(--stroke-color-default), 9975px 0 0 0 var(--stroke-color-default);
+    box-shadow: 9825px 0 0 0 var(--stroke-color), 9900px -20px 0 0 var(--stroke-color), 9975px 0 0 0 var(--stroke-color);
   }
   77.64% {
-    box-shadow: 9825px 0 0 0 var(--stroke-color-default), 9900px 0 0 0 var(--stroke-color-default), 9975px 0 0 0 var(--stroke-color-default);
+    box-shadow: 9825px 0 0 0 var(--stroke-color), 9900px 0 0 0 var(--stroke-color), 9975px 0 0 0 var(--stroke-color);
   }
   88.8% {
-    box-shadow: 9825px 0 0 0 var(--stroke-color-default), 9900px 0 0 0 var(--stroke-color-default), 9975px -20px 0 0 var(--stroke-color-default);
+    box-shadow: 9825px 0 0 0 var(--stroke-color), 9900px 0 0 0 var(--stroke-color), 9975px -20px 0 0 var(--stroke-color);
   }
   100% {
-    box-shadow: 9825px 0 0 0 var(--stroke-color-default), 9900px 0 0 0 var(--stroke-color-default), 9975px 0 0 0 var(--stroke-color-default);
+    box-shadow: 9825px 0 0 0 var(--stroke-color), 9900px 0 0 0 var(--stroke-color), 9975px 0 0 0 var(--stroke-color);
   }
 }

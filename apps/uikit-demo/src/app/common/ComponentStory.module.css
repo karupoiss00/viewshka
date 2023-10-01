@@ -20,4 +20,5 @@
 	width: 100%;
 	align-items: center;
 	font: var(--normal-light-text);
+	user-select: none;
 }

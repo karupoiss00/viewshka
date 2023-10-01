@@ -2,8 +2,8 @@
     --accent-color: #fbba47;
     --selection-color: #EAEAEA;
     --error-color: #FB6C55;
-    --surface-default: #FFFFFF;
+    --surface-color: #FFFFFF;
+    --stroke-color: #DCDCDC;
     --text-color-default: #404040;
     --text-color-subdued: #C0C0C0;
-    --stroke-color-default: #DCDCDC;
 }

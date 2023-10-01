@@ -1,0 +1,17 @@
+.color-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    gap: 20px;
+}
+
+.color-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: 2px solid var(--selection-color);
+}
+
+.color-name {
+    font: var(--normal-regular-text)
+}

@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
+import StoriesList from './common/StoriesList'
 import styles from './Demo.module.css'
-import StoriesList from './list/StoriesList'
 import {getStory} from './stories'
 import './stories/index'
 

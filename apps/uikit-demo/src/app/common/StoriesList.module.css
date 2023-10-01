@@ -1,10 +1,8 @@
 .items-list {
     display: flex;
     flex-direction: column;
-    gap: 2px;
     width: 300px;
     height: 100%;
-
     border-right: 2px solid var(--selection-color);
 }
 
@@ -24,6 +22,6 @@
 }
 
 
-.item--selected {
+.item--selected, .item--selected:hover {
     background: var(--selection-color);
 }

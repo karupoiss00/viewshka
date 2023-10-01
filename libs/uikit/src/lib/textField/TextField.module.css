@@ -7,14 +7,24 @@
     display: flex;
     height: 60px;
     width: 100%;
-    background-color: var(--surface-default);
+    background-color: var(--surface-color);
     align-items: center;
     border-radius: 10px;
     border: 1px solid;
 }
 
+
+.text-field-size-default {
+    height: 60px;
+}
+
+.text-field-size-small {
+    height: 40px;
+}
+
+
 .text-field--default {
-    border-color: var(--stroke-color-default);
+    border-color: var(--stroke-color);
 }
 
 .text-field--error {
@@ -22,17 +32,24 @@
 }
 
 .text-field-input {
-    background-color: var(--surface-default);
+    background-color: var(--surface-color);
     width: 100%;
     outline: none;
     border: none;
-    font: var(--normal-regular-text);
     padding-inline: 20px;
+}
+
+.text-field-input-default {
+    font: var(--normal-regular-text);
+}
+
+.text-field-input-small {
+    font: var(--normal-light-text);
 }
 
 .text-field-input::placeholder {
     user-select: none;
-    color: var(--stroke-color-default);
+    color: var(--stroke-color);
 }
 
 .eye {
@@ -60,5 +77,5 @@
 }
 
 .empty-text-field {
-    color: var(--stroke-color-default);
+    color: var(--stroke-color);
 }
