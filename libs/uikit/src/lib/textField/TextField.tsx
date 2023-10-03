@@ -1,7 +1,7 @@
 import classnames from 'classnames'
 import {useEffect, useState} from 'react'
-import { IconCloseEye } from '../icons/IconCloseEye';
-import { IconOpenEye } from '../icons/IconOpenEye';
+import {IconCloseEye} from '../icons/IconCloseEye'
+import {IconOpenEye} from '../icons/IconOpenEye'
 import styles from './TextField.module.css'
 
 type TextFieldProps = {

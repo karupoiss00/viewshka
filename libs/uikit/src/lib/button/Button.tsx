@@ -12,13 +12,13 @@ type ButtonState = 'default' | 'hovered' | 'pressed' | 'disabled' | 'loading';
 type ButtonSpacing = 'default' | 'none';
 
 type ButtonProps = PropsWithChildren & {
-  type: ButtonType;
-  size: ButtonSize;
-  onClick: () => void;
-  state?: ButtonState;
-  spacing?: ButtonSpacing;
-  flexible?: boolean;
-  className?: string;
+	type: ButtonType;
+	size: ButtonSize;
+	onClick: () => void;
+	state?: ButtonState;
+	spacing?: ButtonSpacing;
+	flexible?: boolean;
+	className?: string;
 };
 
 function getButtonStyles(type: ButtonType) {

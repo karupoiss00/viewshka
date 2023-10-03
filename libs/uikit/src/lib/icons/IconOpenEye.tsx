@@ -13,4 +13,4 @@ function IconOpenEye() {
 	)
 }
 
-export { IconOpenEye };
+export {IconOpenEye}

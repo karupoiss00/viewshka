@@ -7,4 +7,4 @@ function IconCloseEye() {
 	)
 }
 
-export { IconCloseEye };
+export {IconCloseEye}
