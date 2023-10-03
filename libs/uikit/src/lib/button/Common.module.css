@@ -1,0 +1,35 @@
+.button {
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding-inline: 18px;
+    user-select: none;
+}
+
+.button--flexible {
+    width: 100%;
+}
+
+.button-size--small {
+    font: var(--small-regular-text);
+    height: 36px;
+}
+
+.button-size--medium {
+    font: var(--normal-light-text);
+    height: 40px;
+}
+
+.button-size--large {
+    font: var(--normal-regular-text);
+    height: 60px;
+}
+
+.button-spacing--none {
+    height: auto;
+}

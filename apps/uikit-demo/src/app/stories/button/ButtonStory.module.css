@@ -1,0 +1,37 @@
+.button-row {
+    display: flex;
+    flex-direction: row;
+    gap: 10px 30px;
+}
+
+.type-name {
+    display: flex;
+    width: 130px;
+    flex-shrink: 0;
+    font: var(--normal-regular-text);
+}
+
+.state-name {
+    display: flex;
+    width: 70px;
+    flex-shrink: 0;
+    font: var(--normal-light-text);
+}
+
+.button-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.size-container {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+    margin-bottom: 40px;
+}
+
+.size-name {
+    font: var(--large-regular-text);
+    margin: 0;
+}

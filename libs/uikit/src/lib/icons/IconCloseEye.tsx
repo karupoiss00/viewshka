@@ -7,4 +7,4 @@ function IconCloseEye() {
 	)
 }
 
-export default IconCloseEye
+export { IconCloseEye };
