@@ -18,34 +18,8 @@ type ButtonProps = PropsWithChildren & {
   state?: ButtonState;
   spacing?: ButtonSpacing;
   flexible?: boolean;
+  className?: string;
 };
-
-function Button({
-	type,
-	size,
-	onClick,
-	state = 'default',
-	flexible = false,
-	spacing = 'default',
-	children,
-}: ButtonProps) {
-	const specificStyles = getButtonStyles(type)
-
-	return (
-		<button
-			className={classnames(commonStyles['button'], specificStyles['button'], {
-				[commonStyles[`button-spacing--none`]]: spacing === 'none',
-				[commonStyles[`button--flexible`]]: flexible,
-				[commonStyles[`button-size--${size}`]]: true,
-				[specificStyles[`button-state--${state}`]]: true,
-			})}
-			onClick={onClick}
-			disabled={state === 'disabled'}
-		>
-			{ state !== 'loading' && children}
-		</button>
-	)
-}
 
 function getButtonStyles(type: ButtonType) {
 	if (type === 'primary') {
@@ -63,6 +37,35 @@ function getButtonStyles(type: ButtonType) {
 
 	throw new Error('unknown button type')
 }
+
+const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
+	type,
+	size,
+	onClick,
+	state = 'default',
+	flexible = false,
+	spacing = 'default',
+	children,
+	className,
+}, ref) => {
+	const specificStyles = getButtonStyles(type)
+
+	return (
+		<button
+			className={classnames(commonStyles['button'], specificStyles['button'], {
+				[commonStyles[`button-spacing--none`]]: spacing === 'none',
+				[commonStyles[`button--flexible`]]: flexible,
+				[commonStyles[`button-size--${size}`]]: true,
+				[specificStyles[`button-state--${state}`]]: true,
+			}, className)}
+			onClick={onClick}
+			disabled={state === 'disabled'}
+			ref={ref}
+		>
+			{ state !== 'loading' && children}
+		</button>
+	)
+})
 
 export type {
 	ButtonType,

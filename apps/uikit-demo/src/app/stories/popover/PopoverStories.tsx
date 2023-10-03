@@ -1,4 +1,4 @@
-import {TextField} from '@viewshka/uikit'
+import {Button, TextField} from '@viewshka/uikit'
 import React from 'react'
 import Popover from '../../../../../../libs/uikit/src/lib/popover/Popover'
 import ComponentStory from '../../common/ComponentStory'
@@ -10,7 +10,7 @@ function PopoverStories() {
 		<ComponentStory>
 			<Popover preferredPosition="bottom-center">
 				<Popover.Trigger>
-					<button className={styles['trigger-button']}>show popover</button>
+					<Button type={'primary'} size={'small'} onClick={() => {}}>Открой поповер</Button>
 				</Popover.Trigger>
 				<Popover.Content className={styles['popover']}>
 					<TextField
