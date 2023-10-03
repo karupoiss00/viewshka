@@ -1,1 +1,54 @@
+.button {
+    color: var(--text-color-default)
+}
 
+.button,
+.button-state--default {
+    background: var(--accent-color);
+}
+
+
+.button:hover,
+.button-state--hovered {
+    outline: 1px solid var(--stroke-color);
+}
+
+.button:active,
+.button-state--pressed {
+    background: var(--selection-color);
+    outline: 1px solid var(--text-color-subdued);
+}
+
+.button:disabled,
+.button-state--disabled {
+    background: var(--stroke-color);
+    outline: 1px solid var(--text-color-subdued);
+    color: var(--text-color-subdued);
+    cursor: default;
+}
+
+.button-state--loading {
+    background: var(--surface-color);
+    outline: 1px solid var(--text-color-subdued);
+}
+
+.button-state--loading::after {
+    content: "";
+    width: 24px;
+    height: 24px;
+    margin: auto;
+    border: 2px solid transparent;
+    border-top-color: var(--text-color-default);
+    border-radius: 50%;
+    animation: button-loading-spinner 1s ease infinite;
+}
+
+@keyframes button-loading-spinner {
+    from {
+        transform: rotate(0turn);
+    }
+
+    to {
+        transform: rotate(1turn);
+    }
+}
