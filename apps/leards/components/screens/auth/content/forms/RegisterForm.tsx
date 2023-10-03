@@ -1,5 +1,5 @@
 import {isValidEmail} from '@viewshka/core'
-import {TextField} from '@viewshka/uikit'
+import {Button, TextField} from '@viewshka/uikit'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
 import {useMutation} from 'react-query'
@@ -112,9 +112,9 @@ function RegisterForm({onLogin}: RegisterFormProps) {
 				valid={usernameValid}
 				errorMessage={getMessage('Error.InvalidUsernameFormat')}
 			/>
-			<button className={styles.submitButton} onClick={tryRegister}>
+			<Button className={styles.submitButton} type={'primary'} size={'large'} onClick={tryRegister}>
 				{getMessage('Register.Button.Submit')}
-			</button>
+			</Button>
 			<p className={styles.authText} onClick={onLogin}>
 				{getMessage('Link.Authorize')}
 			</p>

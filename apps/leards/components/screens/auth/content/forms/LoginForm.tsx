@@ -1,4 +1,4 @@
-import {TextField} from '@viewshka/uikit'
+import {Button, TextField} from '@viewshka/uikit'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
 import {useMutation} from 'react-query'
@@ -70,9 +70,9 @@ function LoginForm({onRegister}: LoginFormProps) {
 				errorMessage={getMessage('Error.InvalidCredentials')}
 				contentHidden={true}
 			/>
-			<button className={styles.submitButton} onClick={tryAuthorize}>
+			<Button className={styles.submitButton} type={'primary'} size={'large'} onClick={tryAuthorize}>
 				{getMessage('Login.Button.Submit')}
-			</button>
+			</Button>
 			<p className={styles.registerText}>
 				<span onClick={onRegister}>{getMessage('Link.CreateAccount')}</span>
 			</p>
