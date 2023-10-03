@@ -1,35 +1,3 @@
-.trigger-button,
-.close-button {
-    margin-block-start: 25px;
-    width: 100px;
-    height: 60px;
-    background: var(--accent-color);
-    color: #404040;
-    border-radius: 5px;
-    outline: none;
-    border: none;
-    font: var(--small-regular-text);
-    cursor: pointer;
-    margin-left: 150px;
-}
-
-.close-button {
-    width: 80px;
-    height: 40px;
-    margin: 0;
-}
-
-.trigger-button:hover,
-.close-button:hover {
-    background: #F4D4A3;
-}
-
-.trigger-button:active,
-.close-button:active {
-    background: var(--selection-color);
-}
-
-.popover {
-    flex-direction: row;
-    gap: 20px;
+.popup {
+    gap: 30px
 }

@@ -4,11 +4,12 @@ import {
 	PropsWithChildren,
 	useCallback,
 	useContext,
-	useEffect,
 	useLayoutEffect,
 	useRef,
 	useState,
 } from 'react'
+import {useFocusTrapping} from '../hooks/useFocusTrapping'
+import {useOutsideClick} from '../hooks/useOutsideClick'
 import styles from './Popover.module.css'
 
 type Position = 'bottom-center' | 'bottom-left' | 'bottom-right';
@@ -23,16 +24,16 @@ const DEFAULT_RECT = {
 type Rect = Pick<DOMRect, 'left' | 'top' | 'height' | 'width'>;
 
 type PopoverContextData = {
-	isShow: boolean;
-	setIsShow: React.Dispatch<React.SetStateAction<boolean>>;
+	show: boolean;
+	setShow: React.Dispatch<React.SetStateAction<boolean>>;
 	preferredPosition: Position;
 	triggerRect: Rect;
 	setTriggerRect: React.Dispatch<React.SetStateAction<Rect>>;
 }
 
 const PopoverContext = React.createContext<PopoverContextData>({
-	isShow: false,
-	setIsShow: () => {
+	show: false,
+	setShow: () => {
 		throw new Error('PopoverContext setIsShow should be used under provider')
 	},
 	preferredPosition: 'bottom-center',
@@ -53,12 +54,12 @@ function Popover({
 	children,
 	preferredPosition = 'bottom-center',
 }: PopoverProps) {
-	const [isShow, setIsShow] = useState(false)
+	const [show, setShow] = useState(false)
 	const [triggerRect, setTriggerRect] = useState(DEFAULT_RECT)
 
 	const contextValue = {
-		isShow,
-		setIsShow,
+		show,
+		setShow,
 		preferredPosition,
 		triggerRect,
 		setTriggerRect,
@@ -76,7 +77,7 @@ interface TriggerProps {
 }
 
 function Trigger({children}: TriggerProps) {
-	const {setIsShow, setTriggerRect} = useContext(PopoverContext)
+	const {setShow, setTriggerRect} = useContext(PopoverContext)
 
 	const ref = useRef<HTMLElement>(null)
 
@@ -88,7 +89,7 @@ function Trigger({children}: TriggerProps) {
 
 		const rect = element.getBoundingClientRect()
 		setTriggerRect(rect)
-		setIsShow(isShow => !isShow)
+		setShow(isShow => !isShow)
 	}
 
 	const triggeringPopoverChildren = React.cloneElement(children, {
@@ -104,9 +105,9 @@ interface ContentProps extends PropsWithChildren {
 }
 
 function Content({className, children}: ContentProps) {
-	const {isShow} = useContext(PopoverContext)
+	const {show} = useContext(PopoverContext)
 
-	if (!isShow) {
+	if (!show) {
 		return null
 	}
 
@@ -123,15 +124,15 @@ interface PopoverWindowProps extends PropsWithChildren {
 }
 
 function PopoverWindow({className, children}: PopoverWindowProps) {
-	const {triggerRect, preferredPosition, setIsShow} = useContext(PopoverContext)
+	const {triggerRect, preferredPosition, setShow} = useContext(PopoverContext)
 	const popoverWindowRef = useRef<HTMLDivElement>(null)
 	const [coords, setCoords] = useState({
 		left: 0,
 		top: 0,
 	})
 	const closePopover = useCallback(() => {
-		setIsShow(false)
-	}, [setIsShow])
+		setShow(false)
+	}, [setShow])
 
 	useLayoutEffect(() => {
 		const element = popoverWindowRef.current
@@ -147,7 +148,7 @@ function PopoverWindow({className, children}: PopoverWindowProps) {
 	}, [preferredPosition, triggerRect])
 
 	useFocusTrapping(popoverWindowRef)
-	useClickOutside(popoverWindowRef, closePopover)
+	useOutsideClick(popoverWindowRef, closePopover)
 
 	return (
 		<div
@@ -166,16 +167,14 @@ function PopoverWindow({className, children}: PopoverWindowProps) {
 }
 
 function Close({children}: { children: React.ReactElement }) {
-	const {setIsShow} = useContext(PopoverContext)
+	const {setShow} = useContext(PopoverContext)
 	const onClick = (e: MouseEvent) => {
-		setIsShow(false)
+		setShow(false)
 
-		// popover will be gone
-		// prevent this event triggering unexpected click
 		e.stopPropagation()
 	}
 	const childrenToClosePopover = React.cloneElement(children, {
-		onClick, // TODO: we better merge the onClick
+		onClick,
 	})
 
 	return childrenToClosePopover
@@ -198,74 +197,6 @@ function getPopoverCoords(
 		top,
 		left,
 	}
-}
-
-const focusableQuery = ':is(input, button, [tab-index])'
-
-function useFocusTrapping(ref: React.MutableRefObject<HTMLElement|null>) {
-	const refTrigger = useRef<HTMLElement>(document.activeElement as HTMLElement)
-
-	const onKeyDown = useCallback((e: KeyboardEvent) => {
-		const popover = ref.current
-		if (popover == null) {
-			return
-		}
-		const focusableElements: Array<HTMLElement> = Array.from(popover.querySelectorAll(focusableQuery))
-
-		const lastFocusable = focusableElements[focusableElements.length - 1]
-		if (e.key === 'Tab' && document.activeElement === lastFocusable) {
-			focusableElements[0]?.focus()
-			e.preventDefault()
-		}
-	}, [ref])
-
-	useEffect(() => {
-		const popover = ref.current
-		const trigger = refTrigger.current
-
-		if (popover == null) {
-			return
-		}
-
-		const focusableElements: Array<HTMLElement> = Array.from(popover.querySelectorAll(focusableQuery))
-		focusableElements[0]?.focus()
-
-		document.addEventListener('keydown', onKeyDown)
-
-		return () => {
-			document.removeEventListener('keydown', onKeyDown)
-			const currentActiveElement = document.activeElement
-			if (currentActiveElement == document.body) {
-				trigger?.focus()
-			}
-		}
-	}, [onKeyDown, ref])
-}
-
-function useClickOutside(ref: React.MutableRefObject<HTMLElement|null>, callback: () => void) {
-	useEffect(() => {
-		const element = ref.current
-		if (element == null) {
-			return
-		}
-
-		const onClick = (e: MouseEvent) => {
-			if (e.target instanceof Node && !element.contains(e.target)) {
-				callback()
-			}
-		}
-
-		/*
-		 	подписка откладывается на один кадр отрисовки,
-		 	чтобы повторный клик по триггеру не считался кликом вне поповера
-		 */
-		requestAnimationFrame(() => document.addEventListener('click', onClick))
-		return () => {
-			requestAnimationFrame(() => document.removeEventListener('click', onClick))
-		}
-	}, [callback, ref])
-
-	return ref
 }
 
 Popover.Trigger = Trigger
