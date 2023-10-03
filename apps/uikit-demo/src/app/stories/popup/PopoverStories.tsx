@@ -10,28 +10,15 @@ function PopoverStories() {
 		<ComponentStory>
 			<Popover preferredPosition="bottom-center">
 				<Popover.Trigger>
-					<Button
-						type={'primary'}
-						size={'small'}
-						onClick={() => {}}
-					>
-						Открыть поповер
-					</Button>
+					<Button type={'primary'} size={'small'} onClick={() => {}}>Открой поповер</Button>
 				</Popover.Trigger>
 				<Popover.Content className={styles['popover']}>
 					<TextField
 						size={'small'}
 						onChange={console.log}
-						placeholder={'Введите номер карты'}
 					/>
 					<Popover.Close>
-						<Button
-							type={'primary'}
-							size={'small'}
-							onClick={() => {}}
-						>
-							Отправить
-						</Button>
+						<button className={styles['close-button']}>close</button>
 					</Popover.Close>
 				</Popover.Content>
 			</Popover>

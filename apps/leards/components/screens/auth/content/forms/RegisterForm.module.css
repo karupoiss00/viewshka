@@ -15,20 +15,4 @@
 
 .submit-button {
   margin-block-start: 26px;
-  height: 60px;
-  background: var(--accent-color);
-  color: #404040;
-  border-radius: 5px;
-  outline: none;
-  border: none;
-  font: var(--small-regular-text);
-  cursor: pointer;
-}
-
-.submit-button:hover {
-  background: #F4D4A3;
-}
-
-.submit-button:active {
-  background: var(--selection-color);
 }

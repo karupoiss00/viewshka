@@ -1,14 +1,21 @@
 .button {
+    position: relative;
     outline: none;
     border: none;
     border-radius: 5px;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 10px;
     cursor: pointer;
     padding-inline: 18px;
     user-select: none;
+}
+
+.button-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
 .button--flexible {
@@ -32,4 +39,31 @@
 
 .button-spacing--none {
     height: auto;
+}
+
+
+.button-state--loading > * {
+    opacity: 0;
+}
+
+.button-state--loading::after {
+    position: absolute;
+    content: "";
+    width: 24px;
+    height: 24px;
+    margin: auto;
+    border: 2px solid transparent;
+    border-top-color: var(--text-color-default);
+    border-radius: 50%;
+    animation: button-loading-spinner 1s ease infinite;
+}
+
+@keyframes button-loading-spinner {
+    from {
+        transform: rotate(0turn);
+    }
+
+    to {
+        transform: rotate(1turn);
+    }
 }

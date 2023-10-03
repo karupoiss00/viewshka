@@ -56,13 +56,14 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
 				[commonStyles[`button-spacing--none`]]: spacing === 'none',
 				[commonStyles[`button--flexible`]]: flexible,
 				[commonStyles[`button-size--${size}`]]: true,
+				[commonStyles[`button-state--loading`]]: state === 'loading',
 				[specificStyles[`button-state--${state}`]]: true,
 			}, className)}
 			onClick={onClick}
 			disabled={state === 'disabled'}
 			ref={ref}
 		>
-			{ state !== 'loading' && children}
+			<div className={commonStyles['button-content']}>{children}</div>
 		</button>
 	)
 })

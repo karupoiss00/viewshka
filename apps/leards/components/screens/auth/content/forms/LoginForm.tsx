@@ -25,6 +25,7 @@ function LoginForm({onRegister}: LoginFormProps) {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [unauthorized, setUnauthorized] = useState(false)
+	const buttonState = status === 'loading' ? 'loading' : 'default'
 	const tryAuthorize = () => {
 		if (email && password) {
 			mutate({
@@ -70,7 +71,13 @@ function LoginForm({onRegister}: LoginFormProps) {
 				errorMessage={getMessage('Error.InvalidCredentials')}
 				contentHidden={true}
 			/>
-			<Button className={styles.submitButton} type={'primary'} size={'large'} onClick={tryAuthorize}>
+			<Button
+				className={styles.submitButton}
+				type={'primary'}
+				size={'large'}
+				onClick={tryAuthorize}
+				state={buttonState}
+			>
 				{getMessage('Login.Button.Submit')}
 			</Button>
 			<p className={styles.registerText}>

@@ -27,6 +27,7 @@ function RegisterForm({onLogin}: RegisterFormProps) {
 	const [usernameValid, setUsernameValid] = useState(true)
 	const [passwordValid, setPasswordValid] = useState(true)
 	const [passwordVerified, setPasswordVerified] = useState(true)
+	const buttonState = status === 'loading' ? 'loading' : 'default'
 
 	const validateEmail = (data: string) => {
 		const isValid = isValidEmail(data)
@@ -112,7 +113,13 @@ function RegisterForm({onLogin}: RegisterFormProps) {
 				valid={usernameValid}
 				errorMessage={getMessage('Error.InvalidUsernameFormat')}
 			/>
-			<Button className={styles.submitButton} type={'primary'} size={'large'} onClick={tryRegister}>
+			<Button
+				className={styles.submitButton}
+				type={'primary'}
+				size={'large'}
+				onClick={tryRegister}
+				state={buttonState}
+			>
 				{getMessage('Register.Button.Submit')}
 			</Button>
 			<p className={styles.authText} onClick={onLogin}>

@@ -31,24 +31,3 @@
     background: var(--surface-color);
     outline: 1px solid var(--text-color-subdued);
 }
-
-.button-state--loading::after {
-    content: "";
-    width: 24px;
-    height: 24px;
-    margin: auto;
-    border: 2px solid transparent;
-    border-top-color: var(--text-color-default);
-    border-radius: 50%;
-    animation: button-loading-spinner 1s ease infinite;
-}
-
-@keyframes button-loading-spinner {
-    from {
-        transform: rotate(0turn);
-    }
-
-    to {
-        transform: rotate(1turn);
-    }
-}
