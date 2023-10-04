@@ -12,4 +12,7 @@ export const enMessages = {
 	'Error.InvalidUsernameFormat': 'Invalid username',
 	'Error.InvalidPasswordFormat': 'Password must contain at least 8 characters',
 	'Error.PasswordNotMatching': 'Passwords not matching',
+	'Button.Create.Folder': 'Create folder',
+	'Button.Create.Deck': 'Create deck',
+	'Button.Start.Train': 'Start train',
 }

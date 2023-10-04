@@ -12,4 +12,7 @@ export const ruMessages = {
 	'Error.InvalidUsernameFormat': 'Неверное имя пользователя',
 	'Error.InvalidPasswordFormat': 'Пароль должен содержать минимум 8 символов',
 	'Error.PasswordNotMatching': 'Пароли не совпадают',
+	'Button.Create.Folder': 'Создать папку',
+	'Button.Create.Deck': 'Создать колоду',
+	'Button.Start.Train': 'Начать тренировку',
 }

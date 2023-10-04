@@ -1,8 +1,8 @@
 import {PropsWithClassname} from '@viewshka/core'
 import classnames from 'classnames'
 import {useEffect, useState} from 'react'
-import {IconCloseEye} from '../icons/IconCloseEye'
-import {IconOpenEye} from '../icons/IconOpenEye'
+import {SystemIconCloseEye} from '../icons/SystemIconCloseEye'
+import {SystemIconOpenEye} from '../icons/SystemIconOpenEye'
 import styles from './TextField.module.css'
 
 type TextFieldProps = PropsWithClassname & {
@@ -85,8 +85,8 @@ function TextVisibilitySwitcher({className, state, onClick, hidden}: VisibilityB
 	}
 
 	return <div className={classnames(styles['eye-container'], className)} onClick={onClick}>
-		{state === 'visible' && <IconOpenEye/>}
-		{state === 'hidden' && <IconCloseEye/>}
+		{state === 'visible' && <SystemIconOpenEye/>}
+		{state === 'hidden' && <SystemIconCloseEye/>}
 	</div>
 }
 

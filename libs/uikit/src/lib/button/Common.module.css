@@ -58,6 +58,10 @@
     animation: button-loading-spinner 1s ease infinite;
 }
 
+.button:disabled {
+    pointer-events: none;
+}
+
 @keyframes button-loading-spinner {
     from {
         transform: rotate(0turn);

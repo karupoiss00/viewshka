@@ -3,7 +3,7 @@ import {
 	ButtonSize,
 	ButtonState,
 	ButtonType,
-	IconOpenEye,
+	SystemIconOpenEye,
 } from '@viewshka/uikit'
 import React, {PropsWithChildren} from 'react'
 import ComponentStory, {StoryColumn} from '../../common/ComponentStory'
@@ -86,15 +86,15 @@ function ButtonStateVariants({state, type, size}: ButtonStateVariantsProps) {
           Посмотреть
 			</Button>
 			<Button state={state} type={type} size={size} onClick={onClick}>
-				<IconOpenEye></IconOpenEye>
+				<SystemIconOpenEye></SystemIconOpenEye>
           Посмотреть
 			</Button>
 			<Button state={state} type={type} size={size} onClick={onClick}>
           Посмотреть
-				<IconOpenEye></IconOpenEye>
+				<SystemIconOpenEye></SystemIconOpenEye>
 			</Button>
 			<Button state={state} type={type} size={size} onClick={onClick}>
-				<IconOpenEye></IconOpenEye>
+				<SystemIconOpenEye></SystemIconOpenEye>
 			</Button>
 		</ButtonsRow>
 	)
