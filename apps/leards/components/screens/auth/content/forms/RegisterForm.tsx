@@ -74,7 +74,7 @@ function RegisterForm({onLogin}: RegisterFormProps) {
 		if (status == 'success') {
 			AuthProvider.setAuthToken(data.token)
 			AuthProvider.setUserId(data.userId)
-			router.push('/dashboard')
+			router.push('/home')
 		}
 	}, [data, router, status])
 

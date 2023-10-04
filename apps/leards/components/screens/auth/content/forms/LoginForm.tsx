@@ -49,7 +49,7 @@ function LoginForm({onRegister}: LoginFormProps) {
 		if (status === 'success') {
 			AuthProvider.setAuthToken(data.token)
 			AuthProvider.setUserId(data.userId)
-			router.replace('/dashboard')
+			router.replace('/home')
 		}
 		if (status === 'error') {
 			setUnauthorized(true)

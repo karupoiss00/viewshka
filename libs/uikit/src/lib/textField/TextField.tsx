@@ -1,12 +1,12 @@
+import {PropsWithClassname} from '@viewshka/core'
 import classnames from 'classnames'
 import {useEffect, useState} from 'react'
 import {IconCloseEye} from '../icons/IconCloseEye'
 import {IconOpenEye} from '../icons/IconOpenEye'
 import styles from './TextField.module.css'
 
-type TextFieldProps = {
+type TextFieldProps = PropsWithClassname & {
 	size?: 'default' | 'small'
-	className?: string
     placeholder?: string
     errorMessage?: string
     contentHidden?: boolean
