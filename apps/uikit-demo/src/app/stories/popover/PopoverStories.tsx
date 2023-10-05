@@ -1,6 +1,5 @@
-import {Button, TextField} from '@viewshka/uikit'
+import {Button, TextField, Popover} from '@viewshka/uikit'
 import React from 'react'
-import Popover from '../../../../../../libs/uikit/src/lib/popover/Popover'
 import ComponentStory from '../../common/ComponentStory'
 import {addStory} from '../../stories'
 import styles from './PopoverStories.module.css'

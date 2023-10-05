@@ -1,12 +1,10 @@
-import {Button, SystemIconFolder} from '@viewshka/uikit'
+import {Button, Popover, SelectList, SystemIconFolder} from '@viewshka/uikit'
 import React from 'react'
-import Popover from '../../../../../../libs/uikit/src/lib/popover/Popover'
-import {SelectList} from '../../../../../../libs/uikit/src/lib/selectList/SelectList'
 import ComponentStory, {StoryColumn} from '../../common/ComponentStory'
 import {addStory} from '../../stories'
-import styles from './ListStories.module.css'
+import styles from './SelectListStories.module.css'
 
-function ListStories() {
+function SelectListStories() {
 	return (
 		<ComponentStory>
 			<StoryColumn width={600} name={'Default'}>
@@ -100,4 +98,4 @@ function ListStories() {
 	)
 }
 
-addStory('List', ListStories)
+addStory('SelectList', SelectListStories)

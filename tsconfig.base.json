@@ -16,7 +16,10 @@
     "baseUrl": ".",
     "paths": {
       "@viewshka/core": ["libs/core/src/index.ts"],
-      "@viewshka/uikit": ["libs/uikit/src/index.ts"]
+      "@viewshka/uikit": ["libs/uikit/src/index.ts"],
+      "@leards/i18n/*": ["apps/leards/i18n/*"],
+      "@leards/api/*": ["apps/leards/api/*"],
+      "@leards/providers/*": ["apps/leards/providers/*"]
     }
   },
   "exclude": ["node_modules", "tmp"]

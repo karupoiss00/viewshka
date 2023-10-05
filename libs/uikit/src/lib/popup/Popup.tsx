@@ -130,4 +130,6 @@ Popup.Content = Content
 Popup.Close = Close
 
 
-export default Popup
+export {
+	Popup,
+}

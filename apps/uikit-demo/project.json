@@ -51,6 +51,7 @@
       "defaultConfiguration": "development",
       "options": {
         "buildTarget": "uikit-demo:build",
+        "port": 5000,
         "hmr": true
       },
       "configurations": {

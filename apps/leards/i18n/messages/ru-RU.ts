@@ -15,4 +15,9 @@ export const ruMessages = {
 	'Button.Create.Folder': 'Создать папку',
 	'Button.Create.Deck': 'Создать колоду',
 	'Button.Start.Train': 'Начать тренировку',
+	'Sidebar.Title.Materials': 'Материалы',
+	'Sidebar.SectionList.UserContent': 'Мои колоды и папки',
+	'Sidebar.SectionList.Library': 'Публичные',
+	'Sidebar.SectionList.Tasks': 'Задания',
+	'Sidebar.Title.UserContent': 'Мои папки и колоды',
 }

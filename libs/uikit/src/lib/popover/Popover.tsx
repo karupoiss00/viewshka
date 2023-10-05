@@ -204,4 +204,6 @@ Popover.Content = Content
 Popover.Close = Close
 
 
-export default Popover
+export {
+	Popover,
+}
