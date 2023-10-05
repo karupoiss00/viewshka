@@ -4,6 +4,8 @@
     background: var(--surface-color);
     border: 1px solid var(--stroke-color);
     border-radius: 20px;
-    padding-block: 35px;
-    padding-inline: 28px;
+    padding-block-start: 20px;
+    padding-block-end: 36px;
+    padding-inline-start: 10px;
+    padding-inline-end: 19px;
 }

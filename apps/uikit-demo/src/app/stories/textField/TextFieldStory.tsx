@@ -36,7 +36,7 @@ function TextFieldStory() {
 					onChange={console.log}
 					placeholder={'Введите текст'}
 					valid={false}
-					errorMessage={'С сообщенем об ошибке'}
+					errorMessage={'Сообщение об ошибке'}
 					onValidate={() => false}
 				/>
 			</StoryColumn>
