@@ -49,6 +49,7 @@
     flex-direction: row-reverse;
     padding-inline: 24px;
     align-items: center;
+    backdrop-filter: blur(7.5px);
 }
 
 .button-start {

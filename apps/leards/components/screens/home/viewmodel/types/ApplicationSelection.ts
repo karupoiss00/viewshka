@@ -16,10 +16,34 @@ type TasksSelection = {
 	type: 'tasks',
 }
 
+
 type ApplicationSelection = UserContentSelection | LibrarySelection | TasksSelection
 
+function createSelection(type: string): ApplicationSelection {
+  switch (type) {
+    case 'user-content':
+      return {
+        type,
+        content: null,
+      };
+    case 'library':
+      return {
+        type,
+      };
+    case 'tasks':
+      return {
+        type,
+      };
+    default:
+      throw new Error(`Unknown selection type: ${type}`);
+  }
+}
 
 export type {
 	ApplicationSelection,
-	SelectedContentData,
+Se;lectedContentData,
+}
+
+export {
+	createSelection,
 }
