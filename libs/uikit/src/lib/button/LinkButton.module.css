@@ -1,1 +1,34 @@
 
+.button {
+    text-decoration: underline;
+    outline: none;
+    background: none;
+}
+
+.button,
+.button-state--default {
+    color: var(--text-color-subdued);
+}
+
+
+.button:hover,
+.button-state--hovered {
+    color: var(--text-color-default);
+}
+
+.button:active,
+.button-state--pressed {
+    color: var(--text-color-default);
+    text-decoration: none;
+}
+
+.button:disabled,
+.button-state--disabled {
+    color: var(--text-color-subdued);
+    cursor: default;
+    text-decoration: line-through;
+}
+
+.button-state--loading {
+    color: var(--text-color-default);
+}

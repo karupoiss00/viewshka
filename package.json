@@ -9,9 +9,11 @@
   "private": true,
   "dependencies": {
     "@nrwl/next": "14.6.3",
+    "@openapitools/openapi-generator-cli": "^2.7.0",
     "classnames": "^2.3.2",
     "core-js": "^3.6.5",
     "eslint-plugin-simple-import-sort": "^10.0.0",
+    "generator-api": "^1.5.3",
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0",
