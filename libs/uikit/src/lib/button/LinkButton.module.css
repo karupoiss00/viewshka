@@ -18,6 +18,7 @@
 
 .button:active,
 .button-state--pressed {
+    background: var(--selection-color);
     color: var(--text-color-default);
     text-decoration: none;
 }
