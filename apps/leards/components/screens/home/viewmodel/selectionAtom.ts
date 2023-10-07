@@ -9,11 +9,61 @@ const selectionAtom = atom<ApplicationSelection>({
 	content: null,
 })
 
-const setSelectionAction = action((ctx, selectionType: string) =>
-	selectionAtom(ctx, createSelection(selectionType)),
+const selectSection = action((ctx, sectionType: string) =>
+	selectionAtom(ctx, createSelection(sectionType)),
 )
+
+type SelectDeckPayload = {
+	parentFolderId: string
+	deckId: string
+}
+const selectDeck = action((ctx, payload: SelectDeckPayload) => {
+	const {type: selectionType} = ctx.get(selectionAtom)
+
+	if (selectionType != 'user-content') {
+		throw new Error('Can not select deck outside user-content section')
+	}
+
+	const {parentFolderId, deckId} = payload
+
+	selectionAtom(ctx, {
+		type: 'user-content',
+		content: {
+			deckId,
+			folderId: parentFolderId,
+		},
+	})
+})
+
+type SelectFolderPayload = {
+	folderId: string
+}
+const selectFolder = action((ctx, payload: SelectFolderPayload) => {
+	const {type: selectionType} = ctx.get(selectionAtom)
+
+	if (selectionType != 'user-content') {
+		throw new Error('Can not select folder outside user-content section')
+	}
+
+	const {folderId} = payload
+
+	selectionAtom(ctx, {
+		type:'user-content',
+		content: {
+			deckId: null,
+			folderId,
+		},
+	})
+})
+
+
+const selectionActions = {
+	selectSection,
+	selectDeck,
+	selectFolder,
+}
 
 export {
 	selectionAtom,
-	setSelectionAction,
+	selectionActions,
 }

@@ -1,7 +1,7 @@
 type SelectedContentData = {
-	id: string,
-	type: 'folder' | 'deck',
-}
+  deckId: string | null;
+  folderId: string;
+};
 
 type UserContentSelection = {
 	type: 'user-content',

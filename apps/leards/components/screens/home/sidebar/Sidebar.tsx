@@ -15,7 +15,7 @@ import classnames from 'classnames'
 import {useRouter} from 'next/router'
 import React, {useCallback, useEffect} from 'react'
 import {useQuery} from 'react-query'
-import {selectionAtom, setSelectionAction} from '../viewmodel/selectionAtom'
+import {selectionAtom, selectionActions} from '../viewmodel/selectionAtom'
 import styles from './Sidebar.module.css'
 
 const SELECTED_SECTION_KEY = 'section'
@@ -36,7 +36,7 @@ function Sidebar({className}: PropsWithClassname) {
 function SectionsList() {
 	const getMessage = useMessages()
 	const [getParam, setParams] = useSearchParams()
-	const handleChangeSelection = useAction(setSelectionAction)
+	const handleChangeSelection = useAction(selectionActions.selectSection)
 	const selectedSection = getParam(SELECTED_SECTION_KEY)
 	const [selection] = useAtom(selectionAtom)
 	const setSelection = useCallback((sectionType: string) => {
@@ -58,14 +58,11 @@ function SectionsList() {
 	}, [selectedSection, selection.type, setSelection])
 
 	return (
-		<>
+		<div className={styles.sectionsList}>
 			<p className={styles.materialsTitle}>
 				{getMessage('Sidebar.Title.Materials')}
 			</p>
-			<SelectList
-				onItemSelect={setSelection}
-				selectedItem={selectedSection}
-			>
+			<SelectList onItemSelect={setSelection} selectedItem={selectedSection}>
 				<SelectList.Item id={'user-content'}>
 					<SystemIconFolder />
 					{getMessage('Sidebar.SectionList.UserContent')}
@@ -79,7 +76,7 @@ function SectionsList() {
 					{getMessage('Sidebar.SectionList.Tasks')}
 				</SelectList.Item>
 			</SelectList>
-		</>
+		</div>
 	)
 }
 
@@ -88,6 +85,8 @@ function ContentList() {
 	const getMessage = useMessages()
 	const [getParam, setParams] = useSearchParams()
 	const {data: folder} = useSelectedFolderContent(getParam(SELECTED_FOLDER_KEY))
+	const handleSelectDeckAction = useAction(selectionActions.selectDeck)
+	const handleSelectFolderAction = useAction(selectionActions.selectFolder)
 
 	const setSelection = (id: string) => {
 		const selectedContent = folder.content.find(el => el.id === id)
@@ -100,12 +99,20 @@ function ContentList() {
 			setParams({
 				[SELECTED_FOLDER_KEY]: selectedContent.id,
 			})
+			handleSelectFolderAction({
+				folderId: selectedContent.id,
+			})
 		}
 
 		if (selectedContent.type === 'deck') {
+			const folderId = getParam(SELECTED_FOLDER_KEY)
 			setParams({
-				[SELECTED_FOLDER_KEY]: getParam(SELECTED_FOLDER_KEY),
+				[SELECTED_FOLDER_KEY]: folderId,
 				[SELECTED_DECK_KEY]: selectedContent.id,
+			})
+			handleSelectDeckAction({
+				parentFolderId: folderId,
+				deckId: selectedContent.id,
 			})
 		}
 	}
@@ -115,15 +122,17 @@ function ContentList() {
 			<p className={styles.userContentTitle}>
 				{getMessage('Sidebar.Title.UserContent')}
 			</p>
-			<SelectList onItemSelect={setSelection} initialSelectedItem={getParam(SELECTED_DECK_KEY)}>
-				{folder?.content?.map(item => (
-					<SelectList.Item id={item.id} key={item.id}>
-						{item.type === 'folder' && <SystemIconFolder />}
-						{item.type === 'deck' && <SystemIconDeck />}
-						{item.name}
-					</SelectList.Item>
-				))}
-			</SelectList>
+			<div className={styles.listContainer}>
+				<SelectList onItemSelect={setSelection} initialSelectedItem={getParam(SELECTED_DECK_KEY)}>
+					{folder?.content?.map((item, i) => (
+						<SelectList.Item id={item.id} key={item.id.repeat(i)}>
+							{item.type === 'folder' && <SystemIconFolder />}
+							{item.type === 'deck' && <SystemIconDeck />}
+							{item.name}
+						</SelectList.Item>
+					))}
+				</SelectList>
+			</div>
 		</>
 	)
 }

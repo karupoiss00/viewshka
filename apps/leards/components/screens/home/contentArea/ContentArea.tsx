@@ -24,7 +24,7 @@ interface UserContentProps {
 
 function UserContent({info}: UserContentProps) {
 	const getMessage = useMessages()
-	const emptyState = !info || info.type !== 'deck'
+	const emptyState = !info || !info.deckId;
 
 	return (
 		<div className={styles.container}>
