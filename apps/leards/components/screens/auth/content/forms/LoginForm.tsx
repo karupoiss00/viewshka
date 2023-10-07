@@ -90,7 +90,6 @@ function LoginForm({onRegister}: LoginFormProps) {
 function useLoginMutation() {
 	return useMutation(async ({email, password}: LoginData) => {
 		AuthProvider.setBaseAuth(email, password)
-		AccountsAPI.update()
 		const response = await AccountsAPI.get().accountsGet()
 		return response.data
 	})

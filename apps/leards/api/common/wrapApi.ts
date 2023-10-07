@@ -1,18 +1,11 @@
 import {BaseAPI} from '../generated/base'
 
+export type WrappedAPI<T extends BaseAPI> = {
+  get: () => T;
+};
+
 export function wrapApi<T extends BaseAPI>(apiCreator: () => T) {
-	let api: T | null = null
-
 	return {
-		get: () => {
-			if (!api) {
-				api = apiCreator()
-			}
-
-			return api
-		},
-		update: () => {
-			api = null
-		},
+		get: () => apiCreato(),
 	}
 }

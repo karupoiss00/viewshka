@@ -19,7 +19,12 @@
       "@viewshka/uikit": ["libs/uikit/src/index.ts"],
       "@leards/i18n/*": ["apps/leards/i18n/*"],
       "@leards/api/*": ["apps/leards/api/*"],
-      "@leards/providers/*": ["apps/leards/providers/*"]
+      "@leards/providers/*": [
+        "apps/leards/providers/*"
+      ],
+      "@leards/hooks/*": [
+        "apps/leards/components/hooks/*"
+      ]
     }
   },
   "exclude": ["node_modules", "tmp"]

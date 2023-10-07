@@ -1,9 +1,9 @@
+import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {PropsWithClassname} from '@viewshka/core'
 import {Button, SystemIconDeck, SystemIconFolder, SystemIconShare} from '@viewshka/uikit'
 import classnames from 'classnames'
-import React from 'react'
-import {useMessages} from '../../../../i18n/hooks/useMessages'
+import React, {PropsWithChildren} from 'react'
 import {selectionAtom} from '../viewmodel/selectionAtom'
 import {SelectedContentData} from '../viewmodel/types/ApplicationSelection'
 import styles from './ContentArea.module.css'
@@ -28,8 +28,8 @@ function UserContent({info}: UserContentProps) {
 
 	return (
 		<div className={styles.container}>
-			{emptyState && <EmptyContent/>}
-			<div className={styles.bottomPanel}>
+			{emptyState && <EmptyContent />}
+			<BottomPanel>
 				<Button
 					type={'link'}
 					size={'large'}
@@ -46,7 +46,7 @@ function UserContent({info}: UserContentProps) {
 				>
 					{getMessage('Button.Start.Train')}
 				</Button>
-			</div>
+			</BottomPanel>
 		</div>
 	)
 }
@@ -68,6 +68,10 @@ function EmptyContent() {
 			</div>
 		</div>
 	)
+}
+
+function BottomPanel({children}: PropsWithChildren) {
+	return <div className={styles.bottomPanel}>{children}</div>
 }
 
 export default ContentArea

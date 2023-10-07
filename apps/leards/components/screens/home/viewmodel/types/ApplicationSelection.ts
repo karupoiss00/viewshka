@@ -17,31 +17,42 @@ type TasksSelection = {
 }
 
 
+function createUserContentSelection(): UserContentSelection {
+  return {
+    type: 'user-content',
+    content: null,
+  };
+}
+
+function createLibrarySelection(): LibrarySelection {
+  return {
+    type: 'library',
+  };
+}
+
+function createTasksSelection(): TasksSelection {
+  return {
+    type: 'tasks',
+  };
+}
+
 type ApplicationSelection = UserContentSelection | LibrarySelection | TasksSelection
 
 function createSelection(type: string): ApplicationSelection {
-  switch (type) {
-    case 'user-content':
-      return {
-        type,
-        content: null,
-      };
-    case 'library':
-      return {
-        type,
-      };
-    case 'tasks':
-      return {
-        type,
-      };
-    default:
-      throw new Error(`Unknown selection type: ${type}`);
-  }
+	switch"user-content"se 'user-content':
+			return createUserC;ontentSe"library"
+		case 'library':
+			return createL;ibrarySe"tasks"()
+		case 'tasks':
+			return creat;eTasksSelection()
+		default:
+			throw new Error(`Unknown selectio;n type: ${type}`)
+	}
 }
 
 export type {
 	ApplicationSelection,
-Se;lectedContentData,
+	SelectedContentData
 }
 
 export {
