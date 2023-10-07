@@ -144,7 +144,7 @@ function useSelectedFolderContent(folderId: string | null) {
 		const userId = AuthProvider.getUserId()
 
 		if (!folderId) {
-			const response = await FoldersAPI.mock().getRoot(userId)
+			const response = await FoldersAPI.get().rootFolderGet(userId)
 			return response.folder
 		}
 
