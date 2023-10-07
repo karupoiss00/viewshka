@@ -1,5 +1,7 @@
 export * from './lib/textField/TextField'
 export * from './lib/button/Button'
+export * from './lib/breadcrumbs/Breadcrumbs'
+export * from './lib/icons/SystemIconArrowRight'
 export * from './lib/icons/SystemIconOpenEye'
 export * from './lib/icons/SystemIconCloseEye'
 export * from './lib/icons/SystemIconFolder'
