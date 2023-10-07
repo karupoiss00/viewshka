@@ -10,8 +10,8 @@ const selectionAtom = atom<ApplicationSelection>({
 })
 
 const setSelectionAction = action((ctx, selectionType: string) =>
-  selectionAtom(ctx, createSelection(selectionType))
-);
+	selectionAtom(ctx, createSelection(selectionType)),
+)
 
 export {
 	selectionAtom,

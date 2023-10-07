@@ -1,61 +1,61 @@
-import { FoldersAPI } from '@leards/api/FoldersAPI';
-import { useSearchParams } from '@leards/hooks/useSearchParams';
+import {FoldersAPI} from '@leards/api/FoldersAPI'
+import {useSearchParams} from '@leards/hooks/useSearchParams'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
-import AuthProvider from '@leards/providers/authProvider';
+import AuthProvider from '@leards/providers/authProvider'
 import {useAction, useAtom} from '@reatom/npm-react'
 import {PropsWithClassname} from '@viewshka/core'
 import {
-  SelectList,
-  SystemIconDeck,
-  SystemIconFolder,
-  SystemIconPublicDecks,
-  SystemIconTaskList,
-} from '@viewshka/uikit';
+	SelectList,
+	SystemIconDeck,
+	SystemIconFolder,
+	SystemIconPublicDecks,
+	SystemIconTaskList,
+} from '@viewshka/uikit'
 import classnames from 'classnames'
-import { useRouter }"next/router";outer'
-import React, { useCallback, useEffect }"react";react'
-import { useQuery }"react-query";query'
+import {useRouter} from 'next/router'
+import React, {useCallback, useEffect} from 'react'
+import {useQuery} from 'react-query'
 import {selectionAtom, setSelectionAction} from '../viewmodel/selectionAtom'
 import styles from './Sidebar.module.css'
 
-const SELECTED_SECTION_KEY = "section";
-const SELECTED_FOLDER_KEY = "selectedFolder";
-const SELECTED_DECK_KEY = "selectedDeck";
+const SELECTED_SECTION_KEY = 'section'
+const SELECTED_FOLDER_KEY = 'selectedFolder'
+const SELECTED_DECK_KEY = 'selectedDeck'
 
 function Sidebar({className}: PropsWithClassname) {
-	const [selection] = useAtom(selectionAtom);
+	const [selection] = useAtom(selectionAtom)
 
 	return (
 		<div className={classnames(styles.sidebar, className)}>
 			<SectionsList />
-			{selection.type === "user-content" && <ContentList />}
+			{selection.type === 'user-content' && <ContentList />}
 		</div>
-	);
+	)
 }
 
 function SectionsList() {
 	const getMessage = useMessages()
-	const [getParam, setParams] = useSearchParams();
+	const [getParam, setParams] = useSearchParams()
 	const handleChangeSelection = useAction(setSelectionAction)
-	const selectedSection = getParam(SELECTED_SECTION_KEY);
-	const [selection] = useAtom(selectionAtom);
+	const selectedSection = getParam(SELECTED_SECTION_KEY)
+	const [selection] = useAtom(selectionAtom)
 	const setSelection = useCallback((sectionType: string) => {
 		setParams({
-			[SELECTED_SECTION_KEY]: sectionType
-		}, true);
-	}, [setParams]);
+			[SELECTED_SECTION_KEY]: sectionType,
+		}, true)
+	}, [setParams])
 
 	useEffect(() => {
 		if (selectedSection) {
-			handleChangeSelection(selectedSection);
+			handleChangeSelection(selectedSection)
 		}
-	}, [handleChangeSelection, selectedSection]);
+	}, [handleChangeSelection, selectedSection])
 
 	useEffect(() => {
 		if (!selectedSection) {
-			setSelection(selection.type);
+			setSelection(selection.type)
 		}
-	}, [selectedSection, selection.type, setSelection]);
+	}, [selectedSection, selection.type, setSelection])
 
 	return (
 		<>
@@ -85,30 +85,30 @@ function SectionsList() {
 
 
 function ContentList() {
-	const getMessage = useMessages();
-	const [getParam, setParams] = useSearchParams();
-	const { data: folder } = useSelectedFolderContent(getParam(SELECTED_FOLDER_KEY));
+	const getMessage = useMessages()
+	const [getParam, setParams] = useSearchParams()
+	const {data: folder} = useSelectedFolderContent(getParam(SELECTED_FOLDER_KEY))
 
 	const setSelection = (id: string) => {
-		const selectedContent = folder.content.find(el => el.id === id);
+		const selectedContent = folder.content.find(el => el.id === id)
 
 		if (!selectedContent) {
-			throw new Error(`Incorrect id selected: ${id}`);
+			throw new Error(`Incorrect id selected: ${id}`)
 		}
 
-		if (selectedContent.type === "folder") {
+		if (selectedContent.type === 'folder') {
 			setParams({
-				[SELECTED_FOLDER_KEY]: selectedContent.id
-			});
+				[SELECTED_FOLDER_KEY]: selectedContent.id,
+			})
 		}
 
-		if (selectedContent.type === "deck") {
+		if (selectedContent.type === 'deck') {
 			setParams({
 				[SELECTED_FOLDER_KEY]: getParam(SELECTED_FOLDER_KEY),
-				[SELECTED_DECK_KEY]: selectedContent.id
-			});
+				[SELECTED_DECK_KEY]: selectedContent.id,
+			})
 		}
-	};
+	}
 
 	return (
 		<>
@@ -118,8 +118,8 @@ function ContentList() {
 			<SelectList onItemSelect={setSelection} initialSelectedItem={getParam(SELECTED_DECK_KEY)}>
 				{folder?.content?.map(item => (
 					<SelectList.Item id={item.id} key={item.id}>
-						{item.type === "folder" && <SystemIconFolder />}
-						{item.type === "deck" && <SystemIconDeck />}
+						{item.type === 'folder' && <SystemIconFolder />}
+						{item.type === 'deck' && <SystemIconDeck />}
 						{item.name}
 					</SelectList.Item>
 				))}
@@ -129,29 +129,29 @@ function ContentList() {
 }
 
 function useSelectedFolderContent(folderId: string | null) {
-	const router = useRouter();
+	const router = useRouter()
 
 	const queryResult = useQuery(`folderId:${folderId}`, async () => {
-		const userId = AuthProvider.getUserId();
+		const userId = AuthProvider.getUserId()
 
 		if (!folderId) {
-			const response = await FoldersAPI.mock().getRoot(userId);
-			return response.folder;
+			const response = await FoldersAPI.mock().getRoot(userId)
+			return response.folder
 		}
 
-		const response = await FoldersAPI.get().foldersIdGet(folderId);
-		return response.data.folder;
+		const response = await FoldersAPI.get().foldersIdGet(folderId)
+		return response.data.folder
 	}, {
-		retry: false
-	});
+		retry: false,
+	})
 
 	useEffect(() => {
 		if (queryResult.isError) {
-			router.replace("/home");
+			router.replace('/home')
 		}
-	}, [queryResult.isError, router]);
+	}, [queryResult.isError, router])
 
-	return queryResult;
+	return queryResult
 }
 
 export default Sidebar
