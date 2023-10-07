@@ -8,9 +8,14 @@ export function mockAPI<M, A extends BaseAPI>(
 	mock: M,
 ): MockedAPI<M, A> {
 	return {
-		get: () => ({
-			...mock,
-			...wrappedAPI.get(),
-		}),
+		get: () => {
+			const api = wrappedAPI.get()
+
+			Object.keys(mock).forEach(key => {
+				api[key] = mock[key]
+			})
+
+			return api as (A & M)
+		},
 	}
 }
