@@ -1,15 +1,15 @@
 interface IAuthProvider {
-  getUserId(): string | null;
+	getUserId(): string | null;
 
-  setUserId(id: string): void;
+	setUserId(id: string): void;
 
-  getAuthToken(): string | null;
+	getAuthToken(): string | null;
 
-  setAuthToken(token: string): void;
+	setAuthToken(token: string): void;
 
-  getBaseAuth(): { username: string; password: string };
+	getBaseAuth(): { username: string; password: string };
 
-  setBaseAuth(username: string, password: string): void;
+	setBaseAuth(username: string, password: string): void;
 }
 
 const USER_ID_KEY = 'uid'
