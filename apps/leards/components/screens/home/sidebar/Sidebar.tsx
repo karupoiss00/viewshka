@@ -15,12 +15,12 @@ import classnames from 'classnames'
 import {useRouter} from 'next/router'
 import React, {useCallback, useEffect} from 'react'
 import {useQuery} from 'react-query'
+import {useSelectedDeckParam, useSelectedFolderParams} from '../common/hooks/useSelectionParams'
+import {setCurrentFolderAction} from '../viewmodel/currentFolderAtom'
 import {selectionAtom, selectionActions} from '../viewmodel/selectionAtom'
 import styles from './Sidebar.module.css'
 
 const SELECTED_SECTION_KEY = 'section'
-const SELECTED_FOLDER_KEY = 'selectedFolder'
-const SELECTED_DECK_KEY = 'selectedDeck'
 
 function Sidebar({className}: PropsWithClassname) {
 	const [selection] = useAtom(selectionAtom)
@@ -80,13 +80,18 @@ function SectionsList() {
 	)
 }
 
-
 function ContentList() {
 	const getMessage = useMessages()
-	const [getParam, setParams] = useSearchParams()
-	const {data: folder} = useSelectedFolderContent(getParam(SELECTED_FOLDER_KEY))
+	const {getSelectedFolderParam, setSelectedFolderParam} = useSelectedFolderParams()
+	const {getSelectedDeckParam, setSelectedDeckParam} = useSelectedDeckParam()
+	const {data: folder} = useSelectedFolder(getSelectedFolderParam())
 	const handleSelectDeckAction = useAction(selectionActions.selectDeck)
 	const handleSelectFolderAction = useAction(selectionActions.selectFolder)
+	const handleSetSelectedFolderAction = useAction(setCurrentFolderAction)
+
+	useEffect(() => {
+		handleSetSelectedFolderAction({folder})
+	}, [folder, handleSetSelectedFolderAction])
 
 	const setSelection = (id: string) => {
 		const selectedContent = folder.content.find(el => el.id === id)
@@ -96,20 +101,15 @@ function ContentList() {
 		}
 
 		if (selectedContent.type === 'folder') {
-			setParams({
-				[SELECTED_FOLDER_KEY]: selectedContent.id,
-			})
+			setSelectedFolderParam(selectedContent.id)
 			handleSelectFolderAction({
 				folderId: selectedContent.id,
 			})
 		}
 
 		if (selectedContent.type === 'deck') {
-			const folderId = getParam(SELECTED_FOLDER_KEY)
-			setParams({
-				[SELECTED_FOLDER_KEY]: folderId,
-				[SELECTED_DECK_KEY]: selectedContent.id,
-			})
+			const folderId = getSelectedFolderParam()
+			setSelectedDeckParam(folderId, selectedContent.id)
 			handleSelectDeckAction({
 				parentFolderId: folderId,
 				deckId: selectedContent.id,
@@ -123,9 +123,9 @@ function ContentList() {
 				{getMessage('Sidebar.Title.UserContent')}
 			</p>
 			<div className={styles.listContainer}>
-				<SelectList onItemSelect={setSelection} initialSelectedItem={getParam(SELECTED_DECK_KEY)}>
-					{folder?.content?.map((item, i) => (
-						<SelectList.Item id={item.id} key={item.id.repeat(i)}>
+				<SelectList onItemSelect={setSelection} initialSelectedItem={getSelectedDeckParam()}>
+					{folder?.content?.map(item => (
+						<SelectList.Item id={item.id} key={item.id}>
 							{item.type === 'folder' && <SystemIconFolder />}
 							{item.type === 'deck' && <SystemIconDeck />}
 							{item.name}
@@ -137,7 +137,7 @@ function ContentList() {
 	)
 }
 
-function useSelectedFolderContent(folderId: string | null) {
+function useSelectedFolder(folderId: string | null) {
 	const router = useRouter()
 
 	const queryResult = useQuery(`folderId:${folderId}`, async () => {

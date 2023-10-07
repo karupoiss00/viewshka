@@ -1,6 +1,7 @@
 .content-area {
     position: relative;
     background: url('/images/background_blobs.svg') no-repeat center;
+    overflow: hidden;
 }
 
 .container {
@@ -41,17 +42,30 @@
     position: absolute;
     margin-inline: auto;
     bottom: 152px;
-    width: 1000px;
+    width: 65%;
     height: 90px;
     border-radius: 20px;
     background: rgba(196, 196, 196, 0.2);
-    display: flex;
-    flex-direction: row-reverse;
     padding-inline: 24px;
-    align-items: center;
     backdrop-filter: blur(7.5px);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
 }
 
-.button-start {
-    margin-inline-end: 310px;
+.buttons-container {
+    position: relative;
+    display: flex;
+    width: 100%;
+    min-width: 100%;
+    flex-direction: row-reverse;
+    align-items: center;
+    justify-content: space-between;
+    flex-shrink: 0;
+    flex-grow: 1;
+}
+
+.stub {
+    width: 60px;
 }

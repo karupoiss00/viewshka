@@ -10,10 +10,10 @@ type ItemProps = PropsWithChildren & {
 }
 
 type ListProps = PropsWithClassname & {
-  children: ReactElement<ItemProps>[];
-  initialSelectedItem?: string;
-  onItemSelect: (id: string) => void;
-  selectedItem?: string;
+	children: ReactElement<ItemProps>[];
+	initialSelectedItem?: string;
+	onItemSelect: (id: string) => void;
+	selectedItem?: string;
 };
 
 type ListContextData = {
@@ -24,7 +24,7 @@ type ListContextData = {
 const ListContext = React.createContext<ListContextData>({
 	selectedItem: '',
 	setSelectedItem: () => {
-		throw new Error('ListContext setIsShow should be used under provider')
+		throw new Error('ListContext setSelectedItem should be used under provider')
 	},
 })
 

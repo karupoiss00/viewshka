@@ -1,21 +1,20 @@
 type SelectedContentData = {
-  deckId: string | null;
-  folderId: string;
+  deckId: string | null
+  folderId: string
 };
 
 type UserContentSelection = {
-	type: 'user-content',
+	type: 'user-content'
 	content: SelectedContentData | null
 }
 
 type LibrarySelection = {
-	type: 'library',
+	type: 'library'
 }
 
 type TasksSelection = {
-	type: 'tasks',
+	type: 'tasks'
 }
-
 
 function createUserContentSelection(): UserContentSelection {
 	return {

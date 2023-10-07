@@ -30,22 +30,24 @@ function UserContent({info}: UserContentProps) {
 		<div className={styles.container}>
 			{emptyState && <EmptyContent />}
 			<BottomPanel>
-				<Button
-					type={'link'}
-					size={'large'}
-					onClick={() => console.log('share')}
-				>
-					<SystemIconShare />
-				</Button>
-				<Button
-					className={styles.buttonStart}
-					type={'secondary'}
-					size={'medium'}
-					onClick={() => console.log('start')}
-					state={emptyState ? 'disabled' : 'default'}
-				>
-					{getMessage('Button.Start.Train')}
-				</Button>
+				<div className={styles.buttonsContainer}>
+					<Button
+						type={'link'}
+						size={'large'}
+						onClick={() => console.log('share')}
+					>
+						<SystemIconShare />
+					</Button>
+					<Button
+						type={'secondary'}
+						size={'medium'}
+						onClick={() => console.log('start')}
+						state={emptyState ? 'disabled' : 'default'}
+					>
+						{getMessage('Button.Start.Train')}
+					</Button>
+					<div className={styles.stub}></div>
+				</div>
 			</BottomPanel>
 		</div>
 	)
