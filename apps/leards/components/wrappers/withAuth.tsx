@@ -1,6 +1,7 @@
+import {useLayoutEffect} from '@viewshka/core'
 import {NextComponentType} from 'next'
 import {useRouter} from 'next/router'
-import React, {useLayoutEffect} from 'react'
+import React from 'react'
 import {useMutation} from 'react-query'
 import {AuthAPI} from '../../api/AuthAPI'
 import AuthProvider from '../../providers/authProvider'
