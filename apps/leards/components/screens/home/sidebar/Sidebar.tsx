@@ -13,14 +13,11 @@ import {
 } from '@viewshka/uikit'
 import classnames from 'classnames'
 import {useRouter} from 'next/router'
-import React, {useCallback, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import {useQuery} from 'react-query'
-import {useSelectedDeckParam, useSelectedFolderParams} from '../common/hooks/useSelectionParams'
 import {setCurrentFolderAction} from '../viewmodel/currentFolderAtom'
-import {selectionAtom, selectionActions} from '../viewmodel/selectionAtom'
+import {selectionAtom, selectionActions, selectedFolderIdAtom, selectedDeckIdAtom} from '../viewmodel/selectionAtom'
 import styles from './Sidebar.module.css'
-
-const SELECTED_SECTION_KEY = 'section'
 
 function Sidebar({className}: PropsWithClassname) {
 	const [selection] = useAtom(selectionAtom)
@@ -35,34 +32,15 @@ function Sidebar({className}: PropsWithClassname) {
 
 function SectionsList() {
 	const getMessage = useMessages()
-	const [getParam, setParams] = useSearchParams()
 	const handleChangeSelection = useAction(selectionActions.selectSection)
-	const selectedSection = getParam(SELECTED_SECTION_KEY)
 	const [selection] = useAtom(selectionAtom)
-	const setSelection = useCallback((sectionType: string) => {
-		setParams({
-			[SELECTED_SECTION_KEY]: sectionType,
-		}, true)
-	}, [setParams])
-
-	useEffect(() => {
-		if (selectedSection) {
-			handleChangeSelection(selectedSection)
-		}
-	}, [handleChangeSelection, selectedSection])
-
-	useEffect(() => {
-		if (!selectedSection) {
-			setSelection(selection.type)
-		}
-	}, [selectedSection, selection.type, setSelection])
 
 	return (
 		<div className={styles.sectionsList}>
 			<p className={styles.materialsTitle}>
 				{getMessage('Sidebar.Title.Materials')}
 			</p>
-			<SelectList onItemSelect={setSelection} selectedItem={selectedSection}>
+			<SelectList onItemSelect={handleChangeSelection} selectedItem={selection.type}>
 				<SelectList.Item id={'user-content'}>
 					<SystemIconFolder />
 					{getMessage('Sidebar.SectionList.UserContent')}
@@ -82,9 +60,9 @@ function SectionsList() {
 
 function ContentList() {
 	const getMessage = useMessages()
-	const {getSelectedFolderParam, setSelectedFolderParam} = useSelectedFolderParams()
-	const {getSelectedDeckParam, setSelectedDeckParam} = useSelectedDeckParam()
-	const {data: folder} = useSelectedFolder(getSelectedFolderParam())
+	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
+	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
+	const {data: folder} = useSelectedFolder(selectedFolderId)
 	const handleSelectDeckAction = useAction(selectionActions.selectDeck)
 	const handleSelectFolderAction = useAction(selectionActions.selectFolder)
 	const handleSetSelectedFolderAction = useAction(setCurrentFolderAction)
@@ -101,17 +79,14 @@ function ContentList() {
 		}
 
 		if (selectedContent.type === 'folder') {
-			setSelectedFolderParam(selectedContent.id)
 			handleSelectFolderAction({
 				folderId: selectedContent.id,
 			})
 		}
 
 		if (selectedContent.type === 'deck') {
-			const folderId = getSelectedFolderParam()
-			setSelectedDeckParam(folderId, selectedContent.id)
 			handleSelectDeckAction({
-				parentFolderId: folderId,
+				parentFolderId: selectedFolderId,
 				deckId: selectedContent.id,
 			})
 		}
@@ -123,7 +98,7 @@ function ContentList() {
 				{getMessage('Sidebar.Title.UserContent')}
 			</p>
 			<div className={styles.listContainer}>
-				<SelectList onItemSelect={setSelection} initialSelectedItem={getSelectedDeckParam()}>
+				<SelectList onItemSelect={setSelection} selectedItem={selectedDeckId}>
 					{folder?.content?.map(item => (
 						<SelectList.Item id={item.id} key={item.id}>
 							{item.type === 'folder' && <SystemIconFolder />}

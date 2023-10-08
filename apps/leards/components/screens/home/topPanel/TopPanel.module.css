@@ -3,4 +3,14 @@
     flex-direction: row;
     height: 60px;
     background: var(--accent-color);
+    align-items: center;
+}
+
+.user-content-panel {
+    display: flex;
+    width: 100%;
+}
+
+.breadcrumbs {
+    margin-inline-start: 27%;
 }

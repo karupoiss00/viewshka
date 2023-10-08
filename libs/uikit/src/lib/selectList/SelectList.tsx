@@ -1,6 +1,6 @@
 import {PropsWithClassname} from '@viewshka/core'
 import classnames from 'classnames'
-import {PropsWithChildren, ReactElement, useContext, useState} from 'react'
+import {PropsWithChildren, ReactElement, useContext, useEffect, useState} from 'react'
 import * as React from 'react'
 import styles from './SelectList.module.css'
 
@@ -17,7 +17,7 @@ type ListProps = PropsWithClassname & {
 };
 
 type ListContextData = {
-	selectedItem: string
+	selectedItem: string | null
 	setSelectedItem: (id: string) => void;
 }
 
@@ -35,12 +35,17 @@ function SelectList({
 	onItemSelect,
 	selectedItem: forceSelectedItem,
 }: ListProps) {
-	const [selectedItem, setSelectedItem] = useState<string>(
-		initialSelectedItem || '',
+	const [selectedItem, setSelectedItem] = useState<string | null>(
+		initialSelectedItem || null,
 	)
 
+	useEffect(() => {
+		setSelectedItem(forceSelectedItem || null)
+	}, [forceSelectedItem])
+
+
 	const contextValue: ListContextData = {
-		selectedItem: forceSelectedItem || selectedItem,
+		selectedItem: selectedItem,
 		setSelectedItem: id => {
 			onItemSelect(id)
 			setSelectedItem(id)

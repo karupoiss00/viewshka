@@ -20,4 +20,5 @@ export const enMessages = {
 	'Sidebar.SectionList.Library': 'Public decks',
 	'Sidebar.SectionList.Tasks': 'Tasks',
 	'Sidebar.Title.UserContent': 'My folders and decks',
+	'TopPanel.MainFolder.Name': 'Main',
 }

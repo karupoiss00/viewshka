@@ -13,12 +13,6 @@ function useSearchParams(): [GetParamFn, SetParamFn] {
 
 	const setParams = useCallback(
 		(params: Record<string, string>, replace = false) => {
-			Object.keys(params).forEach(key => {
-				if (!params[key]) {
-					delete params[key]
-				}
-			})
-
 			router.push(
 				{
 					pathname: router.pathname,

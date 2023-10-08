@@ -20,4 +20,5 @@ export const ruMessages = {
 	'Sidebar.SectionList.Library': 'Публичные',
 	'Sidebar.SectionList.Tasks': 'Задания',
 	'Sidebar.Title.UserContent': 'Мои папки и колоды',
+	'TopPanel.MainFolder.Name': 'Главная',
 }

@@ -5,9 +5,30 @@ import {
 } from './types/ApplicationSelection'
 
 const selectionAtom = atom<ApplicationSelection>({
-	type: 'user-content',
+	type: null,
 	content: null,
 })
+
+const selectedFolderIdAtom = atom(ctx => {
+	const selection = ctx.spy(selectionAtom)
+
+	if (selection.type !== 'user-content') {
+		return null
+	}
+
+	return selection.content?.folderId
+})
+
+const selectedDeckIdAtom = atom(ctx => {
+	const selection = ctx.spy(selectionAtom)
+
+	if (selection.type !== 'user-content') {
+		return null
+	}
+
+	return selection.content?.deckId
+})
+
 
 const selectSection = action((ctx, sectionType: string) =>
 	selectionAtom(ctx, createSelection(sectionType)),
@@ -65,5 +86,8 @@ const selectionActions = {
 
 export {
 	selectionAtom,
+	selectedFolderIdAtom,
+	selectedDeckIdAtom,
+
 	selectionActions,
 }

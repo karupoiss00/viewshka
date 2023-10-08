@@ -10,7 +10,7 @@ type ItemProps = PropsWithChildren & {
 }
 
 type BreadcrumbsProps = PropsWithClassname & {
-	children: ReactElement<ItemProps>[] | ReactElement<ItemProps>;
+	children?: ReactElement<ItemProps>[] | ReactElement<ItemProps>;
 	onItemClick: (id: string) => void;
 };
 
@@ -36,12 +36,16 @@ function Breadcrumbs({
 		},
 	}
 
-	const crumbs = (Array.isArray(children) ? children : [children]).map(child => (
-		<div className={styles['item-with-arrow']}>
-			{child}
-			<SystemIconArrowRight/>
-		</div>
-	))
+	let crumbs
+
+	if (children) {
+		crumbs = (Array.isArray(children) ? children : [children]).map(child => (
+			<div className={styles['item-with-arrow']} key={child.key}>
+				{child}
+				<SystemIconArrowRight/>
+			</div>
+		))
+	}
 
 	return (
 		<BreadcrumbsContext.Provider value={contextValue}>

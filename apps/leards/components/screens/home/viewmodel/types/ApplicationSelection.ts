@@ -35,6 +35,10 @@ function createTasksSelection(): TasksSelection {
 	}
 }
 
+function createDefaultSeleсtion() {
+	return createUserContentSelection()
+}
+
 type ApplicationSelection = UserContentSelection | LibrarySelection | TasksSelection
 
 function createSelection(type: string): ApplicationSelection {
@@ -46,7 +50,8 @@ function createSelection(type: string): ApplicationSelection {
 		case 'tasks':
 			return createTasksSelection()
 		default:
-			throw new Error(`Unknown selectio;n type: ${type}`)
+			console.warn(`Unknown selection type: ${type}`)
+			return createDefaultSeleсtion()
 	}
 }
 
