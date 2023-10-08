@@ -7,6 +7,7 @@ import React, {PropsWithChildren} from 'react'
 import {selectionAtom} from '../viewmodel/selectionAtom'
 import {SelectedContentData} from '../viewmodel/types/ApplicationSelection'
 import styles from './ContentArea.module.css'
+import {DeckEditor} from './deck/DeckEditor'
 
 function ContentArea({className}: PropsWithClassname) {
 	const [selection] = useAtom(selectionAtom)
@@ -29,6 +30,7 @@ function UserContent({info}: UserContentProps) {
 	return (
 		<div className={styles.container}>
 			{emptyState && <EmptyContent />}
+			{!emptyState && <DeckEditor />}
 			<BottomPanel>
 				<div className={styles.buttonsContainer}>
 					<Button
