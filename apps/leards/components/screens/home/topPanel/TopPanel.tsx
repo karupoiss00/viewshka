@@ -4,6 +4,7 @@ import {PropsWithClassname} from '@viewshka/core'
 import {Breadcrumbs} from '@viewshka/uikit'
 import classnames from 'classnames'
 import React, {PropsWithChildren} from 'react'
+import {useSelectedFolderParam} from '../common/hooks/useLoadSelectionParams'
 import {currentFolderAtom} from '../viewmodel/currentFolderAtom'
 import {selectionActions, selectionAtom} from '../viewmodel/selectionAtom'
 import styles from './TopPanel.module.css'
@@ -20,12 +21,14 @@ function TopPanel({className}: PropsWithClassname) {
 function UserContentPanel() {
 	const getMessages = useMessages()
 	const [currentFolder] = useAtom(currentFolderAtom)
+	const {setSelectedFolderParam} = useSelectedFolderParam()
 	const handleSelectFolderAction = useAction(selectionActions.selectFolder)
 
 	const selectFolder = (id: string) => {
 		handleSelectFolderAction({
 			folderId: id,
 		})
+		setSelectedFolderParam(id)
 	}
 
 	return (

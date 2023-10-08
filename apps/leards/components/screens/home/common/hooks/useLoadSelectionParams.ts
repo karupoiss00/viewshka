@@ -1,22 +1,21 @@
 import {useSearchParams} from '@leards/hooks/useSearchParams'
-import {useAction, useAtom} from '@reatom/npm-react'
+import {useAction} from '@reatom/npm-react'
 import {useCallback, useEffect} from 'react'
-import {selectedDeckIdAtom, selectedFolderIdAtom, selectionActions, selectionAtom} from '../../viewmodel/selectionAtom'
+import {selectionActions} from '../../viewmodel/selectionAtom'
 
 const SELECTED_DECK_KEY = 'selectedDeck'
 const SELECTED_FOLDER_KEY = 'selectedFolder'
 const SELECTED_SECTION_KEY = 'section'
 
-function useSelectionParams() {
+function useLoadSelectionParams() {
 	useSectionParam()
 	useFolderParam()
 	useDeckParam()
 }
 
 function useSectionParam() {
-	const [selection] = useAtom(selectionAtom)
 	const handleSelectSection = useAction(selectionActions.selectSection)
-	const {getSelectedSectionParam, setSelectedSectionParam} = useSelectedSectionParam()
+	const {getSelectedSectionParam} = useSelectedSectionParam()
 	const selectedSectionParam = getSelectedSectionParam()
 
 	const loadSectionParam = () => {
@@ -28,21 +27,12 @@ function useSectionParam() {
 		}
 	}
 
-	const updateSectionParam = () => {
-		if (selection.type && selection.type !== selectedSectionParam) {
-			setSelectedSectionParam(selection.type)
-		}
-	}
-
 	useEffect(loadSectionParam, [handleSelectSection, selectedSectionParam])
-	useEffect(updateSectionParam, [selectedSectionParam, selection.type, setSelectedSectionParam])
 }
 
 function useFolderParam() {
-	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
-	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
 	const handleSelectFolderAction = useAction(selectionActions.selectFolder)
-	const {getSelectedFolderParam, setSelectedFolderParam} = useSelectedFolderParam()
+	const {getSelectedFolderParam} = useSelectedFolderParam()
 	const {getSelectedDeckParam} = useSelectedDeckParam()
 	const selectedDeckIdParam = getSelectedDeckParam()
 	const selectedFolderIdParam = getSelectedFolderParam()
@@ -55,26 +45,13 @@ function useFolderParam() {
 		}
 	}
 
-	const updateFolderParam = () => {
-		if (!selectedFolderId) {
-			return
-		}
-
-		if (selectedFolderId !== selectedFolderIdParam || selectedDeckId !== selectedDeckIdParam) {
-			setSelectedFolderParam(selectedFolderId)
-		}
-	}
-
 	useEffect(loadFolderParam, [handleSelectFolderAction, selectedDeckIdParam, selectedFolderIdParam])
-	useEffect(updateFolderParam, [selectedDeckId, selectedDeckIdParam, selectedFolderId, selectedFolderIdParam, setSelectedFolderParam])
 }
 
 function useDeckParam() {
-	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
-	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
 	const handleSelectDeckAction = useAction(selectionActions.selectDeck)
 	const {getSelectedFolderParam} = useSelectedFolderParam()
-	const {getSelectedDeckParam, setSelectedDeckParam} = useSelectedDeckParam()
+	const {getSelectedDeckParam} = useSelectedDeckParam()
 	const selectedFolderIdParam = getSelectedFolderParam()
 	const selectedDeckIdParam = getSelectedDeckParam()
 
@@ -87,15 +64,7 @@ function useDeckParam() {
 			})
 		}
 	}
-
-	const updateDeckParam = () => {
-		if (selectedFolderId && selectedDeckId && selectedDeckId !== selectedDeckIdParam) {
-			setSelectedDeckParam(selectedFolderId, selectedDeckId)
-		}
-	}
-
 	useEffect(loadDeckParam, [handleSelectDeckAction, selectedDeckIdParam, selectedFolderIdParam])
-	useEffect(updateDeckParam, [selectedDeckId, selectedDeckIdParam, selectedFolderId, setSelectedDeckParam])
 }
 
 function useSelectedSectionParam() {
@@ -153,5 +122,8 @@ function useSelectedDeckParam() {
 
 
 export {
-	useSelectionParams,
+	useLoadSelectionParams,
+	useSelectedFolderParam,
+	useSelectedDeckParam,
+	useSelectedSectionParam,
 }

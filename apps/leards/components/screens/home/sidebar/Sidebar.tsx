@@ -15,6 +15,11 @@ import classnames from 'classnames'
 import {useRouter} from 'next/router'
 import React, {useEffect} from 'react'
 import {useQuery} from 'react-query'
+import {
+	useSelectedDeckParam,
+	useSelectedFolderParam,
+	useSelectedSectionParam,
+} from '../common/hooks/useLoadSelectionParams'
 import {setCurrentFolderAction} from '../viewmodel/currentFolderAtom'
 import {selectionAtom, selectionActions, selectedFolderIdAtom, selectedDeckIdAtom} from '../viewmodel/selectionAtom'
 import styles from './Sidebar.module.css'
@@ -32,15 +37,21 @@ function Sidebar({className}: PropsWithClassname) {
 
 function SectionsList() {
 	const getMessage = useMessages()
+	const {setSelectedSectionParam} = useSelectedSectionParam()
 	const handleChangeSelection = useAction(selectionActions.selectSection)
 	const [selection] = useAtom(selectionAtom)
+
+	const selectSection = (id: string) => {
+		setSelectedSectionParam(id)
+		handleChangeSelection(id)
+	}
 
 	return (
 		<div className={styles.sectionsList}>
 			<p className={styles.materialsTitle}>
 				{getMessage('Sidebar.Title.Materials')}
 			</p>
-			<SelectList onItemSelect={handleChangeSelection} selectedItem={selection.type}>
+			<SelectList onItemSelect={selectSection} selectedItem={selection.type}>
 				<SelectList.Item id={'user-content'}>
 					<SystemIconFolder />
 					{getMessage('Sidebar.SectionList.UserContent')}
@@ -62,6 +73,8 @@ function ContentList() {
 	const getMessage = useMessages()
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
 	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
+	const {setSelectedDeckParam} = useSelectedDeckParam()
+	const {setSelectedFolderParam} = useSelectedFolderParam()
 	const {data: folder} = useSelectedFolder(selectedFolderId)
 	const handleSelectDeckAction = useAction(selectionActions.selectDeck)
 	const handleSelectFolderAction = useAction(selectionActions.selectFolder)
@@ -79,12 +92,14 @@ function ContentList() {
 		}
 
 		if (selectedContent.type === 'folder') {
+			setSelectedFolderParam(selectedContent.id)
 			handleSelectFolderAction({
 				folderId: selectedContent.id,
 			})
 		}
 
 		if (selectedContent.type === 'deck') {
+			setSelectedDeckParam(selectedFolderId, selectedContent.id)
 			handleSelectDeckAction({
 				parentFolderId: selectedFolderId,
 				deckId: selectedContent.id,

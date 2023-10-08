@@ -13,7 +13,7 @@ type ListProps = PropsWithClassname & {
 	children: ReactElement<ItemProps>[];
 	initialSelectedItem?: string;
 	onItemSelect: (id: string) => void;
-	selectedItem?: string;
+	selectedItem?: string | null;
 };
 
 type ListContextData = {
@@ -40,8 +40,11 @@ function SelectList({
 	)
 
 	useEffect(() => {
-		setSelectedItem(forceSelectedItem || null)
-	}, [forceSelectedItem])
+		if (forceSelectedItem === undefined) {
+			return
+		}
+		setSelectedItem(forceSelectedItem)
+	}, [forceSelectedItem, selectedItem])
 
 
 	const contextValue: ListContextData = {
