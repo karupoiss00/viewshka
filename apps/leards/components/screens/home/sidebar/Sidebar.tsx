@@ -1,5 +1,4 @@
 import {FoldersAPI} from '@leards/api/FoldersAPI'
-import {useSearchParams} from '@leards/hooks/useSearchParams'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import AuthProvider from '@leards/providers/authProvider'
 import {useAction, useAtom} from '@reatom/npm-react'
@@ -20,7 +19,7 @@ import {
 	useSelectedFolderParam,
 	useSelectedSectionParam,
 } from '../common/hooks/useLoadSelectionParams'
-import {setCurrentFolderAction} from '../viewmodel/currentFolderAtom'
+import {currentFolderAtom, setCurrentFolderAction} from '../viewmodel/currentFolderAtom'
 import {selectionAtom, selectionActions, selectedFolderIdAtom, selectedDeckIdAtom} from '../viewmodel/selectionAtom'
 import styles from './Sidebar.module.css'
 
@@ -73,16 +72,13 @@ function ContentList() {
 	const getMessage = useMessages()
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
 	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
+	const [folder] = useAtom(currentFolderAtom)
 	const {setSelectedDeckParam} = useSelectedDeckParam()
 	const {setSelectedFolderParam} = useSelectedFolderParam()
-	const {data: folder} = useSelectedFolder(selectedFolderId)
 	const handleSelectDeckAction = useAction(selectionActions.selectDeck)
 	const handleSelectFolderAction = useAction(selectionActions.selectFolder)
-	const handleSetSelectedFolderAction = useAction(setCurrentFolderAction)
 
-	useEffect(() => {
-		handleSetSelectedFolderAction({folder})
-	}, [folder, handleSetSelectedFolderAction])
+	useSelectedFolderQuery(selectedFolderId)
 
 	const setSelection = (id: string) => {
 		const selectedContent = folder.content.find(el => el.id === id)
@@ -127,10 +123,11 @@ function ContentList() {
 	)
 }
 
-function useSelectedFolder(folderId: string | null) {
+function useSelectedFolderQuery(folderId: string | null) {
 	const router = useRouter()
+	const handleSetCurrentFolderAction = useAction(setCurrentFolderAction)
 
-	const queryResult = useQuery(`folderId:${folderId}`, async () => {
+	const {isError, isSuccess, data} = useQuery(`folderId:${folderId}`, async () => {
 		const userId = AuthProvider.getUserId()
 
 		if (!folderId) {
@@ -145,12 +142,16 @@ function useSelectedFolder(folderId: string | null) {
 	})
 
 	useEffect(() => {
-		if (queryResult.isError) {
+		if (isError) {
 			router.replace('/home')
 		}
-	}, [queryResult.isError, router])
 
-	return queryResult
+		if (isSuccess) {
+			handleSetCurrentFolderAction({
+				folder: data,
+			})
+		}
+	}, [data, handleSetCurrentFolderAction, isError, isSuccess, router])
 }
 
 export default Sidebar
