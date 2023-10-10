@@ -4,8 +4,8 @@ import {PropsWithClassname} from '@viewshka/core'
 import {Button, SystemIconDeck, SystemIconFolder, SystemIconShare} from '@viewshka/uikit'
 import classnames from 'classnames'
 import React, {PropsWithChildren} from 'react'
+import {SelectedContentData} from '../viewmodel/selection/Selection'
 import {selectionAtom} from '../viewmodel/selectionAtom'
-import {SelectedContentData} from '../viewmodel/types/ApplicationSelection'
 import styles from './ContentArea.module.css'
 import {DeckEditor} from './deck/DeckEditor'
 
@@ -32,24 +32,14 @@ function UserContent({info}: UserContentProps) {
 			{emptyState && <EmptyContent />}
 			{!emptyState && <DeckEditor />}
 			<BottomPanel>
-				<div className={styles.buttonsContainer}>
-					<Button
-						type={'link'}
-						size={'large'}
-						onClick={() => console.log('share')}
-					>
-						<SystemIconShare />
-					</Button>
-					<Button
-						type={'secondary'}
-						size={'medium'}
-						onClick={() => console.log('start')}
-						state={emptyState ? 'disabled' : 'default'}
-					>
-						{getMessage('Button.Start.Train')}
-					</Button>
-					<div className={styles.stub}></div>
-				</div>
+				<Button
+					type={'secondary'}
+					size={'medium'}
+					onClick={() => console.log('start')}
+					state={emptyState ? 'disabled' : 'default'}
+				>
+					{getMessage('Button.Start.Train')}
+				</Button>
 			</BottomPanel>
 		</div>
 	)

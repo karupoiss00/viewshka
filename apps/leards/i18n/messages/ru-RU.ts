@@ -21,4 +21,6 @@ export const ruMessages = {
 	'Sidebar.SectionList.Tasks': 'Задания',
 	'Sidebar.Title.UserContent': 'Мои папки и колоды',
 	'TopPanel.MainFolder.Name': 'Мои колоды и папки',
+	'ContentArea.CardCreator.WordPlaceholder': 'Добавь слово',
+	'ContentArea.CardCreator.TranslationPlaceholder': 'и его перевод',
 }

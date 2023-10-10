@@ -39,9 +39,9 @@ function createDefaultSeleсtion() {
 	return createUserContentSelection()
 }
 
-type ApplicationSelection = UserContentSelection | LibrarySelection | TasksSelection
+type Selection = UserContentSelection | LibrarySelection | TasksSelection
 
-function createSelection(type: string): ApplicationSelection {
+function createSelection(type: string): Selection {
 	switch (type) {
 		case 'user-content':
 			return createUserContentSelection()
@@ -56,7 +56,7 @@ function createSelection(type: string): ApplicationSelection {
 }
 
 export type {
-	ApplicationSelection,
+	Selection,
 	SelectedContentData,
 }
 

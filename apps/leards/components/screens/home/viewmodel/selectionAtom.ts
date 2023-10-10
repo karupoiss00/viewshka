@@ -1,10 +1,10 @@
 import {action, atom} from '@reatom/core'
 import {
-	ApplicationSelection,
+	Selection,
 	createSelection,
-} from './types/ApplicationSelection'
+} from './selection/Selection'
 
-const selectionAtom = atom<ApplicationSelection>({
+const selectionAtom = atom<Selection>({
 	type: null,
 	content: null,
 })
@@ -82,7 +82,7 @@ const selectionActions = {
 	selectSection,
 	selectDeck,
 	selectFolder,
-}
+} as const
 
 export {
 	selectionAtom,

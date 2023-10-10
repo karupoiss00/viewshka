@@ -21,4 +21,6 @@ export const enMessages = {
 	'Sidebar.SectionList.Tasks': 'Tasks',
 	'Sidebar.Title.UserContent': 'My folders and decks',
 	'TopPanel.MainFolder.Name': 'My decks',
+	'ContentArea.CardCreator.WordPlaceholder': 'Add word',
+	'ContentArea.CardCreator.TranslationPlaceholder': 'and translate it',
 }

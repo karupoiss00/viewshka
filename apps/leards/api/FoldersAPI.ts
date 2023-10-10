@@ -30,7 +30,7 @@ type MockFolderApi = {
 
 export const FoldersAPI = mockAPI<MockFolderApi, FoldersApi>(wrappedApi, {
 	rootFolderGet: async (userId: string) => {
-		const response = await FoldersAPI.get().foldersIdGet('e334290c-c7c6-406e-acaf-7badeaaac384')
+		const response = await FoldersAPI.get().foldersIdGet('f5b3ad07-b5f6-4325-a3c1-8eccc6bd27c0')
 		return response.data
 	},
 })
