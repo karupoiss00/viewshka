@@ -5,6 +5,7 @@ const currentFolderAtom = atom<HttputilsFolder>({
 	folderId: '',
 	name: '',
 	path: [],
+	content: [],
 })
 
 type SetCurrentFolderActionPayload = {

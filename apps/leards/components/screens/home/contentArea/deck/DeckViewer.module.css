@@ -14,7 +14,6 @@
     align-items: center;
 }
 
-.card,
 .card-creator {
     display: flex;
     width: 80%;
@@ -24,10 +23,6 @@
     outline: 2px solid var(--stroke-color);
     padding-block: 13px;
     padding-inline-start: 45px;
-}
-
-.card {
-    border-radius: 0;
 }
 
 .card-creator {

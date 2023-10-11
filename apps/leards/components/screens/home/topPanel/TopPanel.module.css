@@ -14,3 +14,12 @@
 .breadcrumbs {
     margin-inline-start: 27%;
 }
+
+.library-panel {
+    width: 100%;
+}
+
+.search-field {
+    margin-inline-start: 38%;
+    width: 26%;
+}

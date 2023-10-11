@@ -8,9 +8,13 @@ import React, {useEffect, useRef, useState} from 'react'
 import {useMutation, useQuery} from 'react-query'
 import {currentDeckActions, currentDeckAtom} from '../../viewmodel/currentDeckAtom'
 import {selectedDeckIdAtom} from '../../viewmodel/selectionAtom'
-import styles from './DeckEditor.module.css'
+import {CardList} from './CardList'
+import styles from './DeckViewer.module.css'
 
-function DeckEditor() {
+interface DeckViewerProps {
+	readonly: boolean
+}
+function DeckViewer({readonly}: DeckViewerProps) {
 	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
 	const [deck] = useAtom(currentDeckAtom)
 	const debouncedDeck = useDebounce(deck, 1000)
@@ -27,63 +31,13 @@ function DeckEditor() {
 	return (
 		<div className={styles.content}>
 			<div className={styles.list}>
-				<CardCreator/>
-				{deck?.content.map(card => (
-					<Card card={card} key={card.cardId}/>
-				))}
+				{!readonly && <CardCreator />}
+				{deck && <CardList deck={deck} readonly={readonly} />}
 			</div>
 		</div>
 	)
 }
 
-type CardProps = {
-	card: HttputilsCard
-}
-function Card({card}: CardProps) {
-	const {cardId, frontSide, backSide} = card
-	const [frontSideText, setFrontSideText] = useState(frontSide)
-	const [backSideText, setBackSideText] = useState(backSide)
-	const handleEditCardFrontSideAction = useAction(currentDeckActions.editCardFrontSide)
-	const handleEditCardBackSideAction = useAction(currentDeckActions.editCardBackSide)
-	const handleRemoveCardAction = useAction(currentDeckActions.removeCard)
-
-	const onFrontEditorKeyDown: React.KeyboardEventHandler<HTMLDivElement> = e => {
-		const removeCombinationPressed = e.key === 'Backspace' && e.ctrlKey
-		if (removeCombinationPressed && !frontSideText.length) {
-			handleRemoveCardAction({
-				cardId,
-			})
-		}
-	}
-
-	return (
-		<div className={styles.card}>
-			<input
-				className={styles.sideValueEditor}
-				value={frontSideText}
-				onKeyDown={onFrontEditorKeyDown}
-				onChange={e => {
-					handleEditCardFrontSideAction({
-						cardId,
-						frontSide: e.target.value,
-					})
-					setFrontSideText(e.target.value)
-				}}
-			/>
-			<div className={styles.divider}></div>
-			<input
-				className={styles.sideValueEditor}
-				value={backSideText}
-				onChange={e => {
-					handleEditCardBackSideAction({
-						cardId,
-						backSide: e.target.value,
-					})
-					setBackSideText(e.target.value)
-				}}/>
-		</div>
-	)
-}
 
 function CardCreator() {
 	const getMessage = useMessages()
@@ -129,7 +83,6 @@ function CardCreator() {
 	)
 }
 
-
 function useSelectedDeckQuery(deckId: string | null) {
 	const router = useRouter()
 	const handleSetCurrentDeckAction = useAction(currentDeckActions.set)
@@ -166,5 +119,5 @@ function useUpdateDeckMutation(deck: HttputilsDeck) {
 }
 
 export {
-	DeckEditor,
+	DeckViewer,
 }

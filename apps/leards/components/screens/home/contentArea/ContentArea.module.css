@@ -54,7 +54,10 @@
     align-items: center;
 }
 
-
-.stub {
-    width: 60px;
+.add-material-bottom-panel {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 22px;
 }

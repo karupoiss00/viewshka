@@ -10,6 +10,7 @@ type UserContentSelection = {
 
 type LibrarySelection = {
 	type: 'library'
+	content: SelectedContentData | null
 }
 
 type TasksSelection = {
@@ -26,6 +27,7 @@ function createUserContentSelection(): UserContentSelection {
 function createLibrarySelection(): LibrarySelection {
 	return {
 		type: 'library',
+		content: null,
 	}
 }
 
@@ -35,7 +37,7 @@ function createTasksSelection(): TasksSelection {
 	}
 }
 
-function createDefaultSeleсtion() {
+function createDefaultSelection() {
 	return createUserContentSelection()
 }
 
@@ -51,7 +53,7 @@ function createSelection(type: string): Selection {
 			return createTasksSelection()
 		default:
 			console.warn(`Unknown selection type: ${type}`)
-			return createDefaultSeleсtion()
+			return createDefaultSelection()
 	}
 }
 

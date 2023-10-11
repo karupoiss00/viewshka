@@ -1,7 +1,7 @@
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
 import {PropsWithClassname} from '@viewshka/core'
-import {Breadcrumbs} from '@viewshka/uikit'
+import {Breadcrumbs, TextField} from '@viewshka/uikit'
 import classnames from 'classnames'
 import React, {PropsWithChildren} from 'react'
 import {useSelectedFolderParam} from '../common/hooks/useLoadSelectionParams'
@@ -14,6 +14,7 @@ function TopPanel({className}: PropsWithClassname) {
 	return (
 		<Panel className={className}>
 			{selection.type === 'user-content' && <UserContentPanel/>}
+			{selection.type === 'library' && <LibraryPanel/>}
 		</Panel>
 	)
 }
@@ -40,6 +41,20 @@ function UserContentPanel() {
 					</Breadcrumbs.Item>
 				))}
 			</Breadcrumbs>
+		</div>
+	)
+}
+
+function LibraryPanel() {
+	const getMessage = useMessages()
+	return (
+		<div className={styles.libraryPanel}>
+			<TextField
+				className={styles.searchField}
+				onChange={console.log}
+				size={'small'}
+				placeholder={getMessage('TopPanel.Search.Placeholder')}
+			/>
 		</div>
 	)
 }

@@ -1,4 +1,5 @@
 import {FoldersAPI} from '@leards/api/FoldersAPI'
+import {HttputilsFolder} from '@leards/api/generated'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import AuthProvider from '@leards/providers/authProvider'
 import {useAction, useAtom} from '@reatom/npm-react'
@@ -20,16 +21,15 @@ import {
 	useSelectedSectionParam,
 } from '../common/hooks/useLoadSelectionParams'
 import {currentFolderAtom, setCurrentFolderAction} from '../viewmodel/currentFolderAtom'
+import {Selection} from '../viewmodel/selection/Selection'
 import {selectionAtom, selectionActions, selectedFolderIdAtom, selectedDeckIdAtom} from '../viewmodel/selectionAtom'
 import styles from './Sidebar.module.css'
 
 function Sidebar({className}: PropsWithClassname) {
-	const [selection] = useAtom(selectionAtom)
-
 	return (
 		<div className={classnames(styles.sidebar, className)}>
 			<SectionsList />
-			{selection.type === 'user-content' && <ContentList />}
+			<ContentNavigation />
 		</div>
 	)
 }
@@ -68,8 +68,15 @@ function SectionsList() {
 	)
 }
 
-function ContentList() {
+const TITLE_MESSAGE_MAP: Map<Selection['type'], string> = new Map([
+	['user-content', 'Sidebar.Title.UserContent'],
+	['library', 'Sidebar.Title.Library'],
+	['tasks', 'Sidebar.Title.Tasks'],
+])
+
+function ContentNavigation() {
 	const getMessage = useMessages()
+	const [{type: selectionType}] = useAtom(selectionAtom)
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
 	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
 	const [folder] = useAtom(currentFolderAtom)
@@ -106,20 +113,33 @@ function ContentList() {
 	return (
 		<>
 			<p className={styles.userContentTitle}>
-				{getMessage('Sidebar.Title.UserContent')}
+				{selectionType && getMessage(TITLE_MESSAGE_MAP.get(selectionType))}
 			</p>
 			<div className={styles.listContainer}>
-				<SelectList onItemSelect={setSelection} selectedItem={selectedDeckId}>
-					{folder?.content?.map(item => (
-						<SelectList.Item id={item.id} key={item.id}>
-							{item.type === 'folder' && <SystemIconFolder />}
-							{item.type === 'deck' && <SystemIconDeck />}
-							{item.name}
-						</SelectList.Item>
-					))}
-				</SelectList>
+				{folder && <ContentList onItemSelect={setSelection} selectedItem={selectedDeckId} folder={folder}/>}
 			</div>
 		</>
+	)
+}
+
+interface ContentListProps {
+	onItemSelect: (id: string) => void
+	selectedItem: string
+	folder: HttputilsFolder
+}
+function ContentList({onItemSelect, selectedItem, folder}: ContentListProps) {
+	return (
+		<div className={styles.listContainer}>
+			<SelectList onItemSelect={onItemSelect} selectedItem={selectedItem}>
+				{folder.content?.map(item => (
+					<SelectList.Item id={item.id} key={item.id}>
+						{item.type === 'folder' && <SystemIconFolder />}
+						{item.type === 'deck' && <SystemIconDeck />}
+						{item.name}
+					</SelectList.Item>
+				))}
+			</SelectList>
+		</div>
 	)
 }
 

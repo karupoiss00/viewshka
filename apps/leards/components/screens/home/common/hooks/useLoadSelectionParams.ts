@@ -89,10 +89,10 @@ function useSelectedFolderParam() {
 
 	const setSelectedFolderParam = useCallback((id: string) => {
 		setParams({
-			[SELECTED_SECTION_KEY]: 'user-content',
+			[SELECTED_SECTION_KEY]: getParam(SELECTED_SECTION_KEY),
 			[SELECTED_FOLDER_KEY]: id,
 		}, true)
-	}, [setParams])
+	}, [getParam, setParams])
 
 	const getSelectedFolderParam = useCallback(() => getParam(SELECTED_FOLDER_KEY), [getParam])
 
