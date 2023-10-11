@@ -1,7 +1,7 @@
 import {HttputilsCard, HttputilsDeck} from '@leards/api/generated'
 import {useAction} from '@reatom/npm-react'
 import React, {useState} from 'react'
-import {currentDeckActions} from '../../viewmodel/currentDeckAtom'
+import {currentDeckActions} from '../../../viewmodel/currentDeckAtom'
 import styles from './Card.module.css'
 
 interface CardListProps {
