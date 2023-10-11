@@ -1,5 +1,5 @@
 import {DecksAPI} from '@leards/api/DecksAPI'
-import {HttputilsCard, HttputilsDeck} from '@leards/api/generated'
+import {Card, Deck} from '@leards/api/generated'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
 import {useDebounce, useDidUpdateEffect} from '@viewshka/core'
@@ -111,7 +111,7 @@ function useSelectedDeckQuery(deckId: string | null) {
 	}, [data, handleSetCurrentDeckAction, isError, isSuccess, router])
 }
 
-function useUpdateDeckMutation(deck: HttputilsDeck) {
+function useUpdateDeckMutation(deck: Deck) {
 	return useMutation('updateDeck', async () => {
 		const response = await DecksAPI.get().decksIdPut(deck.deckId, deck)
 		return response.data

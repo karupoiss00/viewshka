@@ -47,8 +47,8 @@ function LoginForm({onRegister}: LoginFormProps) {
 	useEnterHandler(tryAuthorize)
 	useEffect(() => {
 		if (status === 'success') {
-			AuthProvider.setAuthToken(data.token)
-			AuthProvider.setUserId(data.userId)
+			AuthProvider.setAuthToken(data.user.authToken)
+			AuthProvider.setUserId(data.user.userId)
 			router.replace('/home')
 		}
 		if (status === 'error') {

@@ -1,4 +1,4 @@
-import {HttputilsDeck} from '@leards/api/generated'
+import {Deck as DeckData} from '@leards/api/generated'
 import {generateUniqueId} from '@viewshka/core'
 
 
@@ -6,7 +6,7 @@ interface AddCardPayload {
 	frontSide: string
 	backSide: string
 }
-function addCard(deck: HttputilsDeck, {frontSide, backSide}: AddCardPayload): HttputilsDeck {
+function addCard(deck: DeckData, {frontSide, backSide}: AddCardPayload): DeckData {
 	deck.content.push({
 		cardId: generateUniqueId(),
 		frontSide,
@@ -19,7 +19,7 @@ function addCard(deck: HttputilsDeck, {frontSide, backSide}: AddCardPayload): Ht
 interface RemoveCardPayload {
 	cardId: string
 }
-function removeCard(deck: HttputilsDeck, {cardId}: RemoveCardPayload): HttputilsDeck {
+function removeCard(deck: DeckData, {cardId}: RemoveCardPayload): DeckData {
 	deck.content = deck.content.filter(card => card.cardId !== cardId)
 
 	return deck
@@ -29,7 +29,7 @@ interface EditCardFrontSidePayload {
 	cardId: string
 	frontSide: string
 }
-function editCardFrontSide(deck: HttputilsDeck, {cardId, frontSide}: EditCardFrontSidePayload): HttputilsDeck {
+function editCardFrontSide(deck: DeckData, {cardId, frontSide}: EditCardFrontSidePayload): DeckData {
 	const card = deck.content.find(card => card.cardId === cardId)
 
 	if (!card) {
@@ -46,7 +46,7 @@ interface EditCardBackSidePayload {
 	cardId: string
 	backSide: string
 }
-function editCardBackSide(deck: HttputilsDeck, {cardId, backSide}: EditCardBackSidePayload): HttputilsDeck {
+function editCardBackSide(deck: DeckData, {cardId, backSide}: EditCardBackSidePayload): DeckData {
 	const card = deck.content.find(card => card.cardId === cardId)
 
 	if (!card) {

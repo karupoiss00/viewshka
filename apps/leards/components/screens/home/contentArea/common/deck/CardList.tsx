@@ -1,11 +1,11 @@
-import {HttputilsCard, HttputilsDeck} from '@leards/api/generated'
+import {Card as CardData, Deck as DeckData} from '@leards/api/generated'
 import {useAction} from '@reatom/npm-react'
 import React, {useState} from 'react'
 import {currentDeckActions} from '../../../viewmodel/currentDeckAtom'
 import styles from './Card.module.css'
 
 interface CardListProps {
-	deck: HttputilsDeck
+	deck: DeckData
 	readonly: boolean
 }
 function CardList({deck, readonly}: CardListProps) {
@@ -19,7 +19,7 @@ function CardList({deck, readonly}: CardListProps) {
 }
 
 type CardProps = {
-	card: HttputilsCard
+	card: CardData
 	readonly: boolean
 }
 function Card({card, readonly}: CardProps) {

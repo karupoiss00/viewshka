@@ -1,14 +1,14 @@
-import {HttputilsDeck} from '@leards/api/generated'
+import {Deck as DeckData} from '@leards/api/generated'
 import {action, atom} from '@reatom/core'
 import {Deck} from './deck/Deck'
 
-const currentDeckAtom = atom<HttputilsDeck | null>({
+const currentDeckAtom = atom<DeckData | null>({
 	deckId: '',
 	name: '',
 	content: [],
 })
 
-function declareDeckAction<T>(reducer: (deck: HttputilsDeck, payload: T) => HttputilsDeck) {
+function declareDeckAction<T>(reducer: (deck: DeckData, payload: T) => DeckData) {
 	return action((ctx, payload: T) => {
 		const deck = ctx.get(currentDeckAtom)
 		const resultDeck = structuredClone(
@@ -22,7 +22,7 @@ function declareDeckAction<T>(reducer: (deck: HttputilsDeck, payload: T) => Http
 }
 
 type SetCurrentDeckActionPayload = {
-	deck: HttputilsDeck | null
+	deck: DeckData | null
 }
 const set = action((ctx, {deck}: SetCurrentDeckActionPayload) => {
 	if (deck) {

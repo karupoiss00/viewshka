@@ -1,9 +1,9 @@
 import {mockAPI} from '@leards/api/common/mockApi'
-import {wrapApi, WrappedAPI} from '@leards/api/common/wrapApi'
+import {wrapApi} from '@leards/api/common/wrapApi'
 import {
 	Configuration,
 	FoldersApi,
-	HttputilsFolderResponse,
+	FolderResponse,
 } from '@leards/api/generated'
 import AuthProvider from '@leards/providers/authProvider'
 
@@ -25,7 +25,7 @@ const wrappedApi = wrapApi<FoldersApi>(() => {
 })
 
 type MockFolderApi = {
-	rootFolderGet: (userId: string) => Promise<HttputilsFolderResponse>;
+	rootFolderGet: (userId: string) => Promise<FolderResponse>;
 };
 
 export const FoldersAPI = mockAPI<MockFolderApi, FoldersApi>(wrappedApi, {

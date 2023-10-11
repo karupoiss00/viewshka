@@ -40,25 +40,25 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/httputils.UserResponse"
+                            "$ref": "#/definitions/UserResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     }
                 }
@@ -82,7 +82,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/httputils.CreateUserRequest"
+                            "$ref": "#/definitions/CreateUserRequest"
                         }
                     }
                 ],
@@ -90,25 +90,25 @@
                     "201": {
                         "description": "Created",
                         "schema": {
-                            "$ref": "#/definitions/httputils.UserResponse"
+                            "$ref": "#/definitions/UserResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     }
                 }
@@ -145,31 +145,31 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/httputils.TokenResponse"
+                            "$ref": "#/definitions/TokenResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     },
                     "403": {
                         "description": "Forbidden",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     },
                     "404": {
                         "description": "Not Found",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     }
                 }
@@ -204,19 +204,19 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/httputils.BasicResponse"
+                            "$ref": "#/definitions/BasicResponse"
                         }
                     },
                     "401": {
                         "description": "Unauthorized",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     }
                 }
@@ -247,7 +247,7 @@
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/httputils.CreateDeckRequest"
+                            "$ref": "#/definitions/CreateDeckRequest"
                         }
                     }
                 ],
@@ -255,19 +255,19 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/httputils.DeckResponse"
+                            "$ref": "#/definitions/DeckResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     }
                 }
@@ -290,7 +290,7 @@
                 "tags": [
                     "decks"
                 ],
-                "summary": "Get single deck by id",
+                "summary": "Get a single deck by id",
                 "parameters": [
                     {
                         "type": "string",
@@ -304,19 +304,19 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/httputils.DeckResponse"
+                            "$ref": "#/definitions/DeckResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     }
                 }
@@ -340,39 +340,39 @@
                 "summary": "Updates the deck",
                 "parameters": [
                     {
-                        "description": "Update deck data",
-                        "name": "updateDeckData",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/httputils.UpdateDeckRequest"
-                        }
-                    },
-                    {
                         "type": "string",
                         "description": "Deck ID",
                         "name": "id",
                         "in": "path",
                         "required": true
+                    },
+                    {
+                        "description": "Update deck data",
+                        "name": "updateDeckData",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateDeckRequest"
+                        }
                     }
                 ],
                 "responses": {
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/httputils.BasicResponse"
+                            "$ref": "#/definitions/BasicResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     }
                 }
@@ -409,19 +409,19 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/httputils.FolderResponse"
+                            "$ref": "#/definitions/FolderResponse"
                         }
                     },
                     "400": {
                         "description": "Bad Request",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     },
                     "500": {
                         "description": "Internal Server Error",
                         "schema": {
-                            "$ref": "#/definitions/httputils.HTTPError"
+                            "$ref": "#/definitions/HTTPError"
                         }
                     }
                 }
@@ -429,7 +429,7 @@
         }
     },
     "definitions": {
-        "httputils.BasicResponse": {
+        "BasicResponse": {
             "type": "object",
             "properties": {
                 "message": {
@@ -438,7 +438,7 @@
                 }
             }
         },
-        "httputils.Card": {
+        "Card": {
             "type": "object",
             "properties": {
                 "backSide": {
@@ -452,7 +452,7 @@
                 }
             }
         },
-        "httputils.Content": {
+        "Content": {
             "type": "object",
             "properties": {
                 "id": {
@@ -466,7 +466,7 @@
                 }
             }
         },
-        "httputils.CreateDeckRequest": {
+        "CreateDeckRequest": {
             "type": "object",
             "required": [
                 "name",
@@ -483,7 +483,7 @@
                 }
             }
         },
-        "httputils.CreateUserRequest": {
+        "CreateUserRequest": {
             "type": "object",
             "required": [
                 "email",
@@ -505,13 +505,13 @@
                 }
             }
         },
-        "httputils.Deck": {
+        "Deck": {
             "type": "object",
             "properties": {
                 "content": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/httputils.Card"
+                        "$ref": "#/definitions/Card"
                     }
                 },
                 "deckId": {
@@ -522,11 +522,11 @@
                 }
             }
         },
-        "httputils.DeckResponse": {
+        "DeckResponse": {
             "type": "object",
             "properties": {
                 "deck": {
-                    "$ref": "#/definitions/httputils.Deck"
+                    "$ref": "#/definitions/Deck"
                 },
                 "message": {
                     "type": "string",
@@ -534,13 +534,13 @@
                 }
             }
         },
-        "httputils.Folder": {
+        "Folder": {
             "type": "object",
             "properties": {
                 "content": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/httputils.Content"
+                        "$ref": "#/definitions/Content"
                     }
                 },
                 "folderId": {
@@ -552,16 +552,16 @@
                 "path": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/httputils.Path"
+                        "$ref": "#/definitions/Path"
                     }
                 }
             }
         },
-        "httputils.FolderResponse": {
+        "FolderResponse": {
             "type": "object",
             "properties": {
                 "folder": {
-                    "$ref": "#/definitions/httputils.Folder"
+                    "$ref": "#/definitions/Folder"
                 },
                 "message": {
                     "type": "string",
@@ -569,7 +569,7 @@
                 }
             }
         },
-        "httputils.HTTPError": {
+        "HTTPError": {
             "type": "object",
             "properties": {
                 "code": {
@@ -582,7 +582,7 @@
                 }
             }
         },
-        "httputils.Path": {
+        "Path": {
             "type": "object",
             "properties": {
                 "id": {
@@ -593,7 +593,13 @@
                 }
             }
         },
-        "httputils.TokenResponse": {
+        "Settings": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "string"
+            }
+        },
+        "TokenResponse": {
             "type": "object",
             "properties": {
                 "message": {
@@ -606,13 +612,13 @@
                 }
             }
         },
-        "httputils.UpdateDeckRequest": {
+        "UpdateDeckRequest": {
             "type": "object",
             "properties": {
                 "content": {
                     "type": "array",
                     "items": {
-                        "$ref": "#/definitions/httputils.Card"
+                        "$ref": "#/definitions/Card"
                     }
                 },
                 "deckId": {
@@ -623,20 +629,41 @@
                 }
             }
         },
-        "httputils.UserResponse": {
+        "User": {
+            "type": "object",
+            "properties": {
+                "authToken": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "profileIcon": {
+                    "type": "string"
+                },
+                "rootFolderId": {
+                    "type": "string"
+                },
+                "settings": {
+                    "$ref": "#/definitions/Settings"
+                },
+                "userId": {
+                    "type": "string"
+                }
+            }
+        },
+        "UserResponse": {
             "type": "object",
             "properties": {
                 "message": {
                     "type": "string",
                     "example": "Successfully"
                 },
-                "token": {
-                    "type": "string",
-                    "example": "\u003ctoken\u003e"
-                },
-                "userId": {
-                    "type": "string",
-                    "example": "53f4cf69-9da6-49e4-8651-450b74abdf9e"
+                "user": {
+                    "$ref": "#/definitions/User"
                 }
             }
         }

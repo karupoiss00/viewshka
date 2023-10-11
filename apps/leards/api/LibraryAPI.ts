@@ -3,7 +3,7 @@ import {wrapApi} from '@leards/api/common/wrapApi'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {
 	Configuration,
-	HttputilsContent, HttputilsDeck, HttputilsFolder,
+	Content, Deck, Folder,
 } from '@leards/api/generated'
 import {BaseAPI} from '@leards/api/generated/base'
 import AuthProvider from '@leards/providers/authProvider'
@@ -25,12 +25,12 @@ const wrappedApi = wrapApi<BaseAPI>(() => {
 	return new BaseAPI(config)
 })
 
-const SAVED_DECKS: Array<HttputilsContent> = []
+const SAVED_DECKS: Array<Content> = []
 
 type MockLibraryApi = {
-	getMostPopularDecks: (userId: string) => Promise<HttputilsFolder>;
-	getSavedDecks: (userId: string) => Promise<HttputilsFolder>;
-	saveDeck: (userId: string, deck: HttputilsDeck) => Promise<HttputilsFolder>
+	getMostPopularDecks: (userId: string) => Promise<Folder>;
+	getSavedDecks: (userId: string) => Promise<Folder>;
+	saveDeck: (userId: string, deck: Deck) => Promise<Folder>
 };
 
 const MOCK_SAVED_DECKS_FOLDER_ID = '948ee479-4be9-4d9f-80da-62bd9a300c2b'
@@ -49,7 +49,7 @@ export const LibraryAPI = mockAPI<MockLibraryApi, BaseAPI>(wrappedApi, {
 		response.data.folder.push(...SAVED_DECKS)
 		return response.data
 	},
-	saveDeck: async (userId: string, deck: HttputilsDeck) => {
+	saveDeck: async (userId: string, deck: Deck) => {
 		SAVED_DECKS.push({
 			id: deck.deckId,
 			name: deck.name,

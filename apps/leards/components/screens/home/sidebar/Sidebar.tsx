@@ -1,5 +1,5 @@
 import {FoldersAPI} from '@leards/api/FoldersAPI'
-import {HttputilsFolder} from '@leards/api/generated'
+import {Folder} from '@leards/api/generated'
 import {LibraryAPI} from '@leards/api/LibraryAPI'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import AuthProvider from '@leards/providers/authProvider'
@@ -126,7 +126,7 @@ function ContentNavigation() {
 interface ContentListProps {
 	onItemSelect: (id: string) => void
 	selectedItem: string
-	folder: HttputilsFolder
+	folder: Folder
 }
 function ContentList({onItemSelect, selectedItem, folder}: ContentListProps) {
 	return (

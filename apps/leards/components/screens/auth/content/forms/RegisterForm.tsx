@@ -1,5 +1,5 @@
 import {AccountsAPI} from '@leards/api/AccountsAPI'
-import {HttputilsCreateUserRequest} from '@leards/api/generated'
+import {CreateUserRequest} from '@leards/api/generated'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import AuthProvider from '@leards/providers/authProvider'
 import {isValidEmail} from '@viewshka/core'
@@ -72,8 +72,8 @@ function RegisterForm({onLogin}: RegisterFormProps) {
 
 	useEffect(() => {
 		if (status == 'success') {
-			AuthProvider.setAuthToken(data.token)
-			AuthProvider.setUserId(data.userId)
+			AuthProvider.setAuthToken(data.user.authToken)
+			AuthProvider.setUserId(data.user.userId)
 			router.push('/home')
 		}
 	}, [data, router, status])
@@ -130,7 +130,7 @@ function RegisterForm({onLogin}: RegisterFormProps) {
 }
 
 function useRegisterMutation() {
-	return useMutation(async (userData: HttputilsCreateUserRequest) => {
+	return useMutation(async (userData: CreateUserRequest) => {
 		const response = await AccountsAPI.get().accountsPost(userData)
 		return response.data
 	})

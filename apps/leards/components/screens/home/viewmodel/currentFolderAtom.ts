@@ -1,7 +1,7 @@
-import {HttputilsFolder} from '@leards/api/generated'
+import {Folder} from '@leards/api/generated'
 import {action, atom} from '@reatom/core'
 
-const currentFolderAtom = atom<HttputilsFolder>({
+const currentFolderAtom = atom<Folder>({
 	folderId: '',
 	name: '',
 	path: [],
@@ -9,7 +9,7 @@ const currentFolderAtom = atom<HttputilsFolder>({
 })
 
 type SetCurrentFolderActionPayload = {
-	folder: HttputilsFolder
+	folder: Folder
 }
 const setCurrentFolderAction = action((ctx, {folder}: SetCurrentFolderActionPayload) => {
 	if (folder) {
