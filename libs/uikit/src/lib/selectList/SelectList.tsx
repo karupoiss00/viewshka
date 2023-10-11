@@ -1,6 +1,6 @@
-import {PropsWithClassname} from '@viewshka/core'
+import {PropsWithClassname, wrapTextNodes} from '@viewshka/core'
 import classnames from 'classnames'
-import {PropsWithChildren, ReactElement, useContext, useEffect, useState} from 'react'
+import {PropsWithChildren, ReactElement, ReactNode, useContext, useEffect, useState} from 'react'
 import * as React from 'react'
 import styles from './SelectList.module.css'
 
@@ -73,8 +73,16 @@ function Item({id, children}: ItemProps) {
 
 	return (
 		<div className={className} onClick={onClick}>
-			{children}
+			{wrapTextNodes(children, TextWrapper)}
 		</div>
+	)
+}
+
+function TextWrapper({children}: PropsWithChildren) {
+	return (
+		<span className={styles['text-wrapper']}>
+			{children}
+		</span>
 	)
 }
 

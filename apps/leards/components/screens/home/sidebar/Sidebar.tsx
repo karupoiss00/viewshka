@@ -1,5 +1,6 @@
 import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {HttputilsFolder} from '@leards/api/generated'
+import {LibraryAPI} from '@leards/api/LibraryAPI'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import AuthProvider from '@leards/providers/authProvider'
 import {useAction, useAtom} from '@reatom/npm-react'
@@ -85,7 +86,7 @@ function ContentNavigation() {
 	const handleSelectDeckAction = useAction(selectionActions.selectDeck)
 	const handleSelectFolderAction = useAction(selectionActions.selectFolder)
 
-	useSelectedFolderQuery(selectedFolderId)
+	useSelectedFolderQuery(selectedFolderId, selectionType)
 
 	const setSelection = (id: string) => {
 		const selectedContent = folder.content.find(el => el.id === id)
@@ -143,15 +144,16 @@ function ContentList({onItemSelect, selectedItem, folder}: ContentListProps) {
 	)
 }
 
-function useSelectedFolderQuery(folderId: string | null) {
+function useSelectedFolderQuery(folderId: string | null, selectionType: Selection['type']) {
 	const router = useRouter()
+	const handleSetSelectedFolderAction = useAction(selectionActions.setSelectedFolder)
 	const handleSetCurrentFolderAction = useAction(setCurrentFolderAction)
 
-	const {isError, isSuccess, data} = useQuery(`folderId:${folderId}`, async () => {
+	const {isError, isSuccess, data} = useQuery(`${selectionType}:folderId:${folderId}`, async () => {
 		const userId = AuthProvider.getUserId()
 
 		if (!folderId) {
-			const response = await FoldersAPI.get().rootFolderGet(userId)
+			const response = await requestRootFolder(userId, selectionType)
 			return response.folder
 		}
 
@@ -170,8 +172,22 @@ function useSelectedFolderQuery(folderId: string | null) {
 			handleSetCurrentFolderAction({
 				folder: data,
 			})
+			// не можем просто заселектить папку, так как
+			// сбросится id открытой колоды полученный из урла,
+			// поэтому сделан отдельный экшен на устновку открытой папки
+			handleSetSelectedFolderAction({
+				folderId: data.folderId,
+			})
 		}
-	}, [data, handleSetCurrentFolderAction, isError, isSuccess, router])
+	}, [data, handleSetCurrentFolderAction, handleSetSelectedFolderAction, isError, isSuccess, router])
+}
+
+function requestRootFolder(userId: string, selectionType: Selection['type']) {
+	if (selectionType === 'library') {
+		return LibraryAPI.get().getSavedDecks(userId)
+	}
+
+	return FoldersAPI.get().rootFolderGet(userId)
 }
 
 export default Sidebar

@@ -42,7 +42,8 @@ const selectDeck = action((ctx, payload: SelectDeckPayload) => {
 	const {type: selectionType} = ctx.get(selectionAtom)
 
 	if (selectionType != 'user-content' && selectionType !== 'library') {
-		throw new Error('Can not select deck outside user-content or library section')
+		console.warn('Can not set selected folder outside user-content or library section')
+		return
 	}
 
 	const {parentFolderId, deckId} = payload
@@ -63,7 +64,8 @@ const selectFolder = action((ctx, payload: SelectFolderPayload) => {
 	const {type: selectionType} = ctx.get(selectionAtom)
 
 	if (selectionType !== 'user-content' && selectionType !== 'library') {
-		throw new Error('Can not select folder outside user-content or library section')
+		console.warn('Can not set selected folder outside user-content or library section')
+		return
 	}
 
 	const {folderId} = payload
@@ -77,11 +79,34 @@ const selectFolder = action((ctx, payload: SelectFolderPayload) => {
 	})
 })
 
+type SetSelectedFolderPayload = {
+	folderId: string
+}
+const setSelectedFolder = action((ctx, payload: SetSelectedFolderPayload) => {
+	const selection = ctx.get(selectionAtom)
+
+	if (selection.type !== 'user-content' && selection.type !== 'library') {
+		console.warn('Can not set selected folder outside user-content or library section')
+		return
+	}
+
+	const {folderId} = payload
+
+	selectionAtom(ctx, {
+		type: selection.type,
+		content: {
+			...selection.content,
+			folderId,
+		},
+	})
+})
+
 
 const selectionActions = {
 	selectSection,
 	selectDeck,
 	selectFolder,
+	setSelectedFolder,
 } as const
 
 export {

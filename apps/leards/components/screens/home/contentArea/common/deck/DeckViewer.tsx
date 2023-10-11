@@ -32,7 +32,7 @@ function DeckViewer({readonly}: DeckViewerProps) {
 		<div className={styles.content}>
 			<div className={styles.list}>
 				{!readonly && <CardCreator />}
-				{deck && <CardList deck={deck} readonly={readonly} />}
+				{deck?.content && <CardList deck={deck} readonly={readonly} />}
 			</div>
 		</div>
 	)

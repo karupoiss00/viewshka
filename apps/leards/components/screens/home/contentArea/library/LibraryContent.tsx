@@ -2,6 +2,7 @@ import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {Button} from '@viewshka/uikit'
 import React, {useEffect, useState} from 'react'
+import {currentDeckAtom} from '../../viewmodel/currentDeckAtom'
 import {currentFolderAtom} from '../../viewmodel/currentFolderAtom'
 import {SelectedContentData} from '../../viewmodel/selection/Selection'
 import {BottomPanel} from '../common/BottomPanel'
@@ -29,9 +30,10 @@ interface LibraryBottomPanelProps {
 	selectedContent: SelectedContentData | null
 }
 function LibraryBottomPanel({selectedContent}: LibraryBottomPanelProps) {
-	const [bottomPanelState, setBottomPanelState] = useState<'added-material'|'new-material'>(null)
+	const [bottomPanelState, setBottomPanelState] = useState<'added-material'|'new-material'>('added-material')
 	const [{content}] = useAtom(currentFolderAtom)
-	const emptyState = !selectedContent || !selectedContent.deckId
+	const [deck] = useAtom(currentDeckAtom)
+	const emptyState = !deck || !deck.content?.length
 
 	useEffect(() => {
 		if (selectedContent?.deckId) {
@@ -89,7 +91,7 @@ function AddMaterialBottomPanel() {
 				size={'medium'}
 				onClick={() => console.log('copy')}
 			>
-				{getMessage('Button.Add.Copy')}
+				{getMessage('Button.Copy.Material')}
 			</Button>
 		</div>
 	)

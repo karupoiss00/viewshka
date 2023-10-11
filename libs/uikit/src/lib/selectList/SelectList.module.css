@@ -19,6 +19,10 @@
     user-select: none;
 }
 
+.item > svg {
+    flex-shrink: 0;
+}
+
 .item:hover {
     border-radius: 20px;
     background: var(--selection-color);
@@ -34,4 +38,13 @@
 .item--selected:active {
     background: var(--accent-color);
     border-radius: 10px;
+}
+
+.text-wrapper {
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* number of lines to show */
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    text-overflow: ellipsis;
 }
