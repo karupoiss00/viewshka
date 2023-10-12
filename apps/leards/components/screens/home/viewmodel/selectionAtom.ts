@@ -16,7 +16,7 @@ const selectedFolderIdAtom = atom(ctx => {
 		return null
 	}
 
-	return selection.content?.folderId
+	return selection.content?.folderId || null
 })
 
 const selectedDeckIdAtom = atom(ctx => {
@@ -26,7 +26,7 @@ const selectedDeckIdAtom = atom(ctx => {
 		return null
 	}
 
-	return selection.content?.deckId
+	return selection.content?.deckId || null
 })
 
 
