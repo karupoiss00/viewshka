@@ -23,7 +23,7 @@ function DeckViewer({readonly}: DeckViewerProps) {
 	const {mutate: updateDeckRequest, isLoading} = useUpdateDeckMutation(selectedFolderId, debouncedDeck)
 
 	useDidUpdateEffect(() => {
-		if (!isLoading) {
+		if (!readonly && !isLoading) {
 			updateDeckRequest()
 		}
 	}, [debouncedDeck])
