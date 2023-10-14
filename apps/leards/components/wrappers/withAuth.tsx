@@ -1,3 +1,4 @@
+import {useAtom} from '@reatom/npm-react'
 import {useLayoutEffect} from '@viewshka/core'
 import {NextComponentType} from 'next'
 import {useRouter} from 'next/router'
@@ -5,11 +6,14 @@ import React from 'react'
 import {useMutation} from 'react-query'
 import {AuthAPI} from '../../api/AuthAPI'
 import AuthProvider from '../../providers/authProvider'
+import {userAtom} from '../common/viewmodel/userAtom'
 import LoadingPage from '../screens/loading/LoadingPage'
 
 function useAuthMutation() {
+	const [user] = useAtom(userAtom)
+
 	return useMutation('auth', async () => {
-		const response = await AuthAPI.get().authIdGet(AuthProvider.getUserId())
+		const response = await AuthAPI.get().authIdGet(user.id)
 		return response.data
 	})
 }

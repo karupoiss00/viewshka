@@ -1,10 +1,13 @@
 import {AccountsAPI} from '@leards/api/AccountsAPI'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import AuthProvider from '@leards/providers/authProvider'
+import UserProvider from '@leards/providers/userProvider'
+import {useAction} from '@reatom/npm-react'
 import {Button, TextField} from '@viewshka/uikit'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
 import {useMutation} from 'react-query'
+import {userActions} from '../../../../common/viewmodel/userAtom'
 import FormContainer from './common/FormContainer'
 import {useEnterHandler} from './hooks/useEnterHandler'
 import styles from './LoginForm.module.css'
@@ -25,6 +28,7 @@ function LoginForm({onRegister}: LoginFormProps) {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [unauthorized, setUnauthorized] = useState(false)
+	const handleSetUserAction = useAction(userActions.set)
 	const buttonState = status === 'loading' ? 'loading' : 'default'
 	const tryAuthorize = () => {
 		if (email && password) {
@@ -48,13 +52,15 @@ function LoginForm({onRegister}: LoginFormProps) {
 	useEffect(() => {
 		if (status === 'success') {
 			AuthProvider.setAuthToken(data.user.authToken)
-			AuthProvider.setUserId(data.user.userId)
+			handleSetUserAction({
+				user: data.user,
+			})
 			router.replace('/home')
 		}
 		if (status === 'error') {
 			setUnauthorized(true)
 		}
-	}, [data, router, status])
+	}, [data, handleSetUserAction, router, status])
 
 	return (
 		<FormContainer>

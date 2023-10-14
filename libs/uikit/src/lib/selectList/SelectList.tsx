@@ -1,4 +1,4 @@
-import {PropsWithClassname, wrapTextNodes} from '@viewshka/core'
+import {PropsWithClassname} from '@viewshka/core'
 import classnames from 'classnames'
 import {PropsWithChildren, ReactElement, ReactNode, useContext, useEffect, useState} from 'react'
 import * as React from 'react'
@@ -73,16 +73,8 @@ function Item({id, children}: ItemProps) {
 
 	return (
 		<div className={className} onClick={onClick}>
-			{wrapTextNodes(children, TextWrapper)}
-		</div>
-	)
-}
-
-function TextWrapper({children}: PropsWithChildren) {
-	return (
-		<span className={styles['text-wrapper']}>
 			{children}
-		</span>
+		</div>
 	)
 }
 

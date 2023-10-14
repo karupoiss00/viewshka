@@ -3,6 +3,7 @@ import {Folder} from '@leards/api/generated'
 import {LibraryAPI} from '@leards/api/LibraryAPI'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import AuthProvider from '@leards/providers/authProvider'
+import UserProvider from '@leards/providers/userProvider'
 import {useAction, useAtom} from '@reatom/npm-react'
 import {PropsWithClassname} from '@viewshka/core'
 import {
@@ -136,7 +137,7 @@ function ContentList({onItemSelect, selectedItem, folder}: ContentListProps) {
 					<SelectList.Item id={item.id} key={item.id}>
 						{item.type === 'folder' && <SystemIconFolder />}
 						{item.type === 'deck' && <SystemIconDeck />}
-						{item.name}
+						<span>{item.name}</span>
 					</SelectList.Item>
 				))}
 			</SelectList>
@@ -150,7 +151,7 @@ function useSelectedFolderQuery(folderId: string | null, selectionType: Selectio
 	const handleSetCurrentFolderAction = useAction(setCurrentFolderAction)
 
 	const {isError, isSuccess, data} = useQuery(`${selectionType}:folderId:${folderId}`, async () => {
-		const userId = AuthProvider.getUserId()
+		const userId = UserProvider.getUserId()
 
 		if (!folderId) {
 			const response = await requestRootFolder(userId, selectionType)
