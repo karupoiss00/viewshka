@@ -1,11 +1,8 @@
 import {wrapApi} from '@leards/api/common/wrapApi'
-import {
-	Configuration,
-	FoldersApi,
-} from '@leards/api/generated'
+import {CardsApi, Configuration, DecksApi} from '@leards/api/generated'
 import AuthProvider from '@leards/providers/authProvider'
 
-export const FoldersAPI = wrapApi<FoldersApi>(() => {
+export const CardsAPI = wrapApi<CardsApi>(() => {
 	const baseAuth = AuthProvider.getBaseAuth()
 	const config = new Configuration({
 		// eslint-disable-next-line no-process-env
@@ -19,6 +16,5 @@ export const FoldersAPI = wrapApi<FoldersApi>(() => {
 		},
 	})
 
-	return new FoldersApi(config)
+	return new CardsApi(config)
 })
-

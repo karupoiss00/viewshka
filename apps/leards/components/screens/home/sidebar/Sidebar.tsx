@@ -17,6 +17,7 @@ import classnames from 'classnames'
 import {useRouter} from 'next/router'
 import React, {useEffect} from 'react'
 import {useQuery} from 'react-query'
+import {userAtom} from '../../../common/viewmodel/userAtom'
 import {
 	useSelectedDeckParam,
 	useSelectedFolderParam,
@@ -147,6 +148,7 @@ function ContentList({onItemSelect, selectedItem, folder}: ContentListProps) {
 
 function useSelectedFolderQuery(folderId: string | null, selectionType: Selection['type']) {
 	const router = useRouter()
+	const [{rootFolderId}] = useAtom(userAtom)
 	const handleSetSelectedFolderAction = useAction(selectionActions.setSelectedFolder)
 	const handleSetCurrentFolderAction = useAction(setCurrentFolderAction)
 
@@ -154,11 +156,11 @@ function useSelectedFolderQuery(folderId: string | null, selectionType: Selectio
 		const userId = UserProvider.getUserId()
 
 		if (!folderId) {
-			const response = await requestRootFolder(userId, selectionType)
-			return response.folder
+			const folder = await requestRootFolder(rootFolderId, userId, selectionType)
+			return folder
 		}
 
-		const response = await FoldersAPI.get().foldersIdGet(folderId)
+		const response = await FoldersAPI.get().getFolderById(folderId)
 		return response.data.folder
 	}, {
 		retry: false,
@@ -183,12 +185,14 @@ function useSelectedFolderQuery(folderId: string | null, selectionType: Selectio
 	}, [data, handleSetCurrentFolderAction, handleSetSelectedFolderAction, isError, isSuccess, router])
 }
 
-function requestRootFolder(userId: string, selectionType: Selection['type']) {
+async function requestRootFolder(rootFolderId: string, userId: string, selectionType: Selection['type']) {
 	if (selectionType === 'library') {
 		return LibraryAPI.get().getSavedDecks(userId)
 	}
 
-	return FoldersAPI.get().rootFolderGet(userId)
+	const {data} = await FoldersAPI.get().getFolderById(rootFolderId)
+
+	return data.folder
 }
 
 export default Sidebar

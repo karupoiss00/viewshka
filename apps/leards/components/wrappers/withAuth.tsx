@@ -13,7 +13,7 @@ function useAuthMutation() {
 	const [user] = useAtom(userAtom)
 
 	return useMutation('auth', async () => {
-		const response = await AuthAPI.get().authIdGet(user.id)
+		const response = await AuthAPI.get().authUserIdGet(user.id)
 		return response.data
 	})
 }

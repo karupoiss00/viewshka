@@ -1,3 +1,4 @@
+import {CardsAPI} from '@leards/api/CardsAPI'
 import {DecksAPI} from '@leards/api/DecksAPI'
 import {Card, Deck} from '@leards/api/generated'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
@@ -7,7 +8,7 @@ import {useRouter} from 'next/router'
 import React, {useEffect, useRef, useState} from 'react'
 import {useMutation, useQuery} from 'react-query'
 import {currentDeckActions, currentDeckAtom} from '../../../viewmodel/currentDeckAtom'
-import {selectedDeckIdAtom} from '../../../viewmodel/selectionAtom'
+import {selectedDeckIdAtom, selectedFolderIdAtom} from '../../../viewmodel/selectionAtom'
 import {CardList} from './CardList'
 import styles from './DeckViewer.module.css'
 
@@ -16,9 +17,10 @@ interface DeckViewerProps {
 }
 function DeckViewer({readonly}: DeckViewerProps) {
 	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
+	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
 	const [deck] = useAtom(currentDeckAtom)
 	const debouncedDeck = useDebounce(deck, 1000)
-	const {mutate: updateDeckRequest, isLoading} = useUpdateDeckMutation(debouncedDeck)
+	const {mutate: updateDeckRequest, isLoading} = useUpdateDeckMutation(selectedFolderId, debouncedDeck)
 
 	useDidUpdateEffect(() => {
 		if (!isLoading) {
@@ -26,7 +28,7 @@ function DeckViewer({readonly}: DeckViewerProps) {
 		}
 	}, [debouncedDeck])
 
-	useSelectedDeckQuery(selectedDeckId)
+	useSelectedDeckQuery(selectedFolderId, selectedDeckId)
 
 	return (
 		<div className={styles.content}>
@@ -37,7 +39,6 @@ function DeckViewer({readonly}: DeckViewerProps) {
 		</div>
 	)
 }
-
 
 function CardCreator() {
 	const getMessage = useMessages()
@@ -83,7 +84,7 @@ function CardCreator() {
 	)
 }
 
-function useSelectedDeckQuery(deckId: string | null) {
+function useSelectedDeckQuery(folderId: string | null, deckId: string | null) {
 	const router = useRouter()
 	const handleSetCurrentDeckAction = useAction(currentDeckActions.set)
 
@@ -92,7 +93,7 @@ function useSelectedDeckQuery(deckId: string | null) {
 			return null
 		}
 
-		const response = await DecksAPI.get().decksIdGet(deckId)
+		const response = await DecksAPI.get().foldersFolderIdDecksDeckIdGet(folderId, deckId)
 		return response.data.deck
 	}, {
 		retry: false,
@@ -111,10 +112,25 @@ function useSelectedDeckQuery(deckId: string | null) {
 	}, [data, handleSetCurrentDeckAction, isError, isSuccess, router])
 }
 
-function useUpdateDeckMutation(deck: Deck) {
+function useUpdateDeckMutation(folderId: string | null, deck: Deck) {
+	const handleSetCurrentDeckAction = useAction(currentDeckActions.set)
+
 	return useMutation('updateDeck', async () => {
-		const response = await DecksAPI.get().decksIdPut(deck.deckId, deck)
-		return response.data
+		const putResponse = await CardsAPI.get().foldersFolderIdDecksDeckIdCardsPut(folderId, deck.deckId, {
+			cards: deck.content,
+		})
+
+		if (putResponse.status === 200) {
+			return
+		}
+
+		const updatedDeckDataResponse = await CardsAPI.get().foldersFolderIdDecksDeckIdCardsGet(folderId, deck.deckId)
+		handleSetCurrentDeckAction({
+			deck: {
+				...deck,
+				content: updatedDeckDataResponse.data.cards,
+			},
+		})
 	})
 }
 
