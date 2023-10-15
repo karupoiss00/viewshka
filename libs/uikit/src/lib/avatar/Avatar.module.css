@@ -1,0 +1,19 @@
+.avatar-container {
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.avatar-container--large {
+    width: 160px;
+    height: 160px;
+}
+
+.avatar-container--small {
+    width: 36px;
+    height: 36px;
+}
+
+.avatar-gradient {
+    width: 100%;
+    background-color: var(--accent-color);
+}
