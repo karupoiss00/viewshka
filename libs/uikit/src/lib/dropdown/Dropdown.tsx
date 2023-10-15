@@ -6,11 +6,6 @@ import {SystemIconArrowDown} from '../icons/SystemIconArrowDown'
 import {SystemIconArrowUp} from '../icons/SystemIconArrowUp'
 import styles from './Dropdown.module.css'
 
-type ItemProps = {
-    id: string
-	value: string
-}
-
 type DropdownProps = PropsWithClassname & {
 	children: ReactElement<ItemProps>[]
 	initialSelectedItem?: string
@@ -21,16 +16,6 @@ type DropdownProps = PropsWithClassname & {
 type DropdownContextData = {
     selectedItem: string
     setSelectedItem: (id: string, value: string) => void
-}
-
-type DropdownIconProps = {
-	isOpen: boolean
-}
-
-type DropdownListProps = {
-	isOpen: boolean
-	children: ReactElement<ItemProps, string | React.JSXElementConstructor<unknown>>[]
-	className: string | undefined
 }
 
 const DropdownContext = React.createContext<DropdownContextData>({
@@ -81,17 +66,27 @@ function Dropdown({children, className, initialSelectedItem, onItemSelect, place
 	)
 }
 
+type DropdownListProps = {
+	isOpen: boolean
+	children: ReactElement<ItemProps, string | React.JSXElementConstructor<unknown>>[]
+	className: string | undefined
+}
+
 function DropdownList({isOpen, children, className}: DropdownListProps) {
-	if (isOpen) {
-		return (
-			<div className={classnames(styles['dropdown-list'], className)}>
-				{children}
-			</div>
-		)
-	}
-	else {
+	if (!isOpen) {
 		return null
 	}
+
+	return (
+		<div className={classnames(styles['dropdown-list'], className)}>
+			{children}
+		</div>
+	)
+}
+
+type ItemProps = {
+    id: string
+	value: string
 }
 
 function Item({id, value}: ItemProps) {
@@ -110,13 +105,16 @@ function Item({id, value}: ItemProps) {
 	)
 }
 
+type DropdownIconProps = {
+	isOpen: boolean
+}
+
 function DropdownIcon({isOpen}: DropdownIconProps) {
 	if (isOpen) {
 		return <SystemIconArrowUp/>
 	}
-	else {
-		return <SystemIconArrowDown/>
-	}
+
+	return <SystemIconArrowDown/>
 }
 
 Dropdown.Item = Item
