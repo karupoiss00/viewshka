@@ -25,7 +25,7 @@
                         "BasicAuth": []
                     }
                 ],
-                "description": "returns user id of an existing user",
+                "description": "returns the user",
                 "consumes": [
                     "application/json"
                 ],
@@ -35,7 +35,8 @@
                 "tags": [
                     "accounts"
                 ],
-                "summary": "Login an existing user",
+                "summary": "Login the  user",
+                "operationId": "loginUser",
                 "responses": {
                     "201": {
                         "description": "Created",
@@ -64,7 +65,7 @@
                 }
             },
             "post": {
-                "description": "creates new user and returns a token",
+                "description": "creates a new user and returns a token",
                 "consumes": [
                     "application/json"
                 ],
@@ -74,7 +75,8 @@
                 "tags": [
                     "accounts"
                 ],
-                "summary": "Register new user",
+                "summary": "Register a new user",
+                "operationId": "registerNewUser",
                 "parameters": [
                     {
                         "description": "User register data",
@@ -132,6 +134,7 @@
                     "auth"
                 ],
                 "summary": "Refresh user's token",
+                "operationId": "refreshToken",
                 "parameters": [
                     {
                         "type": "string",
@@ -191,6 +194,7 @@
                     "auth"
                 ],
                 "summary": "Revokes user's token",
+                "operationId": "revokeToken",
                 "parameters": [
                     {
                         "type": "string",
@@ -222,14 +226,14 @@
                 }
             }
         },
-        "/folders/{folder_id}": {
-            "get": {
+        "/folders": {
+            "post": {
                 "security": [
                     {
                         "Bearer": []
                     }
                 ],
-                "description": "fetches the folder from the database",
+                "description": "creates a new folder in the database",
                 "consumes": [
                     "application/json"
                 ],
@@ -239,15 +243,17 @@
                 "tags": [
                     "folders"
                 ],
-                "summary": "Get single folder by id",
-                "operationId": "getFolderById",
+                "summary": "Create a new folder",
+                "operationId": "createFolderById",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "Folder ID",
-                        "name": "folder_id",
-                        "in": "path",
-                        "required": true
+                        "description": "Create folder data",
+                        "name": "createFolderData",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/CreateDeckRequest"
+                        }
                     }
                 ],
                 "responses": {
@@ -272,6 +278,143 @@
                 }
             }
         },
+        "/folders/{folder_id}": {
+            "get": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "fetches the folder from the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "folders"
+                ],
+                "summary": "Get the folder by id",
+                "operationId": "getFolderById",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Folder ID",
+                        "name": "folder_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FolderResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTPError"
+                        }
+                    }
+                }
+            },
+            "put": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "updates the folder in the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "folders"
+                ],
+                "summary": "Update the folder by id",
+                "operationId": "updateFolderById",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Folder ID",
+                        "name": "folder_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update folder data",
+                        "name": "updateFolderData",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/UpdateFolderRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/FolderResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTPError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "deletes the folder in the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "folders"
+                ],
+                "summary": "Delete the folder by id",
+                "operationId": "deleteFolderById",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Folder ID",
+                        "name": "folder_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/BasicResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/HTTPError"
+                        }
+                    }
+                }
+            }
+        },
         "/folders/{folder_id}/decks": {
             "post": {
                 "security": [
@@ -279,7 +422,7 @@
                         "Bearer": []
                     }
                 ],
-                "description": "creates new deck in the database",
+                "description": "creates a new deck in the database",
                 "consumes": [
                     "application/json"
                 ],
@@ -289,7 +432,8 @@
                 "tags": [
                     "decks"
                 ],
-                "summary": "Create new deck",
+                "summary": "Create a new deck",
+                "operationId": "createDeckById",
                 "parameters": [
                     {
                         "type": "string",
@@ -347,7 +491,8 @@
                 "tags": [
                     "decks"
                 ],
-                "summary": "Get a single deck by id",
+                "summary": "Get the deck by id",
+                "operationId": "getDeckById",
                 "parameters": [
                     {
                         "type": "string",
@@ -395,7 +540,8 @@
                 "tags": [
                     "decks"
                 ],
-                "summary": "Updates the deck",
+                "summary": "Updates the deck by id",
+                "operationId": "updateDeckById",
                 "parameters": [
                     {
                         "type": "string",
@@ -425,7 +571,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/BasicResponse"
+                            "$ref": "#/definitions/DeckResponse"
                         }
                     },
                     "400": {
@@ -436,6 +582,55 @@
                     },
                     "500": {
                         "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/HTTPError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [
+                    {
+                        "Bearer": []
+                    }
+                ],
+                "description": "deletes the deck in the database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "decks"
+                ],
+                "summary": "Delete the deck by id",
+                "operationId": "deleteDeckById",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Folder ID",
+                        "name": "folder_id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Deck ID",
+                        "name": "deck_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/BasicResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
                         "schema": {
                             "$ref": "#/definitions/HTTPError"
                         }
@@ -461,6 +656,7 @@
                     "cards"
                 ],
                 "summary": "Get all deck's cards",
+                "operationId": "getCardsByDeckId",
                 "parameters": [
                     {
                         "type": "string",
@@ -515,6 +711,7 @@
                     "cards"
                 ],
                 "summary": "Synchronizes cards",
+                "operationId": "syncCardsByDeckId",
                 "parameters": [
                     {
                         "type": "string",
@@ -619,13 +816,12 @@
         "CreateDeckRequest": {
             "type": "object",
             "required": [
-                "name",
-                "parentFolderId"
+                "name"
             ],
             "properties": {
                 "name": {
                     "type": "string",
-                    "example": "My new deck"
+                    "example": "My new folder"
                 },
                 "parentFolderId": {
                     "type": "string",
@@ -790,6 +986,23 @@
                 "name": {
                     "type": "string",
                     "example": "My new deck"
+                }
+            }
+        },
+        "UpdateFolderRequest": {
+            "type": "object",
+            "required": [
+                "accessType",
+                "name"
+            ],
+            "properties": {
+                "accessType": {
+                    "type": "string",
+                    "example": "public"
+                },
+                "name": {
+                    "type": "string",
+                    "example": "My new folder"
                 }
             }
         },

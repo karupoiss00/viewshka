@@ -93,7 +93,7 @@ function useSelectedDeckQuery(folderId: string | null, deckId: string | null) {
 			return null
 		}
 
-		const response = await DecksAPI.get().foldersFolderIdDecksDeckIdGet(folderId, deckId)
+		const response = await DecksAPI.get().getDeckById(folderId, deckId)
 		return response.data.deck
 	}, {
 		retry: false,
@@ -116,7 +116,7 @@ function useUpdateDeckMutation(folderId: string | null, deck: Deck) {
 	const handleSetCurrentDeckAction = useAction(currentDeckActions.set)
 
 	return useMutation('updateDeck', async () => {
-		const putResponse = await CardsAPI.get().foldersFolderIdDecksDeckIdCardsPut(folderId, deck.deckId, {
+		const putResponse = await CardsAPI.get().syncCardsByDeckId(folderId, deck.deckId, {
 			cards: deck.content,
 		})
 
@@ -124,7 +124,7 @@ function useUpdateDeckMutation(folderId: string | null, deck: Deck) {
 			return
 		}
 
-		const updatedDeckDataResponse = await CardsAPI.get().foldersFolderIdDecksDeckIdCardsGet(folderId, deck.deckId)
+		const updatedDeckDataResponse = await CardsAPI.get().getCardsByDeckId(folderId, deck.deckId)
 		handleSetCurrentDeckAction({
 			deck: {
 				...deck,

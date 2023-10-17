@@ -136,7 +136,7 @@ function RegisterForm({onLogin}: RegisterFormProps) {
 
 function useRegisterMutation() {
 	return useMutation(async (userData: CreateUserRequest) => {
-		const response = await AccountsAPI.get().accountsPost(userData)
+		const response = await AccountsAPI.get().registerNewUser(userData)
 		return response.data
 	})
 }
