@@ -28,4 +28,6 @@ export const enMessages = {
 	'TopPanel.Search.Placeholder': 'Search',
 	'ContentArea.CardCreator.WordPlaceholder': 'Add word',
 	'ContentArea.CardCreator.TranslationPlaceholder': 'and translate it',
+	'Deck.DefaultName': 'New deck',
+	'Folder.DefaultName': 'New folder',
 }

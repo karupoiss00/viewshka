@@ -28,4 +28,6 @@ export const ruMessages = {
 	'TopPanel.Search.Placeholder': 'Поиск',
 	'ContentArea.CardCreator.WordPlaceholder': 'Добавь слово',
 	'ContentArea.CardCreator.TranslationPlaceholder': 'и его перевод',
+	'Deck.DefaultName': 'Новая колода',
+	'Folder.DefaultName': 'Новая папка',
 }

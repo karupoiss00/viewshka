@@ -1,7 +1,13 @@
+import {DecksAPI} from '@leards/api/DecksAPI'
+import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
+import {useAction, useAtom} from '@reatom/npm-react'
 import {Button, SystemIconDeck, SystemIconFolder} from '@viewshka/uikit'
 import React from 'react'
+import {useMutation, useQueryClient} from 'react-query'
+import {currentDeckActions} from '../../viewmodel/currentDeckAtom'
 import {SelectedContentData} from '../../viewmodel/selection/Selection'
+import {selectedFolderIdAtom} from '../../viewmodel/selectionAtom'
 import {BottomPanel} from '../common/BottomPanel'
 import {DeckViewer} from '../common/deck/DeckViewer'
 import styles from './UserContent.module.css'
@@ -34,21 +40,55 @@ function UserContent({selectedContent}: UserContentProps) {
 
 function EmptyUserContent() {
 	const getMessage = useMessages()
+	const {mutate: createDeck} = useDeckCreateMutation()
+	const {mutate: createFolder} = useFolderCreateMutation()
 
 	return (
 		<div className={styles.emptyContent}>
 			<div className={styles.createButtonsContainer}>
-				<Button type={'secondary'} size={'large'} onClick={() => console.log('create folder')}>
+				<Button type={'secondary'} size={'large'} onClick={createFolder}>
 					{<SystemIconFolder/>}
 					{getMessage('Button.Create.Folder')}
 				</Button>
-				<Button type={'secondary'} size={'large'} onClick={() => console.log('create deck')}>
+				<Button type={'secondary'} size={'large'} onClick={createDeck}>
 					{<SystemIconDeck/>}
 					{getMessage('Button.Create.Deck')}
 				</Button>
 			</div>
 		</div>
 	)
+}
+
+function useDeckCreateMutation() {
+	const queryClient = useQueryClient()
+	const getMessage = useMessages()
+	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
+
+	return useMutation(async () => {
+		await DecksAPI.get().createDeckById(selectedFolderId, {
+			name: getMessage('Deck.DefaultName'),
+			parentFolderId: selectedFolderId,
+		})
+		await queryClient.invalidateQueries({
+			queryKey: ['sidebar-folder'],
+		})
+	})
+}
+
+function useFolderCreateMutation() {
+	const queryClient = useQueryClient()
+	const getMessage = useMessages()
+	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
+
+	return useMutation(async () => {
+		await FoldersAPI.get().createFolderById({
+			name: getMessage('Folder.DefaultName'),
+			parentFolderId: selectedFolderId,
+		})
+		await queryClient.invalidateQueries({
+			queryKey: ['sidebar-folder'],
+		})
+	})
 }
 
 export {

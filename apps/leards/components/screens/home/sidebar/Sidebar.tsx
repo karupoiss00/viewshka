@@ -152,7 +152,10 @@ function useSelectedFolderQuery(folderId: string | null, selectionType: Selectio
 	const handleSetSelectedFolderAction = useAction(selectionActions.setSelectedFolder)
 	const handleSetCurrentFolderAction = useAction(setCurrentFolderAction)
 
-	const {isError, isSuccess, data} = useQuery(`${selectionType}:folderId:${folderId}`, async () => {
+	const {isError, isSuccess, data} = useQuery(['sidebar-folder', {
+		folderId,
+		selectionType,
+	}], async () => {
 		const userId = UserProvider.getUserId()
 
 		if (!folderId) {
