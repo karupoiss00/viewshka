@@ -52,7 +52,6 @@
     border-top: 1px solid var(--accent-color);
 }
 
-
 .dropdown-list {
     display: flex;
     flex-direction: column;
