@@ -35,28 +35,23 @@
     padding-inline: 11px;
     cursor: pointer;
     user-select: none;
-    border: 0p;
+    border: 0;
     border-top: 1px solid var(--stroke-color);
     background-color: var(--surface-color);
 }
 
 .item:hover {
     background-color: var(--stroke-color);   
-    border: 0p;
+    border: 0;
     border-top: 1px solid var(--stroke-color);
 }
 
-.item--selected {
+.item--selected, .item--selected:hover {
     background-color: var(--accent-color);
-    border: 0p;
+    border: 0;
     border-top: 1px solid var(--accent-color);
 }
 
-.item--selected:hover {
-    background-color: var(--accent-color);
-    border: 0p;
-    border-top: 1px solid var(--accent-color);
-}
 
 .dropdown-list {
     display: flex;
