@@ -1,6 +1,9 @@
 .avatar-container {
+    display: flex;
     border-radius: 50%;
     overflow: hidden;
+    align-items: center;
+    justify-content: center;
 }
 
 .avatar-container--large {
@@ -15,5 +18,15 @@
 
 .avatar-gradient {
     width: 100%;
-    background-color: var(--accent-color);
+    height: 100%;
+}
+
+.avatar-text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: var(--surface-color);
+    font: var(--large-regular-text);
 }
