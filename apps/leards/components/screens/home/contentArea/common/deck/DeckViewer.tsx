@@ -113,23 +113,16 @@ function useSelectedDeckQuery(folderId: string | null, deckId: string | null) {
 }
 
 function useUpdateDeckMutation(folderId: string | null, deck: Deck) {
-	const handleSetCurrentDeckAction = useAction(currentDeckActions.set)
+	const handleUpdateCardsAction = useAction(currentDeckActions.updateCards)
 
 	return useMutation('updateDeck', async () => {
-		const putResponse = await CardsAPI.get().syncCardsByDeckId(folderId, deck.deckId, {
+		await CardsAPI.get().syncCardsByDeckId(folderId, deck.deckId, {
 			cards: deck.content,
 		})
 
-		if (putResponse.status === 200) {
-			return
-		}
-
 		const updatedDeckDataResponse = await CardsAPI.get().getCardsByDeckId(folderId, deck.deckId)
-		handleSetCurrentDeckAction({
-			deck: {
-				...deck,
-				content: updatedDeckDataResponse.data.cards,
-			},
+		handleUpdateCardsAction({
+			cards:  updatedDeckDataResponse.data.cards,
 		})
 	})
 }
