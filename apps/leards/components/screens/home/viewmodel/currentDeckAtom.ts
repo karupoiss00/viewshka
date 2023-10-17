@@ -1,7 +1,7 @@
 import {Card, Deck as DeckData} from '@leards/api/generated'
 import {action, atom} from '@reatom/core'
-import {merge} from '@viewshka/core'
-import {Deck} from './deck/Deck'
+import {generateUniqueId} from '@viewshka/core'
+import {AddCardPayload, Deck} from './deck/Deck'
 
 const currentDeckAtom = atom<DeckData | null>({
 	deckId: '',
@@ -40,13 +40,15 @@ type UpdateCardsActionPayload = {
 }
 const updateCards = action((ctx, {cards}: UpdateCardsActionPayload) => {
 	const currentDeck = ctx.get(currentDeckAtom)
-	currentDeckAtom(ctx, {
-		...currentDeck,
-		content: merge(currentDeck.content, cards, (a, b) => a.cardId === b.cardId),
-	})
+	currentDeck.content = cards
+	currentDeckAtom(ctx, currentDeck)
 })
 
-const addCard = declareDeckAction(Deck.addCard)
+type AddCardActionPayload = Omit<AddCardPayload, 'id'>
+const addCard = declareDeckAction((deck, payload: AddCardActionPayload) => Deck.addCard(deck, {
+	...payload,
+	id: generateUniqueId(),
+}))
 const removeCard = declareDeckAction(Deck.removeCard)
 const editCardFrontSide = declareDeckAction(Deck.editCardFrontSide)
 const editCardBackSide = declareDeckAction(Deck.editCardBackSide)

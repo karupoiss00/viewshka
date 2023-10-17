@@ -1,18 +1,17 @@
 import {Deck as DeckData} from '@leards/api/generated'
-import {generateUniqueId} from '@viewshka/core'
-
 
 interface AddCardPayload {
+	id: string
 	frontSide: string
 	backSide: string
 }
-function addCard(deck: DeckData, {frontSide, backSide}: AddCardPayload): DeckData {
+function addCard(deck: DeckData, {id, frontSide, backSide}: AddCardPayload): DeckData {
 	if (!deck.content) {
 		deck.content = []
 	}
 
 	deck.content.push({
-		cardId: generateUniqueId(),
+		cardId: id,
 		frontSide,
 		backSide,
 	})

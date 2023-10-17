@@ -1,11 +1,10 @@
 import {DecksAPI} from '@leards/api/DecksAPI'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
-import {useAction, useAtom} from '@reatom/npm-react'
+import {useAtom} from '@reatom/npm-react'
 import {Button, SystemIconDeck, SystemIconFolder} from '@viewshka/uikit'
 import React from 'react'
 import {useMutation, useQueryClient} from 'react-query'
-import {currentDeckActions} from '../../viewmodel/currentDeckAtom'
 import {SelectedContentData} from '../../viewmodel/selection/Selection'
 import {selectedFolderIdAtom} from '../../viewmodel/selectionAtom'
 import {BottomPanel} from '../common/BottomPanel'
@@ -65,7 +64,7 @@ function useDeckCreateMutation() {
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
 
 	return useMutation(async () => {
-		await DecksAPI.get().createDeckById(selectedFolderId, {
+		await DecksAPI.get().createNewDeck(selectedFolderId, {
 			name: getMessage('Deck.DefaultName'),
 			parentFolderId: selectedFolderId,
 		})
@@ -81,7 +80,7 @@ function useFolderCreateMutation() {
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
 
 	return useMutation(async () => {
-		await FoldersAPI.get().createFolderById({
+		await FoldersAPI.get().createNewFolder({
 			name: getMessage('Folder.DefaultName'),
 			parentFolderId: selectedFolderId,
 		})
