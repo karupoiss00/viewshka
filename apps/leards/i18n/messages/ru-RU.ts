@@ -24,6 +24,7 @@ export const ruMessages = {
 	'Sidebar.Title.UserContent': 'Мои папки и колоды',
 	'Sidebar.Title.Library': 'Добавленное',
 	'Sidebar.Title.Tasks': 'Назначенные',
+	'Sidebar.Empty.Placeholder': 'Пока здесь пусто',
 	'TopPanel.MainFolder.Name': 'Мои колоды и папки',
 	'TopPanel.Search.Placeholder': 'Поиск',
 	'ContentArea.CardCreator.WordPlaceholder': 'Добавь слово',

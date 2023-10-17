@@ -24,6 +24,7 @@ export const enMessages = {
 	'Sidebar.Title.UserContent': 'My folders and decks',
 	'Sidebar.Title.Library': 'Favorites',
 	'Sidebar.Title.Tasks': 'Assigned',
+	'Sidebar.Empty.Placeholder': 'Some empty space :)',
 	'TopPanel.MainFolder.Name': 'My decks',
 	'TopPanel.Search.Placeholder': 'Search',
 	'ContentArea.CardCreator.WordPlaceholder': 'Add word',

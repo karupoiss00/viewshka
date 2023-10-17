@@ -131,17 +131,32 @@ interface ContentListProps {
 	folder: Folder
 }
 function ContentList({onItemSelect, selectedItem, folder}: ContentListProps) {
+	const content = folder.content?.map(item => (
+		<SelectList.Item id={item.id} key={item.id}>
+			{item.type === 'folder' && <SystemIconFolder />}
+			{item.type === 'deck' && <SystemIconDeck />}
+			<span>{item.name}</span>
+		</SelectList.Item>
+	))
 	return (
 		<div className={styles.listContainer}>
-			<SelectList onItemSelect={onItemSelect} selectedItem={selectedItem}>
-				{folder.content?.map(item => (
-					<SelectList.Item id={item.id} key={item.id}>
-						{item.type === 'folder' && <SystemIconFolder />}
-						{item.type === 'deck' && <SystemIconDeck />}
-						<span>{item.name}</span>
-					</SelectList.Item>
-				))}
-			</SelectList>
+			{content?.length
+				? <SelectList onItemSelect={onItemSelect} selectedItem={selectedItem}>
+					{content}
+				</SelectList>
+				: <Placeholder/>}
+
+		</div>
+	)
+}
+
+function Placeholder() {
+	const getMessage = useMessages()
+
+	return (
+		<div className={styles.placeholderContainer}>
+			<div className={styles.placeholder}></div>
+			{getMessage('Sidebar.Empty.Placeholder')}
 		</div>
 	)
 }

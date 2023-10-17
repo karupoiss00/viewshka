@@ -7,7 +7,11 @@ interface AddCardPayload {
 	backSide: string
 }
 function addCard(deck: DeckData, {frontSide, backSide}: AddCardPayload): DeckData {
-	deck.content.unshift({
+	if (!deck.content) {
+		deck.content = []
+	}
+
+	deck.content.push({
 		cardId: generateUniqueId(),
 		frontSide,
 		backSide,
