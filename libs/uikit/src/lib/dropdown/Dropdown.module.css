@@ -26,6 +26,10 @@
     color: var(--text-color-subdued);
 }
 
+.dropdown-icon {
+    color: var(--text-color-default);
+}
+
 .item {
     display: flex;
     flex-direction: row;

@@ -58,7 +58,7 @@ function Dropdown({children, className, initialSelectedItem, onItemSelect, place
 					>
 						{selectedValue}
 					</p>
-					<DropdownIcon isOpen={isOpen}/>
+					<DropdownIcon className={styles['dropdown-icon']} isOpen={isOpen}/>
 				</div>
 				<DropdownList isOpen={isOpen} children={children} className={className}/>
 			</div>
@@ -105,16 +105,16 @@ function Item({id, value}: ItemProps) {
 	)
 }
 
-type DropdownIconProps = {
+type DropdownIconProps = PropsWithClassname & {
 	isOpen: boolean
 }
 
-function DropdownIcon({isOpen}: DropdownIconProps) {
+function DropdownIcon({className, isOpen}: DropdownIconProps) {
 	if (isOpen) {
-		return <SystemIconArrowUp/>
+		return <SystemIconArrowUp className={className}/>
 	}
 
-	return <SystemIconArrowDown/>
+	return <SystemIconArrowDown className={className}/>
 }
 
 Dropdown.Item = Item
