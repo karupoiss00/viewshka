@@ -1,47 +1,87 @@
-import {PropsWithClassname} from '@viewshka/core'
 import classnames from 'classnames'
 import styles from './Avatar.module.css'
 
-type AvatarSize = 'large' | 'small'
+type AvatarSize = 'large' | 'medium' | 'small'
 
-type AvatarProps = {
-    username: string
-    avatarUrl?: string
+type AvatarGradient = {
+	startColor: string
+	endColor: string
+}
+
+type CommonAvatarProps = {
     size: AvatarSize
 }
 
-function Avatar({username, avatarUrl, size}: AvatarProps) {
-	if (avatarUrl !== null && avatarUrl !== undefined) {
+type AvatarImageProps = CommonAvatarProps & {
+	type: 'image'
+	avatarUrl: string
+}
+
+type GradientAvatarProps = CommonAvatarProps & {
+	type: 'gradient'
+	name: string
+	gradient?: AvatarGradient
+}
+
+type AvatarProps = AvatarImageProps | GradientAvatarProps
+
+function Avatar(props: AvatarProps) {
+	if (props.type === 'image') {
 		return (
-			<div className={classnames(styles['avatar-container'], {
-				[styles[`avatar-container--${size}`]]: true,
-			})}>
-			</div>
+			<AvatarImage {...props}/>
 		)
 	}
 	else {
 		return (
-			<div className={classnames(styles['avatar-container'], {
-				[styles[`avatar-container--${size}`]]: true,
-			})}>
-				<div className={classnames(styles['avatar-gradient'])}
-					style={{
-						background: generateRandomGradient(username),
-					}}
-				>
-					<p className={styles['avatar-text']}>
-						{size == 'large' ? getAvatarName(username) : null}
-					</p>
-				</div>
-			</div>
+			<GradientAvatar {...props}/>
 		)
 	}
 }
 
-function generateRandomGradient(username: string) {
+function AvatarImage({avatarUrl, size}: AvatarImageProps) {
+	return (
+		<div className={classnames(styles['avatar-container'], {
+			[styles[`avatar-container--${size}`]]: true,
+		})}>
+			<img src={avatarUrl}
+				className={styles['avatar-image']}
+			/>
+		</div>
+	)
+}
+
+function GradientAvatar({name, size, gradient}: GradientAvatarProps) {
+	return (
+		<div className={classnames(styles['avatar-container'], {
+			[styles[`avatar-container--${size}`]]: true,
+		})}>
+			<div className={classnames(styles['avatar-gradient'])}
+				style={{
+					background: generateRandomGradient(name, gradient),
+				}}
+			>
+				<p className={classnames(styles['avatar-text'], {
+					[styles[`avatar-text--${size}`]]: true,
+				})}>
+					{getAvatarName(name)}
+				</p>
+			</div>
+		</div>
+	)
+}
+
+function generateRandomGradient(username: string, gradient?: AvatarGradient) {
 	const angle = 180
-	const color1 = generateRandomColor(username)
-	const color2 = generateRandomColor(username.length < 4 ? username + username : username.substring(0, 4))
+	let color1 = ''
+	let color2 = ''
+	if (gradient !== null && gradient !== undefined) {
+		color1 = gradient.startColor
+		color2 = gradient.endColor
+	}
+	else {
+		color1 = generateRandomColor(username)
+		color2 = generateRandomColor(username.length < 4 ? username + username : username.substring(0, 4))
+	}
 
 	return `linear-gradient(${angle}deg, ${color1}, ${color2})`
 }
