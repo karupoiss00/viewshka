@@ -1,5 +1,5 @@
 import {FoldersAPI} from '@leards/api/FoldersAPI'
-import {Folder} from '@leards/api/generated'
+import {Content, Folder} from '@leards/api/generated'
 import {LibraryAPI} from '@leards/api/LibraryAPI'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import AuthProvider from '@leards/providers/authProvider'
@@ -7,9 +7,10 @@ import UserProvider from '@leards/providers/userProvider'
 import {useAction, useAtom} from '@reatom/npm-react'
 import {PropsWithClassname} from '@viewshka/core'
 import {
+	Button, Popup,
 	SelectList,
 	SystemIconDeck,
-	SystemIconFolder,
+	SystemIconFolder, SystemIconMore,
 	SystemIconPublicDecks,
 	SystemIconTaskList,
 } from '@viewshka/uikit'
@@ -26,6 +27,7 @@ import {
 import {currentFolderAtom, setCurrentFolderAction} from '../viewmodel/currentFolderAtom'
 import {Selection} from '../viewmodel/selection/Selection'
 import {selectionAtom, selectionActions, selectedFolderIdAtom, selectedDeckIdAtom} from '../viewmodel/selectionAtom'
+import {ContentSettingsPopup} from './contentItemPopup/ContentSettingsPopup'
 import styles from './Sidebar.module.css'
 
 function Sidebar({className}: PropsWithClassname) {
@@ -77,6 +79,7 @@ const TITLE_MESSAGE_MAP: Map<Selection['type'], string> = new Map([
 	['tasks', 'Sidebar.Title.Tasks'],
 ])
 
+
 function ContentNavigation() {
 	const getMessage = useMessages()
 	const [{type: selectionType}] = useAtom(selectionAtom)
@@ -119,25 +122,35 @@ function ContentNavigation() {
 				{selectionType && getMessage(TITLE_MESSAGE_MAP.get(selectionType))}
 			</p>
 			<div className={styles.listContainer}>
-				{folder && <ContentList onItemSelect={setSelection} selectedItem={selectedDeckId} folder={folder}/>}
+				{
+					folder && <ContentList
+						onItemSelect={setSelection}
+						selectedItem={selectedDeckId}
+						folder={folder}
+						contentEditable={selectionType === 'user-content'}
+					/>
+				}
 			</div>
 		</>
 	)
 }
 
 interface ContentListProps {
+	contentEditable: boolean
 	onItemSelect: (id: string) => void
 	selectedItem: string
 	folder: Folder
 }
-function ContentList({onItemSelect, selectedItem, folder}: ContentListProps) {
-	const content = folder.content?.map(item => (
-		<SelectList.Item id={item.id} key={item.id}>
-			{item.type === 'folder' && <SystemIconFolder />}
-			{item.type === 'deck' && <SystemIconDeck />}
-			<span>{item.name}</span>
-		</SelectList.Item>
-	))
+function ContentList({onItemSelect, selectedItem, folder, contentEditable}: ContentListProps) {
+	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
+	const content = folder.content?.map(item =>
+		<ContentItem
+			item={item}
+			selected={item.id === selectedDeckId}
+			editable={contentEditable}
+			key={item.id}
+		/>,
+	)
 	return (
 		<div className={styles.listContainer}>
 			{content?.length
@@ -147,6 +160,43 @@ function ContentList({onItemSelect, selectedItem, folder}: ContentListProps) {
 				: <Placeholder/>}
 
 		</div>
+	)
+}
+
+type ContentItemProps = {
+	item: Content
+	editable: boolean
+	selected: boolean
+}
+function ContentItem({item, editable, selected}) {
+	return (
+		<SelectList.Item className={classnames(styles.contentItem, {
+			[styles.contentItemSelected]: selected,
+		})} id={item.id} key={item.id}>
+			{item.type === 'folder' && <SystemIconFolder />}
+			{item.type === 'deck' && <SystemIconDeck />}
+			<span>{item.name}</span>
+			{editable
+				&& <Popup>
+					<Popup.Content>
+						<ContentSettingsPopup/>
+					</Popup.Content>
+					<Popup.Trigger>
+						<Button
+							className={styles.settingsButton}
+							type={'ghost'}
+							size={'small'}
+							onClick={e => {
+								e.stopPropagation()
+							}}
+							spacing={'none'}
+						>
+							<SystemIconMore/>
+						</Button>
+					</Popup.Trigger>
+				</Popup>
+			}
+		</SelectList.Item>
 	)
 }
 

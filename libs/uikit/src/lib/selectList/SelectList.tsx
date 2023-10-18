@@ -1,10 +1,10 @@
 import {PropsWithClassname} from '@viewshka/core'
 import classnames from 'classnames'
-import {PropsWithChildren, ReactElement, ReactNode, useContext, useEffect, useState} from 'react'
+import {PropsWithChildren, ReactElement, useContext, useEffect, useState} from 'react'
 import * as React from 'react'
 import styles from './SelectList.module.css'
 
-type ItemProps = PropsWithChildren & {
+type ItemProps = PropsWithChildren & PropsWithClassname & {
 	id: string
 	selected?: boolean
 }
@@ -62,13 +62,15 @@ function SelectList({
 	)
 }
 
-function Item({id, children}: ItemProps) {
+function Item({id, children, className: externalStyle}: ItemProps) {
 	const {selectedItem, setSelectedItem} = useContext(ListContext)
 	const className = classnames(styles['item'], {
 		[styles['item--selected']]: selectedItem === id,
-	})
-	const onClick = () => {
-		setSelectedItem(id)
+	}, externalStyle)
+	const onClick = (e: React.MouseEvent<HTMLElement>) => {
+		if (!e.defaultPrevented) {
+			setSelectedItem(id)
+		}
 	}
 
 	return (

@@ -31,4 +31,10 @@ export const ruMessages = {
 	'ContentArea.CardCreator.TranslationPlaceholder': 'и его перевод',
 	'Deck.DefaultName': 'Новая колода',
 	'Folder.DefaultName': 'Новая папка',
+	'ContentSettingsPopup.Material.Name': 'Название материала:',
+	'ContentSettingsPopup.Material.Share': 'Поделиться:',
+	'ContentSettingsPopup.Material.Button.Copy': 'Скопировать',
+	'ContentSettingsPopup.Material.Checkbox.Public': 'Публичный',
+	'ContentSettingsPopup.Material.Button.Delete': 'Удалить',
+	'ContentSettingsPopup.Material.Button.Save': 'Сохранить',
 }

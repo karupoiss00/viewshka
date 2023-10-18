@@ -31,4 +31,10 @@ export const enMessages = {
 	'ContentArea.CardCreator.TranslationPlaceholder': 'and translate it',
 	'Deck.DefaultName': 'New deck',
 	'Folder.DefaultName': 'New folder',
+	'ContentSettingsPopup.Material.Name': 'Material name',
+	'ContentSettingsPopup.Material.Share': 'Sharelink',
+	'ContentSettingsPopup.Material.Button.Copy': 'Copy',
+	'ContentSettingsPopup.Material.Checkbox.Public': 'Public',
+	'ContentSettingsPopup.Material.Button.Delete': 'Delete',
+	'ContentSettingsPopup.Material.Button.Save': 'Save',
 }

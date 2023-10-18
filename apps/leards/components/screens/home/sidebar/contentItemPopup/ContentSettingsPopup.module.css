@@ -1,0 +1,52 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    width: 590px;
+    font: var(--small-regular-text);
+}
+
+.content-name {
+    display: flex;
+    flex-direction: column;
+    margin-block-end: 40px;
+    gap: 12px;
+}
+
+.sharing-area {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-block-end: 30px;
+}
+
+.link-container {
+    width: 100%;
+    height: 40px;
+    font: var(--normal-light-text);
+    color: var(--text-color-default);
+    background: var(--selection-color);
+    border-radius: 10px;
+}
+
+.share-button-container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.public-content {
+    display: flex;
+    flex-direction: row;
+    margin-block-end: 80px;
+}
+
+.bottom-panel {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.close-button {
+    color: var(--error-color)
+}
