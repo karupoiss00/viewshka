@@ -9,6 +9,8 @@ import {currentFolderAtom} from '../viewmodel/currentFolderAtom'
 import {selectionActions, selectionAtom} from '../viewmodel/selectionAtom'
 import styles from './TopPanel.module.css'
 
+const MAX_CRUMBS_COUNT = 4
+
 function TopPanel({className}: PropsWithClassname) {
 	const [selection] = useAtom(selectionAtom)
 	return (
@@ -32,10 +34,14 @@ function UserContentPanel() {
 		setSelectedFolderParam(id)
 	}
 
+	const path = currentFolder.path?.length > MAX_CRUMBS_COUNT
+		? [currentFolder.path[0], ...currentFolder.path.slice(-3)]
+		: currentFolder.path || []
+
 	return (
 		<div className={styles.userContentPanel}>
 			<Breadcrumbs className={styles.breadcrumbs} onItemClick={selectFolder}>
-				{currentFolder.path?.map((item, i) => (
+				{path?.map((item, i) => (
 					<Breadcrumbs.Item id={item.id} key={item.id}>
 						{i === 0 ? getMessages('TopPanel.MainFolder.Name') : item.name}
 					</Breadcrumbs.Item>
