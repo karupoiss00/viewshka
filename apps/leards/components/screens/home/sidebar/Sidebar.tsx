@@ -2,12 +2,11 @@ import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {Content, Folder} from '@leards/api/generated'
 import {LibraryAPI} from '@leards/api/LibraryAPI'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
-import AuthProvider from '@leards/providers/authProvider'
 import UserProvider from '@leards/providers/userProvider'
 import {useAction, useAtom} from '@reatom/npm-react'
 import {PropsWithClassname} from '@viewshka/core'
 import {
-	Button, Popup,
+	Button, Popup, PopupLayer,
 	SelectList,
 	SystemIconDeck,
 	SystemIconFolder, SystemIconMore,
@@ -16,19 +15,18 @@ import {
 } from '@viewshka/uikit'
 import classnames from 'classnames'
 import {useRouter} from 'next/router'
-import React, {useEffect} from 'react'
+import React, {useEffect, useRef} from 'react'
+import {createPortal} from 'react-dom'
 import {useQuery} from 'react-query'
 import {userAtom} from '../../../common/viewmodel/userAtom'
-import {
-	useSelectedDeckParam,
-	useSelectedFolderParam,
-	useSelectedSectionParam,
-} from '../common/hooks/useLoadSelectionParams'
+import {useSelectedDeckParam, useSelectedFolderParam, useSelectedSectionParam} from '../common/hooks/useLoadSelectionParams'
 import {currentFolderAtom, setCurrentFolderAction} from '../viewmodel/currentFolderAtom'
 import {Selection} from '../viewmodel/selection/Selection'
 import {selectionAtom, selectionActions, selectedFolderIdAtom, selectedDeckIdAtom} from '../viewmodel/selectionAtom'
 import {ContentSettingsPopup} from './contentItemPopup/ContentSettingsPopup'
 import styles from './Sidebar.module.css'
+
+const SELECTED_FOLDER_QUERY_KEY = 'sidebar-folder'
 
 function Sidebar({className}: PropsWithClassname) {
 	return (
@@ -169,6 +167,8 @@ type ContentItemProps = {
 	selected: boolean
 }
 function ContentItem({item, editable, selected}) {
+	const settingsButtonRef = useRef<HTMLButtonElement>()
+
 	return (
 		<SelectList.Item className={classnames(styles.contentItem, {
 			[styles.contentItemSelected]: selected,
@@ -177,23 +177,26 @@ function ContentItem({item, editable, selected}) {
 			{item.type === 'deck' && <SystemIconDeck />}
 			<span>{item.name}</span>
 			{editable
-				&& <Popup>
+				&& <Button
+					className={styles.settingsButton}
+					type={'ghost'}
+					size={'small'}
+					onClick={e => e.preventDefault()}
+					spacing={'none'}
+					ref={settingsButtonRef}
+				>
+					<SystemIconMore/>
+				</Button>
+			}
+			{editable
+				&& <Popup triggerRef={settingsButtonRef}>
 					<Popup.Content>
-						<ContentSettingsPopup/>
+						<ContentSettingsPopup
+							contentType={item.type}
+							contentId={item.id}
+							contentName={item.name}
+						/>
 					</Popup.Content>
-					<Popup.Trigger>
-						<Button
-							className={styles.settingsButton}
-							type={'ghost'}
-							size={'small'}
-							onClick={e => {
-								e.stopPropagation()
-							}}
-							spacing={'none'}
-						>
-							<SystemIconMore/>
-						</Button>
-					</Popup.Trigger>
 				</Popup>
 			}
 		</SelectList.Item>
@@ -217,7 +220,7 @@ function useSelectedFolderQuery(folderId: string | null, selectionType: Selectio
 	const handleSetSelectedFolderAction = useAction(selectionActions.setSelectedFolder)
 	const handleSetCurrentFolderAction = useAction(setCurrentFolderAction)
 
-	const {isError, isSuccess, data} = useQuery(['sidebar-folder', {
+	const {isError, isSuccess, data} = useQuery([SELECTED_FOLDER_QUERY_KEY, {
 		folderId,
 		selectionType,
 	}], async () => {
@@ -261,6 +264,10 @@ async function requestRootFolder(rootFolderId: string, userId: string, selection
 	const {data} = await FoldersAPI.get().getFolderById(rootFolderId)
 
 	return data.folder
+}
+
+export {
+	SELECTED_FOLDER_QUERY_KEY,
 }
 
 export default Sidebar

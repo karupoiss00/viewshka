@@ -65,13 +65,13 @@
 }
 
 .settings-button {
-    position: absolute;
     display: flex;
     flex-direction: row-reverse;
     opacity: 0;
     padding-inline: 8px;
-    padding-block: 8px;
-    inset-inline-end: 10px;
+    padding-block: 12px;
+    margin-inline-start: auto;
+    margin-inline-end: 0;
 }
 
 .content-item:hover > .settings-button,

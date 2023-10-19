@@ -15,7 +15,7 @@ type ButtonSpacing = 'default' | 'none';
 type ButtonProps = PropsWithChildren & PropsWithClassname & {
 	type: ButtonType;
 	size: ButtonSize;
-	onClick: (e: React.MouseEvent<HTMLButtonElement>) => void;
+	onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 	state?: ButtonState;
 	spacing?: ButtonSpacing;
 	flexible?: boolean;

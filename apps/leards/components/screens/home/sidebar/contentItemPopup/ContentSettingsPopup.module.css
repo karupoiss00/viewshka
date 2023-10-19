@@ -1,7 +1,7 @@
 .container {
     display: flex;
     flex-direction: column;
-    width: 590px;
+    width: 500px;
     font: var(--small-regular-text);
 }
 
@@ -16,7 +16,7 @@
     display: flex;
     flex-direction: column;
     gap: 12px;
-    margin-block-end: 30px;
+    margin-block-end: 50px;
 }
 
 .link-container {

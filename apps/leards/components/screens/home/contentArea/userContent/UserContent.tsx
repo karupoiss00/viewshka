@@ -5,6 +5,7 @@ import {useAtom} from '@reatom/npm-react'
 import {Button, SystemIconDeck, SystemIconFolder} from '@viewshka/uikit'
 import React from 'react'
 import {useMutation, useQueryClient} from 'react-query'
+import {SELECTED_FOLDER_QUERY_KEY} from '../../sidebar/Sidebar'
 import {SelectedContentData} from '../../viewmodel/selection/Selection'
 import {selectedFolderIdAtom} from '../../viewmodel/selectionAtom'
 import {BottomPanel} from '../common/BottomPanel'
@@ -45,11 +46,11 @@ function EmptyUserContent() {
 	return (
 		<div className={styles.emptyContent}>
 			<div className={styles.createButtonsContainer}>
-				<Button type={'secondary'} size={'large'} onClick={createFolder}>
+				<Button type={'secondary'} size={'large'} onClick={() => createFolder()}>
 					{<SystemIconFolder/>}
 					{getMessage('Button.Create.Folder')}
 				</Button>
-				<Button type={'secondary'} size={'large'} onClick={createDeck}>
+				<Button type={'secondary'} size={'large'} onClick={() => createDeck()}>
 					{<SystemIconDeck/>}
 					{getMessage('Button.Create.Deck')}
 				</Button>
@@ -69,7 +70,7 @@ function useDeckCreateMutation() {
 			parentFolderId: selectedFolderId,
 		})
 		await queryClient.invalidateQueries({
-			queryKey: ['sidebar-folder'],
+			queryKey: [SELECTED_FOLDER_QUERY_KEY],
 		})
 	})
 }
@@ -85,7 +86,7 @@ function useFolderCreateMutation() {
 			parentFolderId: selectedFolderId,
 		})
 		await queryClient.invalidateQueries({
-			queryKey: ['sidebar-folder'],
+			queryKey: [SELECTED_FOLDER_QUERY_KEY],
 		})
 	})
 }
