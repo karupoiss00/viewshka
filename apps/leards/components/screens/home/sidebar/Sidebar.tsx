@@ -16,7 +16,6 @@ import {
 import classnames from 'classnames'
 import {useRouter} from 'next/router'
 import React, {useEffect, useRef} from 'react'
-import {createPortal} from 'react-dom'
 import {useQuery} from 'react-query'
 import {userAtom} from '../../../common/viewmodel/userAtom'
 import {useSelectedDeckParam, useSelectedFolderParam, useSelectedSectionParam} from '../common/hooks/useLoadSelectionParams'
