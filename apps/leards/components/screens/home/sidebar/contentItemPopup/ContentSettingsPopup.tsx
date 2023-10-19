@@ -3,11 +3,13 @@ import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {Button, Popup, PopupContext, TextField} from '@viewshka/uikit'
-import React, {useCallback, useContext, useState} from 'react'
+import React, {useCallback, useContext, useRef, useState} from 'react'
 import {useMutation, useQueryClient} from 'react-query'
 import {selectedFolderIdAtom} from '../../viewmodel/selectionAtom'
 import {SELECTED_FOLDER_QUERY_KEY} from '../Sidebar'
 import styles from './ContentSettingsPopup.module.css'
+
+const SHARE_URL_STUB = `http://localhost:3000/home?section=user-content&selectedDeck=dad3f688-1474-4fd1-a0bb-7248122d6011&selectedFolder=f5b3ad07-b5f6-4325-a3c1-8eccc6bd27c0`
 
 type ContentType = 'deck' | 'folder'
 
@@ -27,6 +29,7 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 	const [name, setName] = useState(contentName)
 	const [nameValid, setNameValid] = useState(true)
 	const isPublishable = contentType === 'deck'
+	const linkContainerRef = useRef<HTMLInputElement>()
 
 	const {mutate: deleteMaterial} = useDeleteContentMutation(contentType, contentId)
 	const {mutate: updateSettings} = useUpdateContentMutation(contentType, contentId)
@@ -45,6 +48,14 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 		close()
 	}, [close, contentName, nameValid, updateSettings])
 
+	const copyShareLink = () => {
+		const {current: linkContainer} = linkContainerRef
+		const link = linkContainer.value
+		window.navigator.clipboard.writeText(link)
+		linkContainer.select()
+		linkContainer.setSelectionRange(0, link.length)
+	}
+
 	return (
 		<div className={styles.container}>
 			<div className={styles.contentName}>
@@ -54,8 +65,8 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 					size={'small'}
 					initialValue={contentName}
 					invalidateOnChange={true}
-					onValidate={v => {
-						const valid = v.length > 0
+					onValidate={value => {
+						const valid = value.length > 0
 						setNameValid(valid)
 						return valid
 					}}
@@ -63,12 +74,17 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 			</div>
 			<div className={styles.sharingArea}>
 				<span>{getMessage('ContentSettingsPopup.Material.Share')}</span>
-				<div className={styles.linkContainer}></div>
+				<input
+					className={styles.linkContainer}
+					ref={linkContainerRef}
+					value={SHARE_URL_STUB}
+				/>
 				<div className={styles.shareButtonContainer}>
 					<Button
 						className={styles.shareButton}
 						type={'secondary'}
 						size={'small'}
+						onClick={copyShareLink}
 					>
 						{getMessage('ContentSettingsPopup.Material.Button.Copy')}
 					</Button>
@@ -143,7 +159,6 @@ function useUpdateContentMutation(type: ContentType, contentId: string) {
 		})
 	})
 }
-
 
 export {
 	ContentSettingsPopup,
