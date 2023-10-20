@@ -38,7 +38,6 @@ function AvatarStory() {
 					<Avatar type={'image'} avatarUrl={'https://sun9-24.userapi.com/impg/gxMec7Xo1ppZAmJhW_jKT5ibW9Y1MuBCPFC7Fw/CthnM_yqYc0.jpg?size=604x604&quality=96&sign=479d45da0c5bd45373a4231b16fbb995&type=album'} size={'large'}/>
 					<Avatar type={'image'} avatarUrl={'https://sun9-24.userapi.com/impg/gxMec7Xo1ppZAmJhW_jKT5ibW9Y1MuBCPFC7Fw/CthnM_yqYc0.jpg?size=604x604&quality=96&sign=479d45da0c5bd45373a4231b16fbb995&type=album'} size={'medium'}/>
 					<Avatar type={'image'} avatarUrl={'https://sun9-24.userapi.com/impg/gxMec7Xo1ppZAmJhW_jKT5ibW9Y1MuBCPFC7Fw/CthnM_yqYc0.jpg?size=604x604&quality=96&sign=479d45da0c5bd45373a4231b16fbb995&type=album'} size={'small'}/>
-					<h2 className={styles['header-text']}>ХОМЯК ПОД ХМУРЫМ</h2>
 				</div>
 			</StoryColumn>
 		</ComponentStory>
