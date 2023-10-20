@@ -23,14 +23,15 @@ type GradientAvatarProps = CommonAvatarProps & {
 type AvatarProps = AvatarImageProps | GradientAvatarProps
 
 function Avatar(props: AvatarProps) {
-	if (props.type === 'image') {
-		return (
-			<AvatarImage {...props}/>
-		)
+	switch (props.type) {
+		case 'image': {
+			return <AvatarImage {...props}/>
+		}
+		case 'gradient':
+			return <GradientAvatar {...props}/>
+		default:
+			throw Error('Unknown type of avatar')
 	}
-	return (
-		<GradientAvatar {...props}/>
-	)
 }
 
 function AvatarImage({avatarUrl, size}: AvatarImageProps) {
@@ -40,9 +41,7 @@ function AvatarImage({avatarUrl, size}: AvatarImageProps) {
 
 	return (
 		<div className={className}>
-			<img src={avatarUrl}
-				className={styles['avatar-image']}
-			/>
+			<img className={styles['avatar-image']} src={avatarUrl}/>
 		</div>
 	)
 }
@@ -56,7 +55,9 @@ function GradientAvatar({name, size, gradient}: GradientAvatarProps) {
 		[styles[`avatar-text--${size}`]]: true,
 	})
 
-	const backgroundGradient = gradient == null ? generateRandomGradient(name) : generateGradient(gradient.startColor, gradient.endColor)
+	const backgroundGradient = gradient == null
+		? generateRandomGradient(name)
+		: generateGradient(gradient.startColor, gradient.endColor)
 
 
 	return (
@@ -67,15 +68,15 @@ function GradientAvatar({name, size, gradient}: GradientAvatarProps) {
 				}}
 			>
 				<p className={textClassName}>
-					{getAvatarName(name)}
+					{getAvatarInitials(name)}
 				</p>
 			</div>
 		</div>
 	)
 }
 
-function getAvatarName(username: string): string {
-	const strs: Array<string> = username.split(' ')
+function getAvatarInitials(str: string): string {
+	const strs: Array<string> = str.split(' ')
 	if (strs.length > 1) {
 		return strs[0][0] + strs[1][0]
 	}
