@@ -38,6 +38,7 @@ const LocaleProvider: ILocaleProvider = {
 
 export {
 	Locale,
+	isLocale,
 	LocaleProvider,
 	DEFAULT_LOCALE,
 }

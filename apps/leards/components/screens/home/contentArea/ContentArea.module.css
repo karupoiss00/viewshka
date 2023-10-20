@@ -1,56 +1,5 @@
 .content-area {
     position: relative;
     background: url('/images/background_blobs.svg') no-repeat center;
-}
-
-.container {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
-    align-items: center;
-}
-
-.empty-content {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    flex-direction: column;
-    align-items: center;
-}
-
-.create-buttons-container {
-    display: flex;
-    flex-direction: column;
-    width: 260px;
-    gap: 20px;
-    margin-block-start: 330px;
-}
-
-.word-list {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
-    font: var(--large-regular-text);
-}
-
-.bottom-panel {
-    position: absolute;
-    margin-inline: auto;
-    bottom: 152px;
-    width: 1000px;
-    height: 90px;
-    border-radius: 20px;
-    background: rgba(196, 196, 196, 0.2);
-    display: flex;
-    flex-direction: row-reverse;
-    padding-inline: 24px;
-    align-items: center;
-}
-
-.button-start {
-    margin-inline-end: 310px;
+    overflow: hidden;
 }

@@ -9,3 +9,20 @@ p {
 img {
     user-select: none;
 }
+
+
+*::-webkit-scrollbar {
+    width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+    width: 10px;
+    box-shadow: none;
+    background: var(--surface-color);
+}
+
+*::-webkit-scrollbar-thumb {
+    outline: none;
+    background-color: var(--selection-color);
+    border-radius: 5px;
+}

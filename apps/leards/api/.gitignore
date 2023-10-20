@@ -1,10 +1,1 @@
-/generated/.openapi-generator/
-/generated/.gitignore
-/generated/.npmignore
-/generated/.openapi-generator-ignore
-/generated/api.ts
-/generated/base.ts
-/generated/common.ts
-/generated/configuration.ts
-/generated/git_push.sh
-/generated/index.ts
+/generated/*

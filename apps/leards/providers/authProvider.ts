@@ -1,24 +1,17 @@
 interface IAuthProvider {
-  getUserId(): string | null;
+	getAuthToken(): string | null;
 
-  setUserId(id: string): void;
+	setAuthToken(token: string): void;
 
-  getAuthToken(): string | null;
+	getBaseAuth(): { username: string; password: string };
 
-  setAuthToken(token: string): void;
-
-  getBaseAuth(): { username: string; password: string };
-
-  setBaseAuth(username: string, password: string): void;
+	setBaseAuth(username: string, password: string): void;
 }
 
-const USER_ID_KEY = 'uid'
 const AUTH_TOKEN_KEY = 'tkn'
 const BASE_AUTH_DATA_KEY = 'bsauth'
 
 const AuthProvider: IAuthProvider = {
-	getUserId: () => window.localStorage.getItem(USER_ID_KEY),
-	setUserId: (id: string) => window.localStorage.setItem(USER_ID_KEY, id),
 	getAuthToken: () => window.localStorage.getItem(AUTH_TOKEN_KEY),
 	setAuthToken: (token: string) => {
 		window.localStorage.setItem(AUTH_TOKEN_KEY, btoa(token))

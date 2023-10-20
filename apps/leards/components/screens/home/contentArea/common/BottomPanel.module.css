@@ -1,0 +1,15 @@
+.bottom-panel {
+    position: absolute;
+    margin-inline: auto;
+    bottom: 152px;
+    width: 65%;
+    height: 90px;
+    border-radius: 20px;
+    background: rgba(196, 196, 196, 0.2);
+    padding-inline: 24px;
+    backdrop-filter: blur(7.5px);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
