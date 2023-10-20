@@ -1,0 +1,25 @@
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid var(--text-color-subdued);
+    cursor: pointer;
+    user-select: none;
+}
+
+.checkbox {
+    background-color: var(--error-color);
+    border-radius: 5px;
+    width: 60%;
+    height: 60%;
+}
+
+.switcher-container {
+    height: 40px;
+    width: 80px;
+    border-radius: 30%;
+    background-color: var(--stroke-color);
+}
