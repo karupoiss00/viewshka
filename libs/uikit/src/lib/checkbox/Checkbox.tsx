@@ -3,14 +3,14 @@ import styles from './Checkbox.module.css'
 
 type CheckboxProps = {
 	initialState: boolean
-	selectCheckbox: (value: boolean) => void
+	onChange: (value: boolean) => void
 }
 
-function Checkbox({initialState, selectCheckbox}: CheckboxProps) {
+function Checkbox({initialState, onChange}: CheckboxProps) {
 	const [selected, setSelected] = useState(initialState)
 	const onClick = () => {
 		setSelected(!selected)
-		selectCheckbox(selected)
+		onChange(selected)
 	}
 
 	return (

@@ -6,7 +6,7 @@ function CheckboxStories() {
 	return (
 		<ComponentStory>
 			<StoryColumn>
-				<Checkbox initialState={true} selectCheckbox={console.log}/>
+				<Checkbox initialState={true} onChange={console.log}/>
 			</StoryColumn>
 		</ComponentStory>
 	)
