@@ -2,10 +2,6 @@ import classnames from 'classnames'
 import React, {PropsWithChildren, ReactElement, useContext, useState} from 'react'
 import styles from './SectionSelector.module.css'
 
-type ItemProps = PropsWithChildren & {
-    id: string
-}
-
 type SectionSelectorProps = {
     children: ReactElement<ItemProps>[]
     onItemSelect: (id: string) => void
@@ -43,17 +39,24 @@ function SectionSelector({children, onItemSelect}: SectionSelectorProps) {
 	)
 }
 
+type ItemProps = PropsWithChildren & {
+    id: string
+}
+
 function Item({id, children}: ItemProps) {
 	const {selectedItem, setSelectedItem} = useContext(SectionSelectorContext)
+
 	const onClick = () => {
 		setSelectedItem(id)
 	}
 
+	const className = classnames(styles['item'], {
+		[styles['item--selected']]: selectedItem === id,
+	})
+
 	return (
 		<div
-			className={classnames(styles['item'], {
-				[styles['item--selected']]: selectedItem === id,
-			})}
+			className={className}
 			onClick={onClick}
 		>
 			{children}
