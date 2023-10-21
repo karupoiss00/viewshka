@@ -41,7 +41,7 @@ function AvatarImage({avatarUrl, size}: AvatarImageProps) {
 
 	return (
 		<div className={className}>
-			<img className={styles['avatar-image']} src={avatarUrl}/>
+			<img className={styles['avatar-image']} src={avatarUrl} draggable={false}/>
 		</div>
 	)
 }
