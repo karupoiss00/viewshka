@@ -1,6 +1,7 @@
 import '../stories/avatar/AvatarStory'
 import '../stories/breadcrumbs/BreadcrumbsStroies'
 import '../stories/button/ButtonStory'
+import '../stories/checkbox/CheckboxStories'
 import '../stories/dropdown/DropdownStories'
 import '../stories/popover/PopoverStories'
 import '../stories/popup/PopupStories'
