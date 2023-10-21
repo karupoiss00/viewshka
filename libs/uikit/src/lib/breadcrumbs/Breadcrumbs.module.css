@@ -1,0 +1,27 @@
+.breadcrumbs {
+    display: flex;
+    flex-direction: row;
+    gap: 50px;
+    height: 36px;
+    align-items: center;
+}
+
+.item-with-arrow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 22px;
+    gap: 22px;
+}
+
+.item {
+    color: var(--text-color-default);
+    font: var(--small-regular-text);
+    user-select: none;
+    cursor: pointer;
+    gap: 22px;
+}
+
+.item:active {
+    text-decoration: underline;
+}

@@ -12,7 +12,6 @@ export const AuthAPI = wrapApi<AuthApi>(() => {
 		password: baseAuth.password,
 		baseOptions: {
 			headers: {
-				crossOrigin: 'anonymous',
 				Authorization: `Bearer ${AuthProvider.getAuthToken()}`,
 			},
 		},

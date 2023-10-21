@@ -14,7 +14,7 @@ function Form() {
 	return (
 		<div className={styles.layout}>
 			<div className={styles.logo}>
-				<Image src={'/images/Logo.svg'} width={326} height={200} alt={'logo'}/>
+				<Image src={'/images/Logo.svg'} width={326} height={200} alt={'logo'} priority={true}/>
 			</div>
 			{formState === 'login' && <LoginForm onRegister={goRegister}/>}
 			{formState === 'register' && <RegisterForm onLogin={goLogin}/>}

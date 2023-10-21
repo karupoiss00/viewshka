@@ -1,6 +1,6 @@
 import {PropsWithClassname} from '@viewshka/core'
 import classnames from 'classnames'
-import {PropsWithChildren, ReactElement, useContext, useState} from 'react'
+import {PropsWithChildren, ReactElement, ReactNode, useContext, useEffect, useState} from 'react'
 import * as React from 'react'
 import styles from './SelectList.module.css'
 
@@ -10,28 +10,45 @@ type ItemProps = PropsWithChildren & {
 }
 
 type ListProps = PropsWithClassname & {
-	children: ReactElement<ItemProps>[]
-	initialSelectedItem?: string
-	onItemSelect: (id: string) => void,
-}
+	children: ReactElement<ItemProps>[];
+	initialSelectedItem?: string;
+	onItemSelect: (id: string) => void;
+	selectedItem?: string | null;
+};
 
 type ListContextData = {
-	selectedItem: string
+	selectedItem: string | null
 	setSelectedItem: (id: string) => void;
 }
 
 const ListContext = React.createContext<ListContextData>({
 	selectedItem: '',
 	setSelectedItem: () => {
-		throw new Error('ListContext setIsShow should be used under provider')
+		throw new Error('ListContext setSelectedItem should be used under provider')
 	},
 })
 
-function SelectList({children, className, initialSelectedItem, onItemSelect}: ListProps) {
-	const [selectedItem, setSelectedItem] = useState<string>(initialSelectedItem || '')
+function SelectList({
+	children,
+	className,
+	initialSelectedItem,
+	onItemSelect,
+	selectedItem: forceSelectedItem,
+}: ListProps) {
+	const [selectedItem, setSelectedItem] = useState<string | null>(
+		initialSelectedItem || null,
+	)
+
+	useEffect(() => {
+		if (forceSelectedItem === undefined) {
+			return
+		}
+		setSelectedItem(forceSelectedItem)
+	}, [forceSelectedItem, selectedItem])
+
 
 	const contextValue: ListContextData = {
-		selectedItem,
+		selectedItem: selectedItem,
 		setSelectedItem: id => {
 			onItemSelect(id)
 			setSelectedItem(id)
@@ -40,9 +57,7 @@ function SelectList({children, className, initialSelectedItem, onItemSelect}: Li
 
 	return (
 		<ListContext.Provider value={contextValue}>
-			<div className={classnames(styles['list'], className)}>
-				{children}
-			</div>
+			<div className={classnames(styles['list'], className)}>{children}</div>
 		</ListContext.Provider>
 	)
 }

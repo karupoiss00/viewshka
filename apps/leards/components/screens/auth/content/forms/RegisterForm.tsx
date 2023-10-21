@@ -1,12 +1,14 @@
 import {AccountsAPI} from '@leards/api/AccountsAPI'
-import {HttputilsCreateUserRequest} from '@leards/api/generated'
+import {CreateUserRequest} from '@leards/api/generated'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import AuthProvider from '@leards/providers/authProvider'
+import {useAction} from '@reatom/npm-react'
 import {isValidEmail} from '@viewshka/core'
 import {Button, TextField} from '@viewshka/uikit'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
 import {useMutation} from 'react-query'
+import {userActions} from '../../../../common/viewmodel/userAtom'
 import FormContainer from './common/FormContainer'
 import {useEnterHandler} from './hooks/useEnterHandler'
 import styles from './RegisterForm.module.css'
@@ -18,6 +20,7 @@ type RegisterFormProps = {
 function RegisterForm({onLogin}: RegisterFormProps) {
 	const router = useRouter()
 	const getMessage = useMessages()
+	const handleSetUserAction = useAction(userActions.set)
 	const {status, data, mutate} = useRegisterMutation()
 	const [email, setEmail] = useState('')
 	const [username, setUsername] = useState('')
@@ -72,11 +75,13 @@ function RegisterForm({onLogin}: RegisterFormProps) {
 
 	useEffect(() => {
 		if (status == 'success') {
-			AuthProvider.setAuthToken(data.token)
-			AuthProvider.setUserId(data.userId)
+			AuthProvider.setAuthToken(data.user.authToken)
+			handleSetUserAction({
+				user: data.user,
+			})
 			router.push('/home')
 		}
-	}, [data, router, status])
+	}, [data, handleSetUserAction, router, status])
 
 	return (
 		<FormContainer>
@@ -130,8 +135,8 @@ function RegisterForm({onLogin}: RegisterFormProps) {
 }
 
 function useRegisterMutation() {
-	return useMutation(async (userData: HttputilsCreateUserRequest) => {
-		const response = await AccountsAPI.get().accountsPost(userData)
+	return useMutation(async (userData: CreateUserRequest) => {
+		const response = await AccountsAPI.get().registerNewUser(userData)
 		return response.data
 	})
 }
