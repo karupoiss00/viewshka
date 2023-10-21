@@ -1,3 +1,4 @@
+import '../stories/avatar/AvatarStory'
 import '../stories/breadcrumbs/BreadcrumbsStroies'
 import '../stories/button/ButtonStory'
 import '../stories/dropdown/DropdownStories'
