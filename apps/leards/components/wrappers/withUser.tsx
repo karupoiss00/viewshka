@@ -9,7 +9,7 @@ import React, {useState} from 'react'
 import {userActions} from '../common/viewmodel/userAtom'
 import LoadingPage from '../screens/loading/LoadingPage'
 
-const withLocalUser = (Component: NextComponentType) => () => {
+const withUser = (Component: NextComponentType) => () => {
 	const router = useRouter()
 	const [userLoaded, setUserLoaded] = useState(false)
 	const handleSetUserAction = useAction(userActions.set)
@@ -57,5 +57,5 @@ function loadLocalUserData(provider: IUserProvider): Omit<User, 'authToken'> | n
 }
 
 export {
-	withLocalUser,
+	withUser,
 }

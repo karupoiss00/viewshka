@@ -1,0 +1,7 @@
+.panel {
+    display: flex;
+    flex-direction: row;
+    height: 60px;
+    background: var(--accent-color);
+    align-items: center;
+}
