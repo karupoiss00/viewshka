@@ -12,7 +12,7 @@ function FlipCards() {
 
 	const ghosts = []
 
-	for (let i = 0; i < cardsLeftCount; i++) {
+	for (let i = 0; i < cardsLeftCount - 1; i++) {
 		ghosts.push(<CardGhost/>)
 	}
 

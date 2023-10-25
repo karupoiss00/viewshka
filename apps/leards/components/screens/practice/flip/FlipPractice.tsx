@@ -4,12 +4,12 @@ import React, {useEffect} from 'react'
 import {useQuery} from 'react-query'
 import CommonTopPanel from '../../../common/topPanel/TopPanel'
 import LoadingPage from '../../loading/LoadingPage'
+import BottomPanel from './bottomPanel/BottomPanel'
 import FlipCards from './flipCards/FlipCards'
 import styles from './FlipPractice.module.css'
 import ProgressBar from './progressBar/ProgressBar'
 import {cardsAtom} from './viewmodel/cardsAtom'
 import {materialNameAtom} from './viewmodel/materialNameAtom'
-import {progressAtom} from './viewmodel/progressAtom'
 
 function FlipPractice() {
 	const [materialName] = useAtom(materialNameAtom)
@@ -28,6 +28,7 @@ function FlipPractice() {
 			<div className={styles.cardsContainer}>
 				<FlipCards/>
 			</div>
+			<BottomPanel/>
 		</div>
 	)
 }
@@ -51,10 +52,6 @@ function usePracticeInit() {
 	}, [handleSetCardsAtom, handleSetMaterialName, practiceData, status])
 
 	return isLoading
-}
-
-function getRandomRotation() {
-
 }
 
 export default FlipPractice
