@@ -1,19 +1,28 @@
 import {CardsAPI} from '@leards/api/CardsAPI'
 import {useAtom} from '@reatom/npm-react'
-import React, {useEffect} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {useQuery} from 'react-query'
 import CommonTopPanel from '../../../common/topPanel/TopPanel'
 import LoadingPage from '../../loading/LoadingPage'
-import BottomPanel from './bottomPanel/BottomPanel'
+import Controls from './controls/Controls'
 import FlipCards from './flipCards/FlipCards'
 import styles from './FlipPractice.module.css'
 import ProgressBar from './progressBar/ProgressBar'
 import {cardsAtom} from './viewmodel/cardsAtom'
-import {materialNameAtom} from './viewmodel/materialNameAtom'
 
 function FlipPractice() {
-	const [materialName] = useAtom(materialNameAtom)
-	const isLoading = usePracticeInit()
+	const [cards] = useAtom(cardsAtom)
+	const [materialName, setMaterialName] = useState('')
+	const [progress, setProgress] = useState(0)
+	const isLoading = usePracticeInit(setMaterialName)
+
+	const incrementProgress = useCallback(() => {
+		if (progress + 1 > cards.length) {
+			setProgress(0)
+			return
+		}
+		setProgress(progress + 1)
+	}, [cards, progress])
 
 	if (isLoading) {
 		return <LoadingPage/>
@@ -24,17 +33,16 @@ function FlipPractice() {
 			<CommonTopPanel className={styles.topPanel}>
 				<p className={styles.materialNameHeader}>{materialName}</p>
 			</CommonTopPanel>
-			<ProgressBar/>
+			<ProgressBar progress={progress} maxProgress={cards.length}/>
 			<div className={styles.cardsContainer}>
-				<FlipCards/>
+				<FlipCards currentCardIndex={progress}/>
 			</div>
-			<BottomPanel/>
+			<Controls incrementProgress={incrementProgress}/>
 		</div>
 	)
 }
 
-function usePracticeInit() {
-	const [, handleSetMaterialName] = useAtom(materialNameAtom)
+function usePracticeInit(setMaterialName: React.Dispatch<React.SetStateAction<string>>) {
 	const [, handleSetCardsAtom] = useAtom(cardsAtom)
 	const {data: practiceData, status, isLoading} = useQuery('cards', async () => {
 		const response = await CardsAPI.get().getFlipPracticeData()
@@ -47,9 +55,9 @@ function usePracticeInit() {
 			return
 		}
 
-		handleSetMaterialName(practiceData.materialName)
+		setMaterialName(practiceData.materialName)
 		handleSetCardsAtom(practiceData.cards)
-	}, [handleSetCardsAtom, handleSetMaterialName, practiceData, status])
+	}, [handleSetCardsAtom, practiceData, setMaterialName, status])
 
 	return isLoading
 }

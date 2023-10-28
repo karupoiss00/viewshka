@@ -84,6 +84,6 @@ function getAvatarInitials(str: string): string {
 }
 
 export {
-	AvatarSize,
+	type AvatarSize,
 	Avatar,
 }

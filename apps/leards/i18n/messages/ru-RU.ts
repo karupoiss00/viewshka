@@ -38,4 +38,8 @@ export const ruMessages = {
 	'ContentSettingsPopup.Material.Checkbox.Public': 'Публичный',
 	'ContentSettingsPopup.Material.Button.Delete': 'Удалить',
 	'ContentSettingsPopup.Material.Button.Save': 'Сохранить',
+	'Practice.Flip.Button.Repeat': 'Заново',
+	'Practice.Flip.Button.Hard': 'Тяжело',
+	'Practice.Flip.Button.Good': 'Хорошо',
+	'Practice.Flip.Button.Easy': 'Легко',
 }

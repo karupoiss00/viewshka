@@ -38,4 +38,8 @@ export const enMessages = {
 	'ContentSettingsPopup.Material.Checkbox.Public': 'Public',
 	'ContentSettingsPopup.Material.Button.Delete': 'Delete',
 	'ContentSettingsPopup.Material.Button.Save': 'Save',
+	'Practice.Flip.Button.Repeat': 'Repeat',
+	'Practice.Flip.Button.Hard': 'Hard',
+	'Practice.Flip.Button.Good': 'Good',
+	'Practice.Flip.Button.Easy': 'Easy',
 }

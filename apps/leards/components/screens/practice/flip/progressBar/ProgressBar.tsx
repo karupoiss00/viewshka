@@ -1,17 +1,19 @@
-import {useAtom} from '@reatom/npm-react'
 import React from 'react'
-import {cardsAtom} from '../viewmodel/cardsAtom'
-import {progressAtom} from '../viewmodel/progressAtom'
 import styles from './ProgressBar.module.css'
 
-function ProgressBar() {
-	const [cards] = useAtom(cardsAtom)
-	const [progress] = useAtom(progressAtom)
+type ProgressBarProps = {
+	progress: number,
+	maxProgress: number,
+}
+function ProgressBar({progress, maxProgress}: ProgressBarProps) {
+	if (maxProgress === 0) {
+		return null
+	}
 
 	return (
 		<div className={styles.container}>
 			<div className={styles.progress} style={{
-				width: `${100 * progress / cards.length}%`,
+				width: `${100 * progress / maxProgress}%`,
 			}} />
 		</div>
 	)
