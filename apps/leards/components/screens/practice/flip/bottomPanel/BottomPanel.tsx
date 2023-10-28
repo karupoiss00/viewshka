@@ -20,7 +20,7 @@ function BottomPanel() {
 
 	return (
 		<div className={styles.bottomPanel}>
-			<Button type={'secondary'} size={'small'} onClick={setProgress}>
+			<Button type={'secondary'} size={'large'} onClick={setProgress}>
 				<span>Next</span>
 			</Button>
 		</div>

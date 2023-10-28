@@ -27,7 +27,7 @@ export const CardsAPI = mockAPI(wrapApi<CardsApi>(() => {
 	getFlipPracticeData: async () => {
 		const cardsResponse = await CardsAPI.get().getCardsByDeckId('f5b3ad07-b5f6-4325-a3c1-8eccc6bd27c0', 'dad3f688-1474-4fd1-a0bb-7248122d6011')
 		const deckResponse = await DecksAPI.get().getDeckById('f5b3ad07-b5f6-4325-a3c1-8eccc6bd27c0', 'dad3f688-1474-4fd1-a0bb-7248122d6011')
-		await timeout(3000)
+		await timeout(1000)
 
 		return Promise.resolve({
 			data: {

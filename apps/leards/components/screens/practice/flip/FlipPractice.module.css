@@ -13,7 +13,7 @@
 }
 
 .material-name-header {
-    font: var(--large-light-text);
+    font: var(--normal-medium-text);
     user-select: none;
 }
 

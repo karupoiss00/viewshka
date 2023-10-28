@@ -4,8 +4,8 @@ import {progressAtom} from './progressAtom'
 const cardsAtom = atom([])
 
 const currentCardAtom = atom(ctx => {
-	const progress = ctx.get(progressAtom)
-	const cards = ctx.get(cardsAtom)
+	const progress = ctx.spy(progressAtom)
+	const cards = ctx.spy(cardsAtom)
 
 	if (!cards.length) {
 		return null

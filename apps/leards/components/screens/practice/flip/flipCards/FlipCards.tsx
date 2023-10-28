@@ -1,10 +1,14 @@
 import {useAtom} from '@reatom/npm-react'
 import {getRandomInt} from '@viewshka/core'
 import classnames from 'classnames'
-import React, {MouseEventHandler, useCallback, useRef, useState} from 'react'
+import React, {MouseEventHandler, useCallback, useEffect, useRef, useState} from 'react'
 import {currentCardAtom} from '../viewmodel/cardsAtom'
 import {cardsLeftCountAtom} from '../viewmodel/progressAtom'
 import styles from './FlipCards.module.css'
+
+const MAX_ROTATION_DEG = 15
+const MAX_OFFSET_X = 50
+const MAX_OFFSET_Y = 50
 
 function FlipCards() {
 	const [currentCard] = useAtom(currentCardAtom)
@@ -13,7 +17,7 @@ function FlipCards() {
 	const ghosts = []
 
 	for (let i = 0; i < cardsLeftCount - 1; i++) {
-		ghosts.push(<CardGhost/>)
+		ghosts.push(<CardGhost key={i}/>)
 	}
 
 	return (
@@ -29,9 +33,6 @@ type CardProps = {
 	backSideText: string
 }
 function Card({frontSideText, backSideText}: CardProps) {
-	const stylesRef = useRef({
-		transform: `rotate(${getRandomInt(-20, 20)}deg)`,
-	})
 	const [activeSide, setActiveSide] = useState<'front'|'back'>('front')
 
 	const onClick = useCallback(() => {
@@ -46,6 +47,7 @@ function Card({frontSideText, backSideText}: CardProps) {
 
 	const className = classnames(styles.card, {
 		[styles.cardActive]: true,
+		[styles.flipped]: activeSide === 'back',
 	})
 
 	return (
@@ -53,7 +55,6 @@ function Card({frontSideText, backSideText}: CardProps) {
 			className={className}
 			onClick={onClick}
 			onMouseDown={onMouseDown}
-			style={stylesRef.current}
 		>
 			<span>
 				{activeSide === 'front' && frontSideText}
@@ -65,7 +66,10 @@ function Card({frontSideText, backSideText}: CardProps) {
 
 function CardGhost() {
 	const stylesRef = useRef({
-		transform: `rotate(${getRandomInt(-20, 20)}deg)`,
+		transform: `
+			rotate(${getRandomInt(-MAX_ROTATION_DEG, MAX_ROTATION_DEG)}deg) 
+			translateX(${getRandomInt(-MAX_OFFSET_X, MAX_OFFSET_X)}px)
+			translateY(${getRandomInt(-MAX_OFFSET_Y, MAX_OFFSET_Y)}px)`,
 	})
 	const className = classnames(styles.card, {
 		[styles.cardGhost]: true,
