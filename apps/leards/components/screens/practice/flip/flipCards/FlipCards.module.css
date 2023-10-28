@@ -1,0 +1,34 @@
+.flip-cards-container {
+    display: flex;
+    position: relative;
+    width: 500px;
+    height: 340px;
+}
+
+.card {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    font: var(--large-regular-text);
+    align-items: center;
+    justify-content: center;
+    width: 500px;
+    height: 340px;
+    border-radius: 40px;
+    background: var(--accent-color);
+    filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
+    color: var(--surface-color);
+}
+
+.card--active {
+    cursor: pointer;
+}
+
+.card--ghost {
+    opacity: 70%;
+    pointer-events: none;
+}
+
+.card--flipped {
+
+}

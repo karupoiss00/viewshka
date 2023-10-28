@@ -122,7 +122,7 @@ function useUpdateDeckMutation(folderId: string | null, deck: Deck) {
 
 		const updatedDeckDataResponse = await CardsAPI.get().getCardsByDeckId(folderId, deck.deckId)
 		handleUpdateCardsAction({
-			cards:  updatedDeckDataResponse.data.cards,
+			cards: updatedDeckDataResponse.data.cards,
 		})
 	})
 }

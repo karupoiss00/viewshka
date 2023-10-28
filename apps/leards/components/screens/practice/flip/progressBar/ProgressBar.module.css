@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 10px;
+}
+
+.progress {
+    display: flex;
+    background: var(--selection-color);
+    transition: width 150ms ease-in-out;
+}

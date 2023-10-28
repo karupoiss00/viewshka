@@ -20,6 +20,10 @@
     user-select: none;
     cursor: pointer;
     gap: 22px;
+    max-width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
 
 .item:active {

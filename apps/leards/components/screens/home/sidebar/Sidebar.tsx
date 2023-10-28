@@ -1,32 +1,31 @@
 import {FoldersAPI} from '@leards/api/FoldersAPI'
-import {Folder} from '@leards/api/generated'
+import {Content, Folder} from '@leards/api/generated'
 import {LibraryAPI} from '@leards/api/LibraryAPI'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
-import AuthProvider from '@leards/providers/authProvider'
 import UserProvider from '@leards/providers/userProvider'
 import {useAction, useAtom} from '@reatom/npm-react'
 import {PropsWithClassname} from '@viewshka/core'
 import {
+	Button, Popup, PopupLayer,
 	SelectList,
 	SystemIconDeck,
-	SystemIconFolder,
+	SystemIconFolder, SystemIconMore,
 	SystemIconPublicDecks,
 	SystemIconTaskList,
 } from '@viewshka/uikit'
 import classnames from 'classnames'
 import {useRouter} from 'next/router'
-import React, {useEffect} from 'react'
+import React, {useEffect, useRef} from 'react'
 import {useQuery} from 'react-query'
 import {userAtom} from '../../../common/viewmodel/userAtom'
-import {
-	useSelectedDeckParam,
-	useSelectedFolderParam,
-	useSelectedSectionParam,
-} from '../common/hooks/useLoadSelectionParams'
+import {useSelectedDeckParam, useSelectedFolderParam, useSelectedSectionParam} from '../common/hooks/useLoadSelectionParams'
 import {currentFolderAtom, setCurrentFolderAction} from '../viewmodel/currentFolderAtom'
 import {Selection} from '../viewmodel/selection/Selection'
 import {selectionAtom, selectionActions, selectedFolderIdAtom, selectedDeckIdAtom} from '../viewmodel/selectionAtom'
+import {ContentSettingsPopup} from './contentItemPopup/ContentSettingsPopup'
 import styles from './Sidebar.module.css'
+
+const SELECTED_FOLDER_QUERY_KEY = 'sidebar-folder'
 
 function Sidebar({className}: PropsWithClassname) {
 	return (
@@ -77,6 +76,7 @@ const TITLE_MESSAGE_MAP: Map<Selection['type'], string> = new Map([
 	['tasks', 'Sidebar.Title.Tasks'],
 ])
 
+
 function ContentNavigation() {
 	const getMessage = useMessages()
 	const [{type: selectionType}] = useAtom(selectionAtom)
@@ -119,25 +119,35 @@ function ContentNavigation() {
 				{selectionType && getMessage(TITLE_MESSAGE_MAP.get(selectionType))}
 			</p>
 			<div className={styles.listContainer}>
-				{folder && <ContentList onItemSelect={setSelection} selectedItem={selectedDeckId} folder={folder}/>}
+				{
+					folder && <ContentList
+						onItemSelect={setSelection}
+						selectedItem={selectedDeckId}
+						folder={folder}
+						contentEditable={selectionType === 'user-content'}
+					/>
+				}
 			</div>
 		</>
 	)
 }
 
 interface ContentListProps {
+	contentEditable: boolean
 	onItemSelect: (id: string) => void
 	selectedItem: string
 	folder: Folder
 }
-function ContentList({onItemSelect, selectedItem, folder}: ContentListProps) {
-	const content = folder.content?.map(item => (
-		<SelectList.Item id={item.id} key={item.id}>
-			{item.type === 'folder' && <SystemIconFolder />}
-			{item.type === 'deck' && <SystemIconDeck />}
-			<span>{item.name}</span>
-		</SelectList.Item>
-	))
+function ContentList({onItemSelect, selectedItem, folder, contentEditable}: ContentListProps) {
+	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
+	const content = folder.content?.map(item =>
+		<ContentItem
+			item={item}
+			selected={item.id === selectedDeckId}
+			editable={contentEditable}
+			key={item.id}
+		/>,
+	)
 	return (
 		<div className={styles.listContainer}>
 			{content?.length
@@ -147,6 +157,48 @@ function ContentList({onItemSelect, selectedItem, folder}: ContentListProps) {
 				: <Placeholder/>}
 
 		</div>
+	)
+}
+
+type ContentItemProps = {
+	item: Content
+	editable: boolean
+	selected: boolean
+}
+function ContentItem({item, editable, selected}) {
+	const settingsButtonRef = useRef<HTMLButtonElement>()
+
+	return (
+		<SelectList.Item className={classnames(styles.contentItem, {
+			[styles.contentItemSelected]: selected,
+		})} id={item.id} key={item.id}>
+			{item.type === 'folder' && <SystemIconFolder />}
+			{item.type === 'deck' && <SystemIconDeck />}
+			<span>{item.name}</span>
+			{editable
+				&& <Button
+					className={styles.settingsButton}
+					type={'ghost'}
+					size={'small'}
+					onClick={e => e.preventDefault()}
+					spacing={'none'}
+					ref={settingsButtonRef}
+				>
+					<SystemIconMore/>
+				</Button>
+			}
+			{editable
+				&& <Popup triggerRef={settingsButtonRef}>
+					<Popup.Content>
+						<ContentSettingsPopup
+							contentType={item.type}
+							contentId={item.id}
+							contentName={item.name}
+						/>
+					</Popup.Content>
+				</Popup>
+			}
+		</SelectList.Item>
 	)
 }
 
@@ -167,7 +219,7 @@ function useSelectedFolderQuery(folderId: string | null, selectionType: Selectio
 	const handleSetSelectedFolderAction = useAction(selectionActions.setSelectedFolder)
 	const handleSetCurrentFolderAction = useAction(setCurrentFolderAction)
 
-	const {isError, isSuccess, data} = useQuery(['sidebar-folder', {
+	const {isError, isSuccess, data} = useQuery([SELECTED_FOLDER_QUERY_KEY, {
 		folderId,
 		selectionType,
 	}], async () => {
@@ -211,6 +263,10 @@ async function requestRootFolder(rootFolderId: string, userId: string, selection
 	const {data} = await FoldersAPI.get().getFolderById(rootFolderId)
 
 	return data.folder
+}
+
+export {
+	SELECTED_FOLDER_QUERY_KEY,
 }
 
 export default Sidebar

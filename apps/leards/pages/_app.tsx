@@ -1,5 +1,6 @@
 import {createCtx} from '@reatom/core'
 import {reatomContext} from '@reatom/npm-react'
+import {PopupLayer} from '@viewshka/uikit'
 import {AppProps} from 'next/app'
 import Head from 'next/head'
 import {QueryClient, QueryClientProvider} from 'react-query'
@@ -16,6 +17,7 @@ function LeardsApplication({Component, pageProps}: AppProps) {
 					<title>Leards</title>
 				</Head>
 				<Component {...pageProps} />
+				<PopupLayer/>
 			</reatomContext.Provider>
 		</QueryClientProvider>
 	)

@@ -1,4 +1,5 @@
 export * from './email'
+export * from './number'
 export * from './generateUniqueId'
 export * from './PropsWithClassname'
 export * from './hooks/useIsomorphicLayoutEffect'

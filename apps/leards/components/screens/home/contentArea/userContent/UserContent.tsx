@@ -3,8 +3,10 @@ import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {Button, SystemIconDeck, SystemIconFolder} from '@viewshka/uikit'
+import {useRouter} from 'next/router'
 import React from 'react'
 import {useMutation, useQueryClient} from 'react-query'
+import {SELECTED_FOLDER_QUERY_KEY} from '../../sidebar/Sidebar'
 import {SelectedContentData} from '../../viewmodel/selection/Selection'
 import {selectedFolderIdAtom} from '../../viewmodel/selectionAtom'
 import {BottomPanel} from '../common/BottomPanel'
@@ -16,6 +18,7 @@ interface UserContentProps {
 }
 
 function UserContent({selectedContent}: UserContentProps) {
+	const router = useRouter()
 	const getMessage = useMessages()
 	const emptyState = !selectedContent || !selectedContent.deckId
 
@@ -27,7 +30,9 @@ function UserContent({selectedContent}: UserContentProps) {
 				<Button
 					type={'secondary'}
 					size={'medium'}
-					onClick={() => console.log('start')}
+					onClick={() => {
+						router.push(`/practice/flip/${selectedContent.folderId}/${selectedContent.deckId}`)
+					}}
 					state={emptyState ? 'disabled' : 'default'}
 				>
 					{getMessage('Button.Start.Train')}
@@ -45,11 +50,11 @@ function EmptyUserContent() {
 	return (
 		<div className={styles.emptyContent}>
 			<div className={styles.createButtonsContainer}>
-				<Button type={'secondary'} size={'large'} onClick={createFolder}>
+				<Button type={'secondary'} size={'large'} onClick={() => createFolder()}>
 					{<SystemIconFolder/>}
 					{getMessage('Button.Create.Folder')}
 				</Button>
-				<Button type={'secondary'} size={'large'} onClick={createDeck}>
+				<Button type={'secondary'} size={'large'} onClick={() => createDeck()}>
 					{<SystemIconDeck/>}
 					{getMessage('Button.Create.Deck')}
 				</Button>
@@ -69,7 +74,7 @@ function useDeckCreateMutation() {
 			parentFolderId: selectedFolderId,
 		})
 		await queryClient.invalidateQueries({
-			queryKey: ['sidebar-folder'],
+			queryKey: [SELECTED_FOLDER_QUERY_KEY],
 		})
 	})
 }
@@ -85,7 +90,7 @@ function useFolderCreateMutation() {
 			parentFolderId: selectedFolderId,
 		})
 		await queryClient.invalidateQueries({
-			queryKey: ['sidebar-folder'],
+			queryKey: [SELECTED_FOLDER_QUERY_KEY],
 		})
 	})
 }
