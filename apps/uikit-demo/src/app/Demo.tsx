@@ -1,4 +1,4 @@
-import {PopupLayer} from '@viewshka/uikit'
+import {PopoverLayer, PopupLayer} from '@viewshka/uikit'
 import React, {useState} from 'react'
 import StoriesList from './common/StoriesList'
 import styles from './Demo.module.css'
@@ -17,6 +17,7 @@ function Demo() {
 				{StoryComponent ? <StoryComponent/> : <StoryPlaceholder/>}
 			</div>
 			<PopupLayer/>
+			<PopoverLayer/>
 		</div>
 	)
 }

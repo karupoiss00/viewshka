@@ -67,26 +67,6 @@ interface TriggerProps {
 	onClick?: (e: React.MouseEvent<HTMLElement, MouseEvent>) => void
 }
 
-function Trigger({children, onClick}: TriggerProps) {
-	const {setShow} = useContext(PopupContext)
-
-	const ref = useRef<HTMLElement>(null)
-
-	const clickHandler = (e: React.MouseEvent<HTMLElement, MouseEvent>) => {
-		const element = ref.current
-		if (element == null) {
-			return
-		}
-		setShow(isShow => !isShow)
-		onClick && onClick(e)
-	}
-
-	return React.cloneElement(children, {
-		onClick: clickHandler,
-		ref,
-	})
-}
-
 interface ContentProps extends PropsWithChildren {
 	className?: string
 }
@@ -160,7 +140,6 @@ function Close({children, onClick}: CloseProps) {
 	return childrenToClosePopup
 }
 
-Popup.Trigger = Trigger
 Popup.Content = Content
 Popup.Close = Close
 

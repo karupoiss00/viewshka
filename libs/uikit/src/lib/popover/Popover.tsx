@@ -8,8 +8,11 @@ import {
 	useRef,
 	useState,
 } from 'react'
+import {createPortal} from 'react-dom'
+import {useEventListener} from '../../../../core/src/hooks/useEventListener'
 import {useFocusTrapping} from '../hooks/useFocusTrapping'
 import {useOutsideClick} from '../hooks/useOutsideClick'
+import {getPopoverLayerElement} from './layer/PopoverLayer'
 import styles from './Popover.module.css'
 
 type Position = 'bottom-center' | 'bottom-left' | 'bottom-right';
@@ -46,16 +49,32 @@ const PopoverContext = React.createContext<PopoverContextData>({
 })
 
 interface PopoverProps {
-	children: React.ReactNode;
-	preferredPosition: Position;
+	children: React.ReactNode
+	preferredPosition: Position
+	triggerRef?: React.RefObject<HTMLElement>
 }
 
 function Popover({
 	children,
+	triggerRef,
 	preferredPosition = 'bottom-center',
 }: PopoverProps) {
 	const [show, setShow] = useState(false)
 	const [triggerRect, setTriggerRect] = useState(DEFAULT_RECT)
+
+	useEventListener(
+		'click',
+		() => {
+			const rect = triggerRef?.current?.getBoundingClientRect()
+			if (!rect) {
+				return
+			}
+
+			setShow(isShow => !isShow)
+			setTriggerRect(rect)
+		},
+		triggerRef,
+	)
 
 	const contextValue = {
 		show,
@@ -66,38 +85,13 @@ function Popover({
 	}
 
 	return (
-		<PopoverContext.Provider value={contextValue}>
-			{children}
-		</PopoverContext.Provider>
+		createPortal(
+			<PopoverContext.Provider value={contextValue}>
+				{children}
+			</PopoverContext.Provider>,
+			getPopoverLayerElement(),
+		)
 	)
-}
-
-interface TriggerProps {
-	children: React.ReactElement
-}
-
-function Trigger({children}: TriggerProps) {
-	const {setShow, setTriggerRect} = useContext(PopoverContext)
-
-	const ref = useRef<HTMLElement>(null)
-
-	const onClick = () => {
-		const element = ref.current
-		if (element == null) {
-			return
-		}
-
-		const rect = element.getBoundingClientRect()
-		setTriggerRect(rect)
-		setShow(isShow => !isShow)
-	}
-
-	const triggeringPopoverChildren = React.cloneElement(children, {
-		onClick,
-		ref,
-	})
-
-	return triggeringPopoverChildren
 }
 
 interface ContentProps extends PropsWithChildren {
@@ -199,7 +193,6 @@ function getPopoverCoords(
 	}
 }
 
-Popover.Trigger = Trigger
 Popover.Content = Content
 Popover.Close = Close
 

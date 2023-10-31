@@ -1,10 +1,11 @@
 import {Button, Popover, SelectList, SystemIconFolder} from '@viewshka/uikit'
-import React from 'react'
+import React, {useRef} from 'react'
 import ComponentStory, {StoryColumn} from '../../common/ComponentStory'
 import {addStory} from '../../stories'
 import styles from './SelectListStories.module.css'
 
 function SelectListStories() {
+	const triggerRef = useRef<HTMLButtonElement>(null)
 	return (
 		<ComponentStory>
 			<StoryColumn width={600} name={'Default'}>
@@ -55,12 +56,16 @@ function SelectListStories() {
 				</SelectList>
 			</StoryColumn>
 			<StoryColumn width={200} name={'In popover'}>
-				<Popover preferredPosition={'bottom-center'}>
-					<Popover.Trigger>
-						<Button className={styles['button']} type={'primary'} size={'small'} onClick={console.log}>
-							Открыть список
-						</Button>
-					</Popover.Trigger>
+				<Button
+					className={styles['button']}
+					type={'primary'}
+					size={'small'}
+					onClick={console.log}
+					ref={triggerRef}
+				>
+					Открыть список
+				</Button>
+				<Popover preferredPosition={'bottom-center'} triggerRef={triggerRef}>
 					<Popover.Content>
 						<SelectList onItemSelect={console.log}>
 							<SelectList.Item id={'1'}>
