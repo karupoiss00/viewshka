@@ -1,9 +1,8 @@
-import {useAtom} from '@reatom/npm-react'
+import {Card as CardData} from '@leards/api/generated'
 import {getRandomNumber} from '@viewshka/core'
 import classnames from 'classnames'
 import React, {MouseEventHandler, useCallback, useRef, useState, useEffect} from 'react'
-import {cardsAtom} from '../viewmodel/cardsAtom'
-import styles from './FlipCards.module.css'
+import styles from './FlipCardsStack.module.css'
 
 const MAX_ROTATION_DEG = 15
 const MAX_OFFSET_X = 50
@@ -12,34 +11,32 @@ const MAX_OFFSET_Y = 50
 type ActiveSide = 'front' | 'back'
 
 type FlipCardsProps = {
-	currentCardIndex: number
-}
-function FlipCards({currentCardIndex} : FlipCardsProps) {
+	topCard: CardData
+	cardsLeft: number
+};
+function FlipCardsStack({topCard, cardsLeft} : FlipCardsProps) {
 	const [activeSide, setActiveSide] = useState<ActiveSide>('front')
-	const [cards] = useAtom(cardsAtom)
-	const cardsLeftCount = cards.length - currentCardIndex
-	const currentCard = cards[currentCardIndex]
 	const ghosts = []
 	const cardRef = useRef<HTMLDivElement>()
 
-	for (let i = 0; i < cardsLeftCount - 1; i++) {
+	for (let i = 0; i < cardsLeft - 1; i++) {
 		ghosts.push(<CardGhost key={i}/>)
 	}
 
 	useEffect(() => {
 		setActiveSide('front')
-	}, [currentCardIndex])
+	}, [topCard])
 
 	return (
 		<div className={styles.flipCardsContainer}>
 			{ghosts}
-			{currentCard && <Card
+			<Card
 				ref={cardRef}
 				activeSide={activeSide}
 				setActiveSide={setActiveSide}
-				frontSideText={currentCard.frontSide}
-				backSideText={currentCard.backSide}
-			/>}
+				frontSideText={topCard.frontSide}
+				backSideText={topCard.backSide}
+			/>
 		</div>
 	)
 }
@@ -114,4 +111,4 @@ function CardGhost() {
 	)
 }
 
-export default FlipCards
+export default FlipCardsStack

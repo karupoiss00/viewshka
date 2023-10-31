@@ -14,7 +14,7 @@ export const ruMessages = {
 	'Error.PasswordNotMatching': 'Пароли не совпадают',
 	'Button.Create.Folder': 'Создать папку',
 	'Button.Create.Deck': 'Создать колоду',
-	'Button.Start.Train': 'Начать тренировку',
+	'Button.Start.Train': 'Интервальное повторение',
 	'Button.Add.Material': 'Добавить',
 	'Button.Copy.Material': 'Скопировать',
 	'Sidebar.Title.Materials': 'Материалы',

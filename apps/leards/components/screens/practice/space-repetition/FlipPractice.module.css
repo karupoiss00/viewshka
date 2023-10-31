@@ -5,19 +5,6 @@
     flex-direction: column;
 }
 
-.top-panel {
-    display: flex;
-    width: 100%;
-    align-items: center;
-    justify-content: center;
-    flex-shrink: 0;
-}
-
-.material-name-header {
-    font: var(--normal-medium-text);
-    user-select: none;
-}
-
 .cards-container {
     display: flex;
     width: 100%;

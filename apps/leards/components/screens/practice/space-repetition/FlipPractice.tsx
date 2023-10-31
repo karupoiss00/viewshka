@@ -4,10 +4,11 @@ import React, {useCallback, useEffect, useState} from 'react'
 import {useQuery} from 'react-query'
 import CommonTopPanel from '../../../common/topPanel/TopPanel'
 import LoadingPage from '../../loading/LoadingPage'
+import FlipCardsStack from '../common/flipCards/FlipCardsStack'
+import ProgressBar from '../common/progressBar/ProgressBar'
+import PracticeTopPanel from '../common/topPanel/PracticeTopPanel'
 import Controls from './controls/Controls'
-import FlipCards from './flipCards/FlipCards'
 import styles from './FlipPractice.module.css'
-import ProgressBar from './progressBar/ProgressBar'
 import {cardsAtom} from './viewmodel/cardsAtom'
 
 function FlipPractice() {
@@ -16,28 +17,30 @@ function FlipPractice() {
 	const [progress, setProgress] = useState(0)
 	const isLoading = usePracticeInit(setMaterialName)
 
+	const cardsLeft = cards.length - progress
+	const currentCard = cards[progress]
+
+
 	const incrementProgress = useCallback(() => {
-		if (progress + 1 > cards.length) {
+		if (progress + 1 >= cards.length) {
 			setProgress(0)
 			return
 		}
 		setProgress(progress + 1)
 	}, [cards, progress])
 
-	if (isLoading) {
+	if (isLoading || !currentCard) {
 		return <LoadingPage/>
 	}
 
 	return (
 		<div className={styles.layout}>
-			<CommonTopPanel className={styles.topPanel}>
-				<p className={styles.materialNameHeader}>{materialName}</p>
-			</CommonTopPanel>
+			<PracticeTopPanel materialName={materialName} />
 			<ProgressBar progress={progress} maxProgress={cards.length}/>
 			<div className={styles.cardsContainer}>
-				<FlipCards currentCardIndex={progress}/>
+				<FlipCardsStack topCard={currentCard} cardsLeft={cardsLeft}/>
 			</div>
-			<Controls incrementProgress={incrementProgress}/>
+			<Controls incrementProgress={incrementProgress} currentCardId={currentCard.id}/>
 		</div>
 	)
 }

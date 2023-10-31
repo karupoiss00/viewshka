@@ -36,4 +36,7 @@ export const CardsAPI = mockAPI(wrapApi<CardsApi>(() => {
 			},
 		})
 	},
+	repeatCard: async (cardId: string, rating: 'repeat' | 'hard' | 'good' | 'easy') => {
+
+	},
 })

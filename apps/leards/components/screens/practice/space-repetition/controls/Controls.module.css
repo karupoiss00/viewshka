@@ -19,14 +19,46 @@
     background: var(--error-color);
 }
 
+.repeat-button:hover {
+    background: #D85B47;
+}
+
+.repeat-button:active {
+    background: #C65543;
+}
+
 .hard-button {
     background: var(--text-color-subdued);
+}
+
+.hard-button:hover {
+    background: #A3A3A3;
+}
+
+.hard-button:active {
+    background: #848383;
 }
 
 .good-button {
     background: var(--accent-color);
 }
 
+.good-button:hover {
+    background: #ECB769;
+}
+
+.good-button:active {
+    background: #D4A45B;
+}
+
 .easy-button {
     background: var(--access-color);
+}
+
+.easy-button:hover {
+    background: #84BB71;
+}
+
+.easy-button:active {
+    background: #6FA45D;
 }

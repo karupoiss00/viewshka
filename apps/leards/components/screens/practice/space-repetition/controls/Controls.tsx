@@ -5,6 +5,7 @@ import styles from './Controls.module.css'
 
 type BottomPanelProps = {
 	incrementProgress: () => void
+	currentCardId: string
 }
 function Controls({incrementProgress}: BottomPanelProps) {
 	const getMessage = useMessages()
@@ -24,6 +25,10 @@ function Controls({incrementProgress}: BottomPanelProps) {
 			</Button>
 		</div>
 	)
+}
+
+function useSubmitCardMutation() {
+
 }
 
 export default Controls

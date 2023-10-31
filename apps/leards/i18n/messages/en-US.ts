@@ -14,7 +14,7 @@ export const enMessages = {
 	'Error.PasswordNotMatching': 'Passwords not matching',
 	'Button.Create.Folder': 'Create folder',
 	'Button.Create.Deck': 'Create deck',
-	'Button.Start.Train': 'Start train',
+	'Button.Start.Train': 'Space Repetition',
 	'Button.Add.Material': 'Add',
 	'Button.Copy.Material': 'Copy',
 	'Sidebar.Title.Materials': 'Materials',
