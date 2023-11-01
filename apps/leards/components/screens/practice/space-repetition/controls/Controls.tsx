@@ -27,8 +27,4 @@ function Controls({incrementProgress}: BottomPanelProps) {
 	)
 }
 
-function useSubmitCardMutation() {
-
-}
-
 export default Controls

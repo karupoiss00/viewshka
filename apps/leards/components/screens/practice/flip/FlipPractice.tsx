@@ -5,7 +5,7 @@ import {IntermediateResult} from '@leards/components/screens/practice/flip/resul
 import {TotalResult} from '@leards/components/screens/practice/flip/results/TotalResult'
 import {useRouter} from 'next/router'
 import React, {useCallback, useEffect, useRef, useState} from 'react'
-import {useMutation, useQuery} from 'react-query'
+import {useMutation} from 'react-query'
 import LoadingPage from '../../loading/LoadingPage'
 import ProgressBar from '../common/progressBar/ProgressBar'
 import PracticeTopPanel from '../common/topPanel/PracticeTopPanel'
