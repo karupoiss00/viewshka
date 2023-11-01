@@ -35,7 +35,17 @@ function UserContent({selectedContent}: UserContentProps) {
 					}}
 					state={emptyState ? 'disabled' : 'default'}
 				>
-					{getMessage('Button.Start.Train')}
+					{getMessage('Button.Practice.Flip')}
+				</Button>
+				<Button
+					type={'secondary'}
+					size={'medium'}
+					onClick={() => {
+						router.push(`/practice/spacerepetition/${selectedContent.folderId}/${selectedContent.deckId}`)
+					}}
+					state={emptyState ? 'disabled' : 'default'}
+				>
+					{getMessage('Button.Practice.SpaceRepetition')}
 				</Button>
 			</BottomPanel>
 		</div>

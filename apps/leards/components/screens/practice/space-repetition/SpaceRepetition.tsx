@@ -1,17 +1,16 @@
 import {CardsAPI} from '@leards/api/CardsAPI'
+import {cardsAtom} from '@leards/components/screens/practice/space-repetition/viewmodel/cardsAtom'
 import {useAtom} from '@reatom/npm-react'
 import React, {useCallback, useEffect, useState} from 'react'
 import {useQuery} from 'react-query'
-import CommonTopPanel from '../../../common/topPanel/TopPanel'
 import LoadingPage from '../../loading/LoadingPage'
 import FlipCardsStack from '../common/flipCards/FlipCardsStack'
 import ProgressBar from '../common/progressBar/ProgressBar'
 import PracticeTopPanel from '../common/topPanel/PracticeTopPanel'
 import Controls from './controls/Controls'
-import styles from './FlipPractice.module.css'
-import {cardsAtom} from './viewmodel/cardsAtom'
+import styles from './SpaceRepetition.module.css'
 
-function FlipPractice() {
+function SpaceRepetition() {
 	const [cards] = useAtom(cardsAtom)
 	const [materialName, setMaterialName] = useState('')
 	const [progress, setProgress] = useState(0)
@@ -65,4 +64,6 @@ function usePracticeInit(setMaterialName: React.Dispatch<React.SetStateAction<st
 	return isLoading
 }
 
-export default FlipPractice
+export {
+	SpaceRepetition,
+}

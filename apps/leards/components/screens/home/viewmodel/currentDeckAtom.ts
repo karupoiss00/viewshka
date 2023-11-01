@@ -40,7 +40,6 @@ type UpdateCardsActionPayload = {
 }
 const updateCards = action((ctx, {cards}: UpdateCardsActionPayload) => {
 	const currentDeck = ctx.get(currentDeckAtom)
-	console.log(cards)
 	currentDeck.content = cards
 	currentDeckAtom(ctx, currentDeck)
 })

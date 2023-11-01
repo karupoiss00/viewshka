@@ -1,0 +1,29 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+
+.header {
+    font: var(--normal-medium-text);
+    text-align: center;
+}
+
+.stats-container {
+    display: flex;
+    flex-direction: column;
+    font: var(--normal-light-text);
+    gap: 15px;
+}
+
+.stat-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.footer {
+    display: flex;
+    gap: 15px;
+}

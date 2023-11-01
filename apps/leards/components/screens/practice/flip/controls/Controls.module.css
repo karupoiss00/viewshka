@@ -1,0 +1,37 @@
+.controls-container {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 25px;
+    margin-block-end: 50px;
+}
+
+.repeat-button,
+.easy-button {
+    color: var(--surface-color);
+}
+
+.repeat-button {
+    background: var(--error-color);
+}
+
+.repeat-button:hover {
+    background: #D85B47;
+}
+
+.repeat-button:active {
+    background: #C65543;
+}
+
+.easy-button {
+    background: var(--access-color);
+}
+
+.easy-button:hover {
+    background: #84BB71;
+}
+
+.easy-button:active {
+    background: #6FA45D;
+}
