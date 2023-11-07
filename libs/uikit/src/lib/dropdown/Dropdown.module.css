@@ -10,9 +10,9 @@
 }
 
 .dropdown-container {
-    display: inline-block;
+    display: flex;
+    flex-direction: column;
     overflow: hidden;
-    gap: 0;
     border-radius: 6px;
     border: 1px solid var(--stroke-color);
 }
@@ -42,6 +42,7 @@
     border: 0;
     border-top: 1px solid var(--stroke-color);
     background-color: var(--surface-color);
+    flex-shrink: 0;
 }
 
 .item:hover {
@@ -59,5 +60,5 @@
 .dropdown-list {
     display: flex;
     flex-direction: column;
-    overflow-y: auto;
+    overflow-y: hidden;
 }

@@ -1,4 +1,4 @@
-import {PropsWithClassname} from '@viewshka/core'
+import {PropsWithClassname} from '@viewshka/uikit'
 import classnames from 'classnames'
 import React, {useCallback, useEffect, useState} from 'react'
 import {SystemIconCloseEye} from '../icons/SystemIconCloseEye'

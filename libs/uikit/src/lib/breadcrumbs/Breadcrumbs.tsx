@@ -1,5 +1,4 @@
-import {PropsWithClassname} from '@viewshka/core'
-import {Button, SystemIconArrowRight} from '@viewshka/uikit'
+import {PropsWithClassname, SystemIconArrowRight} from '@viewshka/uikit'
 import classnames from 'classnames'
 import {PropsWithChildren, ReactElement, useContext} from 'react'
 import * as React from 'react'

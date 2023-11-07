@@ -1,7 +1,9 @@
-import {PropsWithClassname} from '@viewshka/core'
+import {usePrevious} from '@viewshka/core'
+import {PropsWithClassname} from '@viewshka/uikit'
 import classnames from 'classnames'
-import {PropsWithChildren, useState, ReactElement, useContext} from 'react'
+import {useState, ReactElement, useContext, useEffect} from 'react'
 import * as React from 'react'
+import {LifecycleAnimationWrapper} from '../animation/LifecycleAnimationWrapper'
 import {SystemIconArrowDown} from '../icons/SystemIconArrowDown'
 import {SystemIconArrowUp} from '../icons/SystemIconArrowUp'
 import styles from './Dropdown.module.css'
@@ -73,14 +75,38 @@ type DropdownListProps = {
 }
 
 function DropdownList({isOpen, children, className}: DropdownListProps) {
-	if (!isOpen) {
-		return null
-	}
-
 	return (
-		<div className={classnames(styles['dropdown-list'], className)}>
-			{children}
-		</div>
+		<LifecycleAnimationWrapper
+			createShowAnimation={() => ({
+				keyframes: [
+					{height: '0'},
+					{height: `${children.length * 40}px`},
+				],
+				options:  {
+					duration: 150,
+					iterations: 1,
+				},
+			})}
+			createHideAnimation={() => ({
+				keyframes: [
+					{height: `${children.length * 40}px`},
+					{height: '0'},
+				],
+				options:  {
+					duration: 150,
+					iterations: 1,
+				},
+			})}
+		>
+			{
+				isOpen && <div className={classnames(
+					styles['dropdown-list'],
+					className,
+				)}>
+					{children}
+				</div>
+			}
+		</LifecycleAnimationWrapper>
 	)
 }
 

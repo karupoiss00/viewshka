@@ -1,4 +1,4 @@
-import {PropsWithClassname} from '@viewshka/core'
+import {PropsWithClassname} from '@viewshka/uikit'
 import classnames from 'classnames'
 import React, {PropsWithChildren} from 'react'
 import styles from './TopPanel.module.css'

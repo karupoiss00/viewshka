@@ -1,7 +1,6 @@
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
-import {PropsWithClassname} from '@viewshka/core'
-import {Breadcrumbs, TextField} from '@viewshka/uikit'
+import {Breadcrumbs, TextField, PropsWithClassname} from '@viewshka/uikit'
 import React from 'react'
 import CommonTopPanel from '../../../common/topPanel/TopPanel'
 import {useSelectedFolderParam} from '../common/hooks/useLoadSelectionParams'
