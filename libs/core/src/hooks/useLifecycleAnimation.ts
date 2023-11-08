@@ -24,7 +24,7 @@ function useLifecycleAnimation<ELEM extends Element>(args: {
 			hidden: boolean,
 		): Promise<PlayAnimationResult> {
 			const element = verify(args.ref.current, useLifecycleAnimation.name)
-			console.log(element, hidden)
+
 			if (element instanceof HTMLElement) {
 				element.style.visibility = 'visible'
 			}
