@@ -4,7 +4,7 @@ import {LibraryAPI} from '@leards/api/LibraryAPI'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import UserProvider from '@leards/providers/userProvider'
 import {useAction, useAtom} from '@reatom/npm-react'
-import {PropsWithClassname} from '@viewshka/core'
+import {PropsWithClassname} from '@viewshka/uikit'
 import {
 	Button, Popup, PopupLayer,
 	SelectList,

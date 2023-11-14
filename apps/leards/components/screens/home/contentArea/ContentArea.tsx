@@ -1,5 +1,5 @@
 import {useAtom} from '@reatom/npm-react'
-import {PropsWithClassname} from '@viewshka/core'
+import {PropsWithClassname} from '@viewshka/uikit'
 import classnames from 'classnames'
 import React from 'react'
 import {selectionAtom} from '../viewmodel/selectionAtom'

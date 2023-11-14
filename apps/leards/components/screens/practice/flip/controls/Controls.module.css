@@ -1,16 +1,13 @@
-.bottom-panel {
+.controls-container {
     display: flex;
     width: 100%;
     align-items: center;
     justify-content: center;
     gap: 25px;
-    margin-block-start: 150px;
-    margin-block-end: auto;
+    margin-block-end: 50px;
 }
 
 .repeat-button,
-.hard-button,
-.good-button,
 .easy-button {
     color: var(--surface-color);
 }
@@ -19,14 +16,22 @@
     background: var(--error-color);
 }
 
-.hard-button {
-    background: var(--text-color-subdued);
+.repeat-button:hover {
+    background: #D85B47;
 }
 
-.good-button {
-    background: var(--accent-color);
+.repeat-button:active {
+    background: #C65543;
 }
 
 .easy-button {
     background: var(--access-color);
+}
+
+.easy-button:hover {
+    background: #84BB71;
+}
+
+.easy-button:active {
+    background: #6FA45D;
 }

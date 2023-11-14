@@ -2,7 +2,7 @@ import {DecksAPI} from '@leards/api/DecksAPI'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
-import {Button, Popup, PopupContext, TextField} from '@viewshka/uikit'
+import {Button, Checkbox, Popup, PopupContext, TextField} from '@viewshka/uikit'
 import React, {useCallback, useContext, useRef, useState} from 'react'
 import {useMutation, useQueryClient} from 'react-query'
 import {selectedFolderIdAtom} from '../../viewmodel/selectionAtom'
@@ -28,25 +28,24 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 	const getMessage = useMessages()
 	const [name, setName] = useState(contentName)
 	const [nameValid, setNameValid] = useState(true)
+	const [isPublic, setIsPublic] = useState(false)
 	const isPublishable = contentType === 'deck'
 	const linkContainerRef = useRef<HTMLInputElement>()
 
 	const {mutate: deleteMaterial} = useDeleteContentMutation(contentType, contentId)
 	const {mutate: updateSettings} = useUpdateContentMutation(contentType, contentId)
 
-	const onUpdate = useCallback((newName: string) => {
+	const onUpdate = useCallback(() => {
 		if (!nameValid) {
 			return
 		}
 
-		if (newName === contentName) {
-			close()
-			return
-		}
-
-		updateSettings(newName)
+		updateSettings({
+			name,
+			accessType: isPublic ? 'public' : 'private',
+		})
 		close()
-	}, [close, contentName, nameValid, updateSettings])
+	}, [close, isPublic, name, nameValid, updateSettings])
 
 	const copyShareLink = () => {
 		const {current: linkContainer} = linkContainerRef
@@ -78,6 +77,7 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 					className={styles.linkContainer}
 					ref={linkContainerRef}
 					value={SHARE_URL_STUB}
+					readOnly={true}
 				/>
 				<div className={styles.shareButtonContainer}>
 					<Button
@@ -93,6 +93,7 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 			{isPublishable
 				&& <div className={styles.publicContent}>
 					<span>{getMessage('ContentSettingsPopup.Material.Checkbox.Public')}</span>
+					<Checkbox initialState={isPublic} onChange={() => setIsPublic(value => !value)}/>
 				</div>
 			}
 			<div className={styles.bottomPanel}>
@@ -109,7 +110,7 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 					type={'primary'}
 					size={'small'}
 					state={nameValid ? 'default' : 'disabled'}
-					onClick={() => onUpdate(name)}
+					onClick={() => onUpdate()}
 				>
 					{getMessage('ContentSettingsPopup.Material.Button.Save')}
 				</Button>
@@ -140,24 +141,29 @@ function useUpdateContentMutation(type: ContentType, contentId: string) {
 	const queryClient = useQueryClient()
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
 
-	return useMutation(`update:${type}:${contentId}`, async (name: string, accessType = 'public') => {
-		if (type === 'deck') {
-			await DecksAPI.get().updateDeckById(selectedFolderId, contentId, {
-				name,
-				accessType,
-			})
-		}
-		if (type === 'folder') {
-			await FoldersAPI.get().updateFolderById(contentId, {
-				name,
-				accessType,
-			})
-		}
+	return useMutation(
+		`update:${type}:${contentId}`,
+		async (args: { name: string, accessType: 'public' | 'private'}) => {
+			const {name, accessType} = args
 
-		await queryClient.invalidateQueries({
-			queryKey: ['sidebar-folder'],
-		})
-	})
+			if (type === 'deck') {
+				await DecksAPI.get().updateDeckById(selectedFolderId, contentId, {
+					name,
+					accessType,
+				})
+			}
+			if (type === 'folder') {
+				await FoldersAPI.get().updateFolderById(contentId, {
+					name,
+					accessType,
+				})
+			}
+
+			await queryClient.invalidateQueries({
+				queryKey: ['sidebar-folder'],
+			})
+		},
+	)
 }
 
 export {

@@ -31,12 +31,12 @@
 }
 
 .card--flipping--first--part {
-    animation: cards-rotation-first-part 150ms;
+    animation: cards-rotation-first-part 100ms ease-in-out;
     transform: rotateX(90deg);
 }
 
 .card--flipping--second--part {
-    animation: cards-rotation-second-part 150ms;
+    animation: cards-rotation-second-part 100ms ease-in-out;
 }
 
 @keyframes cards-rotation-first-part {

@@ -1,28 +1,35 @@
 import {CardsAPI} from '@leards/api/CardsAPI'
-import {useAtom} from '@reatom/npm-react'
+import {Card} from '@leards/api/generated'
+import {Practice} from '@leards/components/screens/practice/flip/practice/Practice'
+import {IntermediateResult} from '@leards/components/screens/practice/flip/results/IntermediateResult'
+import {TotalResult} from '@leards/components/screens/practice/flip/results/TotalResult'
+import {cardsAtom} from '@leards/components/screens/practice/flip/viewmodel/cardsAtom'
+import {
+	currentProgressAtom,
+	practiceActions,
+	practiceAtom,
+} from '@leards/components/screens/practice/flip/viewmodel/practiceAtom'
+import {useAction, useAtom} from '@reatom/npm-react'
+import {useRouter} from 'next/router'
 import React, {useCallback, useEffect, useState} from 'react'
-import {useQuery} from 'react-query'
-import CommonTopPanel from '../../../common/topPanel/TopPanel'
+import {useMutation} from 'react-query'
 import LoadingPage from '../../loading/LoadingPage'
-import Controls from './controls/Controls'
-import FlipCards from './flipCards/FlipCards'
+import ProgressBar from '../common/progressBar/ProgressBar'
+import PracticeTopPanel from '../common/topPanel/PracticeTopPanel'
 import styles from './FlipPractice.module.css'
-import ProgressBar from './progressBar/ProgressBar'
-import {cardsAtom} from './viewmodel/cardsAtom'
 
 function FlipPractice() {
-	const [cards] = useAtom(cardsAtom)
+	const router = useRouter()
+	const [, setAllCards] = useAtom(cardsAtom)
+	const [practice] = useAtom(practiceAtom)
 	const [materialName, setMaterialName] = useState('')
-	const [progress, setProgress] = useState(0)
-	const isLoading = usePracticeInit(setMaterialName)
-
-	const incrementProgress = useCallback(() => {
-		if (progress + 1 > cards.length) {
-			setProgress(0)
-			return
-		}
-		setProgress(progress + 1)
-	}, [cards, progress])
+	const [progress] = useAtom(currentProgressAtom)
+	const handlePracticeStart = useAction(practiceActions.start)
+	const onCardsLoaded = useCallback((cards: Array<Card>) => {
+		setAllCards(cards)
+		handlePracticeStart({cards})
+	}, [handlePracticeStart, setAllCards])
+	const isLoading = useLoadData(setMaterialName, onCardsLoaded)
 
 	if (isLoading) {
 		return <LoadingPage/>
@@ -30,36 +37,44 @@ function FlipPractice() {
 
 	return (
 		<div className={styles.layout}>
-			<CommonTopPanel className={styles.topPanel}>
-				<p className={styles.materialNameHeader}>{materialName}</p>
-			</CommonTopPanel>
-			<ProgressBar progress={progress} maxProgress={cards.length}/>
-			<div className={styles.cardsContainer}>
-				<FlipCards currentCardIndex={progress}/>
-			</div>
-			<Controls incrementProgress={incrementProgress}/>
+			<PracticeTopPanel materialName={materialName} />
+			<ProgressBar progress={progress} />
+			{
+				practice.status === 'in-progress' && <Practice/>
+			}
+			{
+				practice.status === 'intermediate-result' && <IntermediateResult onExit={() => router.push('/home')}/>
+			}
+			{
+				practice.status === 'result' && <TotalResult onExit={() => router.push('/home')}/>
+			}
 		</div>
 	)
 }
 
-function usePracticeInit(setMaterialName: React.Dispatch<React.SetStateAction<string>>) {
-	const [, handleSetCardsAtom] = useAtom(cardsAtom)
-	const {data: practiceData, status, isLoading} = useQuery('cards', async () => {
+function useLoadData(onMaterialNameLoad: (name: string) => void, onCardsLoad: (cards: Array<Card>) => void) {
+	const {data: practiceData, status, isLoading, mutate} = useMutation('cards', async () => {
 		const response = await CardsAPI.get().getFlipPracticeData()
 
 		return response.data
 	})
 
 	useEffect(() => {
+		mutate()
+	}, [mutate])
+
+	useEffect(() => {
 		if (status !== 'success') {
 			return
 		}
 
-		setMaterialName(practiceData.materialName)
-		handleSetCardsAtom(practiceData.cards)
-	}, [handleSetCardsAtom, practiceData, setMaterialName, status])
+		onMaterialNameLoad(practiceData.materialName)
+		onCardsLoad(practiceData.cards)
+	}, [onCardsLoad, practiceData, onMaterialNameLoad, status])
 
 	return isLoading
 }
 
-export default FlipPractice
+export {
+	FlipPractice,
+}
