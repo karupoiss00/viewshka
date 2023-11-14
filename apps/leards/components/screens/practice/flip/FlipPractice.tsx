@@ -3,156 +3,56 @@ import {Card} from '@leards/api/generated'
 import {Practice} from '@leards/components/screens/practice/flip/practice/Practice'
 import {IntermediateResult} from '@leards/components/screens/practice/flip/results/IntermediateResult'
 import {TotalResult} from '@leards/components/screens/practice/flip/results/TotalResult'
+import {cardsAtom} from '@leards/components/screens/practice/flip/viewmodel/cardsAtom'
+import {
+	currentProgressAtom,
+	practiceActions,
+	practiceAtom,
+} from '@leards/components/screens/practice/flip/viewmodel/practiceAtom'
+import {useAction, useAtom} from '@reatom/npm-react'
 import {useRouter} from 'next/router'
-import React, {useCallback, useEffect, useRef, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {useMutation} from 'react-query'
 import LoadingPage from '../../loading/LoadingPage'
 import ProgressBar from '../common/progressBar/ProgressBar'
 import PracticeTopPanel from '../common/topPanel/PracticeTopPanel'
 import styles from './FlipPractice.module.css'
 
-type PracticeState = 'practice' | 'intermediate-result' | 'result'
-
 function FlipPractice() {
-	const {
-		isLoading,
-		materialName,
-		practiceState,
-		progress,
-
-		cards,
-		cardsToRepeat,
-		cardsLeft,
-		currentCard,
-
-		goToNextCard,
-		addToRepeatQueue,
-
-		onContinuePractice,
-		onExit,
-		onRestart,
-	} = usePracticeState()
+	const router = useRouter()
+	const [, setAllCards] = useAtom(cardsAtom)
+	const [practice] = useAtom(practiceAtom)
+	const [materialName, setMaterialName] = useState('')
+	const [progress] = useAtom(currentProgressAtom)
+	const handlePracticeStart = useAction(practiceActions.start)
+	const onCardsLoaded = useCallback((cards: Array<Card>) => {
+		setAllCards(cards)
+		handlePracticeStart({cards})
+	}, [handlePracticeStart, setAllCards])
+	const isLoading = useLoadData(setMaterialName, onCardsLoaded)
 
 	if (isLoading) {
 		return <LoadingPage/>
 	}
-
+	console.log(practice)
 	return (
 		<div className={styles.layout}>
 			<PracticeTopPanel materialName={materialName} />
-			<ProgressBar progress={progress} maxProgress={cards.length}/>
+			<ProgressBar progress={progress} />
 			{
-				practiceState === 'practice' && currentCard && <Practice
-					currentCard={currentCard}
-					cardsLeft={cardsLeft}
-					onEasy={() => goToNextCard()}
-					onRepeat={addToRepeatQueue}
-				/>
+				practice.status === 'in-progress' && <Practice/>
 			}
 			{
-				practiceState === 'intermediate-result' && <IntermediateResult
-					onExit={onExit}
-					onContinuePractice={onContinuePractice}
-					learnedCardsCount={cards.length - cardsToRepeat.length}
-					repeatCardsCount={cardsToRepeat.length}
-				/>
+				practice.status === 'intermediate-result' && <IntermediateResult onExit={() => router.push('/home')}/>
 			}
 			{
-				practiceState === 'result' && <TotalResult
-					onExit={onExit}
-					onRestart={onRestart}
-				/>
+				practice.status === 'result' && <TotalResult onExit={() => router.push('/home')}/>
 			}
 		</div>
 	)
 }
 
-function usePracticeState() {
-	const router = useRouter()
-	const [materialName, setMaterialName] = useState('')
-	const [practiceState, setPracticeState] = useState<PracticeState>('practice')
-	const [cards, setCards] = useState<Card[]>(() => [])
-	const [cardsToRepeat, setCardsToRepeat] = useState<Card[]>(() => [])
-	const [progress, setProgress] = useState(0)
-	const allCardsRef = useRef<Array<Card>>([])
-	const setInitialCards = useCallback((cards: Card[]) => {
-		setCards(cards)
-		console.log(123)
-		allCardsRef.current = cards
-	}, [])
-	const isLoading = usePracticeInit(setMaterialName, setInitialCards)
-
-	const cardsLeft = cards.length - progress
-	const currentCard = cards[progress]
-
-	const resetPractice = () => {
-		setCardsToRepeat([])
-		setProgress(0)
-		setPracticeState('practice')
-	}
-
-	const addCardsToRepeat = useCallback((card: Card) => {
-		setCardsToRepeat([
-			...cardsToRepeat,
-			card,
-		])
-	}, [cardsToRepeat])
-
-	const goToNextCard = useCallback((lastCardRepeat = false) => {
-		setProgress(progress + 1)
-		const cardsLeft = progress + 1 >= cards.length
-		if (cardsLeft) {
-			console.log(cardsToRepeat.length > 0, lastCardRepeat)
-			setPracticeState(
-				cardsToRepeat.length > 0 || lastCardRepeat
-					? 'intermediate-result'
-					: 'result',
-			)
-		}
-	}, [cards.length, cardsToRepeat.length, progress])
-
-	const addToRepeatQueue = useCallback(() => {
-		addCardsToRepeat(currentCard)
-		goToNextCard(true)
-	}, [addCardsToRepeat, currentCard, goToNextCard])
-
-	const onContinuePractice = useCallback(() => {
-		setCards([...cardsToRepeat])
-		resetPractice()
-	}, [cardsToRepeat])
-
-	const onRestart = useCallback(() => {
-		setCards(allCardsRef.current)
-		resetPractice()
-	}, [])
-
-	const onExit = useCallback(() => {
-		router.push('/home')
-	}, [router])
-
-	return {
-		isLoading,
-
-		materialName,
-		practiceState,
-		progress,
-
-		cards,
-		cardsToRepeat,
-		cardsLeft,
-		currentCard,
-
-		addToRepeatQueue,
-		goToNextCard,
-
-		onContinuePractice,
-		onRestart,
-		onExit,
-	}
-}
-
-
-function usePracticeInit(setMaterialName: (name: string) => void, setCards: (cards: Array<Card>) => void) {
+function useLoadData(onMaterialNameLoad: (name: string) => void, onCardsLoad: (cards: Array<Card>) => void) {
 	const {data: practiceData, status, isLoading, mutate} = useMutation('cards', async () => {
 		const response = await CardsAPI.get().getFlipPracticeData()
 
@@ -168,9 +68,9 @@ function usePracticeInit(setMaterialName: (name: string) => void, setCards: (car
 			return
 		}
 
-		setMaterialName(practiceData.materialName)
-		setCards(practiceData.cards)
-	}, [setCards, practiceData, setMaterialName, status])
+		onMaterialNameLoad(practiceData.materialName)
+		onCardsLoad(practiceData.cards)
+	}, [onCardsLoad, practiceData, onMaterialNameLoad, status])
 
 	return isLoading
 }

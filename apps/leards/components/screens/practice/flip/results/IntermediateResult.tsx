@@ -1,28 +1,35 @@
 import {ResultCard} from '@leards/components/screens/practice/flip/results/common/ResultCard'
+import {practiceActions, practiceAtom} from '@leards/components/screens/practice/flip/viewmodel/practiceAtom'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
+import {useAction, useAtom} from '@reatom/npm-react'
 import {Button} from '@viewshka/uikit'
 import React from 'react'
 import styles from './Results.module.css'
 
 type IntermediateResultProps = {
-	learnedCardsCount: number
-	repeatCardsCount: number
 	onExit: () => void
-	onContinuePractice: () => void
 }
-function IntermediateResult({learnedCardsCount, repeatCardsCount, onExit, onContinuePractice}: IntermediateResultProps) {
+function IntermediateResult({onExit}: IntermediateResultProps) {
+	const [practice] = useAtom(practiceAtom)
+	const handleContinuePracticeAction = useAction(practiceActions.continuePractice)
 	const getMessage = useMessages()
+
+	if (practice.status !== 'intermediate-result') {
+		return null
+	}
+
+	const {cardsLeft, cardsLearned} = practice
 
 	return (
 		<div className={styles.container}>
 			<ResultCard>
 				<div className={styles.header}>{getMessage('Practice.Flip.WantContinue')}</div>
 				<Stats
-					learnedCardsCount={learnedCardsCount}
-					repeatCardsCount={repeatCardsCount}
+					learnedCardsCount={cardsLearned}
+					repeatCardsCount={cardsLeft}
 				/>
 				<ResultFooter
-					onContinuePractice={onContinuePractice}
+					onContinuePractice={() => handleContinuePracticeAction()}
 					onExit={onExit}
 				/>
 			</ResultCard>
