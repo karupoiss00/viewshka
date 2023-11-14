@@ -34,7 +34,7 @@ function FlipPractice() {
 	if (isLoading) {
 		return <LoadingPage/>
 	}
-	console.log(practice)
+
 	return (
 		<div className={styles.layout}>
 			<PracticeTopPanel materialName={materialName} />
