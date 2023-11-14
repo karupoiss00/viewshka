@@ -17,7 +17,6 @@ type FlipCardsProps = {
 function FlipCardsStack({topCard, cardsLeft} : FlipCardsProps) {
 	const [activeSide, setActiveSide] = useState<ActiveSide>('front')
 	const ghosts = []
-	const cardRef = useRef<HTMLDivElement>()
 
 	for (let i = 0; i < cardsLeft - 1; i++) {
 		ghosts.push(<CardGhost key={i}/>)
@@ -31,7 +30,6 @@ function FlipCardsStack({topCard, cardsLeft} : FlipCardsProps) {
 		<div className={styles.flipCardsContainer}>
 			{ghosts}
 			<Card
-				ref={cardRef}
 				activeSide={activeSide}
 				setActiveSide={setActiveSide}
 				frontSideText={topCard.frontSide}
@@ -47,7 +45,7 @@ type CardProps = {
 	frontSideText: string
 	backSideText: string
 }
-const Card = React.forwardRef<HTMLDivElement, CardProps>(({activeSide, setActiveSide, frontSideText, backSideText}: CardProps, ref) => {
+function Card({activeSide, setActiveSide, frontSideText, backSideText}: CardProps) {
 	const [playAnimation, setPlayAnimation] = useState<'first-part'|'second-part'|'none'>('none')
 
 	const onClick: MouseEventHandler<HTMLDivElement> = e => {
@@ -58,6 +56,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(({activeSide, setActive
 	}
 
 	const onMouseDown: MouseEventHandler<HTMLDivElement> = e => {
+		// нужно для того чтобы не выделся текст двойным кликом
 		if (e.detail > 1) {
 			e.preventDefault()
 		}
@@ -85,7 +84,6 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(({activeSide, setActive
 			onClick={onClick}
 			onMouseDown={onMouseDown}
 			onAnimationEnd={onAnimationEnd}
-			ref={ref}
 		>
 			<span>
 				{activeSide === 'front' && frontSideText}
@@ -93,7 +91,7 @@ const Card = React.forwardRef<HTMLDivElement, CardProps>(({activeSide, setActive
 			</span>
 		</div>
 	)
-})
+}
 
 function CardGhost() {
 	const stylesRef = useRef({
