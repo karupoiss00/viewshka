@@ -19,7 +19,7 @@ const CONTENT_NAME_MESSAGES = new Map<ContentType, string>([
 ])
 
 type ContentSettingsPopupProps = {
-	contentType: ContentType
+	contentType: string
 	contentId: string
 	contentName: string
 }
@@ -53,6 +53,11 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 		window.navigator.clipboard.writeText(link)
 		linkContainer.select()
 		linkContainer.setSelectionRange(0, link.length)
+	}
+
+	if (contentType !== 'deck' && contentType !== 'folder') {
+		console.error(`Unknown content type: ${contentType}`)
+		return null
 	}
 
 	return (
@@ -119,7 +124,7 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 	)
 }
 
-function useDeleteContentMutation(type: ContentType, contentId: string) {
+function useDeleteContentMutation(type: string, contentId: string) {
 	const queryClient = useQueryClient()
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
 
@@ -137,7 +142,7 @@ function useDeleteContentMutation(type: ContentType, contentId: string) {
 	})
 }
 
-function useUpdateContentMutation(type: ContentType, contentId: string) {
+function useUpdateContentMutation(type: string, contentId: string) {
 	const queryClient = useQueryClient()
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
 

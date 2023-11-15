@@ -165,7 +165,7 @@ type ContentItemProps = {
 	editable: boolean
 	selected: boolean
 }
-function ContentItem({item, editable, selected}) {
+function ContentItem({item, editable, selected}: ContentItemProps) {
 	const settingsButtonRef = useRef<HTMLButtonElement>()
 
 	return (

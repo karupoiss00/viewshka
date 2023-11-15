@@ -1,5 +1,6 @@
 import {DecksAPI} from '@leards/api/DecksAPI'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
+import {userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {Button, SystemIconDeck, SystemIconFolder} from '@viewshka/uikit'
@@ -20,20 +21,23 @@ interface UserContentProps {
 function UserContent({selectedContent}: UserContentProps) {
 	const router = useRouter()
 	const getMessage = useMessages()
-	const emptyState = !selectedContent || !selectedContent.deckId
+	const [{rootFolderId}] = useAtom(userAtom)
+	const hasContent = !!selectedContent?.deckId
+	const canPractice = selectedContent && (selectedContent.folderId !== rootFolderId)
 
 	return (
 		<div className={styles.container}>
-			{emptyState && <EmptyUserContent />}
-			{!emptyState && <DeckViewer readonly={false}/>}
-			<BottomPanel>
+			{!hasContent && <EmptyUserContent/>}
+			{hasContent && <DeckViewer readonly={false}/>}
+			{canPractice && <BottomPanel>
 				<Button
 					type={'secondary'}
 					size={'medium'}
 					onClick={() => {
-						router.push(`/practice/flip/${selectedContent.folderId}/${selectedContent.deckId}`)
+						router.push(
+                `/practice/flip/${selectedContent.folderId}/${selectedContent.deckId}`,
+						)
 					}}
-					state={emptyState ? 'disabled' : 'default'}
 				>
 					{getMessage('Button.Practice.Flip')}
 				</Button>
@@ -41,13 +45,14 @@ function UserContent({selectedContent}: UserContentProps) {
 					type={'secondary'}
 					size={'medium'}
 					onClick={() => {
-						router.push(`/practice/spacerepetition/${selectedContent.folderId}/${selectedContent.deckId}`)
+						router.push(
+                `/practice/spacerepetition/${selectedContent.folderId}/${selectedContent.deckId}`,
+						)
 					}}
-					state={emptyState ? 'disabled' : 'default'}
 				>
 					{getMessage('Button.Practice.SpaceRepetition')}
 				</Button>
-			</BottomPanel>
+			</BottomPanel>}
 		</div>
 	)
 }
