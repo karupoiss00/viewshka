@@ -1,3 +1,4 @@
+export * from './lib/animation/LifecycleAnimationWrapper'
 export * from './lib/avatar/Avatar'
 export * from './lib/textField/TextField'
 export * from './lib/button/Button'

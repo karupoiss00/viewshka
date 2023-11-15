@@ -1,11 +1,11 @@
+import {PropsWithClassname} from '@viewshka/uikit'
+import classnames from 'classnames'
 import React, {PropsWithChildren} from 'react'
 import styles from './FormContainer.module.css'
 
-function FormContainer(props: PropsWithChildren) {
+function FormContainer({className, children}: PropsWithChildren & PropsWithClassname) {
 	return (
-		<div className={styles.container}>
-			{props.children}
-		</div>
+		<div className={classnames(styles.container, className)}>{children}</div>
 	)
 }
 

@@ -15,4 +15,5 @@
 
 .submit-button {
   margin-block-start: 26px;
+  flex-shrink: 0;
 }

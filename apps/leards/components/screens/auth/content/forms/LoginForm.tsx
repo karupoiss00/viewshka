@@ -1,19 +1,20 @@
 import {AccountsAPI} from '@leards/api/AccountsAPI'
+import {useFormReset} from '@leards/components/screens/auth/content/forms/hooks/useFormReset'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import AuthProvider from '@leards/providers/authProvider'
-import UserProvider from '@leards/providers/userProvider'
 import {useAction} from '@reatom/npm-react'
-import {Button, TextField} from '@viewshka/uikit'
+import {Button, PropsWithClassname, TextField} from '@viewshka/uikit'
 import {useRouter} from 'next/router'
-import React, {useEffect, useState} from 'react'
+import React, {PropsWithChildren, useEffect, useState} from 'react'
 import {useMutation} from 'react-query'
 import {userActions} from '../../../../common/viewmodel/userAtom'
 import FormContainer from './common/FormContainer'
 import {useEnterHandler} from './hooks/useEnterHandler'
 import styles from './LoginForm.module.css'
 
-type LoginFormProps = {
+type LoginFormProps = PropsWithClassname & {
     onRegister: () => void,
+	visible: boolean
 }
 
 type LoginData = {
@@ -21,7 +22,7 @@ type LoginData = {
 	password: string
 }
 
-function LoginForm({onRegister}: LoginFormProps) {
+function LoginForm({className, onRegister, visible}: LoginFormProps) {
 	const getMessage = useMessages()
 	const router = useRouter()
 	const {status, data, mutate} = useLoginMutation()
@@ -30,6 +31,7 @@ function LoginForm({onRegister}: LoginFormProps) {
 	const [unauthorized, setUnauthorized] = useState(false)
 	const handleSetUserAction = useAction(userActions.set)
 	const buttonState = status === 'loading' ? 'loading' : 'default'
+
 	const tryAuthorize = () => {
 		if (email && password) {
 			mutate({
@@ -48,6 +50,11 @@ function LoginForm({onRegister}: LoginFormProps) {
 		}
 	}
 
+	const resetForm = () => {
+		setUnauthorized(false)
+	}
+
+	useFormReset(resetForm, visible)
 	useEnterHandler(tryAuthorize)
 	useEffect(() => {
 		if (status === 'success') {
@@ -63,7 +70,7 @@ function LoginForm({onRegister}: LoginFormProps) {
 	}, [data, handleSetUserAction, router, status])
 
 	return (
-		<FormContainer>
+		<FormContainer className={className}>
 			<TextField
 				placeholder={getMessage('TextField.Email.Placeholder')}
 				onChange={setEmail}
@@ -100,6 +107,5 @@ function useLoginMutation() {
 		return response.data
 	})
 }
-
 
 export default LoginForm
