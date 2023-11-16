@@ -23,7 +23,7 @@ function UserContent({selectedContent}: UserContentProps) {
 	const getMessage = useMessages()
 	const [{rootFolderId}] = useAtom(userAtom)
 	const hasContent = !!selectedContent?.deckId
-	const canPractice = selectedContent && (selectedContent.folderId !== rootFolderId)
+	const canPractice = selectedContent && (selectedContent.deckId || selectedContent.folderId !== rootFolderId)
 
 	return (
 		<div className={styles.container}>

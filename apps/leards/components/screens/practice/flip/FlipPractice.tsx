@@ -43,10 +43,10 @@ function FlipPractice() {
 				practice.status === 'in-progress' && <Practice/>
 			}
 			{
-				practice.status === 'intermediate-result' && <IntermediateResult onExit={() => router.push('/home')}/>
+				practice.status === 'intermediate-result' && <IntermediateResult onExit={() => router.back()}/>
 			}
 			{
-				practice.status === 'result' && <TotalResult onExit={() => router.push('/home')}/>
+				practice.status === 'result' && <TotalResult onExit={() => router.back()}/>
 			}
 		</div>
 	)

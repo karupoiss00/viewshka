@@ -42,12 +42,11 @@
 
 .form-view-box {
   overflow: hidden;
-  transition: all 200ms ease-in-out;
 }
 
 .login-form,
 .register-form {
-  transition: all 200ms ease-in-out;
+  transition: transform 200ms ease-in-out, opacity 100ms ease-in-out;
 }
 
 .register-form-visible {
