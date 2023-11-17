@@ -8,7 +8,6 @@ import {
 	PropsWithClassname,
 	Button,
 	Popup,
-	PopupLayer,
 	SelectList,
 	SystemIconDeck,
 	SystemIconFolder,

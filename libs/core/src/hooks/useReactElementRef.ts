@@ -27,9 +27,10 @@ function useReactElementRef<
 		throw new Error('useReactElementRef: RefCallback not supported')
 	}
 
-	return elementRef
-		? [reactElement, elementRef]
-		: [cloneElement(reactElement, {ref}) as REACT_ELEM, ref]
+	if (elementRef) {
+		return [reactElement, elementRef as RefObject<T>]
+	}
+	return [cloneElement(reactElement, {ref}) as REACT_ELEM, ref]
 }
 
 export {

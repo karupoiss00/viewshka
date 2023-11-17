@@ -35,7 +35,7 @@ function SpaceRepetition() {
 	return (
 		<div className={styles.layout}>
 			<PracticeTopPanel materialName={materialName} />
-			<ProgressBar progress={progress} maxProgress={cards.length}/>
+			<ProgressBar progress={progress / cards.length}/>
 			<div className={styles.cardsContainer}>
 				<FlipCardsStack topCard={currentCard} cardsLeft={cardsLeft}/>
 			</div>
