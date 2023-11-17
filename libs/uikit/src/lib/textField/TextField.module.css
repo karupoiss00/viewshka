@@ -73,7 +73,7 @@
     display: flex;
     cursor: pointer;
     user-select: none;
-    padding-inline-end: 30px;
+    padding-inline-end: 20px;
 }
 
 .empty-text-field {
