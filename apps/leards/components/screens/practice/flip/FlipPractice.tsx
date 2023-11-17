@@ -10,7 +10,8 @@ import {
 	practiceAtom,
 } from '@leards/components/screens/practice/flip/viewmodel/practiceAtom'
 import {useAction, useAtom} from '@reatom/npm-react'
-import {useRouter} from 'next/router'
+import {Route} from 'cypress/types/net-stubbing'
+import {NextRouter, useRouter} from 'next/router'
 import React, {useCallback, useEffect, useState} from 'react'
 import {useMutation} from 'react-query'
 import LoadingPage from '../../loading/LoadingPage'
@@ -75,6 +76,17 @@ function useLoadData(onMaterialNameLoad: (name: string) => void, onCardsLoad: (c
 	return isLoading
 }
 
+type FlipPracticePagePayload = {
+	folderId: string
+	deckId: string | null
+}
+function goToFlipPractice(router: NextRouter, payload: FlipPracticePagePayload) {
+	router.push(
+		`/practice/flip/${payload.folderId}/${payload.deckId || ''}`,
+	)
+}
+
 export {
 	FlipPractice,
+	goToFlipPractice,
 }

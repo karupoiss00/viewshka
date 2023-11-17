@@ -259,7 +259,7 @@ function useSelectedFolderQuery(folderId: string | null, selectionType: Selectio
 
 async function requestRootFolder(rootFolderId: string, userId: string, selectionType: Selection['type']) {
 	if (selectionType === 'library') {
-		return LibraryAPI.get().getSavedDecks(userId)
+		return LibraryAPI.get().getFavoriteStorages(userId)
 	}
 
 	const {data} = await FoldersAPI.get().getFolderById(rootFolderId)

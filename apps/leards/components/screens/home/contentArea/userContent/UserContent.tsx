@@ -1,6 +1,7 @@
 import {DecksAPI} from '@leards/api/DecksAPI'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {userAtom} from '@leards/components/common/viewmodel/userAtom'
+import {goToFlipPractice} from '@leards/components/screens/practice/flip/FlipPractice'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {Button, SystemIconDeck, SystemIconFolder} from '@viewshka/uikit'
@@ -34,9 +35,7 @@ function UserContent({selectedContent}: UserContentProps) {
 					type={'secondary'}
 					size={'medium'}
 					onClick={() => {
-						router.push(
-                `/practice/flip/${selectedContent.folderId}/${selectedContent.deckId}`,
-						)
+						selectedContent && goToFlipPractice(router, selectedContent)
 					}}
 				>
 					{getMessage('Button.Practice.Flip')}

@@ -1,6 +1,8 @@
+import {goToFlipPractice} from '@leards/components/screens/practice/flip/FlipPractice'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {Button} from '@viewshka/uikit'
+import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
 import {currentDeckAtom} from '../../viewmodel/currentDeckAtom'
 import {currentFolderAtom} from '../../viewmodel/currentFolderAtom'
@@ -46,7 +48,7 @@ function LibraryBottomPanel({selectedContent}: LibraryBottomPanelProps) {
 	}, [content, selectedContent])
 
 	const mapStateToView = new Map([
-		['added-material', <TrainBottomPanel disabled={emptyState}/>],
+		['added-material', <TrainBottomPanel selectedContent={selectedContent} disabled={emptyState}/>],
 		['new-material', <AddMaterialBottomPanel/>],
 	])
 
@@ -58,18 +60,20 @@ function LibraryBottomPanel({selectedContent}: LibraryBottomPanelProps) {
 }
 
 interface TrainBottomPanelProps {
+	selectedContent: SelectedContentData | null
 	disabled: boolean
 }
-function TrainBottomPanel({disabled}: TrainBottomPanelProps) {
+function TrainBottomPanel({disabled, selectedContent}: TrainBottomPanelProps) {
+	const router = useRouter()
 	const getMessage = useMessages()
 	return (
 		<Button
 			type={'secondary'}
 			size={'medium'}
-			onClick={() => console.log('start')}
+			onClick={() => selectedContent && goToFlipPractice(router, selectedContent)}
 			state={disabled ? 'disabled' : 'default'}
 		>
-			{getMessage('Button.Start.Train')}
+			{getMessage('Button.Practice.Flip')}
 		</Button>
 	)
 }
