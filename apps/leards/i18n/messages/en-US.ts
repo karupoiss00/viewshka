@@ -20,7 +20,7 @@ export const enMessages = {
 	'Button.Copy.Material': 'Copy',
 	'Sidebar.Title.Materials': 'Materials',
 	'Sidebar.SectionList.UserContent': 'My decks',
-	'Sidebar.SectionList.Library': 'Public decks',
+	'Sidebar.SectionList.Library': 'Library',
 	'Sidebar.SectionList.Tasks': 'Tasks',
 	'Sidebar.Title.UserContent': 'My folders and decks',
 	'Sidebar.Title.Library': 'Favorites',
