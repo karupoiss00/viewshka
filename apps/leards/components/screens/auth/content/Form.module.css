@@ -50,12 +50,12 @@
 }
 
 .register-form-visible {
-  transform: translateY(-298px);
+  transform: translateY(-318px);
   opacity: 1;
 }
 
 .register-form-hidden {
-  transform: translateY(481px);
+  transform: translateY(100%);
   opacity: 0;
 }
 
@@ -65,6 +65,6 @@
 }
 
 .login-form-hidden {
-  transform: translateY(-298px);
+  transform: translateY(-100%);
   opacity: 0;
 }

@@ -39,6 +39,8 @@
 
 .button-spacing--none {
     height: auto;
+    padding-block: 0;
+    padding-inline: 0;
 }
 
 

@@ -9,6 +9,23 @@
     padding-inline-start: 45px;
 }
 
+.list {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.card:first-child {
+    border-start-start-radius: 10px;
+    border-start-end-radius: 10px;
+}
+
+.card:last-child {
+    border-end-start-radius: 10px;
+    border-end-end-radius: 10px;
+}
+
 .side-value-editor {
     width: 100%;
     outline: none;

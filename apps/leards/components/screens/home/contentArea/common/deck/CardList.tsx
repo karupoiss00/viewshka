@@ -2,7 +2,7 @@ import {Card as CardData, Deck as DeckData} from '@leards/api/generated'
 import {useAction} from '@reatom/npm-react'
 import React, {useState} from 'react'
 import {currentDeckActions} from '../../../viewmodel/currentDeckAtom'
-import styles from './Card.module.css'
+import styles from './CardList.module.css'
 
 interface CardListProps {
 	deck: DeckData
@@ -10,11 +10,11 @@ interface CardListProps {
 }
 function CardList({deck, readonly}: CardListProps) {
 	return (
-		<>
+		<div className={styles.list}>
 			{deck.content.map(card => (
 				<Card card={card} key={card.cardId} readonly={readonly}/>
 			))}
-		</>
+		</div>
 	)
 }
 

@@ -82,7 +82,9 @@ function TextField({
 					onClick={() => setIsVisible(!isVisible)}
 				/>
 			</div>
-			{!!errorMessage && <p className={styles['error-text']} hidden={isValidData}>{errorMessage}</p>}
+			<p className={classnames(styles['error-text'], {
+				[styles['error-text--visible']]: errorMessage && !isValidData,
+			})}>{errorMessage}</p>
 		</div>
 	)
 }

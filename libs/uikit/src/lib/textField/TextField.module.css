@@ -61,19 +61,20 @@
     color: var(--error-color);
     font: var(--small-light-text);
     padding-inline-start: 20px;
-    padding-block-start: 5px;
+    padding-block-start: 3px;
     user-select: none;
+    opacity: 0;
 }
 
-.error-text--hidden {
-    visibility: hidden;
+.error-text--visible {
+    opacity: 1;
 }
 
 .eye-container {
     display: flex;
     cursor: pointer;
     user-select: none;
-    padding-inline-end: 30px;
+    padding-inline-end: 20px;
 }
 
 .empty-text-field {

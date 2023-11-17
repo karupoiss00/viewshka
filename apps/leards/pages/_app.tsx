@@ -15,8 +15,9 @@ function LeardsApplication({Component, pageProps}: AppProps) {
 			<reatomContext.Provider value={ctx}>
 				<Head>
 					<title>Leards</title>
+					<link rel="icon" href="/favicon.png" sizes="any"/>
 				</Head>
-				<Component {...pageProps} />
+				<Component {...pageProps}/>
 				<PopupLayer/>
 				<PopoverLayer/>
 			</reatomContext.Provider>

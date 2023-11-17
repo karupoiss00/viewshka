@@ -180,7 +180,7 @@ function ContentItem({item, editable, selected}: ContentItemProps) {
 			{editable
 				&& <Button
 					className={styles.settingsButton}
-					type={'ghost'}
+					type={'link'}
 					size={'small'}
 					onClick={e => e.preventDefault()}
 					spacing={'none'}

@@ -60,7 +60,7 @@
 }
 
 .content-item {
-    position:relative;
+    position: relative;
     display: flex;
 }
 
@@ -68,7 +68,6 @@
     display: flex;
     flex-direction: row-reverse;
     opacity: 0;
-    padding-inline: 8px;
     padding-block: 12px;
     margin-inline-start: auto;
     margin-inline-end: 0;
@@ -77,6 +76,14 @@
 .content-item:hover > .settings-button,
 .settings-button:hover {
     opacity: 1;
+}
+
+.content-item--selected > .settings-button {
+    color: #767676;
+}
+
+.content-item--selected > .settings-button:hover {
+    color: var(--text-color-default);
 }
 
 .content-item:active:has(.settings-button:active) {
