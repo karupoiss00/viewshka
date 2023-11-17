@@ -1,3 +1,4 @@
+import classnames from 'classnames'
 import Image from 'next/image'
 import React, {useState} from 'react'
 import styles from './Form.module.css'
@@ -13,11 +14,37 @@ function Form() {
 
 	return (
 		<div className={styles.layout}>
-			<div className={styles.logo}>
-				<Image src={'/images/Logo.svg'} width={326} height={200} alt={'logo'} priority={true}/>
+			<div className={classnames(styles.logo, {
+				[styles.logoSmall]: formState === 'register',
+			})}>
+				<img
+					className={classnames(styles.logoImage, {
+						[styles.logoImageSmall]: formState === 'register',
+					})}
+					src={'/images/Logo.svg'}
+					alt={'logo'}
+				/>
 			</div>
-			{formState === 'login' && <LoginForm onRegister={goRegister}/>}
-			{formState === 'register' && <RegisterForm onLogin={goLogin}/>}
+			<div className={styles.formContainer}>
+				<div className={styles.formViewBox}>
+					<LoginForm
+						className={classnames(styles.loginForm, {
+							[styles.loginFormVisible]: formState === 'login',
+							[styles.loginFormHidden]: formState !== 'login',
+						})}
+						visible={formState === 'login'}
+						onRegister={goRegister}
+					/>
+					<RegisterForm
+						className={classnames(styles.registerForm, {
+							[styles.registerFormVisible]: formState === 'register',
+							[styles.registerFormHidden]: formState !== 'register',
+						})}
+						visible={formState === 'register'}
+						onLogin={goLogin}
+					/>
+				</div>
+			</div>
 		</div>
 	)
 }

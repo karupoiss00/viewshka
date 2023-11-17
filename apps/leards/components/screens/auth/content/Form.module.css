@@ -7,11 +7,64 @@
   border: 1px solid var(--stroke-color);
   border-radius: 23px;
   background: var(--surface-color);
-  margin-block-start: 80px;
+  margin-block: auto;
   align-self: flex-start;
+  height: 740px;
+  overflow: hidden;
 }
 
 .logo {
-  margin-block-end: 90px;
+  margin-block-start: 30px;
+  margin-block-end: 120px;
   pointer-events: none;
+  transition: margin 400ms ease-in-out;
+}
+
+.logo--small {
+  margin-block-start: 0;
+  margin-block-end: 45px;
+}
+
+.logo-image {
+  width: 326px;
+  height: 200px;
+  transition: width 400ms ease-in-out, height 400ms ease-in-out;
+}
+
+.logo-image--small {
+  width: 163px;
+  height: 100px;
+}
+
+.form-container {
+  position: relative;
+}
+
+.form-view-box {
+  overflow: hidden;
+}
+
+.login-form,
+.register-form {
+  transition: transform 400ms ease-in-out, opacity 100ms ease-in-out;
+}
+
+.register-form-visible {
+  transform: translateY(-298px);
+  opacity: 1;
+}
+
+.register-form-hidden {
+  transform: translateY(481px);
+  opacity: 0;
+}
+
+.login-form-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.login-form-hidden {
+  transform: translateY(-298px);
+  opacity: 0;
 }

@@ -58,3 +58,31 @@
     height: 155px;
     background: url('/images/empty_sidebar_placeholder.svg') no-repeat center;
 }
+
+.content-item {
+    position:relative;
+    display: flex;
+}
+
+.settings-button {
+    display: flex;
+    flex-direction: row-reverse;
+    opacity: 0;
+    padding-inline: 8px;
+    padding-block: 12px;
+    margin-inline-start: auto;
+    margin-inline-end: 0;
+}
+
+.content-item:hover > .settings-button,
+.settings-button:hover {
+    opacity: 1;
+}
+
+.content-item:active:has(.settings-button:active) {
+    background: var(--selection-color);
+}
+
+.content-item--selected:active:has(.settings-button:active) {
+    background: var(--accent-color);
+}

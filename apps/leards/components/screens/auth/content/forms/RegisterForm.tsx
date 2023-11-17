@@ -1,10 +1,11 @@
 import {AccountsAPI} from '@leards/api/AccountsAPI'
 import {CreateUserRequest} from '@leards/api/generated'
+import {useFormReset} from '@leards/components/screens/auth/content/forms/hooks/useFormReset'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import AuthProvider from '@leards/providers/authProvider'
 import {useAction} from '@reatom/npm-react'
 import {isValidEmail} from '@viewshka/core'
-import {Button, TextField} from '@viewshka/uikit'
+import {Button, PropsWithClassname, TextField} from '@viewshka/uikit'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
 import {useMutation} from 'react-query'
@@ -13,11 +14,12 @@ import FormContainer from './common/FormContainer'
 import {useEnterHandler} from './hooks/useEnterHandler'
 import styles from './RegisterForm.module.css'
 
-type RegisterFormProps = {
+type RegisterFormProps = PropsWithClassname & {
 	onLogin: () => void;
+	visible: boolean;
 };
 
-function RegisterForm({onLogin}: RegisterFormProps) {
+function RegisterForm({className, onLogin, visible}: RegisterFormProps) {
 	const router = useRouter()
 	const getMessage = useMessages()
 	const handleSetUserAction = useAction(userActions.set)
@@ -71,8 +73,15 @@ function RegisterForm({onLogin}: RegisterFormProps) {
 		}
 	}
 
-	useEnterHandler(tryRegister)
+	const resetForm = () => {
+		setUsernameValid(true)
+		setEmailValid(true)
+		setPasswordValid(true)
+		setPasswordVerified(true)
+	}
 
+	useEnterHandler(tryRegister)
+	useFormReset(resetForm, visible)
 	useEffect(() => {
 		if (status == 'success') {
 			AuthProvider.setAuthToken(data.user.authToken)
@@ -84,7 +93,7 @@ function RegisterForm({onLogin}: RegisterFormProps) {
 	}, [data, handleSetUserAction, router, status])
 
 	return (
-		<FormContainer>
+		<FormContainer className={className}>
 			<TextField
 				placeholder={getMessage('TextField.Email.Placeholder')}
 				onChange={setEmail}

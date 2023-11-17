@@ -18,9 +18,9 @@ function useOutsideClick(ref: React.MutableRefObject<HTMLElement | null>, callba
 		 	подписка откладывается на один кадр отрисовки,
 		 	чтобы повторный клик по триггеру не считался кликом вне поповера
 		 */
-		requestAnimationFrame(() => document.addEventListener('click', onClick))
+		requestAnimationFrame(() => document.addEventListener('mousedown', onClick))
 		return () => {
-			requestAnimationFrame(() => document.removeEventListener('click', onClick))
+			requestAnimationFrame(() => document.removeEventListener('mousedown', onClick))
 		}
 	}, [callback, ref])
 

@@ -1,6 +1,6 @@
-import {PropsWithClassname} from '@viewshka/core'
+import {PropsWithClassname} from '@viewshka/uikit'
 import classnames from 'classnames'
-import {useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {SystemIconCloseEye} from '../icons/SystemIconCloseEye'
 import {SystemIconOpenEye} from '../icons/SystemIconOpenEye'
 import styles from './TextField.module.css'
@@ -14,6 +14,7 @@ type TextFieldProps = PropsWithClassname & {
 	valid?: boolean
     onChange: (value: string) => void
     onValidate?: (value: string) => boolean
+	invalidateOnChange?: boolean
 }
 
 function TextField({
@@ -26,6 +27,7 @@ function TextField({
 	onValidate,
 	valid,
 	initialValue,
+	invalidateOnChange = false,
 }: TextFieldProps) {
 	const [isValidData, setIsValidData] = useState(true)
 	const [isVisible, setIsVisible] = useState(!contentHidden)
@@ -37,6 +39,23 @@ function TextField({
 		}
 	}, [valid])
 
+	const validate = useCallback(
+		(value: string) => onValidate && setIsValidData(onValidate(value)),
+		[onValidate],
+	)
+
+	const onChangeHandler = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
+		const value = event.target.value
+		if (invalidateOnChange) {
+			validate(value)
+		}
+		else {
+			setIsValidData(true)
+		}
+		onChange(value)
+		setText(value)
+	}, [invalidateOnChange, onChange, validate])
+
 	return (
 		<div className={styles['text-field-container']}>
 			<div
@@ -44,18 +63,14 @@ function TextField({
 					[styles['text-field--default']]: isValidData,
 					[styles['text-field--error']]: !isValidData,
 				}, styles[`text-field-size-${size}`], className)}
-				onBlur={() => onValidate && setIsValidData(onValidate(text))}
+				onBlur={() => validate(text)}
 			>
 				<input
 					className={classnames(styles['text-field-input'], styles[`text-field-input-${size}`])}
 					placeholder={placeholder}
 					type={isVisible ? 'text' : 'password'}
 					value={text}
-					onChange={event => {
-						setIsValidData(true)
-						onChange(event.target.value)
-						setText(event.target.value)
-					}}
+					onChange={onChangeHandler}
 				>
 				</input>
 				<TextVisibilitySwitcher

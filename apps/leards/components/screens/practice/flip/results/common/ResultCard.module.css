@@ -1,0 +1,13 @@
+.result-card {
+    display: flex;
+    flex-direction: column;
+    width: 400px;
+    margin-block: auto;
+    margin-inline: auto;
+    padding-block: 50px 55px;
+    padding-inline: 50px;
+    background: var(--surface-color);
+    border: 1px solid var(--selection-color);
+    border-radius: 10px;
+    gap: 40px;
+}

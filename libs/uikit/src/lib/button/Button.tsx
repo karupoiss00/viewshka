@@ -1,6 +1,6 @@
-import {PropsWithClassname} from '@viewshka/core'
 import classnames from 'classnames'
 import React, {PropsWithChildren} from 'react'
+import {PropsWithClassname} from '../common/PropsWithClassname'
 import commonStyles from './Common.module.css'
 import ghostStyles from './GhostButton.module.css'
 import linkStyles from './LinkButton.module.css'
@@ -15,7 +15,7 @@ type ButtonSpacing = 'default' | 'none';
 type ButtonProps = PropsWithChildren & PropsWithClassname & {
 	type: ButtonType;
 	size: ButtonSize;
-	onClick: () => void;
+	onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 	state?: ButtonState;
 	spacing?: ButtonSpacing;
 	flexible?: boolean;

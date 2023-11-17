@@ -3,24 +3,11 @@ import ComponentStory, {StoryColumn} from '../../common/ComponentStory'
 import {addStory} from '../../stories'
 import styles from './TokensStory.module.css'
 
-/*
-* --large-regular-text: 400 44px "Euclid Circular B";
-    --large-light-text: 300 32px "Euclid Circular B";
-
-    --normal-medium-text: 500 24px "Euclid Circular B";
-    --normal-regular-text: 400 24px "Euclid Circular B";
-    --normal-light-text: 300 20px "Euclid Circular B";
-
-    --small-medium-text: 500 18px "Euclid Circular B";
-    --small-regular-text: 400 18px "Euclid Circular B";
-    --small-light-text: 300 16px "Euclid Circular B";
-
-    --xsmall-light-text: 300 12px "Euclid Circular B";*/
-
 function TokensStory() {
 	return (
 		<ComponentStory>
 			<StoryColumn width={400} name={'Colors'}>
+				<ColorExample colorName={'--access-color'}/>
 				<ColorExample colorName={'--accent-color'}/>
 				<ColorExample colorName={'--error-color'}/>
 				<ColorExample colorName={'--selection-color'}/>

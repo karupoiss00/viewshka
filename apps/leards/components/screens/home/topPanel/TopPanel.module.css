@@ -1,18 +1,12 @@
-.panel {
-    display: flex;
-    flex-direction: row;
-    height: 60px;
-    background: var(--accent-color);
-    align-items: center;
-}
-
 .user-content-panel {
     display: flex;
+    align-items: center;
+    justify-content: center;
     width: 100%;
 }
 
 .breadcrumbs {
-    margin-inline-start: 27%;
+    width: 760px;
 }
 
 .library-panel {

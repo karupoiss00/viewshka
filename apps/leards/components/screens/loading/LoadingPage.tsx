@@ -1,14 +1,11 @@
-import React, {PropsWithChildren} from 'react'
+import React from 'react'
+import {Preloader} from '../../common/preloader/Preloader'
 import styles from './LoadingPage.module.css'
 
-type BaseLayoutProps = PropsWithChildren & {
-	className?: string
-}
-
-function LoadingPage({children, className}: BaseLayoutProps) {
+function LoadingPage() {
 	return (
 		<div className={styles.layout}>
-			{children}
+			<Preloader/>
 		</div>
 	)
 }

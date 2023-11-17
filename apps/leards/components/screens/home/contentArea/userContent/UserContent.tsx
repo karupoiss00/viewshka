@@ -1,10 +1,13 @@
 import {DecksAPI} from '@leards/api/DecksAPI'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
+import {userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {Button, SystemIconDeck, SystemIconFolder} from '@viewshka/uikit'
+import {useRouter} from 'next/router'
 import React from 'react'
 import {useMutation, useQueryClient} from 'react-query'
+import {SELECTED_FOLDER_QUERY_KEY} from '../../sidebar/Sidebar'
 import {SelectedContentData} from '../../viewmodel/selection/Selection'
 import {selectedFolderIdAtom} from '../../viewmodel/selectionAtom'
 import {BottomPanel} from '../common/BottomPanel'
@@ -16,23 +19,40 @@ interface UserContentProps {
 }
 
 function UserContent({selectedContent}: UserContentProps) {
+	const router = useRouter()
 	const getMessage = useMessages()
-	const emptyState = !selectedContent || !selectedContent.deckId
+	const [{rootFolderId}] = useAtom(userAtom)
+	const hasContent = !!selectedContent?.deckId
+	const canPractice = selectedContent && (selectedContent.deckId || selectedContent.folderId !== rootFolderId)
 
 	return (
 		<div className={styles.container}>
-			{emptyState && <EmptyUserContent />}
-			{!emptyState && <DeckViewer readonly={false}/>}
-			<BottomPanel>
+			{!hasContent && <EmptyUserContent/>}
+			{hasContent && <DeckViewer readonly={false}/>}
+			{canPractice && <BottomPanel>
 				<Button
 					type={'secondary'}
 					size={'medium'}
-					onClick={() => console.log('start')}
-					state={emptyState ? 'disabled' : 'default'}
+					onClick={() => {
+						router.push(
+                `/practice/flip/${selectedContent.folderId}/${selectedContent.deckId}`,
+						)
+					}}
 				>
-					{getMessage('Button.Start.Train')}
+					{getMessage('Button.Practice.Flip')}
 				</Button>
-			</BottomPanel>
+				<Button
+					type={'secondary'}
+					size={'medium'}
+					onClick={() => {
+						router.push(
+                `/practice/spacerepetition/${selectedContent.folderId}/${selectedContent.deckId}`,
+						)
+					}}
+				>
+					{getMessage('Button.Practice.SpaceRepetition')}
+				</Button>
+			</BottomPanel>}
 		</div>
 	)
 }
@@ -45,11 +65,11 @@ function EmptyUserContent() {
 	return (
 		<div className={styles.emptyContent}>
 			<div className={styles.createButtonsContainer}>
-				<Button type={'secondary'} size={'large'} onClick={createFolder}>
+				<Button type={'secondary'} size={'large'} onClick={() => createFolder()}>
 					{<SystemIconFolder/>}
 					{getMessage('Button.Create.Folder')}
 				</Button>
-				<Button type={'secondary'} size={'large'} onClick={createDeck}>
+				<Button type={'secondary'} size={'large'} onClick={() => createDeck()}>
 					{<SystemIconDeck/>}
 					{getMessage('Button.Create.Deck')}
 				</Button>
@@ -69,7 +89,7 @@ function useDeckCreateMutation() {
 			parentFolderId: selectedFolderId,
 		})
 		await queryClient.invalidateQueries({
-			queryKey: ['sidebar-folder'],
+			queryKey: [SELECTED_FOLDER_QUERY_KEY],
 		})
 	})
 }
@@ -85,7 +105,7 @@ function useFolderCreateMutation() {
 			parentFolderId: selectedFolderId,
 		})
 		await queryClient.invalidateQueries({
-			queryKey: ['sidebar-folder'],
+			queryKey: [SELECTED_FOLDER_QUERY_KEY],
 		})
 	})
 }
