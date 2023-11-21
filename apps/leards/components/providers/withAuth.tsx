@@ -30,9 +30,6 @@ export const withAuth = (Component: NextComponentType) => () => {
 		if (status === 'success') {
 			AuthProvider.setAuthToken(data.token)
 		}
-		if (status === 'error') {
-			router.replace('/')
-		}
 	}, [data, router, status])
 
 	if (status === 'success') {

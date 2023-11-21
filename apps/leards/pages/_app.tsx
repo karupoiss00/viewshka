@@ -3,11 +3,12 @@ import {reatomContext} from '@reatom/npm-react'
 import {PopoverLayer, PopupLayer} from '@viewshka/uikit'
 import {AppProps} from 'next/app'
 import Head from 'next/head'
-import {QueryClient, QueryClientProvider} from 'react-query'
+import {QueryClientProvider} from 'react-query'
+import {createQueryClient} from '../queries/createQueryClient'
 import './styles.css'
 
 const ctx = createCtx()
-const queryClient = new QueryClient()
+const queryClient = createQueryClient()
 
 function LeardsApplication({Component, pageProps}: AppProps) {
 	return (

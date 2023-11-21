@@ -35,7 +35,7 @@ function UserContent({selectedContent}: UserContentProps) {
 					type={'secondary'}
 					size={'medium'}
 					onClick={() => {
-						selectedContent && goToFlipPractice(router, selectedContent)
+						selectedContent && goToFlipPractice(selectedContent)
 					}}
 				>
 					{getMessage('Button.Practice.Flip')}

@@ -1,7 +1,5 @@
-import {PopupLayer} from '@viewshka/uikit'
-import Auth from '../components/screens/auth/Auth'
-import {withI18n} from '../components/wrappers/withI18n'
-import Home from './home'
+import {withI18n} from '@leards/components/providers/withI18n'
+import {Auth} from '../components/screens/auth/Auth'
 
 export function Index() {
 	return (

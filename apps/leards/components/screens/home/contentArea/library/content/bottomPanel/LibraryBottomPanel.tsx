@@ -6,7 +6,6 @@ import {goToFlipPractice} from '@leards/components/screens/practice/flip/FlipPra
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {Button} from '@viewshka/uikit'
-import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
 import styles from './LibraryBottomPanel.module.css'
 
@@ -46,13 +45,12 @@ interface TrainBottomPanelProps {
 	disabled: boolean
 }
 function TrainBottomPanel({disabled, selectedContent}: TrainBottomPanelProps) {
-	const router = useRouter()
 	const getMessage = useMessages()
 	return (
 		<Button
 			type={'secondary'}
 			size={'medium'}
-			onClick={() => selectedContent && goToFlipPractice(router, selectedContent)}
+			onClick={() => selectedContent && goToFlipPractice(selectedContent)}
 			state={disabled ? 'disabled' : 'default'}
 		>
 			{getMessage('Button.Practice.Flip')}

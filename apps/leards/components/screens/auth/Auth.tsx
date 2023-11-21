@@ -1,3 +1,4 @@
+import Router from 'next/router'
 import React from 'react'
 import styles from './Auth.module.css'
 import Form from './content/Form'
@@ -10,4 +11,11 @@ function Auth() {
 	)
 }
 
-export default Auth
+function goToAuth() {
+	Router.push(`/`)
+}
+
+export {
+	goToAuth,
+	Auth,
+}
