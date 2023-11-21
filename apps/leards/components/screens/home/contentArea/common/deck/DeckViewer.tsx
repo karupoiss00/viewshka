@@ -4,8 +4,9 @@ import {Card, Deck} from '@leards/api/generated'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
 import {useDebounce, useDidUpdateEffect} from '@viewshka/core'
+import classnames from 'classnames'
 import {useRouter} from 'next/router'
-import React, {useEffect, useRef, useState} from 'react'
+import React, {MutableRefObject, Ref, useEffect, useRef, useState} from 'react'
 import {useMutation, useQuery} from 'react-query'
 import {currentDeckActions, currentDeckAtom} from '../../../viewmodel/currentDeckAtom'
 import {selectedDeckIdAtom, selectedFolderIdAtom} from '../../../viewmodel/selectionAtom'
@@ -19,6 +20,7 @@ function DeckViewer({readonly}: DeckViewerProps) {
 	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
 	const [deck] = useAtom(currentDeckAtom)
+	const contentRef = useRef<HTMLDivElement>()
 	const debouncedDeck = useDebounce(deck, 1000)
 	const {mutate: updateDeckRequest, isLoading} = useUpdateDeckMutation(selectedFolderId, debouncedDeck)
 

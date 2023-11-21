@@ -63,10 +63,6 @@ function SectionsList() {
 					<SystemIconPublicDecks />
 					{getMessage('Sidebar.SectionList.Library')}
 				</SelectList.Item>
-				<SelectList.Item id={'tasks'}>
-					<SystemIconTaskList />
-					{getMessage('Sidebar.SectionList.Tasks')}
-				</SelectList.Item>
 			</SelectList>
 		</div>
 	)

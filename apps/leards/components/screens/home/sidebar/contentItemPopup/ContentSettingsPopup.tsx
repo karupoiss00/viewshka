@@ -33,19 +33,16 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 	const linkContainerRef = useRef<HTMLInputElement>()
 
 	const {mutate: deleteMaterial} = useDeleteContentMutation(contentType, contentId)
-	const {mutate: updateSettings} = useUpdateContentMutation(contentType, contentId)
+	const {mutate: updateName} = useUpdateContentMutation(contentType, contentId)
 
 	const onUpdate = useCallback(() => {
 		if (!nameValid) {
 			return
 		}
 
-		updateSettings({
-			name,
-			accessType: isPublic ? 'public' : 'private',
-		})
+		updateName(name)
 		close()
-	}, [close, isPublic, name, nameValid, updateSettings])
+	}, [close, name, nameValid, updateName])
 
 	const copyShareLink = () => {
 		const {current: linkContainer} = linkContainerRef
@@ -148,19 +145,15 @@ function useUpdateContentMutation(type: string, contentId: string) {
 
 	return useMutation(
 		`update:${type}:${contentId}`,
-		async (args: { name: string, accessType: 'public' | 'private'}) => {
-			const {name, accessType} = args
-
+		async (name: string) => {
 			if (type === 'deck') {
 				await DecksAPI.get().updateDeckById(selectedFolderId, contentId, {
 					name,
-					accessType,
 				})
 			}
 			if (type === 'folder') {
 				await FoldersAPI.get().updateFolderById(contentId, {
 					name,
-					accessType,
 				})
 			}
 

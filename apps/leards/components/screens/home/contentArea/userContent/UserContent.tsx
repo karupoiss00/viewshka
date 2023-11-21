@@ -80,12 +80,14 @@ function EmptyUserContent() {
 function useDeckCreateMutation() {
 	const queryClient = useQueryClient()
 	const getMessage = useMessages()
+	const [user] = useAtom(userAtom)
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
 
 	return useMutation(async () => {
 		await DecksAPI.get().createNewDeck(selectedFolderId, {
 			name: getMessage('Deck.DefaultName'),
 			parentFolderId: selectedFolderId,
+			userId: user.id,
 		})
 		await queryClient.invalidateQueries({
 			queryKey: [SELECTED_FOLDER_QUERY_KEY],
@@ -96,12 +98,14 @@ function useDeckCreateMutation() {
 function useFolderCreateMutation() {
 	const queryClient = useQueryClient()
 	const getMessage = useMessages()
+	const [user] = useAtom(userAtom)
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
 
 	return useMutation(async () => {
 		await FoldersAPI.get().createNewFolder({
 			name: getMessage('Folder.DefaultName'),
 			parentFolderId: selectedFolderId,
+			userId: user.id,
 		})
 		await queryClient.invalidateQueries({
 			queryKey: [SELECTED_FOLDER_QUERY_KEY],

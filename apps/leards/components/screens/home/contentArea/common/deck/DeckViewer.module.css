@@ -40,7 +40,7 @@
     display: flex;
     flex-shrink: 0;
     content: '';
-    height: 600px;
+    height: 300px;
 }
 
 .side-value-editor {

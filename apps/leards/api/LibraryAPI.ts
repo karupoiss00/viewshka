@@ -28,7 +28,7 @@ const wrappedApi = wrapApi<BaseAPI>(() => {
 const SAVED_DECKS: Array<Content> = []
 
 type MockLibraryApi = {
-	getPopularStorage: (userId: string) => Promise<Folder>;
+	getPopularStorage: () => Promise<Folder>;
 	getFavoriteStorages: (userId: string) => Promise<Folder>;
 	addStorageToFavorite: (userId: string, storageId: string, storageType: 'deck' | 'folder') => Promise<Folder>
 };

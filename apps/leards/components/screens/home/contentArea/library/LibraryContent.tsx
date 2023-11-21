@@ -1,4 +1,5 @@
 import {ContentViewer} from '@leards/components/screens/home/contentArea/library/content/ContentViewer'
+import {SearchResult} from '@leards/components/screens/home/contentArea/library/search/SearchResult'
 import React from 'react'
 import {SelectedContentData} from '../../viewmodel/selection/Selection'
 import styles from './LibraryContent.module.css'
@@ -15,15 +16,6 @@ function LibraryContent({selectedContent}: LibraryContentProps) {
 					? <ContentViewer selectedContent={selectedContent}/>
 					: <SearchResult/>
 			}
-		</div>
-	)
-}
-
-
-function SearchResult() {
-	return (
-		<div>
-
 		</div>
 	)
 }
