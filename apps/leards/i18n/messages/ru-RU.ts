@@ -1,4 +1,5 @@
 export const ruMessages = {
+	'Landing.Button.Start': 'Начать',
 	'TextField.Email.Placeholder': 'Почта',
 	'TextField.Password.Placeholder': 'Пароль',
 	'TextField.RepeatPassword.Placeholder': 'Повтор пароля',

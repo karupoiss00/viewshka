@@ -1,4 +1,5 @@
 export const enMessages = {
+	'Landing.Button.Start': 'Start',
 	'TextField.Email.Placeholder': 'Email',
 	'TextField.Password.Placeholder': 'Password',
 	'TextField.RepeatPassword.Placeholder': 'Repeat password',

@@ -1,3 +1,4 @@
+import {CardsAPI} from '@leards/api/CardsAPI'
 import Router from 'next/router'
 import React from 'react'
 import styles from './Auth.module.css'
@@ -12,7 +13,7 @@ function Auth() {
 }
 
 function goToAuth() {
-	Router.push(`/`)
+	Router.push(`/auth`)
 }
 
 export {

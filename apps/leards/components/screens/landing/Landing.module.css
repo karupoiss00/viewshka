@@ -1,0 +1,12 @@
+.layout {
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    justify-content: center;
+    background: url('/images/background_landing.svg') no-repeat center;
+    background-size: cover;
+}
+
+.button {
+    margin-block-start: 150px;
+}
