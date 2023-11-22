@@ -3,8 +3,9 @@ import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {Button, Checkbox, Popup, PopupContext, TextField} from '@viewshka/uikit'
-import React, {useCallback, useContext, useRef, useState} from 'react'
+import React, {useCallback, useContext, useEffect, useRef, useState} from 'react'
 import {useMutation, useQueryClient} from 'react-query'
+import {useEventListener} from '../../../../../../../libs/core/src/hooks/useEventListener'
 import {selectedFolderIdAtom} from '../../viewmodel/selectionAtom'
 import {SELECTED_FOLDER_QUERY_KEY} from '../Sidebar'
 import styles from './ContentSettingsPopup.module.css'
@@ -31,7 +32,7 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 	const [isPublic, setIsPublic] = useState(false)
 	const isPublishable = contentType === 'deck'
 	const linkContainerRef = useRef<HTMLInputElement>()
-
+	const windowRef = useRef(window)
 	const {mutate: deleteMaterial} = useDeleteContentMutation(contentType, contentId)
 	const {mutate: updateName} = useUpdateContentMutation(contentType, contentId)
 
@@ -51,6 +52,13 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 		linkContainer.select()
 		linkContainer.setSelectionRange(0, link.length)
 	}
+
+	useEventListener('keydown', e => {
+		if (e.key === 'Enter') {
+			onUpdate()
+		}
+	}, windowRef)
+
 
 	if (contentType !== 'deck' && contentType !== 'folder') {
 		console.error(`Unknown content type: ${contentType}`)
@@ -112,7 +120,7 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 					type={'primary'}
 					size={'small'}
 					state={nameValid ? 'default' : 'disabled'}
-					onClick={() => onUpdate()}
+					onClick={onUpdate}
 				>
 					{getMessage('ContentSettingsPopup.Material.Button.Save')}
 				</Button>

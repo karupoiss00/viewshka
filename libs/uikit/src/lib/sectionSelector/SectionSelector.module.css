@@ -8,26 +8,48 @@
 .item {
     display: flex;
     flex-direction: row;
-    height: 60px;
     gap: 20px;
     align-items: center;
-    font: var(--normal-light-text);
     padding-inline: 30px;
     padding-block: 15px;
     cursor: pointer;
     user-select: none;
-    background-color: var(--accent-color);
     outline: none;
     box-sizing: border-box;
-    border-bottom: 5px solid var(--accent-color);
 }
 
-.item:hover {
+.item--type-primary.item:hover {
     background-color: var(--stroke-color);
     border-color: var(--stroke-color);
 }
 
-.item--selected, .item--selected:hover {
+.item--type-primary.item--selected,
+.item--type-primary.item--selected:hover {
     background-color: var(--accent-color);
     border-color: var(--text-color-default);
+}
+
+.item--type-primary {
+    font: var(--normal-light-text);
+    height: 60px;
+    background-color: var(--accent-color);
+    border-bottom: 5px solid var(--accent-color);
+}
+
+.item--type-secondary.item:hover {
+    background-color: var(--selection-color);
+    border-color: var(--selection-color);
+}
+
+.item--type-secondary.item--selected,
+.item--type-secondary.item--selected:hover {
+    background-color: var(--surface-color);
+    border-color: var(--text-color-default);
+}
+
+.item--type-secondary {
+    font: var(--small-regular-text);
+    height: 40px;
+    background-color: var(--surface-color);
+    border-bottom: 5px solid var(--surface-color);
 }

@@ -21,7 +21,7 @@ const withUser = (Component: NextComponentType) => () => {
 			setUserLoaded(true)
 		}
 		else {
-			router.replace('/')
+			router.replace('/auth')
 		}
 	}, [router, handleSetUserAction])
 

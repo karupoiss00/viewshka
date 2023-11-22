@@ -5,7 +5,7 @@ import {
 	MouseEvent,
 	PropsWithChildren,
 	useCallback,
-	useContext,
+	useContext, useMemo,
 	useRef,
 	useState,
 } from 'react'
@@ -40,14 +40,15 @@ interface PopupProps {
 function Popup({children, triggerRef}: PopupProps) {
 	const [show, setShow] = useState(false)
 
-	const contextValue = {
+	const contextValue = useMemo(() => ({
 		show,
 		setShow,
 		close: () => setShow(false),
-	}
+	}), [show])
+
 
 	useEventListener(
-		'click',
+		'mousedown',
 		() => setShow(isShow => !isShow),
 		triggerRef,
 	)

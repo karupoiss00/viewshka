@@ -2,27 +2,37 @@ import classnames from 'classnames'
 import React, {PropsWithChildren, ReactElement, useContext, useState} from 'react'
 import styles from './SectionSelector.module.css'
 
+type SectionSelectorType = 'primary' | 'secondary'
+
 type SectionSelectorProps = {
+	type: SectionSelectorType
     children: ReactElement<ItemProps>[]
     onItemSelect: (id: string) => void
 }
 
 type SectionSelectorContextData = {
+	type: SectionSelectorType
 	selectedItem: string
 	setSelectedItem: (id: string) => void;
 }
 
 const SectionSelectorContext = React.createContext<SectionSelectorContextData>({
+	type: 'primary',
 	selectedItem: '',
 	setSelectedItem: () => {
 		throw new Error('ListContext setSelectedItem should be used under provider')
 	},
 })
 
-function SectionSelector({children, onItemSelect}: SectionSelectorProps) {
+function SectionSelector({
+	type,
+	children,
+	onItemSelect,
+}: SectionSelectorProps) {
 	const [selectedItem, setSelectedItem] = useState<string>(children[0].props.id)
 
 	const contextValue: SectionSelectorContextData = {
+		type,
 		selectedItem: selectedItem,
 		setSelectedItem: id => {
 			onItemSelect(id)
@@ -44,15 +54,18 @@ type ItemProps = PropsWithChildren & {
 }
 
 function Item({id, children}: ItemProps) {
-	const {selectedItem, setSelectedItem} = useContext(SectionSelectorContext)
+	const {type, selectedItem, setSelectedItem} = useContext(SectionSelectorContext)
 
 	const onClick = () => {
 		setSelectedItem(id)
 	}
 
-	const className = classnames(styles['item'], {
-		[styles['item--selected']]: selectedItem === id,
-	})
+	const className = classnames(
+		styles['item'],
+		styles[`item--type-${type}`], {
+			[styles['item--selected']]: selectedItem === id,
+		},
+	)
 
 	return (
 		<div
