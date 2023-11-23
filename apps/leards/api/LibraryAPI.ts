@@ -3,12 +3,12 @@ import {wrapApi} from '@leards/api/common/wrapApi'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {
 	Configuration,
-	Content, Deck, Folder,
+	Content, Folder, LibraryApi,
 } from '@leards/api/generated'
 import {BaseAPI} from '@leards/api/generated/base'
 import AuthProvider from '@leards/providers/authProvider'
 
-const wrappedApi = wrapApi<BaseAPI>(() => {
+const wrappedApi = wrapApi<LibraryApi>(() => {
 	const baseAuth = AuthProvider.getBaseAuth()
 	const config = new Configuration({
 		// eslint-disable-next-line no-process-env
@@ -22,14 +22,13 @@ const wrappedApi = wrapApi<BaseAPI>(() => {
 		},
 	})
 
-	return new BaseAPI(config)
+	return new LibraryApi(config)
 })
 
 const SAVED_DECKS: Array<Content> = []
 
 type MockLibraryApi = {
 	getPopularStorage: () => Promise<Folder>;
-	getFavoriteStorages: (userId: string) => Promise<Folder>;
 	addStorageToFavorite: (userId: string, storageId: string, storageType: 'deck' | 'folder') => Promise<Folder>
 };
 
@@ -42,8 +41,7 @@ const getFavoriteStorages = async (userId: string) => {
 	return Promise.resolve(response.data.folder)
 }
 
-export const LibraryAPI = mockAPI<MockLibraryApi, BaseAPI>(wrappedApi, {
-	getFavoriteStorages,
+export const LibraryAPI = mockAPI<MockLibraryApi, LibraryApi>(wrappedApi, {
 	getPopularStorage: async () => {
 		const response = await FoldersAPI.get().getFolderById(MOCK_MOST_POPULAR_DECKS_FOLDER_ID)
 		response.data.folder.content.push(...SAVED_DECKS)

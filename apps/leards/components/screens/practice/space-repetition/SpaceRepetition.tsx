@@ -46,18 +46,20 @@ function SpaceRepetition() {
 
 function usePracticeInit(setMaterialName: React.Dispatch<React.SetStateAction<string>>) {
 	const [, handleSetCardsAtom] = useAtom(cardsAtom)
-	const {data: practiceData, status, isLoading} = useQuery('cards', async () => {
-		const response = await CardsAPI.get().getFlipPracticeData()
-
-		return response.data
-	})
+	const {data: practiceData, status, isLoading} = useQuery('cards', async () => ({
+		cards: [{
+			id: 'mock',
+			frontSide: 'сделать',
+			backSide: 'space repetition',
+		}],
+	}))
 
 	useEffect(() => {
 		if (status !== 'success') {
 			return
 		}
 
-		setMaterialName(practiceData.materialName)
+		setMaterialName('todo: space repetition')
 		handleSetCardsAtom(practiceData.cards)
 	}, [handleSetCardsAtom, practiceData, setMaterialName, status])
 

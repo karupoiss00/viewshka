@@ -1,3 +1,4 @@
+import {userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {action, atom} from '@reatom/core'
 import {
 	Selection,
@@ -5,18 +6,25 @@ import {
 } from './selection/Selection'
 
 const selectionAtom = atom<Selection>({
-	type: null,
+	type: 'user-content',
 	content: null,
 })
 
+const selectedSectionAtom = atom(ctx => {
+	const selection = ctx.spy(selectionAtom)
+
+	return selection.type
+})
+
 const selectedFolderIdAtom = atom(ctx => {
+	const user = ctx.spy(userAtom)
 	const selection = ctx.spy(selectionAtom)
 
 	if (selection.type !== 'user-content' && selection.type !== 'library') {
 		return null
 	}
 
-	return selection.content?.folderId || null
+	return selection.content?.folderId || user.rootFolderId
 })
 
 const selectedDeckIdAtom = atom(ctx => {
@@ -111,8 +119,10 @@ const selectionActions = {
 
 export {
 	selectionAtom,
+
 	selectedFolderIdAtom,
 	selectedDeckIdAtom,
+	selectedSectionAtom,
 
 	selectionActions,
 }

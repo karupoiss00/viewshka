@@ -2,6 +2,7 @@ import {DecksAPI} from '@leards/api/DecksAPI'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {goToFlipPractice} from '@leards/components/screens/practice/flip/FlipPractice'
+import {useCardsQuery} from '@leards/hooks/useCardsQuery'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {Button, SystemIconDeck, SystemIconFolder} from '@viewshka/uikit'
@@ -9,33 +10,41 @@ import {useRouter} from 'next/router'
 import React from 'react'
 import {useMutation, useQueryClient} from 'react-query'
 import {SELECTED_FOLDER_QUERY_KEY} from '../../sidebar/Sidebar'
-import {SelectedContentData} from '../../viewmodel/selection/Selection'
 import {selectedFolderIdAtom} from '../../viewmodel/selectionAtom'
 import {BottomPanel} from '../common/BottomPanel'
 import {DeckViewer} from '../common/deck/DeckViewer'
 import styles from './UserContent.module.css'
 
 interface UserContentProps {
-	selectedContent: SelectedContentData | null
+	folderId: string,
+	deckId: string | null,
 }
 
-function UserContent({selectedContent}: UserContentProps) {
+function UserContent({folderId, deckId}: UserContentProps) {
 	const router = useRouter()
 	const getMessage = useMessages()
 	const [{rootFolderId}] = useAtom(userAtom)
-	const hasContent = !!selectedContent?.deckId
-	const canPractice = selectedContent && (selectedContent.deckId || selectedContent.folderId !== rootFolderId)
+	const selectedRootFolder = rootFolderId === folderId
+	const folderIdToLoadCards = selectedRootFolder && !deckId ? null : folderId
+	const {cards} = useCardsQuery(folderIdToLoadCards, deckId)
+	const hasContent = !!deckId
+	const showBottomPanel = hasContent || folderId !== rootFolderId
+	const canPractice = !!cards.length
 
 	return (
 		<div className={styles.container}>
 			{!hasContent && <EmptyUserContent/>}
 			{hasContent && <DeckViewer readonly={false}/>}
-			{canPractice && <BottomPanel>
+			{showBottomPanel && <BottomPanel>
 				<Button
 					type={'secondary'}
 					size={'medium'}
+					state={canPractice ? 'default' : 'disabled'}
 					onClick={() => {
-						selectedContent && goToFlipPractice(selectedContent)
+						goToFlipPractice({
+							folderId,
+							deckId,
+						})
 					}}
 				>
 					{getMessage('Button.Practice.Flip')}
@@ -43,9 +52,10 @@ function UserContent({selectedContent}: UserContentProps) {
 				<Button
 					type={'secondary'}
 					size={'medium'}
+					state={canPractice ? 'default' : 'disabled'}
 					onClick={() => {
 						router.push(
-                `/practice/spacerepetition/${selectedContent.folderId}/${selectedContent.deckId}`,
+                `/practice/spacerepetition/${folderId}/${deckId || ''}`,
 						)
 					}}
 				>
@@ -86,7 +96,6 @@ function useDeckCreateMutation() {
 	return useMutation(async () => {
 		await DecksAPI.get().createNewDeck(selectedFolderId, {
 			name: getMessage('Deck.DefaultName'),
-			parentFolderId: selectedFolderId,
 			userId: user.id,
 		})
 		await queryClient.invalidateQueries({

@@ -1,30 +1,29 @@
 import {FoldersAPI} from '@leards/api/FoldersAPI'
-import {Content, Folder} from '@leards/api/generated'
 import {LibraryAPI} from '@leards/api/LibraryAPI'
+import {ContentList} from '@leards/components/screens/home/sidebar/contentList/ContentList'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import UserProvider from '@leards/providers/userProvider'
 import {useAction, useAtom} from '@reatom/npm-react'
 import {
 	PropsWithClassname,
-	Button,
-	Popup,
 	SelectList,
-	SystemIconDeck,
 	SystemIconFolder,
-	SystemIconMore,
 	SystemIconPublicDecks,
-	SystemIconTaskList,
 } from '@viewshka/uikit'
 import classnames from 'classnames'
 import {useRouter} from 'next/router'
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useQuery} from 'react-query'
-import {userAtom} from '../../../common/viewmodel/userAtom'
 import {useSelectedDeckParam, useSelectedFolderParam, useSelectedSectionParam} from '../common/hooks/useLoadSelectionParams'
-import {currentFolderAtom, setCurrentFolderAction} from '../viewmodel/currentFolderAtom'
+import {currentFolderAtom} from '../viewmodel/currentFolderAtom'
 import {Selection} from '../viewmodel/selection/Selection'
-import {selectionAtom, selectionActions, selectedFolderIdAtom, selectedDeckIdAtom} from '../viewmodel/selectionAtom'
-import {ContentSettingsPopup} from './contentItemPopup/ContentSettingsPopup'
+import {
+	selectionAtom,
+	selectionActions,
+	selectedFolderIdAtom,
+	selectedDeckIdAtom,
+	selectedSectionAtom,
+} from '../viewmodel/selectionAtom'
 import styles from './Sidebar.module.css'
 
 const SELECTED_FOLDER_QUERY_KEY = 'sidebar-folder'
@@ -74,19 +73,43 @@ const TITLE_MESSAGE_MAP: Map<Selection['type'], string> = new Map([
 	['tasks', 'Sidebar.Title.Tasks'],
 ])
 
-
 function ContentNavigation() {
 	const getMessage = useMessages()
-	const [{type: selectionType}] = useAtom(selectionAtom)
+	const [selection] = useAtom(selectionAtom)
+
+	return (
+		<div className={styles.contentNavigation}>
+			<p className={styles.contentTitle}>
+				{getMessage(TITLE_MESSAGE_MAP.get(selection.type))}
+			</p>
+			<UserContentList/>
+		</div>
+	)
+}
+
+function UserContentList() {
+	const [selectedSection] = useAtom(selectedSectionAtom)
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
 	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
-	const [folder] = useAtom(currentFolderAtom)
+	const [, setCurrentFolder] = useAtom(currentFolderAtom)
 	const {setSelectedDeckParam} = useSelectedDeckParam()
 	const {setSelectedFolderParam} = useSelectedFolderParam()
+	const handleSetSelectedFolder = useAction(selectionActions.setSelectedFolder)
 	const handleSelectDeckAction = useAction(selectionActions.selectDeck)
 	const handleSelectFolderAction = useAction(selectionActions.selectFolder)
+	const folder = useFolderQuery(selectedFolderId)
 
-	useSelectedFolderQuery(selectedFolderId, selectionType)
+	useEffect(() => {
+		if (folder) {
+			setCurrentFolder({...folder})
+			// не можем просто заселектить папку, так как
+			// сбросится id открытой колоды полученный из урла,
+			// поэтому сделан отдельный экшен на устновку открытой папки
+			handleSetSelectedFolder({
+				folderId: folder.folderId,
+			})
+		}
+	}, [folder, handleSetSelectedFolder, setCurrentFolder])
 
 	const setSelection = (id: string) => {
 		const selectedContent = folder.content.find(el => el.id === id)
@@ -111,156 +134,46 @@ function ContentNavigation() {
 		}
 	}
 
-	return (
-		<>
-			<p className={styles.userContentTitle}>
-				{selectionType && getMessage(TITLE_MESSAGE_MAP.get(selectionType))}
-			</p>
-			<div className={styles.listContainer}>
-				{
-					folder && <ContentList
-						onItemSelect={setSelection}
-						selectedItem={selectedDeckId}
-						folder={folder}
-						contentEditable={selectionType === 'user-content'}
-					/>
-				}
-			</div>
-		</>
-	)
-}
-
-interface ContentListProps {
-	contentEditable: boolean
-	onItemSelect: (id: string) => void
-	selectedItem: string
-	folder: Folder
-}
-function ContentList({onItemSelect, selectedItem, folder, contentEditable}: ContentListProps) {
-	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
-	const content = folder.content?.map(item =>
-		<ContentItem
-			item={item}
-			selected={item.id === selectedDeckId}
-			editable={contentEditable}
-			key={item.id}
-		/>,
-	)
-	return (
-		<div className={styles.listContainer}>
-			{content?.length
-				? <SelectList onItemSelect={onItemSelect} selectedItem={selectedItem}>
-					{content}
-				</SelectList>
-				: <Placeholder/>}
-
-		</div>
-	)
-}
-
-type ContentItemProps = {
-	item: Content
-	editable: boolean
-	selected: boolean
-}
-function ContentItem({item, editable, selected}: ContentItemProps) {
-	const settingsButtonRef = useRef<HTMLButtonElement>()
+	if (!selectedSection || !folder) {
+		return null
+	}
 
 	return (
-		<SelectList.Item className={classnames(styles.contentItem, {
-			[styles.contentItemSelected]: selected,
-		})} id={item.id} key={item.id}>
-			{item.type === 'folder' && <SystemIconFolder />}
-			{item.type === 'deck' && <SystemIconDeck />}
-			<span>{item.name}</span>
-			{editable
-				&& <Button
-					className={styles.settingsButton}
-					type={'link'}
-					size={'small'}
-					onClick={e => e.preventDefault()}
-					spacing={'none'}
-					ref={settingsButtonRef}
-				>
-					<SystemIconMore/>
-				</Button>
-			}
-			{editable
-				&& <Popup triggerRef={settingsButtonRef}>
-					<Popup.Content>
-						<ContentSettingsPopup
-							contentType={item.type}
-							contentId={item.id}
-							contentName={item.name}
-						/>
-					</Popup.Content>
-				</Popup>
-			}
-		</SelectList.Item>
+		<ContentList
+			onItemSelect={setSelection}
+			selectedItem={selectedDeckId}
+			content={folder.content}
+			editable={selectedSection === 'user-content'}
+		/>
 	)
 }
 
-function Placeholder() {
-	const getMessage = useMessages()
-
-	return (
-		<div className={styles.placeholderContainer}>
-			<div className={styles.placeholder}></div>
-			{getMessage('Sidebar.Empty.Placeholder')}
-		</div>
-	)
-}
-
-function useSelectedFolderQuery(folderId: string | null, selectionType: Selection['type']) {
+function useFolderQuery(folderId: string) {
 	const router = useRouter()
-	const [{rootFolderId}] = useAtom(userAtom)
-	const handleSetSelectedFolderAction = useAction(selectionActions.setSelectedFolder)
-	const handleSetCurrentFolderAction = useAction(setCurrentFolderAction)
-
-	const {isError, isSuccess, data} = useQuery([SELECTED_FOLDER_QUERY_KEY, {
+	const [folder, setFolder] = useState(null)
+	const queryKey = [SELECTED_FOLDER_QUERY_KEY, {
 		folderId,
-		selectionType,
-	}], async () => {
-		const userId = UserProvider.getUserId()
+	}]
+	const {isError, isSuccess, data} = useQuery(queryKey, async () => {
+		const api = FoldersAPI.get()
+		const {data} = await api.getFolderById(folderId)
 
-		if (!folderId) {
-			const folder = await requestRootFolder(rootFolderId, userId, selectionType)
-			return folder
-		}
-
-		const response = await FoldersAPI.get().getFolderById(folderId)
-		return response.data.folder
+		return data.folder
 	}, {
 		retry: false,
 	})
 
 	useEffect(() => {
+		if (isSuccess) {
+			setFolder(data)
+		}
+
 		if (isError) {
 			router.replace('/home')
 		}
+	}, [data, isError, isSuccess, router])
 
-		if (isSuccess) {
-			handleSetCurrentFolderAction({
-				folder: data,
-			})
-			// не можем просто заселектить папку, так как
-			// сбросится id открытой колоды полученный из урла,
-			// поэтому сделан отдельный экшен на устновку открытой папки
-			handleSetSelectedFolderAction({
-				folderId: data.folderId,
-			})
-		}
-	}, [data, handleSetCurrentFolderAction, handleSetSelectedFolderAction, isError, isSuccess, router])
-}
-
-async function requestRootFolder(rootFolderId: string, userId: string, selectionType: Selection['type']) {
-	if (selectionType === 'library') {
-		return LibraryAPI.get().getFavoriteStorages(userId)
-	}
-
-	const {data} = await FoldersAPI.get().getFolderById(rootFolderId)
-
-	return data.folder
+	return folder
 }
 
 export {

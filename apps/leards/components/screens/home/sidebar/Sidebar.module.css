@@ -13,7 +13,7 @@
 }
 
 .materials-title,
-.user-content-title {
+.content-title {
     display: flex;
     font: var(--normal-medium-text);
     user-select: none;
@@ -26,70 +26,16 @@
     padding-inline-start: 20px;
 }
 
-.user-content-title {
+.content-title {
     padding-block-start: 40px;
     padding-block-end: 13px;
     padding-inline-start: 23px;
 }
 
-.list-container {
+.content-navigation {
     display: flex;
-    flex-shrink: 1;
+    flex-direction: column;
+    flex-shrink: 0;
     flex-grow: 1;
-    flex-basis: 0;
-    flex-direction: column;
-    height: 100%;
-    overflow: auto;
 }
 
-.placeholder-container {
-    display: flex;
-    width: 100%;
-    height: 100%;
-    align-items: center;
-    justify-content: center;
-    font: var(--normal-medium-text);
-    color: var(--stroke-color);
-    flex-direction: column;
-}
-
-.placeholder {
-    width: 155px;
-    height: 155px;
-    background: url('/images/empty_sidebar_placeholder.svg') no-repeat center;
-}
-
-.content-item {
-    position: relative;
-    display: flex;
-}
-
-.settings-button {
-    display: flex;
-    flex-direction: row-reverse;
-    opacity: 0;
-    padding-block: 12px;
-    margin-inline-start: auto;
-    margin-inline-end: 0;
-}
-
-.content-item:hover > .settings-button,
-.settings-button:hover {
-    opacity: 1;
-}
-
-.content-item--selected > .settings-button {
-    color: #767676;
-}
-
-.content-item--selected > .settings-button:hover {
-    color: var(--text-color-default);
-}
-
-.content-item:active:has(.settings-button:active) {
-    background: var(--selection-color);
-}
-
-.content-item--selected:active:has(.settings-button:active) {
-    background: var(--accent-color);
-}

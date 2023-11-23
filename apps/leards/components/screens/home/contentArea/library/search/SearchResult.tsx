@@ -31,7 +31,7 @@ function MostPopularDecks() {
 		return response
 	})
 
-	if (isLoading) {
+	if (!data || isLoading) {
 		return null
 	}
 

@@ -1,0 +1,34 @@
+.content-item {
+	position: relative;
+	display: flex;
+}
+
+.more-button {
+	display: flex;
+	flex-direction: row-reverse;
+	opacity: 0;
+	padding-block: 12px;
+	margin-inline-start: auto;
+	margin-inline-end: 0;
+}
+
+.content-item:hover > .more-button,
+.more-button:hover {
+	opacity: 1;
+}
+
+.content-item--selected > .more-button {
+	color: #767676;
+}
+
+.content-item--selected > .more-button:hover {
+	color: var(--text-color-default);
+}
+
+.content-item:active:has(.more-button:active) {
+	background: var(--selection-color);
+}
+
+.content-item--selected:active:has(.more-button:active) {
+	background: var(--accent-color);
+}

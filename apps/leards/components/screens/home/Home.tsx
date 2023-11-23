@@ -1,3 +1,4 @@
+import Router from 'next/router'
 import React from 'react'
 import {useLoadSelectionParams} from './common/hooks/useLoadSelectionParams'
 import ContentArea from './contentArea/ContentArea'
@@ -17,4 +18,11 @@ function Home() {
 	)
 }
 
-export default Home
+function goToHome() {
+	Router.push(`/home`)
+}
+
+export {
+	Home,
+	goToHome,
+}

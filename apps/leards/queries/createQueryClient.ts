@@ -4,15 +4,15 @@ import {MutationCache, QueryCache, QueryClient} from 'react-query'
 const UNAUTHORIZED_CODE = 401
 
 type ErrorWithResponse = {
-	response: {
-		status: number
+	response?: {
+		status?: number
 	}
 }
 
 
 function createQueryClient() {
 	const onError = (error: ErrorWithResponse) => {
-		if (error.response.status === UNAUTHORIZED_CODE) {
+		if (error.response?.status === UNAUTHORIZED_CODE) {
 			goToAuth()
 		}
 	}

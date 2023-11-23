@@ -116,11 +116,15 @@ function useUpdateDeckMutation(folderId: string | null, deck: Deck) {
 	const handleUpdateCardsAction = useAction(currentDeckActions.updateCards)
 
 	return useMutation('updateDeck', async () => {
+		const cards = deck.content
+		if (!cards) {
+			return
+		}
 		await CardsAPI.get().syncCardsByDeckId(folderId, deck.deckId, {
-			cards: deck.content,
+			cards,
 		})
 
-		const updatedDeckDataResponse = await CardsAPI.get().getCardsByDeckId(folderId, deck.deckId)
+		const updatedDeckDataResponse = await CardsAPI.get().getStorageCards('deck', deck.deckId)
 		handleUpdateCardsAction({
 			cards: updatedDeckDataResponse.data.cards,
 		})

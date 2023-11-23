@@ -1,5 +1,7 @@
-import {CardsAPI} from '@leards/api/CardsAPI'
+import {DecksAPI} from '@leards/api/DecksAPI'
+import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {Card} from '@leards/api/generated'
+import {goToHome} from '@leards/components/screens/home/Home'
 import {Practice} from '@leards/components/screens/practice/flip/practice/Practice'
 import {IntermediateResult} from '@leards/components/screens/practice/flip/results/IntermediateResult'
 import {TotalResult} from '@leards/components/screens/practice/flip/results/TotalResult'
@@ -9,10 +11,11 @@ import {
 	practiceActions,
 	practiceAtom,
 } from '@leards/components/screens/practice/flip/viewmodel/practiceAtom'
+import {useCardsQuery} from '@leards/hooks/useCardsQuery'
 import {useAction, useAtom} from '@reatom/npm-react'
 import Router, {useRouter} from 'next/router'
 import React, {useCallback, useEffect, useState} from 'react'
-import {useMutation} from 'react-query'
+import {useQuery} from 'react-query'
 import LoadingPage from '../../loading/LoadingPage'
 import ProgressBar from '../common/progressBar/ProgressBar'
 import PracticeTopPanel from '../common/topPanel/PracticeTopPanel'
@@ -53,36 +56,66 @@ function FlipPractice() {
 }
 
 function useLoadData(onMaterialNameLoad: (name: string) => void, onCardsLoad: (cards: Array<Card>) => void) {
-	const {data: practiceData, status, isLoading, mutate} = useMutation('cards', async () => {
-		const response = await CardsAPI.get().getFlipPracticeData()
+	const router = useRouter()
+	const {slug} = router.query
+	const folderId = slug[0]
+	const deckId = slug[1]
 
-		return response.data
-	})
+	const {cards, isLoading: isCardsLoading}
+		= useCardsQuery(folderId, deckId)
+	const {title, isLoading: isTitleLoading} = useTitleQuery(folderId, deckId)
 
 	useEffect(() => {
-		mutate()
-	}, [mutate])
+		if (title) {
+			onMaterialNameLoad(title)
+		}
+	}, [title, onMaterialNameLoad])
 
 	useEffect(() => {
-		if (status !== 'success') {
+		if (!cards) {
+			goToHome()
 			return
 		}
 
-		onMaterialNameLoad(practiceData.materialName)
-		onCardsLoad(practiceData.cards)
-	}, [onCardsLoad, practiceData, onMaterialNameLoad, status])
+		if (cards.length) {
+			onCardsLoad(cards)
+		}
+	}, [cards, onCardsLoad, router])
 
-	return isLoading
+	return isTitleLoading || isCardsLoading
+}
+
+function useTitleQuery(folderId: string, deckId: string | null = null) {
+	const [title, setTitle] = useState('')
+	const storageType = deckId ? 'deck' : 'folder'
+
+	const {data, isSuccess, isLoading} = useQuery([
+		'practice-title', folderId, deckId,
+	], async () => {
+		const storage = storageType === 'folder'
+			? (await FoldersAPI.get().getFolderById(folderId)).data.folder
+			: (await DecksAPI.get().getDeckById(folderId, deckId)).data.deck
+
+		return storage.name
+	}, {
+		retry: false,
+	})
+
+	useEffect(() => {
+		if (isSuccess) {
+			setTitle(data)
+		}
+	}, [data, isSuccess])
+
+	return {title, isLoading}
 }
 
 type FlipPracticePagePayload = {
 	folderId: string
 	deckId: string | null
 }
-function goToFlipPractice(payload: FlipPracticePagePayload) {
-	Router.push(
-		`/practice/flip/${payload.folderId}/${payload.deckId || ''}`,
-	)
+function goToFlipPractice({folderId, deckId}: FlipPracticePagePayload) {
+	Router.push(`/practice/flip/${folderId}/${deckId || ''}`)
 }
 
 export {

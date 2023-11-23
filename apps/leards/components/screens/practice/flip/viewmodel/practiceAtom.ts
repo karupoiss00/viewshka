@@ -96,6 +96,7 @@ const start = action((ctx, {cards}: StartPracticeActionPayload) => {
 		progress: 0,
 		cards,
 	})
+	cardsToRepeatAtom(ctx, [])
 })
 
 const continuePractice = action(ctx => {
