@@ -1,7 +1,7 @@
+import {Configuration} from '@leards/api/generated'
 import AuthProvider from '../providers/authProvider'
 import {wrapApi} from './common/wrapApi'
 import {AccountsApi} from './generated/api'
-import {Configuration} from './generated/configuration'
 
 export const AccountsAPI = wrapApi<AccountsApi>(() => {
 	const baseAuth = AuthProvider.getBaseAuth()

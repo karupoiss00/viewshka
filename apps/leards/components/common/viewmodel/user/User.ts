@@ -1,16 +1,9 @@
-import {DEFAULT_LOCALE, isLocale, Locale} from '@leards/providers/localeProvider'
-
 type UserData = {
 	id: string
 	name: string
 	email: string
 	avatarUrl: string
 	rootFolderId: string
-	settings: UserSettings
-}
-
-type UserSettings = {
-	locale: Locale
 }
 
 interface CreateUserPayload {
@@ -19,7 +12,6 @@ interface CreateUserPayload {
 	email: string
 	avatarUrl: string
 	rootFolderId: string
-	locale: string
 }
 function createUser({
 	id,
@@ -27,7 +19,6 @@ function createUser({
 	email,
 	avatarUrl,
 	rootFolderId,
-	locale,
 }: CreateUserPayload): UserData {
 	return {
 		id,
@@ -35,9 +26,6 @@ function createUser({
 		email,
 		avatarUrl,
 		rootFolderId,
-		settings: {
-			locale: isLocale(locale) ? locale : DEFAULT_LOCALE,
-		},
 	}
 }
 

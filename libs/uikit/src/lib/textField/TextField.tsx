@@ -57,12 +57,12 @@ function TextField({
 	}, [invalidateOnChange, onChange, validate])
 
 	return (
-		<div className={styles['text-field-container']}>
+		<div className={classnames(styles['text-field-container'], className)}>
 			<div
 				className={classnames(styles['text-field'], {
 					[styles['text-field--default']]: isValidData,
 					[styles['text-field--error']]: !isValidData,
-				}, styles[`text-field-size-${size}`], className)}
+				}, styles[`text-field-size-${size}`])}
 				onBlur={() => validate(text)}
 			>
 				<input

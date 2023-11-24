@@ -3,7 +3,7 @@ import {CreateUserRequest} from '@leards/api/generated'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import AuthProvider from '@leards/providers/authProvider'
 import {useAction} from '@reatom/npm-react'
-import {isValidEmail} from '@viewshka/core'
+import {isValidEmail, isValidPassword, isValidUsername} from '@viewshka/core'
 import {Button, TextField} from '@viewshka/uikit'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
@@ -139,14 +139,6 @@ function useRegisterMutation() {
 		const response = await AccountsAPI.get().registerNewUser(userData)
 		return response.data
 	})
-}
-
-function isValidPassword(password: string) {
-	return password.length >= 8
-}
-
-function isValidUsername(name: string) {
-	return name.length > 1
 }
 
 export default RegisterForm

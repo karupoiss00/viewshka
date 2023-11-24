@@ -1,7 +1,8 @@
 import {PropsWithClassname} from '@viewshka/core'
 import classnames from 'classnames'
-import {PropsWithChildren, useState, ReactElement, useContext} from 'react'
+import {useState, ReactElement, useContext, useRef, useCallback} from 'react'
 import * as React from 'react'
+import {useOutsideClick} from '../hooks/useOutsideClick'
 import {SystemIconArrowDown} from '../icons/SystemIconArrowDown'
 import {SystemIconArrowUp} from '../icons/SystemIconArrowUp'
 import styles from './Dropdown.module.css'
@@ -10,7 +11,7 @@ type DropdownProps = PropsWithClassname & {
 	children: ReactElement<ItemProps>[]
 	initialSelectedItem?: string
 	onItemSelect: (id: string, value: string) => void,
-	placeholder: string
+	placeholder?: string
 }
 
 type DropdownContextData = {
@@ -26,59 +27,74 @@ const DropdownContext = React.createContext<DropdownContextData>({
 })
 
 function Dropdown({children, className, initialSelectedItem, onItemSelect, placeholder}: DropdownProps) {
-	const initialItem = children.find(item => item.props.id === initialSelectedItem)?.props.value
 	const [selectedItem, setSelectedItem] = useState(initialSelectedItem || '')
 	const [isOpen, setIsOpen] = useState(false)
-	const [selectedValue, setSelectedValue] = useState(initialItem ?? placeholder)
+	const dropdownWindowRef = useRef<HTMLDivElement>(null)
 
 	const contextValue: DropdownContextData = {
 		selectedItem,
 		setSelectedItem: (id, value) => {
 			onItemSelect(id, value)
 			setSelectedItem(id)
-			setSelectedValue(value)
 			setIsOpen(false)
 		},
 	}
 
+	const closeDropdown = useCallback(() => {
+		setIsOpen(false)
+	}, [setIsOpen])
+
+	useOutsideClick(dropdownWindowRef, closeDropdown)
+
 	return (
 		<DropdownContext.Provider value={contextValue}>
-			<div className={styles['dropdown-container']}>
+			<div ref={dropdownWindowRef}
+				className={classnames(styles['dropdown-container'], {
+					[styles['dropdown-container-open']]: isOpen,
+				}, className)}
+			>
 				<div
 					onClick={_ => {
 						setIsOpen(!isOpen)
 					}}
-					className={classnames(styles['dropdown'])}
+					className={styles['dropdown']}
 				>
-					<p
+					<div
 						className={classnames(styles['dropdown-text'], {
 							[styles['dropdown-text--default']]: selectedItem.length === 0,
 						})
 						}
 					>
-						{selectedValue}
-					</p>
+						{getSelectedValue(children, selectedItem, placeholder)}
+					</div>
 					<DropdownIcon className={styles['dropdown-icon']} isOpen={isOpen}/>
 				</div>
-				<DropdownList isOpen={isOpen} children={children} className={className}/>
+				<DropdownList isOpen={isOpen} children={children}/>
 			</div>
 		</DropdownContext.Provider>
 	)
 }
 
+function getSelectedValue(children: ReactElement<ItemProps>[], selectedItem: string, placeholder?: string) {
+	const item = children.find(value => value.props.id === selectedItem)
+	if (item == undefined) {
+		return placeholder ?? ''
+	}
+	return item.props.value
+}
+
 type DropdownListProps = {
 	isOpen: boolean
 	children: ReactElement<ItemProps, string | React.JSXElementConstructor<unknown>>[]
-	className: string | undefined
 }
 
-function DropdownList({isOpen, children, className}: DropdownListProps) {
+function DropdownList({isOpen, children}: DropdownListProps) {
 	if (!isOpen) {
 		return null
 	}
 
 	return (
-		<div className={classnames(styles['dropdown-list'], className)}>
+		<div className={classnames(styles['dropdown-list'])}>
 			{children}
 		</div>
 	)
@@ -100,7 +116,9 @@ function Item({id, value}: ItemProps) {
 
 	return (
 		<div className={className} onClick={onClick}>
-			{value}
+			<span>
+				{value}
+			</span>
 		</div>
 	)
 }

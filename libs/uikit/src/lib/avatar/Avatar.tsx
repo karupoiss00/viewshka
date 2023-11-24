@@ -41,7 +41,7 @@ function AvatarImage({avatarUrl, size}: AvatarImageProps) {
 
 	return (
 		<div className={className}>
-			<img className={styles['avatar-image']} src={avatarUrl} draggable={false}/>
+			<img className={styles['avatar-image']} src={avatarUrl} draggable={false} alt={''}/>
 		</div>
 	)
 }
@@ -83,7 +83,10 @@ function getAvatarInitials(str: string): string {
 	return strs[0].substring(0, 2)
 }
 
+export type {
+	AvatarSize,
+}
+
 export {
-	type AvatarSize,
 	Avatar,
 }

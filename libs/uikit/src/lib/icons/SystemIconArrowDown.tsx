@@ -9,7 +9,7 @@ function SystemIconArrowDown(props: React.SVGProps<SVGSVGElement>) {
 			xmlns="http://www.w3.org/2000/svg"
 			{...props}
 		>
-			<path id="Vector" d="M4.68377 8.69678L11.0077 15.0207L17.3315 8.69678" stroke="currentColor" stroke-width="1.1498" stroke-linecap="round" stroke-linejoin="round"/>
+			<path id="Vector" d="M4.68377 8.69678L11.0077 15.0207L17.3315 8.69678" stroke="currentColor" strokeWidth="1.1498" strokeLinecap="round" strokeLinejoin="round"/>
 		</svg>
 	)
 }
