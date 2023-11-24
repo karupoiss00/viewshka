@@ -1,5 +1,7 @@
 import {DecksAPI} from '@leards/api/DecksAPI'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
+import {LibraryAPI} from '@leards/api/LibraryAPI'
+import {SELECTED_FOLDER_QUERY_KEY} from '@leards/components/screens/home/sidebar/contentList/UserContentList'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {Button, Checkbox, Popup, PopupContext, TextField} from '@viewshka/uikit'
@@ -7,7 +9,6 @@ import React, {useCallback, useContext, useRef, useState} from 'react'
 import {useMutation, useQueryClient} from 'react-query'
 import {useEventListener} from '../../../../../../../libs/core/src/hooks/useEventListener'
 import {selectedFolderIdAtom} from '../../viewmodel/selectionAtom'
-import {SELECTED_FOLDER_QUERY_KEY} from '../Sidebar'
 import styles from './ContentSettingsPopup.module.css'
 
 const SHARE_URL_STUB = `http://localhost:3000/home?section=user-content&selectedDeck=dad3f688-1474-4fd1-a0bb-7248122d6011&selectedFolder=f5b3ad07-b5f6-4325-a3c1-8eccc6bd27c0`

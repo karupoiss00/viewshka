@@ -1,4 +1,5 @@
 import {Content} from '@leards/api/generated'
+import {ContentSettingsPopup} from '@leards/components/screens/home/sidebar/contentItemPopup/ContentSettingsPopup'
 import {
 	Button,
 	Popup,
@@ -9,7 +10,6 @@ import {
 } from '@viewshka/uikit'
 import classnames from 'classnames'
 import React, {useRef} from 'react'
-import {ContentSettingsPopup} from '../../contentItemPopup/ContentSettingsPopup'
 import styles from './ContentItem.module.css'
 
 type ContentItemProps = {

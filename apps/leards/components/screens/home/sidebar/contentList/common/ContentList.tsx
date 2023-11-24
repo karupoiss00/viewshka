@@ -1,11 +1,11 @@
 import {Content} from '@leards/api/generated'
-import {ContentItem} from '@leards/components/screens/home/sidebar/contentList/item/ContentItem'
-import {selectedDeckIdAtom} from '@leards/components/screens/home/viewmodel/selectionAtom'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {SelectList} from '@viewshka/uikit'
 import React from 'react'
+import {selectedDeckIdAtom} from '../../../viewmodel/selectionAtom'
 import styles from './ContentList.module.css'
+import {ContentItem} from './item/ContentItem'
 
 interface ContentListProps {
 	editable: boolean

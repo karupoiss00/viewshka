@@ -25,11 +25,9 @@ function SearchResult() {
 
 
 function MostPopularDecks() {
-	const {data, isLoading} = useQuery('popularDecks', async () => {
-		const response = await LibraryAPI.get().getPopularStorage()
-
-		return response
-	})
+	const {data, isLoading} = useQuery('popularDecks', async () => ({
+		content: [],
+	}))
 
 	if (!data || isLoading) {
 		return null
