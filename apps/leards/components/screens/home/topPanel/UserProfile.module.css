@@ -44,7 +44,9 @@
     color: var(--text-color-default);
     font: var(--normal-regular-text);
     user-select: none;
-    text-overflow: ellipsis;overflow: hidden;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: center;
     width: 40%;
 }
 
