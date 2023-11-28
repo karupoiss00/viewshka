@@ -24,6 +24,8 @@ const DEFAULT_RECT = {
 	height: 0,
 }
 
+const MARGIN = 30
+
 type Rect = Pick<DOMRect, 'left' | 'top' | 'height' | 'width'>;
 
 type PopoverContextData = {
@@ -187,8 +189,6 @@ function getPopoverCoords(
 	popoverRect: Rect,
 	position: Position,
 ) {
-	const MARGIN = 30
-	// TODO: допилить для остальных положений
 	let top = triggerRect.top + triggerRect.height + MARGIN
 	const left = Math.max(triggerRect.left + triggerRect.width / 2 - popoverRect.width / 2, MARGIN)
 

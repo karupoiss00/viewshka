@@ -1,4 +1,6 @@
 import {UserSettingsAPI} from '@leards/api/UserSettingsAPI'
+import {DEFAULT_LOCALE, isLocale} from '@leards/providers/localeProvider'
+import {DEFAULT_THEME, isTheme} from '@leards/providers/themeProvider'
 import {useAction, useAtom} from '@reatom/npm-react'
 import {useLayoutEffect} from '@viewshka/core'
 import {NextComponentType} from 'next'
@@ -20,9 +22,11 @@ const withSettings = (Component: NextComponentType) => () => {
 
 	useLayoutEffect(() => {
 		if (status === 'success') {
+			const locale = isLocale(data.settings.locale) ? data.settings.locale : DEFAULT_LOCALE
+			const theme = isTheme(data.settings.theme) ? data.settings.theme : DEFAULT_THEME
 			handleSetUserAction({
-				locale: data['locale'],
-				theme: data['theme'],
+				locale: locale,
+				theme: theme,
 			})
 		}
 		if (status === 'error') {

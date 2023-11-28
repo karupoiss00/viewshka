@@ -9,7 +9,6 @@
   "private": true,
   "dependencies": {
     "@nrwl/next": "14.6.3",
-    "@openapitools/openapi-generator-cli": "^2.7.0",
     "classnames": "^2.3.2",
     "core-js": "^3.6.5",
     "eslint-plugin-simple-import-sort": "^10.0.0",
@@ -25,6 +24,7 @@
   },
   "devDependencies": {
     "@nrwl/cli": "14.6.3",
+    "@openapitools/openapi-generator-cli": "^2.7.0",
     "@nrwl/cypress": "14.6.3",
     "@nrwl/eslint-plugin-nx": "14.6.3",
     "@nrwl/jest": "14.6.3",

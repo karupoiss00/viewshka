@@ -17,27 +17,26 @@ import {
 } from '@viewshka/uikit'
 import React, {useRef, useState} from 'react'
 import {useMutation} from 'react-query'
+import {localeToId} from '../../../common/i18n/localeToMessageId'
+import {themeToId} from '../../../common/i18n/themeToMessageId'
 import {settingsAction, settingsAtom} from '../../../common/viewmodel/settingsAtom'
 import {userActions, userAtom} from '../../../common/viewmodel/userAtom'
+import {PersonInfo} from './PersonInfo'
 import styles from './UserProfile.module.css'
 
-enum ProfileState {
-    Profile,
-    Settings,
-    Editing
-}
+type ProfilePopupState = 'default' | 'settings' | 'editing'
 
 function UserProfilePanel() {
 	const [userInfo] = useAtom(userAtom)
 	const triggerRef = useRef<HTMLDivElement>(null)
-	const [profileState, setProfileState] = useState(ProfileState.Profile)
+	const [profileState, setProfileState] = useState<ProfilePopupState>('default')
 
 	const close = () => {
-		setProfileState(ProfileState.Profile)
+		setProfileState('default')
 	}
 
 	const clickBack = () => {
-		setProfileState(ProfileState.Profile)
+		setProfileState('default')
 	}
 
 	return (
@@ -52,18 +51,18 @@ function UserProfilePanel() {
 				<Popover.Content>
 					<div className={styles['profile-navigation-bar']}>
 						<Popover.Close onClose={close}>
-							<div hidden={profileState !== ProfileState.Profile}>
+							<div hidden={profileState !== 'default'}>
 								<Button className={styles['profile-popover-navigation-button']} type={'link'} size={'small'}>
 									<SystemIconClose />
 								</Button>
 							</div>
 						</Popover.Close>
-						<div hidden={profileState === ProfileState.Profile} onClick={clickBack}>
+						<div hidden={profileState === 'default'} onClick={clickBack}>
 							<Button className={styles['profile-popover-navigation-button']} type={'link'} size={'small'}>
 								<SystemIconArrowLeft/>
 							</Button>
 						</div>
-						<UserShortInfo currentProfileState={profileState}/>
+						<PersonInfo currentProfileState={profileState}/>
 					</div>
 					<ProfileContent profileState={profileState} changeState={setProfileState}/>
 				</Popover.Content>
@@ -72,49 +71,26 @@ function UserProfilePanel() {
 	)
 }
 
-type UserShortInfoProps = {
-	currentProfileState: ProfileState
-}
-
-function UserShortInfo({currentProfileState}: UserShortInfoProps) {
-	const [user] = useAtom(userAtom)
-
-	if (currentProfileState === ProfileState.Settings) {
-		return (
-			<div className={styles['profile-short-info']}>
-				{
-					isUndefined(user.avatarUrl) || !user.avatarUrl
-						? <Avatar size={'small'} type={'gradient'} name={user.name}/>
-						: <Avatar size={'small'} type={'image'} avatarUrl={user.avatarUrl}/>
-				}
-				<div className={styles['profile-short-info-email']}>
-					{user.email}
-				</div>
-			</div>
-		)
-	}
-}
-
 type ProfileContentProps = {
-    profileState: ProfileState,
-    changeState: (value: ProfileState) => void
+    profileState: ProfilePopupState,
+    changeState: (value: ProfilePopupState) => void
 }
 
 function ProfileContent({profileState, changeState}: ProfileContentProps) {
 	const showSettings = () => {
-		changeState(ProfileState.Settings)
+		changeState('settings')
 	}
 
 	const showEditing = () => {
-		changeState(ProfileState.Editing)
+		changeState('editing')
 	}
 
 	switch (profileState) {
-		case ProfileState.Profile:
+		case 'default':
 			return <Profile showSettings={showSettings} showEditing={showEditing}/>
-		case ProfileState.Editing:
+		case 'editing':
 			return <Editing/>
-		case ProfileState.Settings:
+		case 'settings':
 			return <Settings/>
 	}
 }
@@ -186,8 +162,6 @@ function Settings() {
 		})
 	}
 
-	console.log(settings.locale)
-
 	return (
 		<div className={styles['profile-popover-content']}>
 			<div className={styles['profile-popover-module-name']}>
@@ -197,13 +171,13 @@ function Settings() {
 				<div className={styles['profile-popover-settings-item-container']}>
 					<div className={styles['profile-popover-settings-item-text']}>{getMessage('Profile.Settings.Theme')}</div>
 					<Dropdown className={styles['profile-popover-settings-dropdown']} onItemSelect={setSelectedTheme} initialSelectedItem={settings.theme}>
-						{Object.values(Theme).map(theme => <Dropdown.Item id={theme} value={getMessage(theme)} key={theme}/>)}
+						{Object.values(Theme).map(theme => <Dropdown.Item id={theme} value={getMessage(themeToId(theme))} key={theme}/>)}
 					</Dropdown>
 				</div>
 				<div className={styles['profile-popover-settings-item-container']}>
 					<div className={styles['profile-popover-settings-item-text']}>{getMessage('Profile.Settings.Locale')}</div>
 					<Dropdown className={styles['profile-popover-settings-dropdown']} onItemSelect={setSelectedLocale} initialSelectedItem={settings.locale}>
-						{Object.values(Locale).map(locale => <Dropdown.Item id={locale} value={getMessage(locale)} key={locale}/>)}
+						{Object.values(Locale).map(locale => <Dropdown.Item id={locale} value={getMessage(localeToId(locale))} key={locale}/>)}
 					</Dropdown>
 				</div>
 				<Button
@@ -340,6 +314,10 @@ function useUpdateMutation(userId: string) {
 		console.log('response.data.user', response.data.user)
 		handleUpdateInfo({user: response.data.user})
 	})
+}
+
+export type {
+	ProfilePopupState,
 }
 
 export {

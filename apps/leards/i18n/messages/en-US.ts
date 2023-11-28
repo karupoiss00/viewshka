@@ -50,9 +50,9 @@ export const enMessages = {
 	'Profile.Editing.Password.Old': 'Old password',
 	'Profile.Confirm': 'Save',
 	'Profile.Settings.Theme': 'Theme: ',
-	'light': 'Light',
-	'dark': 'Dark',
+	'Theme.Light': 'Light',
+	'Theme.Dark': 'Dark',
 	'Profile.Settings.Locale': 'Language: ',
-	'en-US': 'English',
-	'ru-RU': 'Russian',
+	'Language.English': 'English',
+	'Language.Russian': 'Russian',
 }

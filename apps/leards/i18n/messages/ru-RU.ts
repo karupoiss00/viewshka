@@ -50,9 +50,9 @@ export const ruMessages = {
 	'Profile.Editing.Password.Old': 'Старый пароль',
 	'Profile.Confirm': 'Сохранить',
 	'Profile.Settings.Theme': 'Тема: ',
-	'light': 'Светлая',
-	'dark': 'Темная',
+	'Theme.Light': 'Светлая',
+	'Theme.Dark': 'Темная',
 	'Profile.Settings.Locale': 'Язык: ',
-	'en-US': 'Английский',
-	'ru-RU': 'Русский',
+	'Language.English': 'Английский',
+	'Language.Russian': 'Русский',
 }
