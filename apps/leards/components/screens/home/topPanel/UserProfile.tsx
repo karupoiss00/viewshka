@@ -21,7 +21,7 @@ import {localeToId} from '../../../common/i18n/localeToMessageId'
 import {themeToId} from '../../../common/i18n/themeToMessageId'
 import {settingsAction, settingsAtom} from '../../../common/viewmodel/settingsAtom'
 import {userActions, userAtom} from '../../../common/viewmodel/userAtom'
-import {PersonInfo} from './PersonInfo'
+import {PersonInfo} from './personInfo/PersonInfo'
 import styles from './UserProfile.module.css'
 
 type ProfilePopupState = 'default' | 'settings' | 'editing'
@@ -31,11 +31,7 @@ function UserProfilePanel() {
 	const triggerRef = useRef<HTMLDivElement>(null)
 	const [profileState, setProfileState] = useState<ProfilePopupState>('default')
 
-	const close = () => {
-		setProfileState('default')
-	}
-
-	const clickBack = () => {
+	const buttonClick = () => {
 		setProfileState('default')
 	}
 
@@ -47,27 +43,39 @@ function UserProfilePanel() {
 					: <Avatar size={'small'} type={'image'} avatarUrl={userInfo.avatarUrl} />
 				}
 			</div>
-			<Popover preferredPosition={'bottom-center'} triggerRef={triggerRef} onClose={close}>
-				<Popover.Content>
-					<div className={styles['profile-navigation-bar']}>
-						<Popover.Close onClose={close}>
-							<div hidden={profileState !== 'default'}>
-								<Button className={styles['profile-popover-navigation-button']} type={'link'} size={'small'}>
-									<SystemIconClose />
-								</Button>
-							</div>
-						</Popover.Close>
-						<div hidden={profileState === 'default'} onClick={clickBack}>
-							<Button className={styles['profile-popover-navigation-button']} type={'link'} size={'small'}>
-								<SystemIconArrowLeft/>
-							</Button>
-						</div>
-						<PersonInfo currentProfileState={profileState}/>
-					</div>
-					<ProfileContent profileState={profileState} changeState={setProfileState}/>
-				</Popover.Content>
+			<Popover preferredPosition={'bottom-center'} triggerRef={triggerRef} onClose={buttonClick}>
+				<PopoverContent buttonClick={buttonClick} profileState={profileState} setProfileState={setProfileState}/>
 			</Popover>
 		</div>
+	)
+}
+
+type PopoverContentProps = {
+	buttonClick: () => void,
+	profileState: ProfilePopupState,
+	setProfileState: (value: ProfilePopupState) => void,
+}
+
+function PopoverContent({buttonClick, profileState, setProfileState}: PopoverContentProps) {
+	return (
+		<Popover.Content>
+			<div className={styles['profile-navigation-bar']}>
+				<Popover.Close onClose={close}>
+					<div hidden={profileState !== 'default'}>
+						<Button className={styles['profile-popover-navigation-button']} type={'link'} size={'small'}>
+							<SystemIconClose />
+						</Button>
+					</div>
+				</Popover.Close>
+				<div hidden={profileState === 'default'} onClick={buttonClick}>
+					<Button className={styles['profile-popover-navigation-button']} type={'link'} size={'small'}>
+						<SystemIconArrowLeft/>
+					</Button>
+				</div>
+				<PersonInfo currentProfileState={profileState}/>
+			</div>
+			<ProfileContent profileState={profileState} changeState={setProfileState}/>
+		</Popover.Content>
 	)
 }
 

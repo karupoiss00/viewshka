@@ -36,7 +36,7 @@
     text-overflow: ellipsis;
     overflow: hidden;
     text-align: center;
-    width: 40%;
+    width: 160px;
 }
 
 .avatar-container {
@@ -110,7 +110,7 @@
     font: var(--xsmall-light-text);
     color: var(--stroke-color);
     user-select: none;
-    width: 86%;
+    width: 348px;
 }
 
 .profile-popover-editing-separator-view {
@@ -123,7 +123,7 @@
 }
 
 .profile-text-field {
-    width: 86%;
+    width: 348px;
     align-self: center;
 }
 
@@ -132,20 +132,20 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    width: calc(80% - 40px);
+    width: 286px;
     padding-inline-start: 20px;
 }
 
 .profile-popover-settings-item-text {
     font: var(--small-regular-text);
     color: var(--text-color-default);
-    width: 40%;
+    width: 120px;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
 .profile-popover-settings-dropdown {
-    width: 60%;
+    width: 166px;
 }
 
 .profile-button-settings-confirm {
