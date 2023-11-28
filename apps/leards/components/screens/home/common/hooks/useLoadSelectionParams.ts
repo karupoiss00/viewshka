@@ -1,129 +1,81 @@
+import {
+	createStorageSelection,
+	StorageType,
+} from '@leards/components/screens/home/viewmodel/selection/Selection'
+import {selectionAtom} from '@leards/components/screens/home/viewmodel/selectionAtom'
 import {useSearchParams} from '@leards/hooks/useSearchParams'
-import {useAction} from '@reatom/npm-react'
-import {useCallback, useEffect} from 'react'
-import {selectionActions} from '../../viewmodel/selectionAtom'
+import {useAtom} from '@reatom/npm-react'
+import {useCallback, useEffect, useRef} from 'react'
 
-const SELECTED_DECK_KEY = 'selectedDeck'
-const SELECTED_FOLDER_KEY = 'selectedFolder'
+const SELECTED_STORAGE_TYPE_KEY = 'storageType'
+const SELECTED_STORAGE_ID_KEY = 'storageId'
 const SELECTED_SECTION_KEY = 'section'
 
 function useLoadSelectionParams() {
-	useSectionParam()
-	useFolderParam()
-	useDeckParam()
-}
+	const [, setSelection] = useAtom(selectionAtom)
 
-function useSectionParam() {
-	const handleSelectSection = useAction(selectionActions.selectSection)
-	const {getSelectedSectionParam} = useSelectedSectionParam()
-	const selectedSectionParam = getSelectedSectionParam()
+	const sectionParam = useSelectedSectionParam()
+	const storageTypeParam = useStorageTypeParam()
+	const storageIdParam = useStorageIdParam()
 
-	const loadSectionParam = () => {
-		if (selectedSectionParam) {
-			handleSelectSection(selectedSectionParam)
-		}
-		else {
-			handleSelectSection('user-content')
-		}
-	}
+	const sectionRef = useRef(sectionParam)
+	const storageTypeRef = useRef(storageTypeParam)
+	const storageIdRef = useRef(storageIdParam)
 
-	useEffect(loadSectionParam, [handleSelectSection, selectedSectionParam])
-}
-
-function useFolderParam() {
-	const handleSelectFolderAction = useAction(selectionActions.selectFolder)
-	const {getSelectedFolderParam} = useSelectedFolderParam()
-	const {getSelectedDeckParam} = useSelectedDeckParam()
-	const selectedDeckIdParam = getSelectedDeckParam()
-	const selectedFolderIdParam = getSelectedFolderParam()
-
-	const loadFolderParam = () => {
-		if (selectedFolderIdParam && !selectedDeckIdParam) {
-			handleSelectFolderAction({
-				folderId: selectedFolderIdParam,
-			})
-		}
-	}
-
-	useEffect(loadFolderParam, [handleSelectFolderAction, selectedDeckIdParam, selectedFolderIdParam])
-}
-
-function useDeckParam() {
-	const handleSelectDeckAction = useAction(selectionActions.selectDeck)
-	const {getSelectedFolderParam} = useSelectedFolderParam()
-	const {getSelectedDeckParam} = useSelectedDeckParam()
-	const selectedFolderIdParam = getSelectedFolderParam()
-	const selectedDeckIdParam = getSelectedDeckParam()
-
-	const loadDeckParam = () => {
-		if (selectedFolderIdParam && selectedDeckIdParam) {
-			handleSelectDeckAction({
-				parentFolderId: selectedFolderIdParam,
-				deckId:
-				selectedDeckIdParam,
-			})
-		}
-	}
-	useEffect(loadDeckParam, [handleSelectDeckAction, selectedDeckIdParam, selectedFolderIdParam])
+	useEffect(() => {
+		const selection = createStorageSelection({
+			section: sectionRef.current,
+			storageType: storageTypeRef.current,
+			storageId: storageIdRef.current,
+		})
+		setSelection(selection)
+	}, [setSelection])
 }
 
 function useSelectedSectionParam() {
-	const [getParam, setParams] = useSearchParams()
+	const [getParam] = useSearchParams()
 
-	const setSelectedSectionParam = useCallback((sectionType: string) => {
-		setParams({
-			[SELECTED_SECTION_KEY]: sectionType,
-		}, true)
-	}, [setParams])
-
-	const getSelectedSectionParam = useCallback(() => getParam(SELECTED_SECTION_KEY), [getParam])
-
-	return {
-		getSelectedSectionParam,
-		setSelectedSectionParam,
-	}
+	return getParam(SELECTED_SECTION_KEY)
 }
 
-function useSelectedFolderParam() {
-	const [getParam, setParams] = useSearchParams()
+function useStorageTypeParam() {
+	const [getParam] = useSearchParams()
 
-	const setSelectedFolderParam = useCallback((id: string) => {
-		setParams({
-			[SELECTED_SECTION_KEY]: getParam(SELECTED_SECTION_KEY),
-			[SELECTED_FOLDER_KEY]: id,
-		}, true)
-	}, [getParam, setParams])
-
-	const getSelectedFolderParam = useCallback(() => getParam(SELECTED_FOLDER_KEY), [getParam])
-
-	return {
-		getSelectedFolderParam,
-		setSelectedFolderParam,
-	}
+	return getParam(SELECTED_STORAGE_TYPE_KEY)
 }
 
-function useSelectedDeckParam() {
-	const [getParam, setParams] = useSearchParams()
+function useStorageIdParam() {
+	const [getParam] = useSearchParams()
 
-	const setSelectedDeckParam = useCallback((folderId: string, deckId: string) => {
-		setParams({
-			[SELECTED_DECK_KEY]: deckId,
-			[SELECTED_FOLDER_KEY]: folderId,
+	return getParam(SELECTED_STORAGE_ID_KEY)
+}
+
+function useSetSelectedSectionParam() {
+	const [, setParam] = useSearchParams()
+
+	return useCallback((section: Selection['type']) => {
+		setParam({
+			[SELECTED_SECTION_KEY]: section,
+		}, true)
+	}, [setParam])
+}
+
+function useSetSelectedStorageParam() {
+	const [, setParam] = useSearchParams()
+	const [{type}] = useAtom(selectionAtom)
+
+	return useCallback((storageType: StorageType, storageId: string) => {
+		setParam({
+			[SELECTED_SECTION_KEY]: type,
+			[SELECTED_STORAGE_TYPE_KEY]: storageType,
+			[SELECTED_STORAGE_ID_KEY]: storageId,
 		})
-	}, [setParams])
-
-	const getSelectedDeckParam = useCallback(() => getParam(SELECTED_DECK_KEY), [getParam])
-
-	return {
-		getSelectedDeckParam,
-		setSelectedDeckParam,
-	}
+	}, [setParam, type])
 }
-
 
 export {
 	useLoadSelectionParams,
-	useSelectedFolderParam,
-	useSelectedDeckParam,
-	useSelectedSectionParam,
+
+	useSetSelectedSectionParam,
+	useSetSelectedStorageParam,
 }

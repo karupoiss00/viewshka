@@ -2,6 +2,7 @@ import {DecksAPI} from '@leards/api/DecksAPI'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {Card} from '@leards/api/generated'
 import {goToHome} from '@leards/components/screens/home/Home'
+import {StorageType} from '@leards/components/screens/home/viewmodel/selection/Selection'
 import {Practice} from '@leards/components/screens/practice/flip/practice/Practice'
 import {IntermediateResult} from '@leards/components/screens/practice/flip/results/IntermediateResult'
 import {TotalResult} from '@leards/components/screens/practice/flip/results/TotalResult'
@@ -58,12 +59,12 @@ function FlipPractice() {
 function useLoadData(onMaterialNameLoad: (name: string) => void, onCardsLoad: (cards: Array<Card>) => void) {
 	const router = useRouter()
 	const {slug} = router.query
-	const folderId = slug[0]
-	const deckId = slug[1]
+	const storageType = slug[0] as StorageType
+	const storageId = slug[1]
 
 	const {cards, isLoading: isCardsLoading}
-		= useCardsQuery(folderId, deckId)
-	const {title, isLoading: isTitleLoading} = useTitleQuery(folderId, deckId)
+		= useCardsQuery(storageType, storageId)
+	const {title, isLoading: isTitleLoading} = useTitleQuery(storageType, storageId)
 
 	useEffect(() => {
 		if (title) {
@@ -85,16 +86,15 @@ function useLoadData(onMaterialNameLoad: (name: string) => void, onCardsLoad: (c
 	return isTitleLoading || isCardsLoading
 }
 
-function useTitleQuery(folderId: string, deckId: string | null = null) {
+function useTitleQuery(storageType: string, storageId: string) {
 	const [title, setTitle] = useState('')
-	const storageType = deckId ? 'deck' : 'folder'
 
 	const {data, isSuccess, isLoading} = useQuery([
-		'practice-title', folderId, deckId,
+		'practice-title', storageType, storageId,
 	], async () => {
 		const storage = storageType === 'folder'
-			? (await FoldersAPI.get().getFolderById(folderId)).data.folder
-			: (await DecksAPI.get().getDeckById(folderId, deckId)).data.deck
+			? (await FoldersAPI.get().getFolderById(storageId)).data.folder
+			: (await DecksAPI.get().getDeckById(storageId)).data.deck
 
 		return storage.name
 	}, {
@@ -111,11 +111,11 @@ function useTitleQuery(folderId: string, deckId: string | null = null) {
 }
 
 type FlipPracticePagePayload = {
-	folderId: string
-	deckId: string | null
+	storageType: StorageType,
+	storageId: string,
 }
-function goToFlipPractice({folderId, deckId}: FlipPracticePagePayload) {
-	Router.push(`/practice/flip/${folderId}/${deckId || ''}`)
+function goToFlipPractice({storageType, storageId}: FlipPracticePagePayload) {
+	Router.push(`/practice/flip/${storageType}/${storageId || ''}`)
 }
 
 export {

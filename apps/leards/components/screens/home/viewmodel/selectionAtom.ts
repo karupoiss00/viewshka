@@ -1,4 +1,5 @@
 import {userAtom} from '@leards/components/common/viewmodel/userAtom'
+import {currentFolderAtom} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
 import {action, atom} from '@reatom/core'
 import {
 	Selection,
@@ -10,21 +11,24 @@ const selectionAtom = atom<Selection>({
 	content: null,
 })
 
-const selectedSectionAtom = atom(ctx => {
-	const selection = ctx.spy(selectionAtom)
-
-	return selection.type
-})
-
 const selectedFolderIdAtom = atom(ctx => {
-	const user = ctx.spy(userAtom)
+	const {rootFolderId} = ctx.spy(userAtom)
 	const selection = ctx.spy(selectionAtom)
+	const folder = ctx.spy(currentFolderAtom)
 
 	if (selection.type !== 'user-content' && selection.type !== 'library') {
 		return null
 	}
 
-	return selection.content?.folderId || user.rootFolderId
+	if (!selection.content) {
+		return rootFolderId
+	}
+
+	if (selection.content.type !== 'folder') {
+		return folder?.folderId
+	}
+
+	return selection.content.id
 })
 
 const selectedDeckIdAtom = atom(ctx => {
@@ -34,7 +38,11 @@ const selectedDeckIdAtom = atom(ctx => {
 		return null
 	}
 
-	return selection.content?.deckId || null
+	if (selection.content?.type !== 'deck') {
+		return null
+	}
+
+	return selection.content.id
 })
 
 
@@ -43,7 +51,6 @@ const selectSection = action((ctx, sectionType: string) =>
 )
 
 type SelectDeckPayload = {
-	parentFolderId: string
 	deckId: string
 }
 const selectDeck = action((ctx, payload: SelectDeckPayload) => {
@@ -54,13 +61,13 @@ const selectDeck = action((ctx, payload: SelectDeckPayload) => {
 		return
 	}
 
-	const {parentFolderId, deckId} = payload
+	const {deckId} = payload
 
 	selectionAtom(ctx, {
 		type: selectionType,
 		content: {
-			deckId,
-			folderId: parentFolderId,
+			type: 'deck',
+			id: deckId,
 		},
 	})
 })
@@ -69,9 +76,9 @@ type SelectFolderPayload = {
 	folderId: string
 }
 const selectFolder = action((ctx, payload: SelectFolderPayload) => {
-	const {type: selectionType} = ctx.get(selectionAtom)
+	const {type: section} = ctx.get(selectionAtom)
 
-	if (selectionType !== 'user-content' && selectionType !== 'library') {
+	if (section !== 'user-content' && section !== 'library') {
 		console.warn('Can not set selected folder outside user-content or library section')
 		return
 	}
@@ -79,33 +86,18 @@ const selectFolder = action((ctx, payload: SelectFolderPayload) => {
 	const {folderId} = payload
 
 	selectionAtom(ctx, {
-		type: selectionType,
+		type: section,
 		content: {
-			deckId: null,
-			folderId,
+			type: 'folder',
+			id: folderId,
 		},
 	})
 })
 
-type SetSelectedFolderPayload = {
-	folderId: string
-}
-const setSelectedFolder = action((ctx, payload: SetSelectedFolderPayload) => {
-	const selection = ctx.get(selectionAtom)
-
-	if (selection.type !== 'user-content' && selection.type !== 'library') {
-		console.warn('Can not set selected folder outside user-content or library section')
-		return
-	}
-
-	const {folderId} = payload
-
+const reset = action(ctx => {
 	selectionAtom(ctx, {
-		type: selection.type,
-		content: {
-			...selection.content,
-			folderId,
-		},
+		type: 'user-content',
+		content: null,
 	})
 })
 
@@ -114,7 +106,7 @@ const selectionActions = {
 	selectSection,
 	selectDeck,
 	selectFolder,
-	setSelectedFolder,
+	reset,
 } as const
 
 export {
@@ -122,7 +114,6 @@ export {
 
 	selectedFolderIdAtom,
 	selectedDeckIdAtom,
-	selectedSectionAtom,
 
 	selectionActions,
 }

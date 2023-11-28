@@ -1,3 +1,4 @@
+import {useSetSelectedSectionParam} from '@leards/components/screens/home/common/hooks/useLoadSelectionParams'
 import {FavoriteDecksList} from '@leards/components/screens/home/sidebar/contentList/FavoriteDecksList'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
@@ -9,7 +10,6 @@ import {
 } from '@viewshka/uikit'
 import classnames from 'classnames'
 import React from 'react'
-import {useSelectedSectionParam} from '../common/hooks/useLoadSelectionParams'
 import {Selection} from '../viewmodel/selection/Selection'
 import {
 	selectionAtom,
@@ -30,12 +30,12 @@ function Sidebar({className}: PropsWithClassname) {
 
 function SectionsList() {
 	const getMessage = useMessages()
-	const {setSelectedSectionParam} = useSelectedSectionParam()
+	const setSectionQueryParam = useSetSelectedSectionParam()
 	const handleChangeSelection = useAction(selectionActions.selectSection)
 	const [selection] = useAtom(selectionAtom)
 
-	const selectSection = (id: string) => {
-		setSelectedSectionParam(id)
+	const selectSection = (id: Selection['type']) => {
+		setSectionQueryParam(id)
 		handleChangeSelection(id)
 	}
 

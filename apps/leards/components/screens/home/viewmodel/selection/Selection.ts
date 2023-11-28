@@ -1,20 +1,18 @@
-type SelectedContentData = {
-  deckId: string | null
-  folderId: string
+type StorageType = 'folder' | 'deck'
+
+type SelectedStorageData = {
+	type: StorageType
+	id: string
 };
 
 type UserContentSelection = {
 	type: 'user-content'
-	content: SelectedContentData | null
+	content: SelectedStorageData | null
 }
 
 type LibrarySelection = {
 	type: 'library'
-	content: SelectedContentData | null
-}
-
-type TasksSelection = {
-	type: 'tasks'
+	content: SelectedStorageData | null
 }
 
 function createUserContentSelection(): UserContentSelection {
@@ -31,17 +29,11 @@ function createLibrarySelection(): LibrarySelection {
 	}
 }
 
-function createTasksSelection(): TasksSelection {
-	return {
-		type: 'tasks',
-	}
-}
-
 function createDefaultSelection() {
 	return createUserContentSelection()
 }
 
-type Selection = UserContentSelection | LibrarySelection | TasksSelection
+type Selection = UserContentSelection | LibrarySelection
 
 function createSelection(type: string): Selection {
 	switch (type) {
@@ -49,19 +41,52 @@ function createSelection(type: string): Selection {
 			return createUserContentSelection()
 		case 'library':
 			return createLibrarySelection()
-		case 'tasks':
-			return createTasksSelection()
 		default:
 			console.warn(`Unknown selection type: ${type}`)
 			return createDefaultSelection()
 	}
 }
 
+type CreateStorageSelectionParams = {
+	section: string
+	storageType: string
+	storageId: string
+}
+function createStorageSelection({
+	section,
+	storageType,
+	storageId,
+}: CreateStorageSelectionParams): Selection {
+	if (section !== 'user-content' && section !== 'library') {
+		return createDefaultSelection()
+	}
+
+	const invalidStorageType = storageType !== 'folder' && storageType !== 'deck'
+	const invalidStorageId = !storageId
+
+	if (invalidStorageType || invalidStorageId) {
+		return {
+			type: section,
+			content: null,
+		}
+	}
+
+	return {
+		type: section,
+		content: {
+			type: storageType,
+			id: storageId,
+		},
+	}
+}
+
 export type {
 	Selection,
-	SelectedContentData,
+	SelectedStorageData,
+	StorageType,
 }
 
 export {
 	createSelection,
+	createStorageSelection,
 }

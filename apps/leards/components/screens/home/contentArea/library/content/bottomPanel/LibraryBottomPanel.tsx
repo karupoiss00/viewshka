@@ -1,7 +1,7 @@
 import {BottomPanel} from '@leards/components/screens/home/contentArea/common/BottomPanel'
 import {currentDeckAtom} from '@leards/components/screens/home/viewmodel/currentDeckAtom'
 import {currentFolderAtom} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
-import {SelectedContentData} from '@leards/components/screens/home/viewmodel/selection/Selection'
+import {SelectedStorageData} from '@leards/components/screens/home/viewmodel/selection/Selection'
 import {goToFlipPractice} from '@leards/components/screens/practice/flip/FlipPractice'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
@@ -10,7 +10,7 @@ import React, {useEffect, useState} from 'react'
 import styles from './LibraryBottomPanel.module.css'
 
 interface LibraryBottomPanelProps {
-	selectedContent: SelectedContentData | null
+	selectedContent: SelectedStorageData
 }
 function LibraryBottomPanel({selectedContent}: LibraryBottomPanelProps) {
 	const [bottomPanelState, setBottomPanelState] = useState<'added-material'|'new-material'>('added-material')
@@ -19,9 +19,9 @@ function LibraryBottomPanel({selectedContent}: LibraryBottomPanelProps) {
 	const emptyState = !deck || !deck.content?.length
 
 	useEffect(() => {
-		if (selectedContent?.deckId) {
+		if (selectedContent?.id) {
 			setBottomPanelState(
-				content.find(m => m.id === selectedContent.deckId)
+				content.find(m => m.id === selectedContent.id)
 					? 'added-material'
 					: 'new-material',
 			)
@@ -41,7 +41,7 @@ function LibraryBottomPanel({selectedContent}: LibraryBottomPanelProps) {
 }
 
 interface TrainBottomPanelProps {
-	selectedContent: SelectedContentData | null
+	selectedContent: SelectedStorageData | null
 	disabled: boolean
 }
 function TrainBottomPanel({disabled, selectedContent}: TrainBottomPanelProps) {
@@ -50,7 +50,10 @@ function TrainBottomPanel({disabled, selectedContent}: TrainBottomPanelProps) {
 		<Button
 			type={'secondary'}
 			size={'medium'}
-			onClick={() => selectedContent && goToFlipPractice(selectedContent)}
+			onClick={() => selectedContent && goToFlipPractice({
+				storageType: selectedContent.type,
+				storageId: selectedContent.id,
+			})}
 			state={disabled ? 'disabled' : 'default'}
 		>
 			{getMessage('Button.Practice.Flip')}

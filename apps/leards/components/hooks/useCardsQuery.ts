@@ -1,19 +1,16 @@
 import {CardsAPI} from '@leards/api/CardsAPI'
 import {Card} from '@leards/api/generated'
+import {StorageType} from '@leards/components/screens/home/viewmodel/selection/Selection'
 import {useEffect, useState} from 'react'
 import {useQuery} from 'react-query'
 
-function useCardsQuery(folderId: string | null, deckId: string | null = null) {
-	const [cards, setCards] = useState<Card[]>(() => [])
-	const storageType = deckId ? 'deck' : 'folder'
-	const storageId = deckId || folderId
+const CARDS_QUERY_KEY = 'cards'
 
+function useCardsQuery(storageType: StorageType, storageId: string) {
+	const [cards, setCards] = useState<Card[]>(() => [])
 	const {data, isSuccess, isLoading} = useQuery([
-		'cards', folderId, deckId,
+		CARDS_QUERY_KEY, storageType, storageId,
 	], async () => {
-		if (!folderId) {
-			return []
-		}
 
 		const {data: storageData} = await CardsAPI.get().getStorageCards(
 			storageType,
@@ -36,4 +33,5 @@ function useCardsQuery(folderId: string | null, deckId: string | null = null) {
 
 export {
 	useCardsQuery,
+	CARDS_QUERY_KEY,
 }

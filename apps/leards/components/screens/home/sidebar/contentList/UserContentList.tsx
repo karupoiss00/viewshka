@@ -1,9 +1,8 @@
+import {DecksAPI} from '@leards/api/DecksAPI'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
-import {
-	useSelectedDeckParam,
-	useSelectedFolderParam,
-} from '@leards/components/screens/home/common/hooks/useLoadSelectionParams'
+import {useSetSelectedStorageParam} from '@leards/components/screens/home/common/hooks/useLoadSelectionParams'
 import {ContentList} from '@leards/components/screens/home/sidebar/contentList/common/ContentList'
+import {currentDeckAtom} from '@leards/components/screens/home/viewmodel/currentDeckAtom'
 import {currentFolderAtom} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
 import {
 	selectedDeckIdAtom,
@@ -12,7 +11,7 @@ import {
 } from '@leards/components/screens/home/viewmodel/selectionAtom'
 import {useAction, useAtom} from '@reatom/npm-react'
 import {useRouter} from 'next/router'
-import React, {useEffect, useState} from 'react'
+import React, {useEffect} from 'react'
 import {useQuery} from 'react-query'
 
 const SELECTED_FOLDER_QUERY_KEY = 'sidebar-folder'
@@ -20,25 +19,12 @@ const SELECTED_FOLDER_QUERY_KEY = 'sidebar-folder'
 function UserContentList() {
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
 	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
-	const [, setCurrentFolder] = useAtom(currentFolderAtom)
-	const {setSelectedDeckParam} = useSelectedDeckParam()
-	const {setSelectedFolderParam} = useSelectedFolderParam()
-	const handleSetSelectedFolder = useAction(selectionActions.setSelectedFolder)
+	const [folder] = useAtom(currentFolderAtom)
+	const setStorageQueryParam = useSetSelectedStorageParam()
 	const handleSelectDeckAction = useAction(selectionActions.selectDeck)
 	const handleSelectFolderAction = useAction(selectionActions.selectFolder)
-	const folder = useFolderQuery(selectedFolderId)
 
-	useEffect(() => {
-		if (folder) {
-			setCurrentFolder({...folder})
-			// не можем просто заселектить папку, так как
-			// сбросится id открытой колоды полученный из урла,
-			// поэтому сделан отдельный экшен на устновку открытой папки
-			handleSetSelectedFolder({
-				folderId: folder.folderId,
-			})
-		}
-	}, [folder, handleSetSelectedFolder, setCurrentFolder])
+	useCurrentFolderQuery(selectedFolderId)
 
 	const setSelection = (id: string) => {
 		const selectedContent = folder.content.find(el => el.id === id)
@@ -48,16 +34,15 @@ function UserContentList() {
 		}
 
 		if (selectedContent.type === 'folder') {
-			setSelectedFolderParam(selectedContent.id)
+			setStorageQueryParam('folder', selectedContent.id)
 			handleSelectFolderAction({
 				folderId: selectedContent.id,
 			})
 		}
 
 		if (selectedContent.type === 'deck') {
-			setSelectedDeckParam(selectedFolderId, selectedContent.id)
+			setStorageQueryParam('deck', selectedContent.id)
 			handleSelectDeckAction({
-				parentFolderId: selectedFolderId,
 				deckId: selectedContent.id,
 			})
 		}
@@ -77,13 +62,23 @@ function UserContentList() {
 	)
 }
 
-function useFolderQuery(folderId: string) {
+function useCurrentFolderQuery(folderId: string | null) {
+	const [currentFolder, setCurrentFolder] = useAtom(currentFolderAtom)
+	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
+	const handleResetSelection = useAction(selectionActions.reset)
 	const router = useRouter()
-	const [folder, setFolder] = useState(null)
-	const queryKey = [SELECTED_FOLDER_QUERY_KEY, {
-		folderId,
-	}]
-	const {isError, isSuccess, data} = useQuery(queryKey, async () => {
+	const {isError, isSuccess, data} = useQuery([SELECTED_FOLDER_QUERY_KEY, folderId], async () => {
+		if (!folderId) {
+			const {data} = await DecksAPI.get().getDeckById(selectedDeckId)
+
+			folderId = data.deck.parentFolderId
+		}
+
+		if (folderId === currentFolder.folderId) {
+			return currentFolder
+		}
+
+
 		const api = FoldersAPI.get()
 		const {data} = await api.getFolderById(folderId)
 
@@ -94,15 +89,14 @@ function useFolderQuery(folderId: string) {
 
 	useEffect(() => {
 		if (isSuccess) {
-			setFolder(data)
+			setCurrentFolder(data)
 		}
 
 		if (isError) {
+			handleResetSelection()
 			router.replace('/home')
 		}
-	}, [data, isError, isSuccess, router])
-
-	return folder
+	}, [data, handleResetSelection, isError, isSuccess, router, setCurrentFolder])
 }
 
 export {

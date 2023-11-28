@@ -1,9 +1,12 @@
+import {
+	useSetSelectedSectionParam,
+	useSetSelectedStorageParam,
+} from '@leards/components/screens/home/common/hooks/useLoadSelectionParams'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
 import {Breadcrumbs, TextField, PropsWithClassname} from '@viewshka/uikit'
 import React from 'react'
 import CommonTopPanel from '../../../common/topPanel/TopPanel'
-import {useSelectedFolderParam} from '../common/hooks/useLoadSelectionParams'
 import {currentFolderAtom} from '../viewmodel/currentFolderAtom'
 import {selectionActions, selectionAtom} from '../viewmodel/selectionAtom'
 import styles from './TopPanel.module.css'
@@ -23,19 +26,19 @@ function TopPanel({className}: PropsWithClassname) {
 function UserContentPanel() {
 	const getMessages = useMessages()
 	const [currentFolder] = useAtom(currentFolderAtom)
-	const {setSelectedFolderParam} = useSelectedFolderParam()
+	const setSelectedStorageQuery = useSetSelectedStorageParam()
 	const handleSelectFolderAction = useAction(selectionActions.selectFolder)
 
 	const selectFolder = (id: string) => {
 		handleSelectFolderAction({
 			folderId: id,
 		})
-		setSelectedFolderParam(id)
+		setSelectedStorageQuery('folder', id)
 	}
 
-	const path = currentFolder.path?.length > MAX_CRUMBS_COUNT
+	const path = currentFolder?.path?.length > MAX_CRUMBS_COUNT
 		? [currentFolder.path[0], ...currentFolder.path.slice(-3)]
-		: currentFolder.path || []
+		: currentFolder?.path || []
 
 	return (
 		<div className={styles.userContentPanel}>
