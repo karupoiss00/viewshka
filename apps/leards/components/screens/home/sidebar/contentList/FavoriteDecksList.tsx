@@ -1,8 +1,11 @@
 import {Content} from '@leards/api/generated'
 import {LibraryAPI} from '@leards/api/LibraryAPI'
 import {userAtom} from '@leards/components/common/viewmodel/userAtom'
+import {useSetSelectedStorageParam} from '@leards/components/screens/home/common/hooks/useLoadSelectionParams'
+import {favoritesAtom} from '@leards/components/screens/home/contentArea/library/viewmodel/favoritesAtom'
 import {ContentList} from '@leards/components/screens/home/sidebar/contentList/common/ContentList'
-import {useAtom} from '@reatom/npm-react'
+import {selectedDeckIdAtom, selectionActions} from '@leards/components/screens/home/viewmodel/selectionAtom'
+import {useAction, useAtom} from '@reatom/npm-react'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
 import {useQuery} from 'react-query'
@@ -11,13 +14,26 @@ const FAVORITE_DECKS_QUERY_KEY = 'sidebar-favorites'
 
 function FavoriteDecksList() {
 	const [user] = useAtom(userAtom)
-	const favoriteDecks = useFavoritesQuery(user.id)
+	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
+	const [favorites] = useAtom(favoritesAtom)
+	const setStorageQueryParam = useSetSelectedStorageParam()
+	const handleSelectFolderAction = useAction(selectionActions.selectDeck)
+
+
+	useFavoritesQuery(user.id)
+
+	const setSelection = (id: string) => {
+		setStorageQueryParam('deck', id)
+		handleSelectFolderAction({
+			deckId: id,
+		})
+	}
 
 	return (
 		<ContentList
-			onItemSelect={() => {}}
-			selectedItem={null}
-			content={favoriteDecks}
+			onItemSelect={setSelection}
+			selectedItem={selectedDeckId}
+			content={favorites}
 			editable={false}
 		/>
 	)
@@ -25,7 +41,7 @@ function FavoriteDecksList() {
 
 function useFavoritesQuery(userId: string) {
 	const router = useRouter()
-	const [decks, setDecks] = useState<Content[]>([])
+	const [, setFavorites] = useAtom(favoritesAtom)
 	const queryKey = [FAVORITE_DECKS_QUERY_KEY]
 	const {isError, isSuccess, data} = useQuery(queryKey, async () => {
 		const api = LibraryAPI.get()
@@ -38,15 +54,13 @@ function useFavoritesQuery(userId: string) {
 
 	useEffect(() => {
 		if (isSuccess) {
-			setDecks(data)
+			setFavorites(data)
 		}
 
 		if (isError) {
 			router.replace('/home')
 		}
-	}, [data, isError, isSuccess, router])
-
-	return decks
+	}, [data, isError, isSuccess, router, setFavorites])
 }
 
 export {

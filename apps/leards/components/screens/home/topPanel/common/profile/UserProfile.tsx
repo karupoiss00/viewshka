@@ -1,6 +1,10 @@
 import {AccountsAPI} from '@leards/api/AccountsAPI'
 import {UpdateUserRequest, UpdateUserSettingsRequest} from '@leards/api/generated'
 import {UserSettingsAPI} from '@leards/api/UserSettingsAPI'
+import {localeToId} from '@leards/components/common/i18n/localeToMessageId'
+import {themeToId} from '@leards/components/common/i18n/themeToMessageId'
+import {settingsAction, settingsAtom} from '@leards/components/common/viewmodel/settingsAtom'
+import {userActions, userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {isLocale, Locale} from '@leards/providers/localeProvider'
 import {isTheme, Theme} from '@leards/providers/themeProvider'
@@ -17,16 +21,12 @@ import {
 } from '@viewshka/uikit'
 import React, {useRef, useState} from 'react'
 import {useMutation} from 'react-query'
-import {localeToId} from '../../../common/i18n/localeToMessageId'
-import {themeToId} from '../../../common/i18n/themeToMessageId'
-import {settingsAction, settingsAtom} from '../../../common/viewmodel/settingsAtom'
-import {userActions, userAtom} from '../../../common/viewmodel/userAtom'
 import {PersonInfo} from './personInfo/PersonInfo'
 import styles from './UserProfile.module.css'
 
 type ProfilePopupState = 'default' | 'settings' | 'editing'
 
-function UserProfilePanel() {
+function UserProfile() {
 	const [userInfo] = useAtom(userAtom)
 	const triggerRef = useRef<HTMLDivElement>(null)
 	const [profileState, setProfileState] = useState<ProfilePopupState>('default')
@@ -329,5 +329,5 @@ export type {
 }
 
 export {
-	UserProfilePanel,
+	UserProfile,
 }

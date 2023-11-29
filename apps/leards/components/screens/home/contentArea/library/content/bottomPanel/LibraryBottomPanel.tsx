@@ -1,4 +1,5 @@
 import {BottomPanel} from '@leards/components/screens/home/contentArea/common/BottomPanel'
+import {favoritesAtom} from '@leards/components/screens/home/contentArea/library/viewmodel/favoritesAtom'
 import {currentDeckAtom} from '@leards/components/screens/home/viewmodel/currentDeckAtom'
 import {currentFolderAtom} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
 import {SelectedStorageData} from '@leards/components/screens/home/viewmodel/selection/Selection'
@@ -14,19 +15,19 @@ interface LibraryBottomPanelProps {
 }
 function LibraryBottomPanel({selectedContent}: LibraryBottomPanelProps) {
 	const [bottomPanelState, setBottomPanelState] = useState<'added-material'|'new-material'>('added-material')
-	const [{content}] = useAtom(currentFolderAtom)
+	const [favorites] = useAtom(favoritesAtom)
 	const [deck] = useAtom(currentDeckAtom)
 	const emptyState = !deck || !deck.content?.length
 
 	useEffect(() => {
 		if (selectedContent?.id) {
 			setBottomPanelState(
-				content.find(m => m.id === selectedContent.id)
+				favorites.find(m => m.id === selectedContent.id)
 					? 'added-material'
 					: 'new-material',
 			)
 		}
-	}, [content, selectedContent])
+	}, [favorites, selectedContent])
 
 	const mapStateToView = new Map([
 		['added-material', <TrainBottomPanel selectedContent={selectedContent} disabled={emptyState}/>],

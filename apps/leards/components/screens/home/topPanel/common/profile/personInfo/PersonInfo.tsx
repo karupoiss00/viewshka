@@ -1,8 +1,8 @@
+import {userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {useAtom} from '@reatom/npm-react'
 import {isUndefined} from '@viewshka/core'
 import {Avatar} from '@viewshka/uikit'
 import React from 'react'
-import {userAtom} from '../../../../common/viewmodel/userAtom'
 import {ProfilePopupState} from '../UserProfile'
 import styles from './PersonInfo.module.css'
 

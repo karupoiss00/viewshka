@@ -16,14 +16,18 @@ function PopoverStories() {
 			>
 				Открыть поповер
 			</Button>
-			<Popover preferredPosition="bottom-center" triggerRef={triggerRef}>
+			<Popover
+				preferredPosition="bottom-center"
+				triggerRef={triggerRef}
+				onClose={() => {}}
+			>
 				<Popover.Content className={styles['popover']}>
 					<TextField
 						size={'small'}
 						onChange={console.log}
 						placeholder={'Введите номер карты'}
 					/>
-					<Popover.Close>
+					<Popover.Close onClose={() => {}}>
 						<Button
 							type={'primary'}
 							size={'small'}
