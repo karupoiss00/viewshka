@@ -1,15 +1,14 @@
 import {User} from '@leards/api/generated'
+import {goToAuth} from '@leards/components/screens/auth/Auth'
 import UserProvider, {IUserProvider} from '@leards/providers/userProvider'
 import {useAction} from '@reatom/npm-react'
 import {useLayoutEffect} from '@viewshka/core'
 import {NextComponentType} from 'next'
-import {useRouter} from 'next/router'
 import React, {useState} from 'react'
 import {userActions} from '../common/viewmodel/userAtom'
 import LoadingPage from '../screens/loading/LoadingPage'
 
 const withUser = (Component: NextComponentType) => () => {
-	const router = useRouter()
 	const [userLoaded, setUserLoaded] = useState(false)
 	const handleSetUserAction = useAction(userActions.set)
 
@@ -20,9 +19,9 @@ const withUser = (Component: NextComponentType) => () => {
 			setUserLoaded(true)
 		}
 		else {
-			router.replace('/auth')
+			goToAuth()
 		}
-	}, [router, handleSetUserAction])
+	}, [handleSetUserAction])
 
 	if (!userLoaded) {
 		return <LoadingPage/>

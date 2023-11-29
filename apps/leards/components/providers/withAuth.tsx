@@ -19,7 +19,6 @@ function useAuthMutation() {
 }
 
 export const withAuth = (Component: NextComponentType) => () => {
-	const router = useRouter()
 	const {status, data, mutate} = useAuthMutation()
 
 	useLayoutEffect(() => {
@@ -30,7 +29,7 @@ export const withAuth = (Component: NextComponentType) => () => {
 		if (status === 'success') {
 			AuthProvider.setAuthToken(data.token)
 		}
-	}, [data, router, status])
+	}, [data, status])
 
 	if (status === 'success') {
 		return <Component />
