@@ -21,9 +21,11 @@ function TopPanel({className}: PropsWithClassname) {
 	const [selection] = useAtom(selectionAtom)
 	return (
 		<Panel className={className}>
-			{selection.type === 'user-content' && <UserContentPanel/>}
-			{selection.type === 'library' && <LibraryPanel/>}
-			<UserProfilePanel/>
+			<div className={styles.contentContainer}>
+				{selection.type === 'user-content' && <UserContentPanel/>}
+				{selection.type === 'library' && <LibraryPanel/>}
+				<UserProfilePanel/>
+			</div>
 		</Panel>
 	)
 }
@@ -46,15 +48,13 @@ function UserContentPanel() {
 		: currentFolder?.path || []
 
 	return (
-		<div className={styles.userContentPanel}>
-			<Breadcrumbs className={styles.breadcrumbs} onItemClick={selectFolder}>
-				{path?.map((item, i) => (
-					<Breadcrumbs.Item id={item.id} key={item.id}>
-						{i === 0 ? getMessages('TopPanel.MainFolder.Name') : item.name}
-					</Breadcrumbs.Item>
-				))}
-			</Breadcrumbs>
-		</div>
+		<Breadcrumbs onItemClick={selectFolder}>
+			{path?.map((item, i) => (
+				<Breadcrumbs.Item id={item.id} key={item.id}>
+					{i === 0 ? getMessages('TopPanel.MainFolder.Name') : item.name}
+				</Breadcrumbs.Item>
+			))}
+		</Breadcrumbs>
 	)
 }
 

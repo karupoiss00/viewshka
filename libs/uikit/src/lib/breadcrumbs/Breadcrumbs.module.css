@@ -1,7 +1,7 @@
 .breadcrumbs {
     display: flex;
     flex-direction: row;
-    gap: 50px;
+    gap: 30px;
     height: 36px;
     align-items: center;
 }
@@ -19,7 +19,7 @@
     font: var(--small-regular-text);
     user-select: none;
     cursor: pointer;
-    gap: 22px;
+    gap: 15px;
     max-width: 150px;
     overflow: hidden;
     white-space: nowrap;

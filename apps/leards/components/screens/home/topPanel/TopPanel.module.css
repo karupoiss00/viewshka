@@ -4,18 +4,16 @@
     height: 60px;
     background: var(--accent-color);
     align-items: center;
-    justify-content: right;
+    justify-content: center;
 }
 
-.user-content-panel {
+.content-container {
     display: flex;
     flex-direction: row;
-    align-items: center;
-    width: 100%;
-}
-
-.breadcrumbs {
-    margin-inline-start: 50%;
+    justify-content: space-between;
+    flex-grow: 1;
+    padding-inline: 28% 14%;
+    gap: 50px;
 }
 
 .library-panel {
