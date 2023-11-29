@@ -31,9 +31,7 @@
     outline: none;
     border: none;
     font: var(--normal-light-text);
-}
-
-.side-value-editor:disabled {
+    color: var(--text-color-default);
     background: transparent;
 }
 

@@ -33,6 +33,7 @@
 
 .text-field-input {
     background-color: var(--surface-color);
+    color: var(--text-color-default);
     width: 100%;
     outline: none;
     border: none;

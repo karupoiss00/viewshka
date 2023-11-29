@@ -25,6 +25,7 @@
 
 .dropdown-text {
     font: var(--small-light-text);
+    color: var(--text-color-default);
     width: 100%;
     overflow: hidden;
     text-overflow: ellipsis;

@@ -48,6 +48,8 @@
     outline: none;
     border: none;
     font: var(--normal-light-text);
+    color: var(--text-color-default);
+    background: transparent;
 }
 
 .divider {

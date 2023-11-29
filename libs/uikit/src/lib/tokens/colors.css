@@ -9,3 +9,28 @@
     --text-color-subdued: #C0C0C0;
     --popup-bg-color: rgba(0, 0, 0, 0.2);
 }
+
+[data-theme='light'] {
+    --access-color: #95D17F;
+    --accent-color: #FBBA47;
+    --selection-color: #EAEAEA;
+    --error-color: #FB6C55;
+    --surface-color: #FFFFFF;
+    --stroke-color: #DCDCDC;
+    --text-color-default: #404040;
+    --text-color-subdued: #C0C0C0;
+    --popup-bg-color: rgba(0, 0, 0, 0.2);
+}
+
+[data-theme='dark'] {
+    --access-color: #95D17F;
+    --accent-color: #4b4b4b;
+    --selection-color: #393939;
+    --error-color: #FB6C55;
+    --surface-color: #282828;
+    --stroke-color: #353131;
+    --text-color-default: #bfbfbf;
+    --text-color-subdued: #C0C0C0;
+    --popup-bg-color: rgba(0, 0, 0, 0.2);
+}
+

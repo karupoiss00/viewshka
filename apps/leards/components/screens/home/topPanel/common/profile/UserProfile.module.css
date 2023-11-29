@@ -78,6 +78,7 @@
 }
 
 .profile-popover-module-name {
+    color: var(--text-color-default);
     font: var(--normal-light-text);
     user-select: none;
 }
