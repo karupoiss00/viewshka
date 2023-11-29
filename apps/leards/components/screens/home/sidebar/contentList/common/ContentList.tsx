@@ -2,7 +2,8 @@ import {Content} from '@leards/api/generated'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {SelectList} from '@viewshka/uikit'
-import React from 'react'
+import classnames from 'classnames'
+import React, {useCallback, useState} from 'react'
 import {selectedDeckIdAtom} from '../../../viewmodel/selectionAtom'
 import styles from './ContentList.module.css'
 import {ContentItem} from './item/ContentItem'
@@ -15,6 +16,7 @@ interface ContentListProps {
 }
 function ContentList({onItemSelect, selectedItem, content, editable}: ContentListProps) {
 	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
+	const [playAnimation, setPlayAnimation] = useState(false)
 	const contentItems = content?.map(item =>
 		<ContentItem
 			item={item}
@@ -24,15 +26,25 @@ function ContentList({onItemSelect, selectedItem, content, editable}: ContentLis
 		/>,
 	)
 
+	const selectHandler = useCallback((id: string) => {
+		const selectedContent = content.find(c => c.id === id)
+		setPlayAnimation(selectedContent.type === 'folder')
+		onItemSelect(id)
+	}, [content, onItemSelect])
+
 	if (!contentItems?.length) {
 		return (
 			<Placeholder/>
 		)
 	}
 
+	const className = classnames(styles.listContainer, {
+		[styles.listContainerAnimation]: playAnimation,
+	})
+
 	return (
-		<div className={styles.listContainer}>
-			<SelectList onItemSelect={onItemSelect} selectedItem={selectedItem}>
+		<div className={className} onAnimationEnd={() => setPlayAnimation(false)}>
+			<SelectList onItemSelect={selectHandler} selectedItem={selectedItem}>
 				{contentItems}
 			</SelectList>
 		</div>

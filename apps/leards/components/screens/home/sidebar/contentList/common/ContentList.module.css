@@ -24,3 +24,21 @@
 	height: 155px;
 	background: url('/images/empty_sidebar_placeholder.svg') no-repeat center;
 }
+
+.list-container-animation {
+	animation: ease-in-out entering 175ms;
+}
+
+@keyframes entering {
+	0% {
+		transform: translate(0);
+	}
+
+	70% {
+		transform: translate(-100%);
+	}
+
+	100% {
+		transform: translate(0);
+	}
+}
