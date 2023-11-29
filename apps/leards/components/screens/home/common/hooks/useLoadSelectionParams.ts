@@ -18,18 +18,14 @@ function useLoadSelectionParams() {
 	const storageTypeParam = useStorageTypeParam()
 	const storageIdParam = useStorageIdParam()
 
-	const sectionRef = useRef(sectionParam)
-	const storageTypeRef = useRef(storageTypeParam)
-	const storageIdRef = useRef(storageIdParam)
-
 	useEffect(() => {
 		const selection = createStorageSelection({
-			section: sectionRef.current,
-			storageType: storageTypeRef.current,
-			storageId: storageIdRef.current,
+			section: sectionParam,
+			storageType: storageTypeParam,
+			storageId: storageIdParam,
 		})
 		setSelection(selection)
-	}, [setSelection])
+	}, [sectionParam, setSelection, storageIdParam, storageTypeParam])
 }
 
 function useSelectedSectionParam() {
@@ -69,7 +65,7 @@ function useSetSelectedStorageParam() {
 			[SELECTED_SECTION_KEY]: type,
 			[SELECTED_STORAGE_TYPE_KEY]: storageType,
 			[SELECTED_STORAGE_ID_KEY]: storageId,
-		})
+		}, true)
 	}, [setParam, type])
 }
 
