@@ -1,18 +1,39 @@
-import styles from '@leards/components/screens/home/topPanel/TopPanel.module.css'
+import {DecksAPI} from '@leards/api/DecksAPI'
 import {selectedDeckIdAtom} from '@leards/components/screens/home/viewmodel/selectionAtom'
-import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
-import React from 'react'
+import React, {useState} from 'react'
+import {useQuery} from 'react-query'
+import styles from './LibraryPanel.module.css'
 
 function LibraryPanel() {
-	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
-	const getMessage = useMessages()
+	const name = useSelectedDeckName()
+
 	return (
-		<div className={styles.libraryPanel}>
-			{}
+		<div>
+			<div className={styles.selectedDeckName}>
+				<span className={styles.text}>{name}</span>
+			</div>
 		</div>
 	)
 }
+
+function useSelectedDeckName() {
+	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
+	const [name, setName] = useState('')
+
+	useQuery(['selectedLibraryDeckId', selectedDeckId], async () => {
+		if (!selectedDeckId) {
+			setName('')
+			return
+		}
+
+		const response = await DecksAPI.get().getDeckById(selectedDeckId)
+		setName(response.data.deck.name)
+	})
+
+	return name
+}
+
 export {
 	LibraryPanel,
 }

@@ -1,4 +1,5 @@
 .panel {
+    position: relative;
     display: flex;
     flex-direction: row;
     height: 60px;
@@ -11,16 +12,8 @@
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    align-items: center;
     flex-grow: 1;
     padding-inline: 28% 14%;
     gap: 50px;
-}
-
-.library-panel {
-    width: 100%;
-}
-
-.search-field {
-    margin-inline-start: 38%;
-    width: 26%;
 }

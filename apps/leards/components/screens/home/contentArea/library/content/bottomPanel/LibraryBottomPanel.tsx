@@ -1,7 +1,6 @@
 import {BottomPanel} from '@leards/components/screens/home/contentArea/common/BottomPanel'
 import {favoritesAtom} from '@leards/components/screens/home/contentArea/library/viewmodel/favoritesAtom'
 import {currentDeckAtom} from '@leards/components/screens/home/viewmodel/currentDeckAtom'
-import {currentFolderAtom} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
 import {SelectedStorageData} from '@leards/components/screens/home/viewmodel/selection/Selection'
 import {goToFlipPractice} from '@leards/components/screens/practice/flip/FlipPractice'
 import {useMessages} from '@leards/i18n/hooks/useMessages'

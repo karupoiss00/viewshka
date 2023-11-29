@@ -1,7 +1,6 @@
 .user-avatar-panel {
     display: flex;
     flex-direction: row-reverse;
-    width: 100%;
 }
 .user-avatar {
     cursor: pointer;
