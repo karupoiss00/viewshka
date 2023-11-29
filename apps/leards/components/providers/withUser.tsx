@@ -1,5 +1,4 @@
 import {User} from '@leards/api/generated'
-import {LocaleProvider} from '@leards/providers/localeProvider'
 import UserProvider, {IUserProvider} from '@leards/providers/userProvider'
 import {useAction} from '@reatom/npm-react'
 import {useLayoutEffect} from '@viewshka/core'
@@ -38,9 +37,6 @@ function loadLocalUserData(provider: IUserProvider): Omit<User, 'authToken'> | n
 	const profileIcon = provider.getAvatarUrl()
 	const rootFolderId = provider.getRootFolderId()
 	const name = provider.getName()
-	const settings = {
-		locale: LocaleProvider.getLocale(),
-	}
 
 	if (!email || !userId || !profileIcon || !rootFolderId || !name) {
 		return null
@@ -52,7 +48,6 @@ function loadLocalUserData(provider: IUserProvider): Omit<User, 'authToken'> | n
 		rootFolderId,
 		name,
 		email,
-		settings,
 	}
 }
 

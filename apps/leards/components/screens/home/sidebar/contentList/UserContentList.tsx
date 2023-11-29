@@ -2,7 +2,6 @@ import {DecksAPI} from '@leards/api/DecksAPI'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {useSetSelectedStorageParam} from '@leards/components/screens/home/common/hooks/useLoadSelectionParams'
 import {ContentList} from '@leards/components/screens/home/sidebar/contentList/common/ContentList'
-import {currentDeckAtom} from '@leards/components/screens/home/viewmodel/currentDeckAtom'
 import {currentFolderAtom} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
 import {
 	selectedDeckIdAtom,

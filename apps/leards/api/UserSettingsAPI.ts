@@ -1,9 +1,8 @@
-import {Configuration} from '@leards/api/generated'
-import AuthProvider from '../providers/authProvider'
-import {wrapApi} from './common/wrapApi'
-import {AccountsApi} from './generated/api'
+import {wrapApi} from '@leards/api/common/wrapApi'
+import {Configuration, UserSettingsApi} from '@leards/api/generated'
+import AuthProvider from '@leards/providers/authProvider'
 
-export const AccountsAPI = wrapApi<AccountsApi>(() => {
+export const UserSettingsAPI = wrapApi<UserSettingsApi>(() => {
 	const baseAuth = AuthProvider.getBaseAuth()
 
 	const config = new Configuration({
@@ -18,5 +17,5 @@ export const AccountsAPI = wrapApi<AccountsApi>(() => {
 		},
 	})
 
-	return new AccountsApi(config)
+	return new UserSettingsApi(config)
 })

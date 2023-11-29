@@ -24,6 +24,8 @@ const DEFAULT_RECT = {
 	height: 0,
 }
 
+const MARGIN = 30
+
 type Rect = Pick<DOMRect, 'left' | 'top' | 'height' | 'width'>;
 
 type PopoverContextData = {
@@ -52,12 +54,14 @@ interface PopoverProps {
 	children: React.ReactNode
 	preferredPosition: Position
 	triggerRef?: React.RefObject<HTMLElement>
+	onClose: () => void
 }
 
 function Popover({
 	children,
 	triggerRef,
 	preferredPosition = 'bottom-center',
+	onClose,
 }: PopoverProps) {
 	const [show, setShow] = useState(false)
 	const [triggerRect, setTriggerRect] = useState(DEFAULT_RECT)
@@ -69,7 +73,7 @@ function Popover({
 			if (!rect) {
 				return
 			}
-
+			onClose()
 			setShow(isShow => !isShow)
 			setTriggerRect(rect)
 		},
@@ -160,9 +164,15 @@ function PopoverWindow({className, children}: PopoverWindowProps) {
 	)
 }
 
-function Close({children}: { children: React.ReactElement }) {
+type CloseProps = {
+	children: React.ReactElement
+	onClose: () => void
+}
+
+function Close({children, onClose}: CloseProps) {
 	const {setShow} = useContext(PopoverContext)
 	const onClick = (e: MouseEvent) => {
+		onClose()
 		setShow(false)
 
 		e.stopPropagation()
@@ -179,12 +189,11 @@ function getPopoverCoords(
 	popoverRect: Rect,
 	position: Position,
 ) {
-	// TODO: допилить для остальных положений
-	let top = triggerRect.top + triggerRect.height + 10
-	const left = Math.max(triggerRect.left + triggerRect.width / 2 - popoverRect.width / 2, 10)
+	let top = triggerRect.top + triggerRect.height + MARGIN
+	const left = Math.max(triggerRect.left + triggerRect.width / 2 - popoverRect.width / 2, MARGIN)
 
-	if (top + popoverRect.height > window.innerHeight - 10) {
-		top = triggerRect.top - 10 - popoverRect.height
+	if (top + popoverRect.height > window.innerHeight - MARGIN) {
+		top = triggerRect.top - MARGIN - popoverRect.height
 	}
 
 	return {

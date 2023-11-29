@@ -1,0 +1,10 @@
+.person-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-inline-start: auto;
+    margin-inline-end: 0;
+    gap: 12px;
+    color: var(--text-color-default);
+    font: var(--small-light-text);
+}

@@ -1,0 +1,154 @@
+.user-avatar-panel {
+    display: flex;
+    flex-direction: row-reverse;
+    width: 100%;
+    margin-inline-end: 268px;
+}
+.user-avatar {
+    cursor: pointer;
+}
+
+.profile-navigation-bar {
+    display: flex;
+    flex-direction: row;
+    width: 90%;
+    margin-block-start: 20px;
+    margin-inline: 20px;
+}
+
+.profile-popover-navigation-button {
+    padding: 0;
+    margin: 0;
+}
+
+.profile-popover-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 406px;
+}
+
+.profile-popover-username {
+    margin-block-start: 17px;
+    color: var(--text-color-default);
+    font: var(--normal-regular-text);
+    user-select: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    text-align: center;
+    width: 160px;
+}
+
+.avatar-container {
+    position: relative;
+    width: fit-content;
+}
+
+.avatar-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background-color: var(--text-color-subdued);
+    opacity: 0;
+    z-index: 1;
+    user-select: none;
+    cursor: pointer;
+}
+
+.avatar-overlay:hover {
+    opacity: 0.5;
+}
+
+.profile-popover-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 17px;
+    margin-block-start: 42px;
+}
+
+.profile-popover-button {
+    width: 100%;
+    justify-content: flex-start;
+}
+
+.profile-popover-module-name {
+    font: var(--normal-light-text);
+    user-select: none;
+}
+
+.profile-popover-settings-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-block-start: 40px;
+    gap: 30px;
+    width: 100%;
+}
+
+.profile-popover-editing-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    padding-inline: 20px;
+    margin-block-start: 20px;
+    gap: 20px;
+}
+
+.profile-popover-editing-separator {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
+    font: var(--xsmall-light-text);
+    color: var(--stroke-color);
+    user-select: none;
+    width: 348px;
+}
+
+.profile-popover-editing-separator-view {
+    height: 1px;
+    background-color: var(--stroke-color);
+}
+
+.profile-button-confirm {
+    margin-inline: 28px;
+}
+
+.profile-text-field {
+    width: 348px;
+    align-self: center;
+}
+
+.profile-popover-settings-item-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    width: 286px;
+    padding-inline-start: 20px;
+}
+
+.profile-popover-settings-item-text {
+    font: var(--small-regular-text);
+    color: var(--text-color-default);
+    width: 120px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.profile-popover-settings-dropdown {
+    width: 166px;
+}
+
+.profile-button-settings-confirm {
+    margin-inline-start: 70px;
+    align-self: flex-start;
+}

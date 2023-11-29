@@ -15,7 +15,6 @@ const set = action((ctx, {user}: SetUserPayload) => {
 		email: user.email,
 		avatarUrl: user.profileIcon,
 		rootFolderId: user.rootFolderId,
-		locale: user.settings?.locale,
 	}))
 
 	ctx.schedule(() => {

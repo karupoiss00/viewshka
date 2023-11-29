@@ -61,7 +61,6 @@ function SectionsList() {
 const TITLE_MESSAGE_MAP: Map<Selection['type'], string> = new Map([
 	['user-content', 'Sidebar.Title.UserContent'],
 	['library', 'Sidebar.Title.Library'],
-	['tasks', 'Sidebar.Title.Tasks'],
 ])
 
 function SectionContent() {

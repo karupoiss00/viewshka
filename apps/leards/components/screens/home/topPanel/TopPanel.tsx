@@ -1,25 +1,30 @@
 import {
-	useSetSelectedSectionParam,
 	useSetSelectedStorageParam,
 } from '@leards/components/screens/home/common/hooks/useLoadSelectionParams'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
-import {Breadcrumbs, TextField, PropsWithClassname} from '@viewshka/uikit'
-import React from 'react'
-import CommonTopPanel from '../../../common/topPanel/TopPanel'
+import {
+	Breadcrumbs,
+	TextField,
+	PropsWithClassname,
+} from '@viewshka/uikit'
+import classnames from 'classnames'
+import React, {PropsWithChildren} from 'react'
 import {currentFolderAtom} from '../viewmodel/currentFolderAtom'
 import {selectionActions, selectionAtom} from '../viewmodel/selectionAtom'
 import styles from './TopPanel.module.css'
+import {UserProfilePanel} from './UserProfile'
 
 const MAX_CRUMBS_COUNT = 4
 
 function TopPanel({className}: PropsWithClassname) {
 	const [selection] = useAtom(selectionAtom)
 	return (
-		<CommonTopPanel className={className}>
+		<Panel className={className}>
 			{selection.type === 'user-content' && <UserContentPanel/>}
 			{selection.type === 'library' && <LibraryPanel/>}
-		</CommonTopPanel>
+			<UserProfilePanel/>
+		</Panel>
 	)
 }
 
@@ -63,6 +68,14 @@ function LibraryPanel() {
 				size={'small'}
 				placeholder={getMessage('TopPanel.Search.Placeholder')}
 			/>
+		</div>
+	)
+}
+
+function Panel({children, className}: PropsWithChildren & PropsWithClassname) {
+	return (
+		<div className={classnames(styles.panel, className)}>
+			{children}
 		</div>
 	)
 }

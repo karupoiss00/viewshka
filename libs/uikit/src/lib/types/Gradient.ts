@@ -3,6 +3,6 @@ type Gradient = {
 	endColor: string
 }
 
-export {
-	type Gradient,
+export type {
+	Gradient,
 }

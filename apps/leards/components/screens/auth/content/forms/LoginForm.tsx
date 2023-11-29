@@ -102,6 +102,7 @@ function LoginForm({className, onRegister, visible}: LoginFormProps) {
 
 function useLoginMutation() {
 	return useMutation(async ({email, password}: LoginData) => {
+		debugger
 		AuthProvider.setBaseAuth(email, password)
 		const response = await AccountsAPI.get().loginUser()
 		return response.data
