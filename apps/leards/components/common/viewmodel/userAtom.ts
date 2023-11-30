@@ -26,8 +26,21 @@ const set = action((ctx, {user}: SetUserPayload) => {
 	})
 })
 
+const setAvatarUrl = action((ctx, avatarUrl: string) => {
+	const user = ctx.get(userAtom)
+	userAtom(ctx, {
+		...user,
+		avatarUrl,
+	})
+
+	ctx.schedule(() => {
+		UserProvider.setAvatarUrl(avatarUrl)
+	})
+})
+
 const userActions = {
 	set,
+	setAvatarUrl,
 } as const
 
 export {
