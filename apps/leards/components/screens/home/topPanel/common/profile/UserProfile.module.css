@@ -9,6 +9,7 @@
 .profile-navigation-bar {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     width: 90%;
     margin-block-start: 20px;
     margin-inline: 20px;
@@ -17,6 +18,15 @@
 .profile-popover-navigation-button {
     padding: 0;
     margin: 0;
+}
+
+.profile-popover-button-logout {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin-inline-end: 0;
+    margin-inline-start: auto;
+    color: var(--error-color);
 }
 
 .profile-popover-content {

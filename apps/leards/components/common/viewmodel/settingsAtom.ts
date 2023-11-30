@@ -19,8 +19,18 @@ const set = action((ctx, settings: SettingsData) => {
 	})
 })
 
+const reset = action(ctx => {
+	settingsAtom(ctx, null)
+
+	set(ctx, {
+		locale: DEFAULT_LOCALE,
+		theme: DEFAULT_THEME,
+	})
+})
+
 const settingsAction = {
 	set,
+	reset,
 } as const
 
 export {

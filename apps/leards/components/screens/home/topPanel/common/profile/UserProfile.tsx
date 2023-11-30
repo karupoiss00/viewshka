@@ -1,10 +1,12 @@
 import {AccountsAPI} from '@leards/api/AccountsAPI'
+import {AuthAPI} from '@leards/api/AuthAPI'
 import {UpdateUserRequest, UpdateUserSettingsRequest} from '@leards/api/generated'
 import {UserSettingsAPI} from '@leards/api/UserSettingsAPI'
 import {localeToId} from '@leards/components/common/i18n/localeToMessageId'
 import {themeToId} from '@leards/components/common/i18n/themeToMessageId'
 import {settingsAction, settingsAtom} from '@leards/components/common/viewmodel/settingsAtom'
 import {userActions, userAtom} from '@leards/components/common/viewmodel/userAtom'
+import {goToAuth} from '@leards/components/screens/auth/Auth'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {isLocale, Locale} from '@leards/providers/localeProvider'
 import {isTheme, Theme} from '@leards/providers/themeProvider'
@@ -15,7 +17,7 @@ import {
 	Button, Dropdown,
 	Popover,
 	SystemIconAddImage, SystemIconArrowLeft,
-	SystemIconClose, SystemIconPencil,
+	SystemIconClose, SystemIconLogout, SystemIconPencil,
 	SystemIconSettings,
 	TextField,
 } from '@viewshka/uikit'
@@ -57,6 +59,13 @@ type PopoverContentProps = {
 }
 
 function PopoverContent({buttonClick, profileState, setProfileState}: PopoverContentProps) {
+	const [user] = useAtom(userAtom)
+	const {mutate: logoutUser} = useLogoutMutation(user.id)
+
+	const logout = () => {
+		logoutUser()
+	}
+
 	return (
 		<Popover.Content>
 			<div className={styles['profile-navigation-bar']}>
@@ -73,10 +82,25 @@ function PopoverContent({buttonClick, profileState, setProfileState}: PopoverCon
 					</Button>
 				</div>
 				<PersonInfo currentProfileState={profileState}/>
+				<div hidden={profileState !== 'default'} onClick={logout}>
+					<Button className={styles['profile-popover-button-logout']} type={'link'} size={'small'}>
+						<SystemIconLogout/>
+					</Button>
+				</div>
 			</div>
 			<ProfileContent profileState={profileState} changeState={setProfileState}/>
 		</Popover.Content>
 	)
+}
+
+function useLogoutMutation(userId: string) {
+	const handleResetSettings = useAction(settingsAction.reset)
+
+	return useMutation(async () => {
+		await AuthAPI.get().revokeToken(userId)
+		handleResetSettings()
+		goToAuth()
+	})
 }
 
 type ProfileContentProps = {
