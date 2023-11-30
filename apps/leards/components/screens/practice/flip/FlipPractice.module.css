@@ -5,3 +5,24 @@
     flex-direction: column;
 }
 
+.content {
+    position: relative;
+    display: flex;
+    flex-shrink: 0;
+    flex-grow: 1;
+    align-items: center;
+    justify-content: center;
+}
+
+.exit {
+    position: absolute;
+    inset-inline-start: 32px;
+    inset-block-start: 16px;
+}
+
+.exit-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
