@@ -1,7 +1,6 @@
 import {useAtom} from '@reatom/npm-react'
 import {useLayoutEffect} from '@viewshka/core'
 import {NextComponentType} from 'next'
-import {useRouter} from 'next/router'
 import React from 'react'
 import {useMutation} from 'react-query'
 import {AuthAPI} from '../../api/AuthAPI'

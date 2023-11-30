@@ -52,7 +52,7 @@ function Deck({id, name, tags}: DeckProps) {
 					{name}
 				</div>
 				<div className={styles.tagsContainer}>
-					{tags.map(tag => <div>{tag}</div>)}
+					{tags.map(tag => <div key={tag}>{tag}</div>)}
 				</div>
 			</div>
 		</div>

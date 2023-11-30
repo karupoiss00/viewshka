@@ -13,7 +13,7 @@ function DecksList({decks}: DecksListProps) {
 			<div className={styles.scrollContainer}>
 				{decks.map(deck => (
 					<>
-						<Deck id={deck.id} name={deck.name} tags={['#Английский', '#От_Васяна']}/>
+						<Deck id={deck.id} name={deck.name} tags={['#Английский', '#От_Васяна']} key={deck.id}/>
 						<div className={styles.separator}/>
 					</>
 				))}

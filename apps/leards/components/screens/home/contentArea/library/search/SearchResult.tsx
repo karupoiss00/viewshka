@@ -2,13 +2,12 @@ import {useAtom} from '@reatom/npm-react'
 import {SectionSelector, SystemIconDeck, TextField} from '@viewshka/uikit'
 import React from 'react'
 import {useQuery} from 'react-query'
-import {searchResultAtom} from '../viewmodel/searchResultAtom'
 import {searchStringAtom} from '../viewmodel/searchStringAtom'
 import {DecksList} from './deckList/DecksList'
 import styles from './SearchResult.module.css'
 
 function SearchResult() {
-	const [searchResult] = useAtom(searchResultAtom)
+	//const [searchResult] = useAtom(searchResultAtom)
 	const [searchString, setSearchString] = useAtom(searchStringAtom)
 
 	return (
@@ -20,23 +19,7 @@ function SearchResult() {
 				size={'small'}
 			/>
 			<div className={styles.results}>
-				<div className={styles.filterPanel}>
-					<SectionSelector
-						type={'secondary'}
-						onItemSelect={() => {}}
-					>
-						<SectionSelector.Item id={'all'}>
-							Все
-						</SectionSelector.Item>
-						<SectionSelector.Item id={'name'}>
-							По названию
-						</SectionSelector.Item>
-						<SectionSelector.Item id={'tags'}>
-							По тегам
-						</SectionSelector.Item>
-					</SectionSelector>
-					<SystemIconDeck/>
-				</div>
+				{!!searchString && <SortingPanel/>}
 				{
 					searchString
 						? <MostPopularDecks/> //<DecksList decks={searchResult}/>
@@ -47,6 +30,27 @@ function SearchResult() {
 	)
 }
 
+function SortingPanel() {
+	return (
+		<div className={styles.filterPanel}>
+			<SectionSelector
+				type={'secondary'}
+				onItemSelect={() => {}}
+			>
+				<SectionSelector.Item id={'all'}>
+					Все
+				</SectionSelector.Item>
+				<SectionSelector.Item id={'name'}>
+					По названию
+				</SectionSelector.Item>
+				<SectionSelector.Item id={'tags'}>
+					По тегам
+				</SectionSelector.Item>
+			</SectionSelector>
+			<SystemIconDeck/>
+		</div>
+	)
+}
 
 function MostPopularDecks() {
 	const {data, isLoading} = useQuery('popularDecks', async () => ({
