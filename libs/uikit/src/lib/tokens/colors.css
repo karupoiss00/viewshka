@@ -24,12 +24,12 @@
 
 [data-theme='dark'] {
     --access-color: #95D17F;
-    --accent-color: #4b4b4b;
+    --accent-color: #4C4C4C;
     --selection-color: #393939;
     --error-color: #FB6C55;
     --surface-color: #282828;
     --stroke-color: #353131;
-    --text-color-default: #bfbfbf;
+    --text-color-default: #BFBFBF;
     --text-color-subdued: #C0C0C0;
     --popup-bg-color: rgba(0, 0, 0, 0.2);
 }

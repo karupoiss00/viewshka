@@ -54,6 +54,7 @@
     border-inline: 1px solid var(--stroke-color);
     border-top: 1px solid var(--stroke-color);
     background-color: var(--surface-color);
+    color: var(--text-color-default);
     flex-shrink: 0;
 }
 

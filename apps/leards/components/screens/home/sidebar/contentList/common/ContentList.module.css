@@ -15,7 +15,7 @@
 	align-items: center;
 	justify-content: center;
 	font: var(--normal-medium-text);
-	color: var(--stroke-color);
+	color: #DCDCDC;
 	flex-direction: column;
 }
 
