@@ -1,0 +1,43 @@
+.deck {
+    display: flex;
+    flex-direction: row;
+    height: 80px;
+    flex-shrink: 0;
+    flex-grow: 1;
+    background: var(--surface-color);
+    color: var(--text-color-default);
+    align-items: center;
+    cursor: pointer;
+}
+
+.deck:hover {
+    background: var(--selection-color);
+}
+
+.deck:active {
+    background: var(--stroke-color);
+}
+
+.icon {
+    padding-block: 20px;
+    padding-inline: 37px 63px;
+}
+
+.info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.name {
+    color: var(--text-color-default);
+    font: var(--small-regular-text);
+}
+
+.tags-container {
+    display: flex;
+    flex-direction: row;
+    gap: 5px;
+    color: var(--text-color-subdued);
+    font: var(--xsmall-light-text);
+}
