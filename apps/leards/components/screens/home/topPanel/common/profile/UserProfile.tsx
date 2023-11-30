@@ -111,6 +111,13 @@ type ProfileProps = {
 function Profile({showSettings, showEditing}: ProfileProps) {
 	const [userInfo] = useAtom(userAtom)
 	const getMessage = useMessages()
+	const {mutate: updateAvatar} = useUpdateAvatarMutation(userInfo.id)
+
+	const onAvatarClick = () => {
+		loadImageFromDisk().then(file => {
+			updateAvatar(file)
+		})
+	}
 
 	return (
 		<div className={styles['profile-popover-content']}>
@@ -120,7 +127,7 @@ function Profile({showSettings, showEditing}: ProfileProps) {
 						? <Avatar size={'large'} type={'gradient'} name={userInfo.name}/>
 						: <Avatar size={'large'} type={'image'} avatarUrl={userInfo.avatarUrl} />
 				}
-				<div className={styles['avatar-overlay']}>
+				<div className={styles['avatar-overlay']} onClick={onAvatarClick}>
 					<SystemIconAddImage/>
 				</div>
 			</div>
@@ -151,6 +158,38 @@ function Profile({showSettings, showEditing}: ProfileProps) {
 			</div>
 		</div>
 	)
+}
+
+function loadImageFromDisk(): Promise<File> {
+	const onFileUpload = (input: HTMLInputElement, onSuccess: (file: File) => void, onFailure: () => void) => {
+		if (input.files && input.files[0].type.match('image.*')) {
+			const reader = new FileReader()
+			reader.readAsDataURL(input.files[0])
+			onSuccess(input.files[0])
+		}
+		else {
+			onFailure()
+		}
+	}
+
+	return new Promise((resolve, reject) => {
+		const input = document.createElement('input')
+		input.style.display = 'none'
+		input.type = 'file'
+		input.onchange = () => onFileUpload(input, resolve, reject)
+		document.body.appendChild(input)
+		input.click()
+	})
+}
+
+function useUpdateAvatarMutation(userId: string) {
+	const handleUpdateAvatar = useAction(userActions.setAvatarUrl)
+
+	return useMutation(async (file: File) => {
+		const response = await AccountsAPI.get().uploadAvatarByUserId(userId, file)
+
+		handleUpdateAvatar(response.data.profileIcon)
+	})
 }
 
 function Settings() {
