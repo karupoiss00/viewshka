@@ -66,25 +66,30 @@ function useCurrentFolderQuery(folderId: string | null) {
 	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
 	const handleResetSelection = useAction(selectionActions.reset)
 	const router = useRouter()
-	const {isError, isSuccess, data} = useQuery([SELECTED_FOLDER_QUERY_KEY, folderId], async () => {
-		if (!folderId) {
-			const {data} = await DecksAPI.get().getDeckById(selectedDeckId)
+	const {isError, isSuccess, data} = useQuery(
+		[SELECTED_FOLDER_QUERY_KEY, {
+			folderId,
+		}],
+		async () => {
+			if (!folderId) {
+				const {data} = await DecksAPI.get().getDeckById(selectedDeckId)
 
-			folderId = data.deck.parentFolderId
-		}
+				folderId = data.deck.parentFolderId
+			}
 
-		if (folderId === currentFolder.folderId) {
-			return currentFolder
-		}
+			if (folderId === currentFolder.folderId) {
+				return currentFolder
+			}
 
+			const api = FoldersAPI.get()
+			const {data} = await api.getFolderById(folderId)
 
-		const api = FoldersAPI.get()
-		const {data} = await api.getFolderById(folderId)
-
-		return data.folder
-	}, {
-		retry: false,
-	})
+			return data.folder
+		},
+		{
+			retry: false,
+		},
+	)
 
 	useEffect(() => {
 		if (isSuccess) {
