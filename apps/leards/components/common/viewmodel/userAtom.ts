@@ -26,7 +26,7 @@ const set = action((ctx, {user}: SetUserPayload) => {
 	})
 })
 
-const setAvatarUrl = action((ctx, avatarUrl: string) => {
+const setAvatar = action((ctx, avatarUrl: string) => {
 	const user = ctx.get(userAtom)
 	userAtom(ctx, {
 		...user,
@@ -40,7 +40,7 @@ const setAvatarUrl = action((ctx, avatarUrl: string) => {
 
 const userActions = {
 	set,
-	setAvatarUrl,
+	setAvatar,
 } as const
 
 export {

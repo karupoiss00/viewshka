@@ -62,10 +62,6 @@ function PopoverContent({buttonClick, profileState, setProfileState}: PopoverCon
 	const [user] = useAtom(userAtom)
 	const {mutate: logoutUser} = useLogoutMutation(user.id)
 
-	const logout = () => {
-		logoutUser()
-	}
-
 	return (
 		<Popover.Content>
 			<div className={styles['profile-navigation-bar']}>
@@ -82,7 +78,7 @@ function PopoverContent({buttonClick, profileState, setProfileState}: PopoverCon
 					</Button>
 				</div>
 				<PersonInfo currentProfileState={profileState}/>
-				<div hidden={profileState !== 'default'} onClick={logout}>
+				<div hidden={profileState !== 'default'} onClick={() => logoutUser()}>
 					<Button className={styles['profile-popover-button-logout']} type={'link'} size={'small'}>
 						<SystemIconLogout/>
 					</Button>
@@ -207,7 +203,7 @@ function loadImageFromDisk(): Promise<File> {
 }
 
 function useUpdateAvatarMutation(userId: string) {
-	const handleUpdateAvatar = useAction(userActions.setAvatarUrl)
+	const handleUpdateAvatar = useAction(userActions.setAvatar)
 
 	return useMutation(async (file: File) => {
 		const response = await AccountsAPI.get().uploadAvatarByUserId(userId, file)

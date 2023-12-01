@@ -20,10 +20,11 @@ const set = action((ctx, settings: SettingsData) => {
 })
 
 const reset = action(ctx => {
+	const settingsData = ctx.get(settingsAtom)
 	settingsAtom(ctx, null)
 
 	set(ctx, {
-		locale: DEFAULT_LOCALE,
+		locale: settingsData.locale,
 		theme: DEFAULT_THEME,
 	})
 })
