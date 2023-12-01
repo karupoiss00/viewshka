@@ -13,10 +13,6 @@ const set = action((ctx, settings: SettingsData) => {
 		theme: settings.theme,
 		locale: settings.locale,
 	}))
-
-	ctx.schedule(() => {
-		document.body.setAttribute('data-theme', settings.theme)
-	})
 })
 
 const reset = action(ctx => {
