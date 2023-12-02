@@ -6,7 +6,7 @@ import {localeToId} from '@leards/components/common/i18n/localeToMessageId'
 import {themeToId} from '@leards/components/common/i18n/themeToMessageId'
 import {settingsAction, settingsAtom} from '@leards/components/common/viewmodel/settingsAtom'
 import {userActions, userAtom} from '@leards/components/common/viewmodel/userAtom'
-import {goToAuth} from '@leards/components/screens/auth/Auth'
+import {goToLanding} from '@leards/components/screens/landing/Landing'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {isLocale, Locale} from '@leards/providers/localeProvider'
 import {isTheme, Theme} from '@leards/providers/themeProvider'
@@ -99,7 +99,7 @@ function useLogoutMutation(userId: string) {
 	return useMutation(async () => {
 		await AuthAPI.get().revokeToken(userId)
 		handleResetSettings()
-		goToAuth()
+		goToLanding()
 	})
 }
 

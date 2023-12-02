@@ -1,0 +1,50 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    gap: 140px;
+    flex-shrink: 0;
+    margin-inline-start: -50px;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.header {
+    font: var(--large-light-text);
+    color: var(--text-color-default);
+    font-weight: 500;
+}
+
+.description {
+    width: 415px;
+    white-space: break-spaces;
+    font: var(--normal-light-text);
+    color: var(--text-color-default);
+}
+
+.cards-stack {
+    position: relative;
+    width: 480px;
+    height: 340px;
+}
+
+.top-card {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: 0;
+}
+
+.center-card {
+    position: absolute;
+    inset-inline-start: 64px;
+    inset-block-start: 54px;
+}
+
+.bottom-card {
+    position: absolute;
+    inset-inline-end: 0;
+    inset-block-end: 0;
+}

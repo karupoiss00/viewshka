@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 77px;
+    padding-block-end: 70px;
+}
+
+.cards-pair {
+    position: relative;
+    width: 710px;
+    height: 300px;
+    margin-block-start: 115px;
+}
+
+.top-card {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: 60px;
+    transform: rotate(-15deg);
+}
+
+.bottom-card {
+    position: absolute;
+    inset-inline-end: 0;
+    inset-block-start: 0;
+}

@@ -1,0 +1,27 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    background: var(--surface-color);
+	width: 430px;
+    height: 70px;
+    border-top: 1px solid var(--text-color-subdued);
+    border-bottom: 1px solid var(--text-color-subdued);
+    padding-inline: 45px;
+    padding-block: 15px;
+}
+
+.divider {
+    width: 230px;
+    height: 1px;
+    margin-inline-start: 11px;
+    margin-block: 10px;
+    flex-shrink: 0;
+    background: var(--text-color-subdued);
+}
+
+.editable-field {
+    height: 24px;
+    outline: none;
+    border: none;
+    font: var(--normal-light-text);
+}

@@ -1,0 +1,58 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    gap: 185px;
+    flex-shrink: 0;
+    margin-block-start: 280px;
+    margin-inline-start: -435px;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding-block-start: 72px;
+}
+
+.header {
+    font: var(--large-light-text);
+    color: var(--text-color-default);
+    font-weight: 500;
+}
+
+.description {
+    font: var(--normal-light-text);
+    color: var(--text-color-default);
+    width: 264px;
+    white-space: break-spaces;
+}
+
+.cards-container {
+    position: relative;
+    width: 775px;
+    height: 500px;
+}
+
+.top-card {
+    position: absolute;
+    inset-inline-start: 370px;
+    inset-block-start: 0;
+}
+
+.bottom-card {
+    position: absolute;
+    inset-inline-start: 380px;
+    inset-block-end: 0;
+}
+
+.left-card {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: 160px;
+}
+
+.right-card {
+    position: absolute;
+    inset-inline-end: 0;
+    inset-block-start: 174px;
+}

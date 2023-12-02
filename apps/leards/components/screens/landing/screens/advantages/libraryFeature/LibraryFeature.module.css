@@ -1,0 +1,46 @@
+.container {
+    display: flex;
+    flex-direction: row;
+    gap: 100px;
+    flex-shrink: 0;
+    margin-block-start: 310px;
+    padding-inline-start: 70px;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.header {
+    font: var(--large-light-text);
+    color: var(--text-color-default);
+    font-weight: 500;
+}
+
+.description {
+    font: var(--normal-light-text);
+    color: var(--text-color-default);
+    white-space: break-spaces;
+    width: 254px;
+}
+
+.cards-pair {
+    position: relative;
+    width: 670px;
+    height: 300px;
+}
+
+.top-card {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: 44px;
+    transform: rotate(-15deg);
+}
+
+.bottom-card {
+    position: absolute;
+    inset-inline-end: 0;
+    inset-block-end: 0;
+}

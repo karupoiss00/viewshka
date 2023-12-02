@@ -5,10 +5,15 @@ import styles from './Form.module.css'
 import LoginForm from './forms/LoginForm'
 import RegisterForm from './forms/RegisterForm'
 
-type FormState = 'login' | 'register' | 'recover'
+type FormState = 'login' | 'register'
 
-function Form() {
-	const [formState, setFormState] = useState<FormState>('login')
+type FormProps = {
+	initialState?: FormState
+}
+function Form({
+	initialState = 'login',
+}: FormProps) {
+	const [formState, setFormState] = useState<FormState>(initialState)
 	const goLogin = () => setFormState('login')
 	const goRegister = () => setFormState('register')
 

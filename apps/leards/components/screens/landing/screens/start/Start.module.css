@@ -1,0 +1,17 @@
+.layout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 930px;
+    gap: 280px;
+    flex-shrink: 0;
+}
+
+.start-button-text {
+    color: var(--surface-color)
+}
+
+.logo {
+    color: var(--surface-color);
+}
