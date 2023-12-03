@@ -77,6 +77,10 @@
     overflow: hidden;
 }
 
+.cards-list--error {
+    border: 1px solid var(--error-color);
+}
+
 .cards-list > *:first-child {
    border-top: none;
 }

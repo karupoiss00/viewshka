@@ -1,4 +1,5 @@
 import {Button} from '@viewshka/uikit'
+import classnames from 'classnames'
 import {useRouter} from 'next/router'
 import React, {forwardRef, MutableRefObject, useCallback, useState} from 'react'
 import {Card} from '../../common/card/Card'
@@ -18,20 +19,29 @@ const Learning = forwardRef((_, ref: MutableRefObject<HTMLDivElement>) => (
 function LearningBlock() {
 	const router = useRouter()
 	const [cards, setCards] = useState(() => getCards())
-
+	const [error, setError] = useState(false)
 	const updateCard = useCallback((card: CardData, index: number) => {
 		const newCards = structuredClone(cards)
 		newCards[index] = card
 		setCards(newCards)
+		setError(false)
 	}, [cards])
 
 	const saveCards = useCallback(() => {
-		window?.localStorage.setItem(LOCAL_CARDS_STORAGE_KEY, JSON.stringify(cards))
+		const cardsToSave = cards.filter(c => !!c.word && !!c.translation)
+		if (!cardsToSave.length) {
+			setError(true)
+			return false
+		}
+		window?.localStorage.setItem(LOCAL_CARDS_STORAGE_KEY, JSON.stringify(cardsToSave))
+		return true
 	}, [cards])
 
 	const onLearnButtonClick = useCallback(() => {
-		saveCards()
-		router.push('/practice/trial')
+		const success = saveCards()
+		if (success) {
+			router.push('/practice/trial')
+		}
 	}, [router, saveCards])
 
 	return (
@@ -45,7 +55,9 @@ function LearningBlock() {
 					и приступи к тренировке
 				</div>
 			</div>
-			<div className={styles.cardsList}>
+			<div className={classnames(styles.cardsList, {
+				[styles.cardsListError]: error,
+			})}>
 				{
 					cards.map(
 						(card, index) =>
