@@ -15,3 +15,151 @@
 .logo {
     color: var(--surface-color);
 }
+
+.cards-container {
+    --start-delay: 1000ms;
+    --it-animation-duration: 1000ms;
+    --first-card-animation-time: 6000ms;
+    --second-card-animation-time: calc(var(--first-card-animation-time) - var(--it-animation-duration));
+    --third-card-animation-time: calc(var(--second-card-animation-time) - var(--it-animation-duration));
+    --fourth-card-animation-time: calc(var(--third-card-animation-time) - var(--it-animation-duration));
+    --fifth-card-animation-time: calc(var(--fourth-card-animation-time) - var(--it-animation-duration));
+    position: relative;
+    width: 508px;
+    height: 336px;
+}
+
+.logo-card {
+    position: absolute;
+    inset-block-start: 0;
+    inset-inline-start: 0;
+    animation: first-card-animation var(--first-card-animation-time) ease-in-out;
+    animation-delay: var(--start-delay);
+}
+
+.fast-card {
+    position: absolute;
+    inset-block-start: 10px;
+    inset-inline-start: 10px;
+    transform: rotate(7deg);
+    animation: second-card-animation var(--second-card-animation-time) ease-in-out;
+    animation-delay: calc(var(--first-card-animation-time) - var(--second-card-animation-time) + var(--start-delay));
+}
+
+.language-card {
+    position: absolute;
+    inset-block-start: 20px;
+    inset-inline-start: -10px;
+    transform: rotate(10deg);
+    animation: third-card-animation var(--third-card-animation-time) ease-in-out;
+    animation-delay: calc(var(--first-card-animation-time) - var(--third-card-animation-time) + var(--start-delay));
+}
+
+.word-card {
+    position: absolute;
+    inset-block-start: 20px;
+    inset-inline-start: -10px;
+    transform: rotate(-15deg);
+    animation: fourth-card-animation var(--fourth-card-animation-time) ease-in-out;
+    animation-delay: calc(var(--first-card-animation-time) - var(--fourth-card-animation-time) + var(--start-delay));
+}
+
+.learning-card {
+    position: absolute;
+    inset-block-start: 20px;
+    inset-inline-start: -10px;
+    transform: rotate(-7deg);
+    animation: fifth-card-animation var(--fifth-card-animation-time) ease-in-out;
+    animation-delay: calc(var(--first-card-animation-time) - var(--fifth-card-animation-time) + var(--start-delay));
+}
+
+@keyframes first-card-animation {
+    0% {
+        transform: translateX(0%);
+    }
+
+    17% {
+        transform: translateX(300%);
+    }
+
+    83% {
+        transform: translateX(300%);
+    }
+
+    100% {
+        transform: translateX(0%);
+    }
+}
+
+@keyframes second-card-animation {
+    0% {
+        transform: translateX(0%) rotate(7deg);
+    }
+
+    20% {
+        transform: translateX(-300%) rotate(7deg);
+    }
+
+    80% {
+        transform: translateX(-300%) rotate(7deg);
+    }
+
+    100% {
+        transform: translateX(0%) rotate(7deg);
+    }
+}
+
+
+@keyframes third-card-animation {
+    0% {
+        transform: translateX(0%) rotate(10deg);
+    }
+
+    25% {
+        transform: translateX(300%) rotate(10deg);
+    }
+
+    75% {
+        transform: translateX(300%) rotate(10deg);
+    }
+
+    100% {
+        transform: translateX(0%) rotate(10deg);
+    }
+}
+
+@keyframes fourth-card-animation {
+    0% {
+        transform: translateX(0%) rotate(-15deg);
+    }
+
+    25% {
+        transform: translateX(-300%) rotate(-15deg);
+    }
+
+    75% {
+        transform: translateX(-300%) rotate(-15deg);
+    }
+
+    100% {
+        transform: translateX(0%) rotate(-15deg);
+    }
+}
+
+@keyframes fifth-card-animation {
+    0% {
+        transform: translateX(0%) rotate(-7deg);
+    }
+
+    33% {
+        transform: translateX(300%) rotate(-7deg);
+    }
+
+    67% {
+        transform: translateX(300%) rotate(-7deg);
+    }
+
+    100% {
+        transform: translateX(0%) rotate(-7deg);
+    }
+}

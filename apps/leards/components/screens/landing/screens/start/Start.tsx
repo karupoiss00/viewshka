@@ -9,9 +9,23 @@ function Start({onGoLearn}: {
 }) {
 	return (
 		<div className={styles.layout}>
-			<Card size="large">
-				<LeardsLogo className={styles.logo}/>
-			</Card>
+			<div className={styles.cardsContainer}>
+				<Card size="large" className={styles.learningCard}>
+					Обучение
+				</Card>
+				<Card size="large" className={styles.wordCard}>
+					Слово
+				</Card>
+				<Card size="large" className={styles.languageCard}>
+					Иностарнный язык
+				</Card>
+				<Card size="large" className={styles.fastCard}>
+					Быстрый
+				</Card>
+				<Card size="large" className={styles.logoCard}>
+					<LeardsLogo className={styles.logo}/>
+				</Card>
+			</div>
 			<Button type="primary" size="large" onClick={onGoLearn}>
 				<span className={styles.startButtonText}>
 					Создай свою колоду
