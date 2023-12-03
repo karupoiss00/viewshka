@@ -1,5 +1,4 @@
 import classnames from 'classnames'
-import Image from 'next/image'
 import React, {useState} from 'react'
 import styles from './Form.module.css'
 import LoginForm from './forms/LoginForm'
