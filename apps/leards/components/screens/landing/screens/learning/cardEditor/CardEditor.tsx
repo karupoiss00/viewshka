@@ -1,3 +1,4 @@
+import {useLatestRef} from '@viewshka/core'
 import React, {useEffect, useState} from 'react'
 import styles from './CardEditor.module.css'
 
@@ -12,10 +13,11 @@ type CardEditorProps = {
 }
 function CardEditor({initialState, onCardChange}: CardEditorProps) {
 	const [state, setState] = useState(() => initialState)
+	const onCardChangeRef = useLatestRef(onCardChange)
 
 	useEffect(() => {
-		onCardChange(state)
-	}, [onCardChange, state])
+		onCardChangeRef.current(state)
+	}, [onCardChangeRef, state])
 
 	return (
 		<div className={styles.container}>
@@ -44,4 +46,5 @@ function CardEditor({initialState, onCardChange}: CardEditorProps) {
 
 export {
 	CardEditor,
+	type CardData,
 }

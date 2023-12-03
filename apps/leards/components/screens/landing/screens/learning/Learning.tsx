@@ -1,8 +1,12 @@
-import {CardEditor} from '@leards/components/screens/landing/screens/learning/cardEditor/CardEditor'
 import {Button} from '@viewshka/uikit'
-import React, {forwardRef, MutableRefObject} from 'react'
+import {useRouter} from 'next/router'
+import React, {forwardRef, MutableRefObject, useCallback, useState} from 'react'
 import {Card} from '../../common/card/Card'
+import {CardData, CardEditor} from './cardEditor/CardEditor'
+import {getCards} from './data/generateRandomCards'
 import styles from './Learning.module.css'
+
+const LOCAL_CARDS_STORAGE_KEY = 'local-cards'
 
 const Learning = forwardRef((_, ref: MutableRefObject<HTMLDivElement>) => (
 	<div className={styles.layout} ref={ref}>
@@ -12,6 +16,24 @@ const Learning = forwardRef((_, ref: MutableRefObject<HTMLDivElement>) => (
 ))
 
 function LearningBlock() {
+	const router = useRouter()
+	const [cards, setCards] = useState(() => getCards())
+
+	const updateCard = useCallback((card: CardData, index: number) => {
+		const newCards = structuredClone(cards)
+		newCards[index] = card
+		setCards(newCards)
+	}, [cards])
+
+	const saveCards = useCallback(() => {
+		window?.localStorage.setItem(LOCAL_CARDS_STORAGE_KEY, JSON.stringify(cards))
+	}, [cards])
+
+	const onLearnButtonClick = useCallback(() => {
+		saveCards()
+		router.push('/practice/trial')
+	}, [router, saveCards])
+
 	return (
 		<div className={styles.fillCardsArea}>
 			<div className={styles.textContainer}>
@@ -24,46 +46,22 @@ function LearningBlock() {
 				</div>
 			</div>
 			<div className={styles.cardsList}>
-				<CardEditor
-					initialState={{
-						word: 'car',
-						translation: 'машина',
-					}}
-					onCardChange={() => {}}
-				/>
-				<CardEditor
-					initialState={{
-						word: 'car',
-						translation: 'машина',
-					}}
-					onCardChange={() => {}}
-				/>
-				<CardEditor
-					initialState={{
-						word: 'car',
-						translation: 'машина',
-					}}
-					onCardChange={() => {}}
-				/>
-				<CardEditor
-					initialState={{
-						word: 'car',
-						translation: 'машина',
-					}}
-					onCardChange={() => {}}
-				/>
-				<CardEditor
-					initialState={{
-						word: 'car',
-						translation: 'машина',
-					}}
-					onCardChange={() => {}}
-				/>
+				{
+					cards.map(
+						(card, index) =>
+							<CardEditor
+								key={index}
+								initialState={card}
+								onCardChange={card => updateCard(card, index)}
+							/>,
+					)
+				}
 			</div>
 			<Button
 				className={styles.learnButton}
 				type="primary"
 				size="large"
+				onClick={onLearnButtonClick}
 			>
 				<span className={styles.learnButtonText}>Запомнить</span>
 			</Button>
@@ -88,4 +86,5 @@ function CardPair() {
 
 export {
 	Learning,
+	LOCAL_CARDS_STORAGE_KEY,
 }
