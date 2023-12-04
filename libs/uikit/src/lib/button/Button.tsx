@@ -73,6 +73,7 @@ export type {
 	ButtonSize,
 	ButtonState,
 	ButtonSpacing,
+	ButtonProps,
 }
 
 export {

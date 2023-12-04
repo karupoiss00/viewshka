@@ -23,9 +23,7 @@ function Form({
 				[styles.logoSmall]: formState === 'register',
 			})}>
 				<img
-					className={classnames(styles.logoImage, {
-						[styles.logoImageSmall]: formState === 'register',
-					})}
+					className={styles.logoImage}
 					src={'/images/Logo.svg'}
 					alt={'logo'}
 				/>

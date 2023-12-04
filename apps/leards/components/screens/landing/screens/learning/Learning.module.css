@@ -3,10 +3,11 @@
     flex-direction: row;
     justify-content: center;
     height: 930px;
-    gap: 80px;
+    gap: 47px;
     flex-shrink: 0;
     padding-block-start: 65px;
-    margin-block-start: 165px;
+    margin-block-start: 265px;
+    margin-inline-start: 190px;
 }
 
 .fill-cards-area {

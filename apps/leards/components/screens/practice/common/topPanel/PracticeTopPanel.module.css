@@ -8,6 +8,6 @@
 
 .material-name-header {
     color: var(--text-color-default);
-    font: var(--normal-medium-text);
+    font: var(--medium-light-text);
     user-select: none;
 }

@@ -1,3 +1,4 @@
+import {LandingButton} from '@leards/components/screens/landing/common/button/LandingButton'
 import {Button} from '@viewshka/uikit'
 import classnames from 'classnames'
 import {useRouter} from 'next/router'
@@ -69,14 +70,14 @@ function LearningBlock() {
 					)
 				}
 			</div>
-			<Button
+			<LandingButton
 				className={styles.learnButton}
 				type="primary"
 				size="large"
 				onClick={onLearnButtonClick}
 			>
 				<span className={styles.learnButtonText}>Запомнить</span>
-			</Button>
+			</LandingButton>
 		</div>
 	)
 }

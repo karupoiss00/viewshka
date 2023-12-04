@@ -1,4 +1,6 @@
 import {LeardsLogo} from '@leards/components/common/Logo'
+import {goToAuth} from '@leards/components/screens/auth/Auth'
+import {LandingButton} from '@leards/components/screens/landing/common/button/LandingButton'
 import {Button} from '@viewshka/uikit'
 import React from 'react'
 import {Card} from '../../common/card/Card'
@@ -26,11 +28,16 @@ function Start({onGoLearn}: {
 					<LeardsLogo className={styles.logo}/>
 				</Card>
 			</div>
-			<Button type="primary" size="large" onClick={onGoLearn}>
-				<span className={styles.startButtonText}>
+			<div className={styles.buttonsContainer}>
+				<LandingButton type="primary" size="large" onClick={onGoLearn}>
+					<span className={styles.startButtonText}>
 					Создай свою колоду
-				</span>
-			</Button>
+					</span>
+				</LandingButton>
+				<Button type="link" size="medium" onClick={goToAuth}>
+					У меня есть аккаунт
+				</Button>
+			</div>
 		</div>
 	)
 }

@@ -1,0 +1,5 @@
+const ANIMATION_DELAY = 350
+
+export {
+	ANIMATION_DELAY,
+}

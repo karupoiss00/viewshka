@@ -1,6 +1,7 @@
 
 .button {
     text-decoration: underline;
+    text-underline-offset: 3px;
     outline: none;
     background: none;
 }

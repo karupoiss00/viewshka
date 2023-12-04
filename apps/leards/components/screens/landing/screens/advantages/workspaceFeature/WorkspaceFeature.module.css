@@ -3,8 +3,8 @@
     flex-direction: row;
     gap: 185px;
     flex-shrink: 0;
-    margin-block-start: 280px;
-    margin-inline-start: -435px;
+    margin-block-start: 270px;
+    margin-inline-start: -445px;
 }
 
 .text-container {
@@ -33,16 +33,13 @@
     height: 500px;
 }
 
-.top-card {
+.top-card,
+.bottom-card,
+.right-card {
     position: absolute;
-    inset-inline-start: 370px;
-    inset-block-start: 0;
-}
-
-.bottom-card {
-    position: absolute;
-    inset-inline-start: 380px;
-    inset-block-end: 0;
+    inset-inline-start: 0;
+    inset-block-start: 160px;
+    transition: inset 400ms ease-in-out;
 }
 
 .left-card {
@@ -51,8 +48,18 @@
     inset-block-start: 160px;
 }
 
-.right-card {
-    position: absolute;
-    inset-inline-end: 0;
+.top-card--visible {
+    inset-inline-start: 370px;
+    inset-block-start: 0;
+}
+
+.bottom-card--visible {
+    inset-inline-start: 380px;
+    inset-block-start: 348px;
+}
+
+.right-card--visible {
+    inset-inline-start: 544px;
     inset-block-start: 174px;
 }
+

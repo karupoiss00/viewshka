@@ -1,16 +1,26 @@
 import {Card} from '@leards/components/screens/landing/common/card/Card'
-import React from 'react'
+import {ANIMATION_DELAY} from '@leards/components/screens/landing/screens/advantages/common/animation'
+import {useElementVisible} from '@leards/components/screens/landing/screens/advantages/common/useElementVisible'
+import classnames from 'classnames'
+import React, {useRef} from 'react'
 import styles from './SharingFeature.module.css'
 
 function SharingFeature() {
+	const ref = useRef<HTMLDivElement>(null)
+	const visible = useElementVisible(ref, ANIMATION_DELAY)
+
 	return (
-		<div className={styles.container}>
+		<div className={styles.container} ref={ref}>
 			<div className={styles.cardsPair}>
-				<Card size="medium" className={styles.bottomCard}>
+				<Card size="medium" className={classnames(styles.bottomCard, {
+					[styles.bottomCardVisible]: visible,
+				})}>
 					Делиться
 					<img src="images/coffee.png" alt={'coffee'}/>
 				</Card>
-				<Card size="medium" className={styles.topCard}>
+				<Card size="medium" className={classnames(styles.topCard, {
+					[styles.topCardVisible]: visible,
+				})}>
 					Share
 					<img src="images/coffee.png" alt={'coffee'}/>
 				</Card>

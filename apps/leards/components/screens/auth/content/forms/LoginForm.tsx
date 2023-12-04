@@ -1,5 +1,6 @@
 import {AccountsAPI} from '@leards/api/AccountsAPI'
 import {useFormReset} from '@leards/components/screens/auth/content/forms/hooks/useFormReset'
+import {LandingButton} from '@leards/components/screens/landing/common/button/LandingButton'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import AuthProvider from '@leards/providers/authProvider'
 import {useAction} from '@reatom/npm-react'
@@ -84,7 +85,7 @@ function LoginForm({className, onRegister, visible}: LoginFormProps) {
 				errorMessage={getMessage('Error.InvalidCredentials')}
 				contentHidden={true}
 			/>
-			<Button
+			<LandingButton
 				className={styles.submitButton}
 				type={'primary'}
 				size={'large'}
@@ -92,7 +93,7 @@ function LoginForm({className, onRegister, visible}: LoginFormProps) {
 				state={buttonState}
 			>
 				{getMessage('Login.Button.Submit')}
-			</Button>
+			</LandingButton>
 			<p className={styles.registerText}>
 				<span onClick={onRegister}>{getMessage('Link.CreateAccount')}</span>
 			</p>

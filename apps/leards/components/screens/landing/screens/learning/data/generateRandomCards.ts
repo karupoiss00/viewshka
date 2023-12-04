@@ -2,83 +2,83 @@ import {CardData} from '../cardEditor/CardEditor'
 
 const CARDS_PULL: CardData[] = [
 	{
-		word: 'car🚗',
+		word: 'car 🚗',
 		translation: 'автомобиль',
 	},
 	{
-		word: 'house🏠',
+		word: 'house 🏠',
 		translation: 'дом',
 	},
 	{
-		word: 'book📚',
+		word: 'book 📚',
 		translation: 'книга',
 	},
 	{
-		word: 'computer💻',
+		word: 'computer 💻',
 		translation: 'компьютер',
 	},
 	{
-		word: 'phone📱',
+		word: 'phone 📱',
 		translation: 'телефон',
 	},
 	{
-		word: 'tree🌳',
+		word: 'tree 🌳',
 		translation: 'дерево',
 	},
 	{
-		word: 'cat🐱',
+		word: 'cat 🐱',
 		translation: 'кошка',
 	},
 	{
-		word: 'dog🐶',
+		word: 'dog 🐶',
 		translation: 'собака',
 	},
 	{
-		word: 'flower🌺',
+		word: 'flower 🌺',
 		translation: 'цветок',
 	},
 	{
-		word: 'sun☀',
+		word: 'sun ☀',
 		translation: 'солнце',
 	},
 	{
-		word: 'moon🌙',
+		word: 'moon 🌙',
 		translation: 'луна',
 	},
 	{
-		word: 'star⭐',
+		word: 'star ⭐',
 		translation: 'звезда',
 	},
 	{
-		word: 'heart❤',
+		word: 'heart ❤',
 		translation: 'сердце',
 	},
 	{
-		word: 'fish🐠',
+		word: 'fish 🐠',
 		translation: 'рыба',
 	},
 	{
-		word: 'bird🐦',
+		word: 'bird 🐦',
 		translation: 'птица',
 	},
 	{
-		word: 'apple🍎',
+		word: 'apple 🍎',
 		translation: 'яблоко',
 	},
 	{
-		word: 'pear🍐',
+		word: 'pear 🍐',
 		translation: 'груша',
 	},
 	{
-		word: 'orange🍊',
+		word: 'orange 🍊',
 		translation: 'апельсин',
 	},
 	{
-		word: 'banana🍌',
+		word: 'banana 🍌',
 		translation: 'банан',
 	},
 	{
-		word: 'grape🍇',
+		word: 'grape 🍇',
 		translation: 'виноград',
 	},
 ]

@@ -1,7 +1,7 @@
 .container {
     display: flex;
     flex-direction: row;
-    gap: 45px;
+    gap: 200px;
     flex-shrink: 0;
     margin-block-start: 310px;
     margin-inline-start: -210px;
@@ -30,15 +30,19 @@
     height: 400px;
 }
 
-.top-card {
+.top-card,
+.bottom-card {
     position: absolute;
     inset-inline-start: 0;
-    inset-block-start: 140px;
+    inset-block-start: 0;
+    transition: inset 400ms ease-in-out, transform 400ms ease-in-out;
+}
+
+
+.top-card--visible {
     transform: rotate(-15deg);
 }
 
-.bottom-card {
-    position: absolute;
-    inset-inline-end: 0;
-    inset-block-end: 0;
+.bottom-card--visible {
+    inset-inline-start: 310px;
 }

@@ -4,12 +4,18 @@
     align-items: center;
     justify-content: center;
     height: 930px;
-    gap: 280px;
+    gap: 230px;
     flex-shrink: 0;
 }
 
 .start-button-text {
     color: var(--surface-color)
+}
+
+.buttons-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .logo {

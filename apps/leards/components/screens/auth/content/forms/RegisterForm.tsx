@@ -1,6 +1,7 @@
 import {AccountsAPI} from '@leards/api/AccountsAPI'
 import {CreateUserRequest} from '@leards/api/generated'
 import {useFormReset} from '@leards/components/screens/auth/content/forms/hooks/useFormReset'
+import {LandingButton} from '@leards/components/screens/landing/common/button/LandingButton'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import AuthProvider from '@leards/providers/authProvider'
 import {useAction} from '@reatom/npm-react'
@@ -27,11 +28,9 @@ function RegisterForm({className, onLogin, visible}: RegisterFormProps) {
 	const [email, setEmail] = useState('')
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
-	const [repeatedPassword, setRepeatedPassword] = useState('')
 	const [emailValid, setEmailValid] = useState(true)
 	const [usernameValid, setUsernameValid] = useState(true)
 	const [passwordValid, setPasswordValid] = useState(true)
-	const [passwordVerified, setPasswordVerified] = useState(true)
 	const buttonState = status === 'loading' ? 'loading' : 'default'
 
 	const validateEmail = (data: string) => {
@@ -52,19 +51,13 @@ function RegisterForm({className, onLogin, visible}: RegisterFormProps) {
 		return isValid
 	}
 
-	const validatePasswordRepeat = (data: string) => {
-		const isValid = data.length && password.length && data === password
-		setPasswordVerified(isValid)
-		return isValid
-	}
 
 	const tryRegister = () => {
 		const validEmail = validateEmail(email)
 		const validPassword = validatePassword(password)
-		const validRepeatPassword = validatePasswordRepeat(repeatedPassword)
 		const validUsername = validateUsername(username)
 
-		if (validEmail && validPassword && validUsername && validRepeatPassword) {
+		if (validEmail && validPassword && validUsername) {
 			mutate({
 				username,
 				email,
@@ -77,7 +70,6 @@ function RegisterForm({className, onLogin, visible}: RegisterFormProps) {
 		setUsernameValid(true)
 		setEmailValid(true)
 		setPasswordValid(true)
-		setPasswordVerified(true)
 	}
 
 	useEnterHandler(tryRegister)
@@ -111,15 +103,6 @@ function RegisterForm({className, onLogin, visible}: RegisterFormProps) {
 				contentHidden={true}
 			/>
 			<TextField
-				className={styles.passwordTextField}
-				placeholder={getMessage('TextField.RepeatPassword.Placeholder')}
-				onChange={setRepeatedPassword}
-				onValidate={validatePasswordRepeat}
-				valid={passwordVerified}
-				errorMessage={getMessage('Error.PasswordNotMatching')}
-				contentHidden={true}
-			/>
-			<TextField
 				className={styles.usernameTextField}
 				placeholder={getMessage('TextField.Username.Placeholder')}
 				onChange={setUsername}
@@ -127,7 +110,7 @@ function RegisterForm({className, onLogin, visible}: RegisterFormProps) {
 				valid={usernameValid}
 				errorMessage={getMessage('Error.InvalidUsernameFormat')}
 			/>
-			<Button
+			<LandingButton
 				className={styles.submitButton}
 				type={'primary'}
 				size={'large'}
@@ -135,7 +118,7 @@ function RegisterForm({className, onLogin, visible}: RegisterFormProps) {
 				state={buttonState}
 			>
 				{getMessage('Register.Button.Submit')}
-			</Button>
+			</LandingButton>
 			<p className={styles.authText} onClick={onLogin}>
 				{getMessage('Link.Authorize')}
 			</p>
