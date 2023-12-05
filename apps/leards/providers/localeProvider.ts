@@ -1,6 +1,7 @@
 enum Locale {
 	ENGLISH = 'en-US',
 	RUSSIAN = 'ru-RU',
+	MARI = 'chm-RU'
 }
 
 interface ILocaleProvider {

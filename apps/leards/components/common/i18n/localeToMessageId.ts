@@ -6,5 +6,7 @@ export function localeToId(locale: Locale) {
 			return 'Language.English'
 		case Locale.RUSSIAN:
 			return 'Language.Russian'
+		case Locale.MARI:
+			return 'Language.Mari'
 	}
 }

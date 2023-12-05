@@ -64,4 +64,5 @@ export const ruMessages = {
 	'Profile.Settings.Locale': 'Язык: ',
 	'Language.English': 'Английский',
 	'Language.Russian': 'Русский',
+	'Language.Mari': 'Марийский',
 }
