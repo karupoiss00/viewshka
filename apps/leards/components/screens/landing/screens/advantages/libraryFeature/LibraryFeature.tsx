@@ -1,4 +1,3 @@
-import {ANIMATION_DELAY} from '@leards/components/screens/landing/screens/advantages/common/animation'
 import {
 	AnimationTrigger,
 } from '@leards/components/screens/landing/screens/advantages/common/animationTrigger/AnimationTrigger'
@@ -10,7 +9,7 @@ import styles from './LibraryFeature.module.css'
 
 function LibraryFeature() {
 	const ref = useRef<HTMLDivElement>(null)
-	const visible = useElementWasShowed(ref, ANIMATION_DELAY)
+	const visible = useElementWasShowed(ref)
 	return (
 		<div className={styles.container}>
 			<div className={styles.textContainer}>
