@@ -1,16 +1,19 @@
 import {Card} from '@leards/components/screens/landing/common/card/Card'
 import {ANIMATION_DELAY} from '@leards/components/screens/landing/screens/advantages/common/animation'
-import {useElementVisible} from '@leards/components/screens/landing/screens/advantages/common/useElementVisible'
+import {
+	AnimationTrigger,
+} from '@leards/components/screens/landing/screens/advantages/common/animationTrigger/AnimationTrigger'
+import {useElementWasShowed} from '@leards/components/screens/landing/screens/advantages/common/useElementWasShowed'
 import classnames from 'classnames'
 import React, {useRef} from 'react'
 import styles from './SharingFeature.module.css'
 
 function SharingFeature() {
 	const ref = useRef<HTMLDivElement>(null)
-	const visible = useElementVisible(ref, ANIMATION_DELAY)
+	const visible = useElementWasShowed(ref, ANIMATION_DELAY)
 
 	return (
-		<div className={styles.container} ref={ref}>
+		<div className={styles.container}>
 			<div className={styles.cardsPair}>
 				<Card size="medium" className={classnames(styles.bottomCard, {
 					[styles.bottomCardVisible]: visible,
@@ -33,6 +36,7 @@ function SharingFeature() {
 					Делись колодами с друзьями
 				</span>
 			</div>
+			<AnimationTrigger ref={ref}/>
 		</div>
 	)
 }

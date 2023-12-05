@@ -15,6 +15,9 @@
         "parallel": false,
         "commands": [
           {
+            "command": "rimraf dist/apps/leards"
+          },
+          {
             "command": "nx run leards:stylelint"
           },
           {

@@ -52,13 +52,13 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(({
 
 	return (
 		<button
-			className={classnames(commonStyles['button'], specificStyles['button'], {
+			className={classnames(commonStyles['button'], {
 				[commonStyles[`button-spacing--none`]]: spacing === 'none',
 				[commonStyles[`button--flexible`]]: flexible,
 				[commonStyles[`button-size--${size}`]]: true,
 				[commonStyles[`button-state--loading`]]: state === 'loading',
 				[specificStyles[`button-state--${state}`]]: true,
-			}, className)}
+			}, specificStyles['button'], className)}
 			onClick={onClick}
 			disabled={state === 'disabled'}
 			ref={ref}

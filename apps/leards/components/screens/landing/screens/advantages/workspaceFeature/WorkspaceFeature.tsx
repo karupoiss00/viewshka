@@ -1,18 +1,20 @@
 import {Card} from '@leards/components/screens/landing/common/card/Card'
 import {ANIMATION_DELAY} from '@leards/components/screens/landing/screens/advantages/common/animation'
-import {useElementVisible} from '@leards/components/screens/landing/screens/advantages/common/useElementVisible'
+import {
+	AnimationTrigger,
+} from '@leards/components/screens/landing/screens/advantages/common/animationTrigger/AnimationTrigger'
+import {useElementWasShowed} from '@leards/components/screens/landing/screens/advantages/common/useElementWasShowed'
 import classnames from 'classnames'
 import React, {useRef} from 'react'
 import styles from './WorkspaceFeature.module.css'
 
 function WorkspaceFeature() {
 	const ref = useRef<HTMLDivElement>(null)
-	const visible = useElementVisible(ref, ANIMATION_DELAY)
-
+	const visible = useElementWasShowed(ref, ANIMATION_DELAY)
 
 	return (
 		<div className={styles.container}>
-			<div className={styles.cardsContainer} ref={ref}>
+			<div className={styles.cardsContainer}>
 				<Card size="small" className={classnames(styles.topCard, {
 					[styles.topCardVisible]: visible,
 				})}>
@@ -44,6 +46,7 @@ function WorkspaceFeature() {
 					Расскажи своему учителю и учи его диктанты здесь
 				</span>
 			</div>
+			<AnimationTrigger ref={ref}/>
 		</div>
 	)
 }

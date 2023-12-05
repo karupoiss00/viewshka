@@ -1,16 +1,19 @@
 import {Card} from '@leards/components/screens/landing/common/card/Card'
 import {ANIMATION_DELAY} from '@leards/components/screens/landing/screens/advantages/common/animation'
+import {
+	AnimationTrigger,
+} from '@leards/components/screens/landing/screens/advantages/common/animationTrigger/AnimationTrigger'
 import classnames from 'classnames'
 import React, {useRef} from 'react'
-import {useElementVisible} from '../common/useElementVisible'
+import {useElementWasShowed} from '../common/useElementWasShowed'
 import styles from './PersonalDecks.module.css'
 
 function PersonalDecks() {
 	const ref = useRef<HTMLDivElement>(null)
-	const visible = useElementVisible(ref, ANIMATION_DELAY)
+	const visible = useElementWasShowed(ref, ANIMATION_DELAY)
 
 	return (
-		<div className={styles.container} ref={ref}>
+		<div className={styles.container}>
 			<div className={styles.textContainer}>
 				<span className={styles.header}>
 					Личные колоды
@@ -29,6 +32,7 @@ function PersonalDecks() {
 				})}></Card>
 				<Card size="medium" className={styles.topCard}>Personal</Card>
 			</div>
+			<AnimationTrigger ref={ref}/>
 		</div>
 	)
 }

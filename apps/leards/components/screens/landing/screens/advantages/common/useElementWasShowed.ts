@@ -1,17 +1,17 @@
 import {useIntersectionObserver} from '@viewshka/core'
 import {RefObject, useState} from 'react'
 
-function useElementVisible(ref: RefObject<HTMLElement>, delay = 0) {
+function useElementWasShowed(ref: RefObject<HTMLElement>) {
 	const [visible, setVisible] = useState(false)
 
 	useIntersectionObserver({
 		ref,
-		onIntersect: () => setTimeout(() => setVisible(true), delay),
+		onIntersect: () => setVisible(true),
 	})
 
 	return visible
 }
 
 export {
-	useElementVisible,
+	useElementWasShowed,
 }
