@@ -11,7 +11,7 @@ import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {isLocale, Locale} from '@leards/providers/localeProvider'
 import {isTheme, Theme} from '@leards/providers/themeProvider'
 import {useAction, useAtom} from '@reatom/npm-react'
-import {isUndefined, isValidPassword, isValidUsername} from '@viewshka/core'
+import {isUndefined, isValidPassword, isValidUsername, noop} from '@viewshka/core'
 import {
 	Avatar,
 	Button, Dropdown,
@@ -69,7 +69,7 @@ function PopoverContent({buttonClick, profileState, setProfileState}: PopoverCon
 	return (
 		<Popover.Content>
 			<div className={styles['profile-navigation-bar']}>
-				<Popover.Close onClose={close}>
+				<Popover.Close onClose={noop}>
 					<div hidden={profileState !== 'default'}>
 						<Button className={styles['profile-popover-navigation-button']} type={'link'} size={'small'}>
 							<SystemIconClose />
