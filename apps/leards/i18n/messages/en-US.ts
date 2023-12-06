@@ -64,4 +64,5 @@ export const enMessages = {
 	'Profile.Settings.Locale': 'Language: ',
 	'Language.English': 'English',
 	'Language.Russian': 'Russian',
+	'Language.Mari': 'Mari',
 }
