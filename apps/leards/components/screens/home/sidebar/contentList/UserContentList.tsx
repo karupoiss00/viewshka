@@ -67,9 +67,7 @@ function useCurrentFolderQuery(folderId: string | null) {
 	const handleResetSelection = useAction(selectionActions.reset)
 	const router = useRouter()
 	const {isError, isSuccess, data} = useQuery(
-		[SELECTED_FOLDER_QUERY_KEY, {
-			folderId,
-		}],
+		[SELECTED_FOLDER_QUERY_KEY, {folderId}],
 		async () => {
 			if (!folderId) {
 				const {data} = await DecksAPI.get().getDeckById(selectedDeckId)
@@ -82,7 +80,10 @@ function useCurrentFolderQuery(folderId: string | null) {
 			}
 
 			const api = FoldersAPI.get()
+
 			const {data} = await api.getFolderById(folderId)
+
+			console.log('invalidated', data.folder)
 
 			return data.folder
 		},
