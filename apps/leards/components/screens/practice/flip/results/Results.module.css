@@ -2,10 +2,13 @@
     display: flex;
     flex-direction: column;
     height: 100%;
+    color: var(--text-color-default);
+    background: var(--surface-color);
 }
 
 
 .header {
+    user-select: none;
     font: var(--normal-medium-text);
     text-align: center;
 }

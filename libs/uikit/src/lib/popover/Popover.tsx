@@ -1,15 +1,16 @@
+import {clampNumber, useEventListener, useResizeObserver} from '@viewshka/core'
 import classnames from 'classnames'
 import * as React from 'react'
 import {
 	PropsWithChildren,
 	useCallback,
-	useContext,
+	useContext, useEffect,
 	useLayoutEffect,
 	useRef,
 	useState,
 } from 'react'
 import {createPortal} from 'react-dom'
-import {useEventListener} from '../../../../core/src/hooks/useEventListener'
+import {addHookDeps} from '../../../../core/src/utils/addHookDeps'
 import {useFocusTrapping} from '../hooks/useFocusTrapping'
 import {useOutsideClick} from '../hooks/useOutsideClick'
 import {getPopoverLayerElement} from './layer/PopoverLayer'
@@ -66,6 +67,10 @@ function Popover({
 	const [show, setShow] = useState(false)
 	const [triggerRect, setTriggerRect] = useState(DEFAULT_RECT)
 
+	const bodyRef = useRef(document.body)
+	const bodySize = useResizeObserver(bodyRef)
+
+
 	useEventListener(
 		'click',
 		() => {
@@ -79,6 +84,15 @@ function Popover({
 		},
 		triggerRef,
 	)
+
+	useEffect(() => {
+		const rect = triggerRef?.current?.getBoundingClientRect()
+		if (!rect) {
+			return
+		}
+		setTriggerRect(rect)
+		addHookDeps(bodySize)
+	}, [bodySize, triggerRef])
 
 	const contextValue = {
 		show,
@@ -123,6 +137,7 @@ interface PopoverWindowProps extends PropsWithChildren {
 
 function PopoverWindow({className, children}: PopoverWindowProps) {
 	const {triggerRect, preferredPosition, setShow} = useContext(PopoverContext)
+	const bodyRef = useRef(document.body)
 	const popoverWindowRef = useRef<HTMLDivElement>(null)
 	const [coords, setCoords] = useState({
 		left: 0,
@@ -131,6 +146,8 @@ function PopoverWindow({className, children}: PopoverWindowProps) {
 	const closePopover = useCallback(() => {
 		setShow(false)
 	}, [setShow])
+
+	const bodySize = useResizeObserver(bodyRef)
 
 	useLayoutEffect(() => {
 		const element = popoverWindowRef.current
@@ -143,7 +160,8 @@ function PopoverWindow({className, children}: PopoverWindowProps) {
 		const coords = getPopoverCoords(triggerRect, rect, preferredPosition)
 
 		setCoords(coords)
-	}, [preferredPosition, triggerRect])
+		addHookDeps(bodySize)
+	}, [bodySize, preferredPosition, triggerRect])
 
 	useFocusTrapping(popoverWindowRef)
 	useOutsideClick(popoverWindowRef, closePopover)
@@ -196,9 +214,12 @@ function getPopoverCoords(
 		top = triggerRect.top - MARGIN - popoverRect.height
 	}
 
+	const minLeft = MARGIN
+	const maxLeft = window.innerWidth - popoverRect.width - MARGIN
+
 	return {
 		top,
-		left,
+		left: clampNumber(left, minLeft, maxLeft),
 	}
 }
 

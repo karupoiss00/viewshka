@@ -1,5 +1,6 @@
 .content-area {
     position: relative;
     background: url('/images/background_blobs.svg') no-repeat center;
+    background-color: var(--surface-color);
     overflow: hidden;
 }

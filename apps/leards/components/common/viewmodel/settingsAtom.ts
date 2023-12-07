@@ -13,10 +13,25 @@ const set = action((ctx, settings: SettingsData) => {
 		theme: settings.theme,
 		locale: settings.locale,
 	}))
+
+	ctx.schedule(() => {
+		document.body.setAttribute('data-theme', settings.theme)
+	})
+})
+
+const reset = action(ctx => {
+	const settingsData = ctx.get(settingsAtom)
+	settingsAtom(ctx, null)
+
+	set(ctx, {
+		locale: settingsData.locale,
+		theme: DEFAULT_THEME,
+	})
 })
 
 const settingsAction = {
 	set,
+	reset,
 } as const
 
 export {

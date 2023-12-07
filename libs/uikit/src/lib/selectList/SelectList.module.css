@@ -13,6 +13,7 @@
     gap: 20px;
     align-items: center;
     font: var(--small-regular-text);
+    color: var(--text-color-default);
     padding-inline: 20px;
     cursor: pointer;
     transition: border-radius 200ms ease-in-out;

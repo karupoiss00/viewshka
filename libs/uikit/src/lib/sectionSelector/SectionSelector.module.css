@@ -16,6 +16,7 @@
     user-select: none;
     outline: none;
     box-sizing: border-box;
+    color: var(--text-color-default);
 }
 
 .item--type-primary.item:hover {

@@ -1,7 +1,6 @@
 import {useAtom} from '@reatom/npm-react'
 import {useLayoutEffect} from '@viewshka/core'
 import {NextComponentType} from 'next'
-import {useRouter} from 'next/router'
 import React from 'react'
 import {useMutation} from 'react-query'
 import {AuthAPI} from '../../api/AuthAPI'
@@ -19,7 +18,6 @@ function useAuthMutation() {
 }
 
 export const withAuth = (Component: NextComponentType) => () => {
-	const router = useRouter()
 	const {status, data, mutate} = useAuthMutation()
 
 	useLayoutEffect(() => {
@@ -30,7 +28,7 @@ export const withAuth = (Component: NextComponentType) => () => {
 		if (status === 'success') {
 			AuthProvider.setAuthToken(data.token)
 		}
-	}, [data, router, status])
+	}, [data, status])
 
 	if (status === 'success') {
 		return <Component />

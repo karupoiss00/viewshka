@@ -1,4 +1,5 @@
-:root  {
+:root,
+[data-theme='light'] {
     --access-color: #95D17F;
     --accent-color: #FBBA47;
     --selection-color: #EAEAEA;
@@ -9,3 +10,16 @@
     --text-color-subdued: #C0C0C0;
     --popup-bg-color: rgba(0, 0, 0, 0.2);
 }
+
+[data-theme='dark'] {
+    --access-color: #95D17F;
+    --accent-color: #4C4C4C;
+    --selection-color: #393939;
+    --error-color: #FB6C55;
+    --surface-color: #282828;
+    --stroke-color: #353131;
+    --text-color-default: #BFBFBF;
+    --text-color-subdued: #C0C0C0;
+    --popup-bg-color: rgba(0, 0, 0, 0.2);
+}
+

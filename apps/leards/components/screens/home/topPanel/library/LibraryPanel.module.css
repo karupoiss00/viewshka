@@ -1,0 +1,15 @@
+.selected-deck-name {
+	position: absolute;
+	display: flex;
+	align-items: center;
+	white-space: nowrap;
+	inset: 0;
+	pointer-events: none;
+	font: var(--large-light-text);
+	color: var(--text-color-default);
+}
+
+.text {
+	margin-inline: auto;
+	pointer-events: all;
+}

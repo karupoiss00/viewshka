@@ -1,7 +1,6 @@
 .user-avatar-panel {
     display: flex;
     flex-direction: row-reverse;
-    width: 100%;
 }
 .user-avatar {
     cursor: pointer;
@@ -10,6 +9,7 @@
 .profile-navigation-bar {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
     width: 90%;
     margin-block-start: 20px;
     margin-inline: 20px;
@@ -18,6 +18,15 @@
 .profile-popover-navigation-button {
     padding: 0;
     margin: 0;
+}
+
+.profile-popover-button-logout {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    margin-inline-end: 0;
+    margin-inline-start: auto;
+    color: var(--error-color);
 }
 
 .profile-popover-content {
@@ -79,6 +88,7 @@
 }
 
 .profile-popover-module-name {
+    color: var(--text-color-default);
     font: var(--normal-light-text);
     user-select: none;
 }

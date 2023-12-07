@@ -1,6 +1,12 @@
 import {AccountsAPI} from '@leards/api/AccountsAPI'
+import {AuthAPI} from '@leards/api/AuthAPI'
 import {UpdateUserRequest, UpdateUserSettingsRequest} from '@leards/api/generated'
 import {UserSettingsAPI} from '@leards/api/UserSettingsAPI'
+import {localeToId} from '@leards/components/common/i18n/localeToMessageId'
+import {themeToId} from '@leards/components/common/i18n/themeToMessageId'
+import {settingsAction, settingsAtom} from '@leards/components/common/viewmodel/settingsAtom'
+import {userActions, userAtom} from '@leards/components/common/viewmodel/userAtom'
+import {goToAuth} from '@leards/components/screens/auth/Auth'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {isLocale, Locale} from '@leards/providers/localeProvider'
 import {isTheme, Theme} from '@leards/providers/themeProvider'
@@ -11,22 +17,18 @@ import {
 	Button, Dropdown,
 	Popover,
 	SystemIconAddImage, SystemIconArrowLeft,
-	SystemIconClose, SystemIconPencil,
+	SystemIconClose, SystemIconLogout, SystemIconPencil,
 	SystemIconSettings,
 	TextField,
 } from '@viewshka/uikit'
 import React, {useRef, useState} from 'react'
 import {useMutation} from 'react-query'
-import {localeToId} from '../../../common/i18n/localeToMessageId'
-import {themeToId} from '../../../common/i18n/themeToMessageId'
-import {settingsAction, settingsAtom} from '../../../common/viewmodel/settingsAtom'
-import {userActions, userAtom} from '../../../common/viewmodel/userAtom'
 import {PersonInfo} from './personInfo/PersonInfo'
 import styles from './UserProfile.module.css'
 
 type ProfilePopupState = 'default' | 'settings' | 'editing'
 
-function UserProfilePanel() {
+function UserProfile() {
 	const [userInfo] = useAtom(userAtom)
 	const triggerRef = useRef<HTMLDivElement>(null)
 	const [profileState, setProfileState] = useState<ProfilePopupState>('default')
@@ -57,6 +59,9 @@ type PopoverContentProps = {
 }
 
 function PopoverContent({buttonClick, profileState, setProfileState}: PopoverContentProps) {
+	const [user] = useAtom(userAtom)
+	const {mutate: logoutUser} = useLogoutMutation(user.id)
+
 	return (
 		<Popover.Content>
 			<div className={styles['profile-navigation-bar']}>
@@ -73,10 +78,25 @@ function PopoverContent({buttonClick, profileState, setProfileState}: PopoverCon
 					</Button>
 				</div>
 				<PersonInfo currentProfileState={profileState}/>
+				<div hidden={profileState !== 'default'} onClick={() => logoutUser()}>
+					<Button className={styles['profile-popover-button-logout']} type={'link'} size={'small'}>
+						<SystemIconLogout/>
+					</Button>
+				</div>
 			</div>
 			<ProfileContent profileState={profileState} changeState={setProfileState}/>
 		</Popover.Content>
 	)
+}
+
+function useLogoutMutation(userId: string) {
+	const handleResetSettings = useAction(settingsAction.reset)
+
+	return useMutation(async () => {
+		await AuthAPI.get().revokeToken(userId)
+		handleResetSettings()
+		goToAuth()
+	})
 }
 
 type ProfileContentProps = {
@@ -111,6 +131,13 @@ type ProfileProps = {
 function Profile({showSettings, showEditing}: ProfileProps) {
 	const [userInfo] = useAtom(userAtom)
 	const getMessage = useMessages()
+	const {mutate: updateAvatar} = useUpdateAvatarMutation(userInfo.id)
+
+	const onAvatarClick = () => {
+		loadImageFromDisk().then(file => {
+			updateAvatar(file)
+		})
+	}
 
 	return (
 		<div className={styles['profile-popover-content']}>
@@ -120,7 +147,7 @@ function Profile({showSettings, showEditing}: ProfileProps) {
 						? <Avatar size={'large'} type={'gradient'} name={userInfo.name}/>
 						: <Avatar size={'large'} type={'image'} avatarUrl={userInfo.avatarUrl} />
 				}
-				<div className={styles['avatar-overlay']}>
+				<div className={styles['avatar-overlay']} onClick={onAvatarClick}>
 					<SystemIconAddImage/>
 				</div>
 			</div>
@@ -151,6 +178,38 @@ function Profile({showSettings, showEditing}: ProfileProps) {
 			</div>
 		</div>
 	)
+}
+
+function loadImageFromDisk(): Promise<File> {
+	const onFileUpload = (input: HTMLInputElement, onSuccess: (file: File) => void, onFailure: () => void) => {
+		if (input.files && input.files[0].type.match('image.*')) {
+			const reader = new FileReader()
+			reader.readAsDataURL(input.files[0])
+			onSuccess(input.files[0])
+		}
+		else {
+			onFailure()
+		}
+	}
+
+	return new Promise((resolve, reject) => {
+		const input = document.createElement('input')
+		input.style.display = 'none'
+		input.type = 'file'
+		input.onchange = () => onFileUpload(input, resolve, reject)
+		document.body.appendChild(input)
+		input.click()
+	})
+}
+
+function useUpdateAvatarMutation(userId: string) {
+	const handleUpdateAvatar = useAction(userActions.setAvatar)
+
+	return useMutation(async (file: File) => {
+		const response = await AccountsAPI.get().uploadAvatarByUserId(userId, file)
+
+		handleUpdateAvatar(response.data.profileIcon)
+	})
 }
 
 function Settings() {
@@ -329,5 +388,5 @@ export type {
 }
 
 export {
-	UserProfilePanel,
+	UserProfile,
 }

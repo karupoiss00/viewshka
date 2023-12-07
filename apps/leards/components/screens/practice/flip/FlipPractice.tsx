@@ -13,7 +13,9 @@ import {
 	practiceAtom,
 } from '@leards/components/screens/practice/flip/viewmodel/practiceAtom'
 import {useCardsQuery} from '@leards/hooks/useCardsQuery'
+import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
+import {Button, SystemIconArrowLeft} from '@viewshka/uikit'
 import Router, {useRouter} from 'next/router'
 import React, {useCallback, useEffect, useState} from 'react'
 import {useQuery} from 'react-query'
@@ -24,6 +26,7 @@ import styles from './FlipPractice.module.css'
 
 function FlipPractice() {
 	const router = useRouter()
+	const getMessage = useMessages()
 	const [, setAllCards] = useAtom(cardsAtom)
 	const [practice] = useAtom(practiceAtom)
 	const [materialName, setMaterialName] = useState('')
@@ -39,19 +42,26 @@ function FlipPractice() {
 		return <LoadingPage/>
 	}
 
+	const contentMap = {
+		'start': null,
+		'in-progress': <Practice/>,
+		'intermediate-result': <IntermediateResult onExit={() => router.back()}/>,
+		'result': <TotalResult onExit={() => router.back()}/>,
+	}
+
 	return (
 		<div className={styles.layout}>
 			<PracticeTopPanel materialName={materialName} />
 			<ProgressBar progress={progress} />
-			{
-				practice.status === 'in-progress' && <Practice/>
-			}
-			{
-				practice.status === 'intermediate-result' && <IntermediateResult onExit={() => router.back()}/>
-			}
-			{
-				practice.status === 'result' && <TotalResult onExit={() => router.back()}/>
-			}
+			<div className={styles.content}>
+				<Button type={'link'} size={'medium'} onClick={() => router.back()} className={styles.exit}>
+					<div className={styles.exitContent}>
+						<SystemIconArrowLeft/>
+						{getMessage('Practice.Flip.Button.Exit')}
+					</div>
+				</Button>
+				{contentMap[practice.status]}
+			</div>
 		</div>
 	)
 }

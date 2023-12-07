@@ -10,7 +10,14 @@ function DecksList({decks}: DecksListProps) {
 
 	return (
 		<div className={styles.list}>
-			{decks.map(deck => <Deck id={deck.id} name={deck.name}/>)}
+			<div className={styles.scrollContainer}>
+				{decks.map(deck => (
+					<>
+						<Deck id={deck.id} name={deck.name} tags={['#Английский', '#От_Васяна']} key={deck.id}/>
+						<div className={styles.separator}/>
+					</>
+				))}
+			</div>
 		</div>
 	)
 }
