@@ -13,4 +13,4 @@ new ReverseProxyPathMapper({}, pathMapper).serve(PROXY_PORT);
 
 setTimeout(() => {
 	console.log(`[ PROXY ] on http://localhost:${PROXY_PORT}`)
-}, 5000)
+}, 7000)

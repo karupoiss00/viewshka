@@ -72,7 +72,7 @@ function Popover({
 
 
 	useEventListener(
-		'click',
+		'mousedown',
 		() => {
 			const rect = triggerRef?.current?.getBoundingClientRect()
 			if (!rect) {

@@ -1,14 +1,18 @@
 import classnames from 'classnames'
-import Image from 'next/image'
 import React, {useState} from 'react'
 import styles from './Form.module.css'
 import LoginForm from './forms/LoginForm'
 import RegisterForm from './forms/RegisterForm'
 
-type FormState = 'login' | 'register' | 'recover'
+type FormState = 'login' | 'register'
 
-function Form() {
-	const [formState, setFormState] = useState<FormState>('login')
+type FormProps = {
+	initialState?: FormState
+}
+function Form({
+	initialState = 'login',
+}: FormProps) {
+	const [formState, setFormState] = useState<FormState>(initialState)
 	const goLogin = () => setFormState('login')
 	const goRegister = () => setFormState('register')
 
@@ -18,10 +22,8 @@ function Form() {
 				[styles.logoSmall]: formState === 'register',
 			})}>
 				<img
-					className={classnames(styles.logoImage, {
-						[styles.logoImageSmall]: formState === 'register',
-					})}
-					src={'/images/Logo.svg'}
+					className={styles.logoImage}
+					src={'/images/logo.svg'}
 					alt={'logo'}
 				/>
 			</div>

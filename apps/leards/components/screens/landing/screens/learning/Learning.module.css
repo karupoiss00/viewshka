@@ -1,0 +1,91 @@
+.layout {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    height: 930px;
+    gap: 47px;
+    flex-shrink: 0;
+    padding-block-start: 65px;
+    margin-block-start: 265px;
+    margin-inline-start: 190px;
+}
+
+.fill-cards-area {
+    flex-shrink: 0;
+    width: 455px;
+}
+
+.cards-pair {
+    position: relative;
+    width: 870px;
+    height: 470px;
+    margin-block-start: 130px;
+}
+
+.top-card {
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: 0;
+}
+
+.bottom-card {
+    position: absolute;
+    inset-inline-end: 0;
+    inset-block-end: 0;
+}
+
+.arrows {
+    position: absolute;
+    width: 333px;
+    height: 344px;
+    background: url('/images/landing_arrows.png');
+    inset-block-start: 72px;
+    inset-inline-start: 257px;
+}
+
+.header {
+    font: var(--large-light-text);
+    color: var(--text-color-default);
+    font-weight: 500;
+}
+
+.description {
+    font: var(--normal-light-text);
+    color: var(--text-color-default);
+    width: 400px;
+    white-space: break-spaces;
+}
+
+.text-container {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding-inline-start: 45px;
+}
+
+.learn-button {
+    margin-block-start: 50px;
+}
+
+.learn-button-text {
+    color: var(--surface-color);
+}
+
+.cards-list {
+    margin-block-start: 45px;
+    border-radius: 10px;
+    border: 1px solid var(--stroke-color);
+    overflow: hidden;
+}
+
+.cards-list--error {
+    border: 1px solid var(--error-color);
+}
+
+.cards-list > *:first-child {
+   border-top: none;
+}
+
+.cards-list > *:last-child {
+    border-bottom: none;
+}

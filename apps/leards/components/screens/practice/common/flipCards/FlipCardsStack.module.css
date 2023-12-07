@@ -16,8 +16,8 @@
     height: 340px;
     border-radius: 40px;
     background: var(--accent-color);
-    filter: drop-shadow(4px 4px 4px rgba(0, 0, 0, 0.25));
-    color: var(--text-color-default);
+    filter: drop-shadow(2px 2px 5px rgba(56, 56, 56, 0.15));
+    color: var(--surface-color);
     user-select: none;
     text-align: center;
 }
@@ -27,7 +27,6 @@
 }
 
 .card--ghost {
-    opacity: 70%;
     pointer-events: none;
 }
 

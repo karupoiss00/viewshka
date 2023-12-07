@@ -167,7 +167,7 @@ function useUpdateContentMutation(type: string, contentId: string) {
 			}
 
 			await queryClient.invalidateQueries({
-				queryKey: ['sidebar-folder'],
+				queryKey: SELECTED_FOLDER_QUERY_KEY,
 			})
 		},
 	)

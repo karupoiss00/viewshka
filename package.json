@@ -23,7 +23,6 @@
   },
   "devDependencies": {
     "@nrwl/cli": "14.6.3",
-    "@openapitools/openapi-generator-cli": "^2.7.0",
     "@nrwl/cypress": "14.6.3",
     "@nrwl/eslint-plugin-nx": "14.6.3",
     "@nrwl/jest": "14.6.3",
@@ -32,6 +31,7 @@
     "@nrwl/react": "14.6.3",
     "@nrwl/web": "14.6.3",
     "@nrwl/workspace": "14.6.3",
+    "@openapitools/openapi-generator-cli": "^2.7.0",
     "@reatom/core": "^3.5.0",
     "@reatom/framework": "^3.4.19",
     "@reatom/npm-react": "^3.6.1",
@@ -59,6 +59,7 @@
     "prettier": "^2.6.2",
     "react-test-renderer": "18.2.0",
     "reverse_proxy_pathmapper": "^2.0.0",
+    "rimraf": "^5.0.5",
     "stylelint-config-standard": "^30.0.0",
     "stylelint-order": "^6.0.3",
     "ts-jest": "28.0.5",

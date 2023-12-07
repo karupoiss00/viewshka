@@ -1,0 +1,35 @@
+.card {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: var(--surface-color);
+    background: var(--accent-color);
+    user-select: none;
+    filter: drop-shadow(2px 2px 5px rgba(56, 56, 56, 0.15));
+    flex-shrink: 0;
+    gap: 6px;
+}
+
+.card--small {
+    width: 230px;
+    height: 150px;
+    border-radius: 20px;
+    font: var(--normal-light-text);
+}
+
+.card--medium {
+    width: 360px;
+    height: 240px;
+    border-radius: 30px;
+    font: var(--large-light-text);
+    font-weight: 500;
+}
+
+.card--large {
+    width: 510px;
+    height: 340px;
+    border-radius: 40px;
+    font: var(--large-light-text);
+    font-size: 44px;
+}

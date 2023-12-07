@@ -1,7 +1,4 @@
-import {DecksAPI} from '@leards/api/DecksAPI'
-import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {Card} from '@leards/api/generated'
-import {goToHome} from '@leards/components/screens/home/Home'
 import {StorageType} from '@leards/components/screens/home/viewmodel/selection/Selection'
 import {Practice} from '@leards/components/screens/practice/flip/practice/Practice'
 import {IntermediateResult} from '@leards/components/screens/practice/flip/results/IntermediateResult'
@@ -12,19 +9,24 @@ import {
 	practiceActions,
 	practiceAtom,
 } from '@leards/components/screens/practice/flip/viewmodel/practiceAtom'
-import {useCardsQuery} from '@leards/hooks/useCardsQuery'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
 import {Button, SystemIconArrowLeft} from '@viewshka/uikit'
 import Router, {useRouter} from 'next/router'
-import React, {useCallback, useEffect, useState} from 'react'
-import {useQuery} from 'react-query'
+import React, {useCallback, useState} from 'react'
 import LoadingPage from '../../loading/LoadingPage'
 import ProgressBar from '../common/progressBar/ProgressBar'
 import PracticeTopPanel from '../common/topPanel/PracticeTopPanel'
 import styles from './FlipPractice.module.css'
 
-function FlipPractice() {
+type NameLoadedHandler = (name: string) => void
+type CardsLoadedHandler = (cards: Array<Card>) => void
+
+type FlipPracticeProps = {
+	loadCards: (onNameLoaded: NameLoadedHandler, onCardsLoaded: CardsLoadedHandler) => boolean
+}
+
+function FlipPractice({loadCards}: FlipPracticeProps) {
 	const router = useRouter()
 	const getMessage = useMessages()
 	const [, setAllCards] = useAtom(cardsAtom)
@@ -36,7 +38,7 @@ function FlipPractice() {
 		setAllCards(cards)
 		handlePracticeStart({cards})
 	}, [handlePracticeStart, setAllCards])
-	const isLoading = useLoadData(setMaterialName, onCardsLoaded)
+	const isLoading = loadCards(setMaterialName, onCardsLoaded)
 
 	if (isLoading) {
 		return <LoadingPage/>
@@ -64,60 +66,6 @@ function FlipPractice() {
 			</div>
 		</div>
 	)
-}
-
-function useLoadData(onMaterialNameLoad: (name: string) => void, onCardsLoad: (cards: Array<Card>) => void) {
-	const router = useRouter()
-	const {slug} = router.query
-	const storageType = slug[0] as StorageType
-	const storageId = slug[1]
-
-	const {cards, isLoading: isCardsLoading}
-		= useCardsQuery(storageType, storageId)
-	const {title, isLoading: isTitleLoading} = useTitleQuery(storageType, storageId)
-
-	useEffect(() => {
-		if (title) {
-			onMaterialNameLoad(title)
-		}
-	}, [title, onMaterialNameLoad])
-
-	useEffect(() => {
-		if (!cards) {
-			goToHome()
-			return
-		}
-
-		if (cards.length) {
-			onCardsLoad(cards)
-		}
-	}, [cards, onCardsLoad, router])
-
-	return isTitleLoading || isCardsLoading
-}
-
-function useTitleQuery(storageType: string, storageId: string) {
-	const [title, setTitle] = useState('')
-
-	const {data, isSuccess, isLoading} = useQuery([
-		'practice-title', storageType, storageId,
-	], async () => {
-		const storage = storageType === 'folder'
-			? (await FoldersAPI.get().getFolderById(storageId)).data.folder
-			: (await DecksAPI.get().getDeckById(storageId)).data.deck
-
-		return storage.name
-	}, {
-		retry: false,
-	})
-
-	useEffect(() => {
-		if (isSuccess) {
-			setTitle(data)
-		}
-	}, [data, isSuccess])
-
-	return {title, isLoading}
 }
 
 type FlipPracticePagePayload = {

@@ -1,12 +1,16 @@
 .layout {
+    position: relative;
     display: flex;
-    flex-direction: row;
-    height: 100%;
-    justify-content: center;
-    background: url('/images/background_landing.svg') no-repeat center;
-    background-size: cover;
+    flex-direction: column;
+    height: 5557px;
 }
 
-.button {
-    margin-block-start: 150px;
+.background {
+    position: absolute;
+    inset: 0;
+    inset-block-start: -56px;
+    background-image: url('/images/landing_blobs_background.svg');
+    background-size: cover;
+    background-position: center;
+    z-index: -1;
 }

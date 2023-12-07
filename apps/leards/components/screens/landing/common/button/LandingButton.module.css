@@ -1,0 +1,17 @@
+.landing-button {
+    background: #FF7E47;
+    color: var(--surface-color);
+}
+
+.landing-button:hover {
+    background: #FF9263;
+}
+
+.landing-button:active {
+    background: #FAA27C;
+}
+
+.landing-button::after {
+    border-top-color: var(--surface-color);
+}
+

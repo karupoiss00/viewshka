@@ -9,7 +9,7 @@
   background: var(--surface-color);
   margin-block: auto;
   align-self: flex-start;
-  height: 740px;
+  height: 690px;
   overflow: hidden;
 }
 
@@ -29,11 +29,6 @@
   width: 326px;
   height: 200px;
   transition: width 400ms ease-in-out, height 400ms ease-in-out;
-}
-
-.logo-image--small {
-  width: 163px;
-  height: 100px;
 }
 
 .form-container {

@@ -1,6 +1,5 @@
 .button {
     position: relative;
-    outline: none;
     border: none;
     border-radius: 5px;
     display: flex;
@@ -42,7 +41,6 @@
     padding-block: 0;
     padding-inline: 0;
 }
-
 
 .button-state--loading > * {
     opacity: 0;

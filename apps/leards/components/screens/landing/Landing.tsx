@@ -1,30 +1,35 @@
-import {goToAuth} from '@leards/components/screens/auth/Auth'
-import {useMessages} from '@leards/i18n/hooks/useMessages'
-import {Button} from '@viewshka/uikit'
-import React, {useState} from 'react'
+import {Advantages} from '@leards/components/screens/landing/screens/advantages/Advantages'
+import {Learning} from '@leards/components/screens/landing/screens/learning/Learning'
+import {SignUp} from '@leards/components/screens/landing/screens/signup/SignUp'
+import Start from '@leards/components/screens/landing/screens/start/Start'
+import Router from 'next/router'
+import React, {useRef} from 'react'
 import styles from './Landing.module.css'
 
 function Landing() {
-	const getMessage = useMessages()
-	const [loading, setLoading] = useState(false)
-
+	const learningBlockRef = useRef<HTMLDivElement>(null)
+	const onGoLearn = () => {
+		learningBlockRef.current?.scrollIntoView({
+			behavior: 'smooth',
+		})
+	}
 
 	return (
-		<div className={styles.layout}>
-			<Button
-				className={styles.button}
-				type={'primary'}
-				size={'large'}
-				state={loading ? 'loading' : 'default'}
-				onClick={() => {
-					setLoading(true)
-					setTimeout(() => goToAuth(), 500)
-				}}
-			>
-				{getMessage('Landing.Button.Start')}
-			</Button>
+		<div className={styles.layout} data-theme="landing">
+			<div className={styles.background}></div>
+			<Start onGoLearn={onGoLearn}/>
+			<Advantages/>
+			<Learning ref={learningBlockRef}/>
+			<SignUp/>
 		</div>
 	)
 }
 
-export default Landing
+function goToLanding() {
+	Router.push('/')
+}
+
+export {
+	Landing,
+	goToLanding,
+}

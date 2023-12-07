@@ -1,6 +1,6 @@
-
 .button {
     text-decoration: underline;
+    text-underline-offset: 3px;
     outline: none;
     background: none;
 }
@@ -9,7 +9,6 @@
 .button-state--default {
     color: var(--text-color-subdued);
 }
-
 
 .button:hover,
 .button-state--hovered {
