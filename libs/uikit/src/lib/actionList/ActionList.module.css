@@ -1,0 +1,47 @@
+.list {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.item {
+    display: flex;
+    flex-direction: row;
+    width: calc(100% - 40px);
+    height: 50px;
+    flex-shrink: 0;
+    gap: 20px;
+    align-items: center;
+    font: var(--small-regular-text);
+    color: var(--text-color-default);
+    padding-inline: 20px;
+    cursor: pointer;
+    transition: border-radius 200ms ease-in-out;
+    user-select: none;
+}
+
+.item > svg {
+    flex-shrink: 0;
+}
+
+.item:hover {
+    border-radius: 20px;
+    background: var(--selection-color);
+}
+
+.item:active {
+    border-radius: 20px;
+    background: var(--stroke-color);
+}
+
+.item--selected:hover,
+.item--selected:active {
+    background: var(--accent-color);
+    border-radius: 10px;
+}
+
+.item > span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

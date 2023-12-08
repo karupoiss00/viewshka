@@ -16,7 +16,7 @@ import {useOutsideClick} from '../hooks/useOutsideClick'
 import {getPopoverLayerElement} from './layer/PopoverLayer'
 import styles from './Popover.module.css'
 
-type Position = 'bottom-center' | 'bottom-left' | 'bottom-right';
+type Position = 'bottom-center' | 'inline-right';
 
 const DEFAULT_RECT = {
 	left: 0,
@@ -55,7 +55,8 @@ interface PopoverProps {
 	children: React.ReactNode
 	preferredPosition: Position
 	triggerRef?: React.RefObject<HTMLElement>
-	onClose: () => void
+	onClose?: () => void
+	visible?: boolean
 }
 
 function Popover({
@@ -63,13 +64,13 @@ function Popover({
 	triggerRef,
 	preferredPosition = 'bottom-center',
 	onClose,
+	visible = true,
 }: PopoverProps) {
 	const [show, setShow] = useState(false)
 	const [triggerRect, setTriggerRect] = useState(DEFAULT_RECT)
 
 	const bodyRef = useRef(document.body)
 	const bodySize = useResizeObserver(bodyRef)
-
 
 	useEventListener(
 		'mousedown',
@@ -78,7 +79,7 @@ function Popover({
 			if (!rect) {
 				return
 			}
-			onClose()
+			onClose?.()
 			setShow(isShow => !isShow)
 			setTriggerRect(rect)
 		},
@@ -93,6 +94,13 @@ function Popover({
 		setTriggerRect(rect)
 		addHookDeps(bodySize)
 	}, [bodySize, triggerRef])
+
+
+	useEffect(() => {
+		if (!visible) {
+			setShow(false)
+		}
+	}, [visible])
 
 	const contextValue = {
 		show,
@@ -207,8 +215,42 @@ function getPopoverCoords(
 	popoverRect: Rect,
 	position: Position,
 ) {
+	if (position === 'bottom-center') {
+		return getBottomCenterPosition(triggerRect, popoverRect)
+	}
+
+	if (position === 'inline-right') {
+		return getInlineRightPosition(triggerRect, popoverRect)
+	}
+
+	console.warn('no impl for popover position', position)
+
+	return {
+		top: 0,
+		left: 0,
+	}
+}
+
+function getBottomCenterPosition(triggerRect: Rect, popoverRect: Rect) {
 	let top = triggerRect.top + triggerRect.height + MARGIN
 	const left = Math.max(triggerRect.left + triggerRect.width / 2 - popoverRect.width / 2, MARGIN)
+
+	if (top + popoverRect.height > window.innerHeight - MARGIN) {
+		top = triggerRect.top - MARGIN - popoverRect.height
+	}
+
+	const minLeft = MARGIN
+	const maxLeft = window.innerWidth - popoverRect.width - MARGIN
+
+	return {
+		top,
+		left: clampNumber(left, minLeft, maxLeft),
+	}
+}
+
+function getInlineRightPosition(triggerRect: Rect, popoverRect: Rect) {
+	let top = triggerRect.top
+	const left = Math.max(triggerRect.left + triggerRect.width + MARGIN, MARGIN)
 
 	if (top + popoverRect.height > window.innerHeight - MARGIN) {
 		top = triggerRect.top - MARGIN - popoverRect.height

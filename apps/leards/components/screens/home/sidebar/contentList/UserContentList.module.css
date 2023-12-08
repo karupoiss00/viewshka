@@ -1,0 +1,19 @@
+.container {
+    display: flex;
+    flex-shrink: 1;
+    flex-grow: 1;
+    flex-basis: 0;
+    flex-direction: column;
+    height: 100%;
+    gap: 10px;
+}
+
+.create-button-container {
+    display: flex;
+    padding-inline: 20px;
+}
+
+.create-popover {
+    padding-block-end: 26px;
+    padding-inline: 10px;
+}
