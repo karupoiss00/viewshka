@@ -168,7 +168,7 @@ function useDeckCreateMutation() {
 			userId: user.id,
 		})
 		await queryClient.invalidateQueries({
-			queryKey: [SELECTED_FOLDER_QUERY_KEY],
+			queryKey: SELECTED_FOLDER_QUERY_KEY,
 		})
 	})
 }

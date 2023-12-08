@@ -20,6 +20,9 @@
     user-select: none;
     cursor: pointer;
     gap: 15px;
+}
+
+.item:not(:first-child) {
     max-width: 150px;
     overflow: hidden;
     white-space: nowrap;
