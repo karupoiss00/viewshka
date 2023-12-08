@@ -1,4 +1,4 @@
-import {useSetSelectedStorageParam} from '@leards/components/screens/home/common/hooks/useLoadSelectionParams'
+import {useSetSelectedStorageParam} from '@leards/components/screens/home/hooks/useLoadSelectionParams'
 import {currentFolderAtom} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
 import {selectionActions} from '@leards/components/screens/home/viewmodel/selectionAtom'
 import {useMessages} from '@leards/i18n/hooks/useMessages'

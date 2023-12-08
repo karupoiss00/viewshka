@@ -1,5 +1,3 @@
-import {useSetSelectedSectionParam} from '@leards/components/screens/home/common/hooks/useLoadSelectionParams'
-import {FavoriteDecksList} from '@leards/components/screens/home/sidebar/contentList/FavoriteDecksList'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
 import {
@@ -10,14 +8,15 @@ import {
 } from '@viewshka/uikit'
 import classnames from 'classnames'
 import React from 'react'
+import {useSetSelectedSectionParam} from '../hooks/useLoadSelectionParams'
 import {Selection} from '../viewmodel/selection/Selection'
 import {
 	selectionAtom,
 	selectionActions,
 } from '../viewmodel/selectionAtom'
+import {FavoriteDecksList} from './contentList/FavoriteDecksList'
 import {UserContentList} from './contentList/UserContentList'
 import styles from './Sidebar.module.css'
-
 
 function Sidebar({className}: PropsWithClassname) {
 	return (

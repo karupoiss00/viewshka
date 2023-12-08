@@ -1,8 +1,8 @@
 import Router from 'next/router'
 import React from 'react'
-import {useLoadSelectionParams} from './common/hooks/useLoadSelectionParams'
 import ContentArea from './contentArea/ContentArea'
 import styles from './Home.module.css'
+import {useLoadSelectionParams} from './hooks/useLoadSelectionParams'
 import Sidebar from './sidebar/Sidebar'
 import TopPanel from './topPanel/TopPanel'
 

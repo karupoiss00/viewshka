@@ -1,6 +1,5 @@
 import {LibraryAPI} from '@leards/api/LibraryAPI'
 import {userAtom} from '@leards/components/common/viewmodel/userAtom'
-import {useSetSelectedStorageParam} from '@leards/components/screens/home/common/hooks/useLoadSelectionParams'
 import {favoritesAtom} from '@leards/components/screens/home/contentArea/library/viewmodel/favoritesAtom'
 import {ContentList} from '@leards/components/screens/home/sidebar/contentList/common/ContentList'
 import {selectedDeckIdAtom, selectionActions} from '@leards/components/screens/home/viewmodel/selectionAtom'
@@ -8,6 +7,7 @@ import {useAction, useAtom} from '@reatom/npm-react'
 import {useRouter} from 'next/router'
 import React, {useEffect} from 'react'
 import {useQuery} from 'react-query'
+import {useSetSelectedStorageParam} from '../../hooks/useLoadSelectionParams'
 
 const FAVORITE_DECKS_QUERY_KEY = 'sidebar-favorites'
 

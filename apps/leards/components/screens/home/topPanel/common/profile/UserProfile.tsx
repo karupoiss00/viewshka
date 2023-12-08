@@ -196,6 +196,7 @@ function loadImageFromDisk(): Promise<File> {
 		const input = document.createElement('input')
 		input.style.display = 'none'
 		input.type = 'file'
+		input.accept = '.jpg,.png,.png,.gif'
 		input.onchange = () => onFileUpload(input, resolve, reject)
 		document.body.appendChild(input)
 		input.click()
