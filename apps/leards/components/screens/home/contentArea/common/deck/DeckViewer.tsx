@@ -1,7 +1,6 @@
 import {CardsAPI} from '@leards/api/CardsAPI'
 import {DecksAPI} from '@leards/api/DecksAPI'
 import {Deck} from '@leards/api/generated'
-import {SELECTED_FOLDER_QUERY_KEY} from '@leards/components/screens/home/sidebar/contentList/UserContentList'
 import {CARDS_QUERY_KEY} from '@leards/hooks/useCardsQuery'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'

@@ -1,13 +1,12 @@
 import {DecksAPI} from '@leards/api/DecksAPI'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
-import {SELECTED_FOLDER_QUERY_KEY} from '@leards/components/screens/home/sidebar/contentList/UserContentList'
 import {currentFolderActions} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
 import {useEventListener} from '@viewshka/core'
 import {Button, Checkbox, Popup, PopupContext, TextField} from '@viewshka/uikit'
 import React, {useCallback, useContext, useRef, useState} from 'react'
-import {useMutation, useQueryClient} from 'react-query'
+import {useMutation} from 'react-query'
 import {selectedFolderIdAtom} from '../../viewmodel/selectionAtom'
 import styles from './ContentSettingsPopup.module.css'
 
@@ -147,26 +146,34 @@ function useDeleteContentMutation(type: string, contentId: string) {
 }
 
 function useUpdateContentMutation(type: string, contentId: string) {
-	const queryClient = useQueryClient()
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
+	const handleUpdateMaterial = useAction(currentFolderActions.update)
 
 	return useMutation(
 		`update:${type}:${contentId}`,
 		async (name: string) => {
 			if (type === 'deck') {
-				await DecksAPI.get().updateDeckById(selectedFolderId, contentId, {
+				const response = await DecksAPI.get().updateDeckById(selectedFolderId, contentId, {
 					name,
+				})
+				const deck = response.data.deck
+				handleUpdateMaterial({
+					type: 'deck',
+					name: deck.name,
+					id: deck.deckId,
 				})
 			}
 			if (type === 'folder') {
-				await FoldersAPI.get().updateFolderById(contentId, {
+				const response = await FoldersAPI.get().updateFolderById(contentId, {
 					name,
 				})
+				const folder = response.data.folder
+				handleUpdateMaterial({
+					type: 'deck',
+					name: folder.name,
+					id: folder.folderId,
+				})
 			}
-
-			await queryClient.invalidateQueries({
-				queryKey: SELECTED_FOLDER_QUERY_KEY,
-			})
 		},
 	)
 }

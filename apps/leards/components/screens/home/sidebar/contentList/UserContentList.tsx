@@ -17,8 +17,6 @@ import React, {useEffect, useRef, useState} from 'react'
 import {useMutation, useQuery} from 'react-query'
 import styles from './UserContentList.module.css'
 
-const SELECTED_FOLDER_QUERY_KEY = 'sidebar-folder'
-
 function UserContentList() {
 	const getMessage = useMessages()
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
@@ -120,7 +118,7 @@ function useCurrentFolderQuery(folderId: string | null) {
 	const handleResetSelection = useAction(selectionActions.reset)
 	const router = useRouter()
 	const {isError, isSuccess, data} = useQuery(
-		[SELECTED_FOLDER_QUERY_KEY, {folderId}],
+		['sidebar-folder-content', {folderId}],
 		async () => {
 			if (!folderId) {
 				const {data} = await DecksAPI.get().getDeckById(selectedDeckId)
@@ -201,5 +199,4 @@ function useFolderCreateMutation() {
 
 export {
 	UserContentList,
-	SELECTED_FOLDER_QUERY_KEY,
 }

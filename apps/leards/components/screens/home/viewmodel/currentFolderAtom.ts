@@ -31,10 +31,27 @@ const remove = action((ctx, id: string) => {
 	currentFolderAtom(ctx, updatedFolder)
 })
 
+const update = action((ctx, material: Content) => {
+	const folder = ctx.get(currentFolderAtom)
+	const updatedFolder = {
+		...folder,
+		content: folder.content.map(item => {
+			if (item.id !== material.id) {
+				return item
+			}
+
+			return material
+		}),
+	}
+
+	currentFolderAtom(ctx, updatedFolder)
+})
+
 
 const currentFolderActions = {
 	add,
 	remove,
+	update,
 }
 
 export {
