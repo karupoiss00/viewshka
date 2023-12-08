@@ -158,7 +158,7 @@ function useUpdateContentMutation(type: string, contentId: string) {
 				})
 				const deck = response.data.deck
 				handleUpdateMaterial({
-					type: 'deck',
+					type,
 					name: deck.name,
 					id: deck.deckId,
 				})
@@ -169,7 +169,7 @@ function useUpdateContentMutation(type: string, contentId: string) {
 				})
 				const folder = response.data.folder
 				handleUpdateMaterial({
-					type: 'deck',
+					type,
 					name: folder.name,
 					id: folder.folderId,
 				})
