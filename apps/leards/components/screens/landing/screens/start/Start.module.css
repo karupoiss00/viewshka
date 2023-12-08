@@ -6,6 +6,7 @@
     height: 930px;
     gap: 230px;
     flex-shrink: 0;
+    overflow: hidden;
 }
 
 .start-button-text {
