@@ -1,8 +1,9 @@
 import {DecksAPI} from '@leards/api/DecksAPI'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {SELECTED_FOLDER_QUERY_KEY} from '@leards/components/screens/home/sidebar/contentList/UserContentList'
+import {currentFolderActions} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
-import {useAtom} from '@reatom/npm-react'
+import {useAction, useAtom} from '@reatom/npm-react'
 import {useEventListener} from '@viewshka/core'
 import {Button, Checkbox, Popup, PopupContext, TextField} from '@viewshka/uikit'
 import React, {useCallback, useContext, useRef, useState} from 'react'
@@ -130,20 +131,18 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 }
 
 function useDeleteContentMutation(type: string, contentId: string) {
-	const queryClient = useQueryClient()
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
+	const handleDeleteContent = useAction(currentFolderActions.remove)
 
 	return useMutation(`remove:${type}:${contentId}`, async () => {
+		handleDeleteContent(contentId)
+
 		if (type === 'deck') {
 			await DecksAPI.get().deleteDeckById(selectedFolderId, contentId)
 		}
 		if (type === 'folder') {
 			await FoldersAPI.get().deleteFolderById(contentId)
 		}
-
-		await queryClient.invalidateQueries({
-			queryKey: [SELECTED_FOLDER_QUERY_KEY],
-		})
 	})
 }
 

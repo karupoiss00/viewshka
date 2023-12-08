@@ -3,7 +3,7 @@ import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {useSetSelectedStorageParam} from '@leards/components/screens/home/hooks/useLoadSelectionParams'
 import {ContentList} from '@leards/components/screens/home/sidebar/contentList/common/ContentList'
-import {currentFolderAtom} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
+import {currentFolderActions, currentFolderAtom} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
 import {
 	selectedDeckIdAtom,
 	selectedFolderIdAtom,
@@ -14,7 +14,7 @@ import {useAction, useAtom} from '@reatom/npm-react'
 import {ActionList, Button, Popover, SystemIconDeck, SystemIconFolder, SystemIconPlus} from '@viewshka/uikit'
 import {useRouter} from 'next/router'
 import React, {useEffect, useRef, useState} from 'react'
-import {useMutation, useQuery, useQueryClient} from 'react-query'
+import {useMutation, useQuery} from 'react-query'
 import styles from './UserContentList.module.css'
 
 const SELECTED_FOLDER_QUERY_KEY = 'sidebar-folder'
@@ -156,37 +156,45 @@ function useCurrentFolderQuery(folderId: string | null) {
 }
 
 function useDeckCreateMutation() {
-	const queryClient = useQueryClient()
 	const getMessage = useMessages()
 	const [user] = useAtom(userAtom)
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
+	const handleAddMaterial = useAction(currentFolderActions.add)
 
 	return useMutation(async () => {
-		await DecksAPI.get().createNewDeck(selectedFolderId, {
+		const response = await DecksAPI.get().createNewDeck(selectedFolderId, {
 			parentFolderId: selectedFolderId,
 			name: getMessage('Deck.DefaultName'),
 			userId: user.id,
 		})
-		await queryClient.invalidateQueries({
-			queryKey: SELECTED_FOLDER_QUERY_KEY,
+		const deck = response.data.deck
+
+		handleAddMaterial({
+			type: 'deck',
+			id: deck.deckId,
+			name: deck.name,
 		})
 	})
 }
 
 function useFolderCreateMutation() {
-	const queryClient = useQueryClient()
 	const getMessage = useMessages()
 	const [user] = useAtom(userAtom)
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
+	const handleAddMaterial = useAction(currentFolderActions.add)
 
 	return useMutation(async () => {
-		await FoldersAPI.get().createNewFolder({
+		const response = await FoldersAPI.get().createNewFolder({
 			name: getMessage('Folder.DefaultName'),
 			parentFolderId: selectedFolderId,
 			userId: user.id,
 		})
-		await queryClient.invalidateQueries({
-			queryKey: [SELECTED_FOLDER_QUERY_KEY],
+		const folder = response.data.folder
+
+		handleAddMaterial({
+			type: 'folder',
+			id: folder.folderId,
+			name: folder.name,
 		})
 	})
 }
