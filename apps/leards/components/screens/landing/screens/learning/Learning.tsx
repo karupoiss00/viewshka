@@ -1,4 +1,5 @@
 import {LandingButton} from '@leards/components/screens/landing/common/button/LandingButton'
+import {deepClone} from '@viewshka/core'
 import {Button} from '@viewshka/uikit'
 import classnames from 'classnames'
 import {useRouter} from 'next/router'
@@ -22,7 +23,7 @@ function LearningBlock() {
 	const [cards, setCards] = useState(() => getCards())
 	const [error, setError] = useState(false)
 	const updateCard = useCallback((card: CardData, index: number) => {
-		const newCards = structuredClone(cards)
+		const newCards = deepClone(cards)
 		newCards[index] = card
 		setCards(newCards)
 		setError(false)
