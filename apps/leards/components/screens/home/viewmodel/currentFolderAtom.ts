@@ -1,57 +1,43 @@
-import {Content, Folder} from '@leards/api/generated'
+import {Folder as FolderData} from '@leards/api/generated'
+import {currentDeckAtom} from '@leards/components/screens/home/viewmodel/currentDeckAtom'
+import {Folder} from '@leards/components/screens/home/viewmodel/folder/Folder'
+import {selectionActions} from '@leards/components/screens/home/viewmodel/selectionAtom'
 import {action, atom} from '@reatom/core'
+import {deepClone} from '@viewshka/core'
 
-const currentFolderAtom = atom<Folder>({
+const currentFolderAtom = atom<FolderData>({
 	folderId: '',
 	name: '',
 	path: [],
 	content: [],
 })
 
-const add = action((ctx, material: Content) => {
-	const folder = ctx.get(currentFolderAtom)
-	const updatedFolder = {
-		...folder,
-		content: [
-			...folder.content,
-			material,
-		],
+function declareFolderAction<T>(reducer: (folder: FolderData, payload: T) => FolderData) {
+	return action((ctx, payload: T) => {
+		const folder = deepClone(ctx.get(currentFolderAtom))
+		currentFolderAtom(
+			ctx,
+			reducer(folder, payload),
+		)
+	})
+}
+
+currentFolderAtom.onChange((ctx, newState) => {
+	const selectedDeck = ctx.get(currentDeckAtom)
+
+	const deckExists = newState.content.find(material => material.id === selectedDeck.deckId)
+
+	if (!deckExists) {
+		selectionActions.selectFolder(ctx, {
+			folderId: newState.folderId,
+		})
 	}
-
-	currentFolderAtom(ctx, updatedFolder)
 })
-
-const remove = action((ctx, id: string) => {
-	const folder = ctx.get(currentFolderAtom)
-	const updatedFolder = {
-		...folder,
-		content: folder.content.filter(item => item.id !== id),
-	}
-
-	currentFolderAtom(ctx, updatedFolder)
-})
-
-const update = action((ctx, material: Content) => {
-	const folder = ctx.get(currentFolderAtom)
-	const updatedFolder = {
-		...folder,
-		content: folder.content.map(item => {
-			if (item.id !== material.id) {
-				return item
-			}
-
-			return material
-		}),
-	}
-
-	currentFolderAtom(ctx, updatedFolder)
-})
-
 
 const currentFolderActions = {
-	add,
-	remove,
-	update,
+	add: declareFolderAction(Folder.addContent),
+	remove: declareFolderAction(Folder.removeContent),
+	update: declareFolderAction(Folder.updateContent),
 }
 
 export {

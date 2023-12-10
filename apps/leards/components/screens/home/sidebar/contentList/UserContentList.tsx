@@ -11,6 +11,7 @@ import {
 } from '@leards/components/screens/home/viewmodel/selectionAtom'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
+import {useLatestRef} from '@viewshka/core'
 import {ActionList, Button, Popover, SystemIconDeck, SystemIconFolder, SystemIconPlus} from '@viewshka/uikit'
 import {useRouter} from 'next/router'
 import React, {useEffect, useRef, useState} from 'react'
@@ -32,6 +33,8 @@ function UserContentList() {
 	const {mutate: createFolder} = useFolderCreateMutation()
 
 	useCurrentFolderQuery(selectedFolderId)
+
+	console.log(folder.content)
 
 	const setSelection = (id: string) => {
 		const selectedContent = folder.content.find(el => el.id === id)
@@ -118,7 +121,7 @@ function useCurrentFolderQuery(folderId: string | null) {
 	const handleResetSelection = useAction(selectionActions.reset)
 	const router = useRouter()
 	const {isError, isSuccess, data} = useQuery(
-		['sidebar-folder-content', {folderId}],
+		['sidebar-folder-content', {folderId, currentFolder}],
 		async () => {
 			if (!folderId) {
 				const {data} = await DecksAPI.get().getDeckById(selectedDeckId)
@@ -133,6 +136,7 @@ function useCurrentFolderQuery(folderId: string | null) {
 			const api = FoldersAPI.get()
 
 			const {data} = await api.getFolderById(folderId)
+
 
 			return data.folder
 		},
@@ -168,9 +172,11 @@ function useDeckCreateMutation() {
 		const deck = response.data.deck
 
 		handleAddMaterial({
-			type: 'deck',
-			id: deck.deckId,
-			name: deck.name,
+			material: {
+				type: 'deck',
+				id: deck.deckId,
+				name: deck.name,
+			},
 		})
 	})
 }
@@ -190,9 +196,11 @@ function useFolderCreateMutation() {
 		const folder = response.data.folder
 
 		handleAddMaterial({
-			type: 'folder',
-			id: folder.folderId,
-			name: folder.name,
+			material: {
+				type: 'folder',
+				id: folder.folderId,
+				name: folder.name,
+			},
 		})
 	})
 }

@@ -11,13 +11,10 @@ const currentDeckAtom = atom<DeckData | null>({
 
 function declareDeckAction<T>(reducer: (deck: DeckData, payload: T) => DeckData) {
 	return action((ctx, payload: T) => {
-		const deck = ctx.get(currentDeckAtom)
-		const resultDeck = deepClone(
-			reducer(deck, payload),
-		)
+		const deck = deepClone(ctx.get(currentDeckAtom))
 		currentDeckAtom(
 			ctx,
-			resultDeck,
+			reducer(deck, payload),
 		)
 	})
 }

@@ -134,14 +134,14 @@ function useDeleteContentMutation(type: string, contentId: string) {
 	const handleDeleteContent = useAction(currentFolderActions.remove)
 
 	return useMutation(`remove:${type}:${contentId}`, async () => {
-		handleDeleteContent(contentId)
-
 		if (type === 'deck') {
 			await DecksAPI.get().deleteDeckById(selectedFolderId, contentId)
 		}
 		if (type === 'folder') {
 			await FoldersAPI.get().deleteFolderById(contentId)
 		}
+
+		handleDeleteContent({contentId})
 	})
 }
 
@@ -158,9 +158,11 @@ function useUpdateContentMutation(type: string, contentId: string) {
 				})
 				const deck = response.data.deck
 				handleUpdateMaterial({
-					type,
-					name: deck.name,
-					id: deck.deckId,
+					material: {
+						type,
+						name: deck.name,
+						id: deck.deckId,
+					},
 				})
 			}
 			if (type === 'folder') {
@@ -169,9 +171,11 @@ function useUpdateContentMutation(type: string, contentId: string) {
 				})
 				const folder = response.data.folder
 				handleUpdateMaterial({
-					type,
-					name: folder.name,
-					id: folder.folderId,
+					material: {
+						type,
+						name: folder.name,
+						id: folder.folderId,
+					},
 				})
 			}
 		},
