@@ -42,8 +42,8 @@ function UserProfile() {
 		<div className={styles['user-avatar-panel']}>
 			<div ref={triggerRef} className={styles['user-avatar']}>
 				{isUndefined(userInfo?.avatarUrl) || !userInfo?.avatarUrl
-					? <Avatar size={'small'} type={'gradient'} name={userInfo.name} />
-					: <Avatar size={'small'} type={'image'} avatarUrl={userInfo.avatarUrl} />
+					? <Avatar size={'small'} type={'gradient'} name={userInfo?.name} />
+					: <Avatar size={'small'} type={'image'} avatarUrl={userInfo?.avatarUrl} />
 				}
 			</div>
 			<Popover
