@@ -110,12 +110,12 @@ const PopupWindow = React.forwardRef<HTMLDivElement, PopupWindowProps>(({classNa
 	return (
 		<div
 			className={styles['popup-layout']}
+			onClick={e => e.preventDefault()}
 			ref={ref}
 		>
 			<div
 				className={classnames(styles['popup'], className)}
 				ref={popupWindowRef}
-				onClick={e => e.preventDefault()}
 			>
 				{children}
 			</div>
