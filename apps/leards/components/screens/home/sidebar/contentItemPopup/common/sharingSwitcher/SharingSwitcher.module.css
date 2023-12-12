@@ -12,11 +12,11 @@
 }
 
 .main-text {
-	font: var(--small-regular-text);
+	font: var(--text-small-regular);
 	color: var(--text-color-default);
 }
 
 .sub-text {
-	font: var(--xsmall-regular-text);
+	font: var(--text-xsmall-regular);
 	color: var(--text-color-subdued);
 }
