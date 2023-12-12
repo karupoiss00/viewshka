@@ -119,7 +119,7 @@ function useCurrentFolderQuery(folderId: string | null) {
 	const handleResetSelection = useAction(selectionActions.reset)
 	const router = useRouter()
 	const {isError, isSuccess, data} = useQuery(
-		['sidebar-folder-content', {folderId, currentFolder}],
+		['sidebar-folder-content', {folderId, currentFolder, size: currentFolder.content?.length}],
 		async () => {
 			if (!folderId) {
 				const {data} = await DecksAPI.get().getDeckById(selectedDeckId)
@@ -136,7 +136,7 @@ function useCurrentFolderQuery(folderId: string | null) {
 			const {data} = await api.getFolderById(folderId)
 
 
-			return data.folder
+			setCurrentFolder({...data.folder})
 		},
 		{
 			retry: false,
@@ -144,10 +144,6 @@ function useCurrentFolderQuery(folderId: string | null) {
 	)
 
 	useEffect(() => {
-		if (isSuccess) {
-			setCurrentFolder(data)
-		}
-
 		if (isError) {
 			handleResetSelection()
 			router.replace('/home')
