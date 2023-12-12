@@ -11,7 +11,6 @@ import {
 } from '@leards/components/screens/home/viewmodel/selectionAtom'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
-import {useLatestRef} from '@viewshka/core'
 import {ActionList, Button, Popover, SystemIconDeck, SystemIconFolder, SystemIconPlus} from '@viewshka/uikit'
 import {useRouter} from 'next/router'
 import React, {useEffect, useRef, useState} from 'react'
