@@ -1,4 +1,5 @@
 import {DecksAPI} from '@leards/api/DecksAPI'
+import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {currentFolderActions} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
 import {selectedFolderIdAtom} from '@leards/components/screens/home/viewmodel/selectionAtom'
 import {useAction, useAtom} from '@reatom/npm-react'
@@ -15,14 +16,14 @@ type DeckSettingsData = {
 
 const getLink = (id: string) => `https://leards.space/share/${id}`
 
-type DeckSettingsPopupProps = {
-	deckId: string
-	deckName: string
+type FolderSettingsPopupProps = {
+	folderId: string
+	folderName: string
 }
-function DeckSettingsPopup({deckId, deckName}: DeckSettingsPopupProps) {
-	const {data} = useDeckSettingsQuery(deckId, deckName)
-	const {mutate: deleteDeck} = useDeleteDeckMutation(deckId)
-	const {mutate: updateName} = useUpdateDeckMutation(deckId)
+function FolderSettingsPopup({folderId, folderName}: FolderSettingsPopupProps) {
+	const {data} = useFolderSettingsQuery(folderId, folderName)
+	const {mutate: deleteDeck} = useDeleteFolderMutation(folderId)
+	const {mutate: updateName} = useUpdateFolderMutation(folderId)
 
 	if (!data) {
 		return null
@@ -33,52 +34,51 @@ function DeckSettingsPopup({deckId, deckName}: DeckSettingsPopupProps) {
 			initialSettings={data}
 			onSettingsUpdate={settings => updateName(settings.name)}
 			onMaterialRemove={deleteDeck}
-			getSharingLink={() => getLink(deckId)}
+			getSharingLink={() => getLink(folderId)}
 		>
 
 		</MaterialSettingsPopup>
 	)
 }
 
-function useDeleteDeckMutation(deckId: string) {
-	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
+function useDeleteFolderMutation(folderId: string) {
 	const handleDeleteContent = useAction(currentFolderActions.remove)
 
-	return useMutation(['removeDeck', deckId], async () => {
-		await DecksAPI.get().deleteDeckById(selectedFolderId, deckId)
-		handleDeleteContent({contentId: deckId})
+	return useMutation(['removeFolder', folderId], async () => {
+		await FoldersAPI.get().deleteFolderById(folderId)
+		handleDeleteContent({contentId: folderId})
 	})
 }
 
-function useUpdateDeckMutation(deckId: string) {
+function useUpdateFolderMutation(deckId: string) {
 	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
 	const handleUpdateMaterial = useAction(currentFolderActions.update)
 
 	return useMutation(
 		['updateDeck', deckId],
 		async (name: string) => {
-			const response = await DecksAPI.get().updateDeckById(selectedFolderId, deckId, {
+			const response = await FoldersAPI.get().updateFolderById(selectedFolderId, {
 				name,
 			})
-			const deck = response.data.deck
+			const deck = response.data.folder
 			handleUpdateMaterial({
 				material: {
-					type: 'deck',
+					type: 'folder',
 					name: deck.name,
-					id: deck.deckId,
+					id: deck.folderId,
 				},
 			})
 		},
 	)
 }
 
-function useDeckSettingsQuery(deckId: string, name: string) {
-	return useQuery(['deckSettings', deckId, name], (): DeckSettingsData => ({
+function useFolderSettingsQuery(folderId: string, name: string) {
+	return useQuery(['folderSettings', folderId, name], (): DeckSettingsData => ({
 		name,
 		access: 'private',
 	}))
 }
 
 export {
-	DeckSettingsPopup,
+	FolderSettingsPopup,
 }
