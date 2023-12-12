@@ -17,6 +17,7 @@ function LeardsApplication({Component, pageProps}: AppProps) {
 				<Head>
 					<title>Leards</title>
 					<link rel="icon" href="/favicon.png" sizes="any"/>
+					<meta name="theme-color" content="#95D17F"/>
 				</Head>
 				<Component {...pageProps}/>
 				<PopupLayer/>

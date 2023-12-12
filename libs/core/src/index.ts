@@ -1,3 +1,4 @@
+export * from './css/getCssVariable'
 export * from './types/number'
 export * from './types/isLast'
 export * from './id/generateUniqueId'
