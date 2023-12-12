@@ -31,7 +31,7 @@
 
 .name {
     color: var(--text-color-default);
-    font: var(--small-regular-text);
+    font: var(--text-small-regular);
 }
 
 .tags-container {
@@ -39,5 +39,5 @@
     flex-direction: row;
     gap: 5px;
     color: var(--text-color-subdued);
-    font: var(--xsmall-light-text);
+    font: var(--text-xsmall-light);
 }

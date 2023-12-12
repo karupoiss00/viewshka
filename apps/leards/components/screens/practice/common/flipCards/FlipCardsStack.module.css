@@ -9,7 +9,7 @@
     position: absolute;
     inset: 0;
     display: flex;
-    font: var(--large-regular-text);
+    font: var(--text-large-regular);
     align-items: center;
     justify-content: center;
     width: 500px;

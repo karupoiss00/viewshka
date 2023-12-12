@@ -67,4 +67,6 @@ export const ruMessages = {
 	'Language.English': 'Английский',
 	'Language.Russian': 'Русский',
 	'Language.Mari': 'Марийский',
+	'Avatar.Add': 'Выбрать фото',
+	'Avatar.Delete': 'Удалить фото',
 }

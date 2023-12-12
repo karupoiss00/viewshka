@@ -67,4 +67,6 @@ export const chmMessages = {
 	'Language.English': 'Англичан',
 	'Language.Russian': 'Руш',
 	'Language.Mari': 'Марий',
+	'Avatar.Add': 'Фотом сайлаш',
+	'Avatar.Delete': 'Фотом тораҥдаш',
 }

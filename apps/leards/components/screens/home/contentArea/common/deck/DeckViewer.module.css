@@ -47,7 +47,7 @@
     width: 100%;
     outline: none;
     border: none;
-    font: var(--normal-light-text);
+    font: var(--text-normal-light);
     color: var(--text-color-default);
     background: transparent;
 }

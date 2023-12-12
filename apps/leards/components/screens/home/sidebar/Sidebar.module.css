@@ -16,7 +16,7 @@
 .materials-title,
 .content-title {
     display: flex;
-    font: var(--normal-medium-text);
+    font: var(--text-normal-medium);
     user-select: none;
     color: var(--text-color-default);
 }

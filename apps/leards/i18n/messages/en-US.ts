@@ -67,4 +67,6 @@ export const enMessages = {
 	'Language.English': 'English',
 	'Language.Russian': 'Russian',
 	'Language.Mari': 'Mari',
+	'Avatar.Add': 'Choose a photo',
+	'Avatar.Delete': 'Delete a photo',
 }

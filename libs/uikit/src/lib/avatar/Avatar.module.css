@@ -37,15 +37,15 @@
 }
 
 .avatar-text--large {
-    font: var(--large-regular-text);
+    font: var(--text-large-regular);
 }
 
 .avatar-text--medium {
-    font: var(--normal-light-text);
+    font: var(--text-normal-light);
 }
 
 .avatar-text--small {
-    font: var(--xsmall-light-text);
+    font: var(--text-xsmall-light);
 }
 
 .avatar-image {

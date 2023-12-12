@@ -1,7 +1,7 @@
 import * as React from 'react'
 import {useEffect} from 'react'
 
-function useOutsideClick(ref: React.MutableRefObject<HTMLElement | null>, callback: () => void) {
+function useOutsideClick(ref: React.MutableRefObject<HTMLElement | null>, callback: () => void, excludedElements: Array<Element> = []) {
 	useEffect(() => {
 		const element = ref.current
 		if (element == null) {
@@ -9,7 +9,8 @@ function useOutsideClick(ref: React.MutableRefObject<HTMLElement | null>, callba
 		}
 
 		const onClick = (e: MouseEvent) => {
-			if (e.target instanceof Node && !element.contains(e.target)) {
+			const clickOnExcludedElement = excludedElements.some(el => e.composedPath().includes(el))
+			if (e.target instanceof Node && !element.contains(e.target) && !clickOnExcludedElement) {
 				callback()
 			}
 		}
@@ -22,7 +23,7 @@ function useOutsideClick(ref: React.MutableRefObject<HTMLElement | null>, callba
 		return () => {
 			requestAnimationFrame(() => document.removeEventListener('mousedown', onClick))
 		}
-	}, [callback, ref])
+	}, [callback, excludedElements, ref])
 
 	return ref
 }

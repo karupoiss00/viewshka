@@ -17,7 +17,8 @@ function PopoverStories() {
 				Открыть поповер
 			</Button>
 			<Popover
-				preferredPosition="bottom-center"
+				preferredHorizontalPosition={'center'}
+				preferredVerticalPosition={'bottom'}
 				triggerRef={triggerRef}
 				onClose={() => {}}
 			>

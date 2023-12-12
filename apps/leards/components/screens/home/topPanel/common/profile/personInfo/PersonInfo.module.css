@@ -6,5 +6,5 @@
     margin-inline-end: 0;
     gap: 12px;
     color: var(--text-color-default);
-    font: var(--small-light-text);
+    font: var(--text-small-light);
 }

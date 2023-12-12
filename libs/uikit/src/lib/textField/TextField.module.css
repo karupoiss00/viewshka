@@ -41,11 +41,11 @@
 }
 
 .text-field-input-default {
-    font: var(--normal-regular-text);
+    font: var(--text-normal-regular);
 }
 
 .text-field-input-small {
-    font: var(--normal-light-text);
+    font: var(--text-normal-light);
 }
 
 .text-field-input::placeholder {
@@ -60,7 +60,7 @@
 
 .error-text {
     color: var(--error-color);
-    font: var(--small-light-text);
+    font: var(--text-small-light);
     padding-inline-start: 20px;
     padding-block-start: 3px;
     user-select: none;

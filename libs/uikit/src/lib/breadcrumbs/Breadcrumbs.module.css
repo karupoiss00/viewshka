@@ -16,7 +16,7 @@
 }
 
 .item {
-    font: var(--small-regular-text);
+    font: var(--text-small-regular);
     user-select: none;
     cursor: pointer;
     gap: 15px;
