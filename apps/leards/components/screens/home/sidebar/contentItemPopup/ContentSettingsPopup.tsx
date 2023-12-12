@@ -1,5 +1,8 @@
 import {DecksAPI} from '@leards/api/DecksAPI'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
+import {
+	DeckSettingsPopup,
+} from '@leards/components/screens/home/sidebar/contentItemPopup/deckPopup/DeckSettingsPopup'
 import {currentFolderActions} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
@@ -59,6 +62,10 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 		}
 	}, windowRef)
 
+
+	if (contentType === 'deck') {
+		return <DeckSettingsPopup deckId={contentId} deckName={contentName}/>
+	}
 
 	if (contentType !== 'deck' && contentType !== 'folder') {
 		console.error(`Unknown content type: ${contentType}`)

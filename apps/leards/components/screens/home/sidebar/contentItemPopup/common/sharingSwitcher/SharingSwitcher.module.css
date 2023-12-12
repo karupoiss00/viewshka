@@ -1,0 +1,22 @@
+.container {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	align-items: center;
+}
+
+.description {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.main-text {
+	font: var(--small-regular-text);
+	color: var(--text-color-default);
+}
+
+.sub-text {
+	font: var(--xsmall-regular-text);
+	color: var(--text-color-subdued);
+}

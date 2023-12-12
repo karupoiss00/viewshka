@@ -1,6 +1,6 @@
 import {PropsWithClassname} from '@viewshka/uikit'
 import classnames from 'classnames'
-import {useState, ReactElement, useContext, useRef, useCallback} from 'react'
+import {useState, ReactElement, useContext, useRef, useCallback, useEffect} from 'react'
 import * as React from 'react'
 import {LifecycleAnimationWrapper} from '../animation/LifecycleAnimationWrapper'
 import {useOutsideClick} from '../hooks/useOutsideClick'
@@ -11,13 +11,16 @@ import styles from './Dropdown.module.css'
 type DropdownProps = PropsWithClassname & {
 	children: ReactElement<ItemProps>[]
 	initialSelectedItem?: string
+	selectedItem?: string
 	onItemSelect: (id: string, value: string) => void,
 	placeholder?: string
+	disabled?: boolean
 }
 
 type DropdownContextData = {
     selectedItem: string
     setSelectedItem: (id: string, value: string) => void
+	disabled?: boolean
 }
 
 const DropdownContext = React.createContext<DropdownContextData>({
@@ -27,7 +30,16 @@ const DropdownContext = React.createContext<DropdownContextData>({
 	},
 })
 
-function Dropdown({children, className, initialSelectedItem, onItemSelect, placeholder}: DropdownProps) {
+function Dropdown(props: DropdownProps) {
+	const {
+		children,
+		className,
+		initialSelectedItem,
+		onItemSelect,
+		placeholder,
+		selectedItem: forceSelectedItem,
+		disabled,
+	} = props
 	const [selectedItem, setSelectedItem] = useState(initialSelectedItem || '')
 	const [isOpen, setIsOpen] = useState(false)
 	const dropdownWindowRef = useRef<HTMLDivElement>(null)
@@ -47,28 +59,35 @@ function Dropdown({children, className, initialSelectedItem, onItemSelect, place
 
 	useOutsideClick(dropdownWindowRef, closeDropdown)
 
+	useEffect(() => {
+		if (forceSelectedItem) {
+			setSelectedItem(forceSelectedItem)
+		}
+	}, [forceSelectedItem])
+
 	return (
 		<DropdownContext.Provider value={contextValue}>
 			<div ref={dropdownWindowRef}
 				className={classnames(styles['dropdown-container'], {
 					[styles['dropdown-container-open']]: isOpen,
+					[styles['dropdown--disabled']]: disabled,
 				}, className)}
 			>
 				<div
-					onClick={_ => {
-						setIsOpen(!isOpen)
-					}}
+					onClick={() => setIsOpen(!isOpen)}
 					className={styles['dropdown']}
 				>
 					<div
 						className={classnames(styles['dropdown-text'], {
 							[styles['dropdown-text--default']]: selectedItem.length === 0,
-						})
-						}
+							[styles['dropdown-text--disabled']]: disabled,
+						})}
 					>
 						{getSelectedValue(children, selectedItem, placeholder)}
 					</div>
-					<DropdownIcon className={styles['dropdown-icon']} isOpen={isOpen}/>
+					<DropdownIcon className={classnames(styles['dropdown-icon'], {
+						[styles['dropdown-icon--disabled']]: disabled,
+					})} isOpen={isOpen}/>
 				</div>
 				<DropdownList isOpen={isOpen} children={children}/>
 			</div>
@@ -162,4 +181,6 @@ function DropdownIcon({className, isOpen}: DropdownIconProps) {
 
 Dropdown.Item = Item
 
-export {Dropdown}
+export {
+	Dropdown,
+}

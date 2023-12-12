@@ -10,7 +10,7 @@ function Checkbox({initialState, onChange}: CheckboxProps) {
 	const [selected, setSelected] = useState(initialState)
 	const onClick = () => {
 		setSelected(!selected)
-		onChange(selected)
+		onChange(!selected)
 	}
 
 	return (

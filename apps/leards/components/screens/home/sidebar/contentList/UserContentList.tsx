@@ -34,8 +34,6 @@ function UserContentList() {
 
 	useCurrentFolderQuery(selectedFolderId)
 
-	console.log(folder.content)
-
 	const setSelection = (id: string) => {
 		const selectedContent = folder.content.find(el => el.id === id)
 

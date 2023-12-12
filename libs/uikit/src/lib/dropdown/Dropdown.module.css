@@ -36,8 +36,22 @@
     color: var(--text-color-subdued);
 }
 
+.dropdown-text--disabled {
+    color: var(--stroke-color);
+}
+
 .dropdown-icon {
     color: var(--text-color-default);
+}
+
+.dropdown-icon--disabled {
+    color: var(--stroke-color);
+}
+
+.dropdown--disabled {
+    user-select: none;
+    pointer-events: none;
+    color: var(--stroke-color);
 }
 
 .item {
