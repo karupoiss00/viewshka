@@ -5,8 +5,10 @@ import {CARDS_QUERY_KEY} from '@leards/hooks/useCardsQuery'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
 import {useDebounce, useDidUpdateEffect} from '@viewshka/core'
+import {Button, SystemIconEnterKey} from '@viewshka/uikit'
+import classnames from 'classnames'
 import {useRouter} from 'next/router'
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
 import {useMutation, useQuery, useQueryClient} from 'react-query'
 import {currentDeckActions, currentDeckAtom} from '../../../viewmodel/currentDeckAtom'
 import {CardList} from './CardList'
@@ -46,8 +48,8 @@ function CardCreator() {
 	const handleAddCardFrontAction = useAction(currentDeckActions.addCard)
 	const frontSideEditorRef = useRef<HTMLInputElement>()
 
-	const onKeyDown: React.KeyboardEventHandler<HTMLDivElement> = e => {
-		if (e.key === 'Enter' && frontSideText && backSideText) {
+	const addCard = useCallback(() => {
+		if (frontSideText && backSideText) {
 			handleAddCardFrontAction({
 				frontSide: frontSideText,
 				backSide: backSideText,
@@ -55,6 +57,12 @@ function CardCreator() {
 			setFrontSideText('')
 			setBackSideText('')
 			frontSideEditorRef.current.focus()
+		}
+	}, [backSideText, frontSideText, handleAddCardFrontAction])
+
+	const onKeyDown: React.KeyboardEventHandler<HTMLDivElement> = e => {
+		if (e.key === 'Enter') {
+			addCard()
 		}
 	}
 	const onChangeWord: React.ChangeEventHandler<HTMLInputElement> = e => {
@@ -79,6 +87,24 @@ function CardCreator() {
 				value={backSideText}
 				placeholder={getMessage('ContentArea.CardCreator.TranslationPlaceholder')}
 				onChange={onChangeTranslation}/>
+			{
+				<div
+					className={classnames(styles.enterIcon, {
+						[styles.enterIconHidden]: !frontSideText || !backSideText,
+					})}
+				>
+					<Button
+						type="link"
+						size="medium"
+						onClick={addCard}
+					>
+						<SystemIconEnterKey/>
+					</Button>
+				</div>
+			}
+			{
+
+			}
 		</div>
 	)
 }
