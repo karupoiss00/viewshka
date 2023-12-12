@@ -1,8 +1,6 @@
-import {DecksAPI} from '@leards/api/DecksAPI'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {currentFolderActions} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
-import {selectedFolderIdAtom} from '@leards/components/screens/home/viewmodel/selectionAtom'
-import {useAction, useAtom} from '@reatom/npm-react'
+import {useAction} from '@reatom/npm-react'
 import React from 'react'
 import {useMutation, useQuery} from 'react-query'
 import {MaterialSettingsPopup} from '../common/MaterialSettingsPopup'
@@ -22,7 +20,7 @@ type FolderSettingsPopupProps = {
 }
 function FolderSettingsPopup({folderId, folderName}: FolderSettingsPopupProps) {
 	const {data} = useFolderSettingsQuery(folderId, folderName)
-	const {mutate: deleteDeck} = useDeleteFolderMutation(folderId)
+	const {mutate: deleteFolder} = useDeleteFolderMutation(folderId)
 	const {mutate: updateName} = useUpdateFolderMutation(folderId)
 
 	if (!data) {
@@ -33,7 +31,7 @@ function FolderSettingsPopup({folderId, folderName}: FolderSettingsPopupProps) {
 		<MaterialSettingsPopup
 			initialSettings={data}
 			onSettingsUpdate={settings => updateName(settings.name)}
-			onMaterialRemove={deleteDeck}
+			onMaterialRemove={deleteFolder}
 			getSharingLink={() => getLink(folderId)}
 		>
 
@@ -50,14 +48,13 @@ function useDeleteFolderMutation(folderId: string) {
 	})
 }
 
-function useUpdateFolderMutation(deckId: string) {
-	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
+function useUpdateFolderMutation(folderId: string) {
 	const handleUpdateMaterial = useAction(currentFolderActions.update)
 
 	return useMutation(
-		['updateDeck', deckId],
+		['updateDeck', folderId],
 		async (name: string) => {
-			const response = await FoldersAPI.get().updateFolderById(selectedFolderId, {
+			const response = await FoldersAPI.get().updateFolderById(folderId, {
 				name,
 			})
 			const deck = response.data.folder
