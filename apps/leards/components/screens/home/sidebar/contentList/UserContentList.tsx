@@ -86,7 +86,8 @@ function UserContentList() {
 					<SystemIconPlus/>
 				</Button>
 				<Popover
-					preferredPosition={'inline-right'}
+					preferredHorizontalPosition={'end'}
+					preferredVerticalPosition={'center'}
 					triggerRef={createButtonRef}
 					visible={!popoverOpened ? popoverOpened : undefined}
 				>

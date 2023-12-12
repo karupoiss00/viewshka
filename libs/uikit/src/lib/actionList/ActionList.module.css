@@ -12,7 +12,7 @@
     flex-shrink: 0;
     gap: 20px;
     align-items: center;
-    font: var(--small-regular-text);
+    font: var(--text-small-regular);
     color: var(--text-color-default);
     padding-inline: 20px;
     cursor: pointer;

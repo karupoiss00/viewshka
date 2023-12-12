@@ -8,14 +8,14 @@
     display: flex;
     width: 130px;
     flex-shrink: 0;
-    font: var(--normal-regular-text);
+    font: var(--text-normal-regular);
 }
 
 .state-name {
     display: flex;
     width: 70px;
     flex-shrink: 0;
-    font: var(--normal-light-text);
+    font: var(--text-normal-light);
 }
 
 .button-column {
@@ -32,6 +32,6 @@
 }
 
 .size-name {
-    font: var(--large-regular-text);
+    font: var(--text-large-regular);
     margin: 0;
 }

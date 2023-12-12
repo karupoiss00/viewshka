@@ -23,5 +23,5 @@
     height: 24px;
     outline: none;
     border: none;
-    font: var(--normal-light-text);
+    font: var(--text-normal-light);
 }

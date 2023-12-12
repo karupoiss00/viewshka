@@ -15,14 +15,14 @@
     width: 230px;
     height: 150px;
     border-radius: 20px;
-    font: var(--normal-light-text);
+    font: var(--text-normal-light);
 }
 
 .card--medium {
     width: 360px;
     height: 240px;
     border-radius: 30px;
-    font: var(--large-light-text);
+    font: var(--text-large-light);
     font-weight: 500;
 }
 
@@ -30,6 +30,6 @@
     width: 510px;
     height: 340px;
     border-radius: 40px;
-    font: var(--large-light-text);
+    font: var(--text-large-light);
     font-size: 44px;
 }

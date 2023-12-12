@@ -6,6 +6,7 @@ import {localeToId} from '@leards/components/common/i18n/localeToMessageId'
 import {themeToId} from '@leards/components/common/i18n/themeToMessageId'
 import {settingsAction, settingsAtom} from '@leards/components/common/viewmodel/settingsAtom'
 import {userActions, userAtom} from '@leards/components/common/viewmodel/userAtom'
+import {EditableAvatar} from '@leards/components/screens/home/topPanel/common/editableAvatar/EditableAvatar'
 import {goToLanding} from '@leards/components/screens/landing/Landing'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {isLocale, Locale} from '@leards/providers/localeProvider'
@@ -30,7 +31,7 @@ type ProfilePopupState = 'default' | 'settings' | 'editing'
 
 function UserProfile() {
 	const [userInfo] = useAtom(userAtom)
-	const triggerRef = useRef<HTMLDivElement>(null)
+	const triggerRef = useRef()
 	const [profileState, setProfileState] = useState<ProfilePopupState>('default')
 
 	const buttonClick = () => {
@@ -40,12 +41,17 @@ function UserProfile() {
 	return (
 		<div className={styles['user-avatar-panel']}>
 			<div ref={triggerRef} className={styles['user-avatar']}>
-				{isUndefined(userInfo.avatarUrl) || !userInfo.avatarUrl
+				{isUndefined(userInfo?.avatarUrl) || !userInfo?.avatarUrl
 					? <Avatar size={'small'} type={'gradient'} name={userInfo.name} />
 					: <Avatar size={'small'} type={'image'} avatarUrl={userInfo.avatarUrl} />
 				}
 			</div>
-			<Popover preferredPosition={'bottom-center'} triggerRef={triggerRef} onClose={buttonClick}>
+			<Popover
+				preferredHorizontalPosition={'center'}
+				preferredVerticalPosition={'bottom'}
+				triggerRef={triggerRef}
+				onClose={buttonClick}
+			>
 				<PopoverContent buttonClick={buttonClick} profileState={profileState} setProfileState={setProfileState}/>
 			</Popover>
 		</div>
@@ -132,24 +138,22 @@ function Profile({showSettings, showEditing}: ProfileProps) {
 	const [userInfo] = useAtom(userAtom)
 	const getMessage = useMessages()
 	const {mutate: updateAvatar} = useUpdateAvatarMutation(userInfo.id)
+	const {mutate: removeAvatar} = useRemoveAvatarMutation(userInfo.id)
 
-	const onAvatarClick = () => {
+	const addImage = () => {
 		loadImageFromDisk().then(file => {
 			updateAvatar(file)
 		})
 	}
 
+	const deleteImage = () => {
+		removeAvatar()
+	}
+
 	return (
 		<div className={styles['profile-popover-content']}>
 			<div className={styles['avatar-container']}>
-				{
-					isUndefined(userInfo.avatarUrl) || !userInfo.avatarUrl
-						? <Avatar size={'large'} type={'gradient'} name={userInfo.name}/>
-						: <Avatar size={'large'} type={'image'} avatarUrl={userInfo.avatarUrl} />
-				}
-				<div className={styles['avatar-overlay']} onClick={onAvatarClick}>
-					<SystemIconAddImage/>
-				</div>
+				<EditableAvatar addImage={addImage} deleteImage={deleteImage}/>
 			</div>
 			<div className={styles['profile-popover-username']}>
 				{userInfo.name}
@@ -210,6 +214,16 @@ function useUpdateAvatarMutation(userId: string) {
 		const response = await AccountsAPI.get().uploadAvatarByUserId(userId, file)
 
 		handleUpdateAvatar(response.data.profileIcon)
+	})
+}
+
+function useRemoveAvatarMutation(userId: string) {
+	const handleUpdateAvatar = useAction(userActions.setAvatar)
+
+	return useMutation(async () => {
+		await AccountsAPI.get().removeAvatarByUserId(userId)
+
+		handleUpdateAvatar(null)
 	})
 }
 

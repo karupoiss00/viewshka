@@ -16,7 +16,8 @@ import {useOutsideClick} from '../hooks/useOutsideClick'
 import {getPopoverLayerElement} from './layer/PopoverLayer'
 import styles from './Popover.module.css'
 
-type Position = 'bottom-center' | 'inline-right';
+type HorizontalPosition = 'start' | 'center' | 'end'//'bottom-center' | 'inline-right' | 'bottom-right';
+type VerticalPosition = 'top' | 'center' | 'bottom'
 
 const DEFAULT_RECT = {
 	left: 0,
@@ -30,11 +31,12 @@ const MARGIN = 30
 type Rect = Pick<DOMRect, 'left' | 'top' | 'height' | 'width'>;
 
 type PopoverContextData = {
-	show: boolean;
-	setShow: React.Dispatch<React.SetStateAction<boolean>>;
-	preferredPosition: Position;
-	triggerRect: Rect;
-	setTriggerRect: React.Dispatch<React.SetStateAction<Rect>>;
+	show: boolean,
+	setShow: React.Dispatch<React.SetStateAction<boolean>>,
+	preferredHorizontalPosition: HorizontalPosition,
+	preferredVerticalPosition: VerticalPosition,
+	triggerRect: Rect,
+	setTriggerRect: React.Dispatch<React.SetStateAction<Rect>>,
 }
 
 const PopoverContext = React.createContext<PopoverContextData>({
@@ -42,7 +44,8 @@ const PopoverContext = React.createContext<PopoverContextData>({
 	setShow: () => {
 		throw new Error('PopoverContext setIsShow should be used under provider')
 	},
-	preferredPosition: 'bottom-center',
+	preferredHorizontalPosition: 'center',
+	preferredVerticalPosition: 'bottom',
 	triggerRect: DEFAULT_RECT,
 	setTriggerRect: () => {
 		throw new Error(
@@ -53,7 +56,8 @@ const PopoverContext = React.createContext<PopoverContextData>({
 
 interface PopoverProps {
 	children: React.ReactNode
-	preferredPosition: Position
+	preferredHorizontalPosition: HorizontalPosition
+	preferredVerticalPosition: VerticalPosition
 	triggerRef?: React.RefObject<HTMLElement>
 	onClose?: () => void
 	visible?: boolean
@@ -62,7 +66,8 @@ interface PopoverProps {
 function Popover({
 	children,
 	triggerRef,
-	preferredPosition = 'bottom-center',
+	preferredHorizontalPosition = 'center',
+	preferredVerticalPosition = 'bottom',
 	onClose,
 	visible = true,
 }: PopoverProps) {
@@ -105,7 +110,8 @@ function Popover({
 	const contextValue = {
 		show,
 		setShow,
-		preferredPosition,
+		preferredHorizontalPosition,
+		preferredVerticalPosition,
 		triggerRect,
 		setTriggerRect,
 	}
@@ -144,7 +150,7 @@ interface PopoverWindowProps extends PropsWithChildren {
 }
 
 function PopoverWindow({className, children}: PopoverWindowProps) {
-	const {triggerRect, preferredPosition, setShow} = useContext(PopoverContext)
+	const {triggerRect, preferredHorizontalPosition, preferredVerticalPosition, setShow} = useContext(PopoverContext)
 	const bodyRef = useRef(document.body)
 	const popoverWindowRef = useRef<HTMLDivElement>(null)
 	const [coords, setCoords] = useState({
@@ -165,14 +171,14 @@ function PopoverWindow({className, children}: PopoverWindowProps) {
 
 		const rect = element.getBoundingClientRect()
 
-		const coords = getPopoverCoords(triggerRect, rect, preferredPosition)
+		const coords = getPopoverCoords(triggerRect, rect, preferredHorizontalPosition, preferredVerticalPosition)
 
 		setCoords(coords)
 		addHookDeps(bodySize)
-	}, [bodySize, preferredPosition, triggerRect])
+	}, [bodySize, preferredHorizontalPosition, preferredVerticalPosition, triggerRect])
 
 	useFocusTrapping(popoverWindowRef)
-	useOutsideClick(popoverWindowRef, closePopover)
+	useOutsideClick(popoverWindowRef, closePopover, [getPopoverLayerElement()])
 
 	return (
 		<div
@@ -213,56 +219,53 @@ function Close({children, onClose}: CloseProps) {
 function getPopoverCoords(
 	triggerRect: Rect,
 	popoverRect: Rect,
-	position: Position,
+	horizontalPosition: HorizontalPosition,
+	verticalPosition: VerticalPosition,
 ) {
-	if (position === 'bottom-center') {
-		return getBottomCenterPosition(triggerRect, popoverRect)
-	}
-
-	if (position === 'inline-right') {
-		return getInlineRightPosition(triggerRect, popoverRect)
-	}
-
-	console.warn('no impl for popover position', position)
-
 	return {
-		top: 0,
-		left: 0,
+		top: getVerticalPosition(triggerRect, popoverRect, verticalPosition),
+		left: getHorizontalPosition(triggerRect, popoverRect, horizontalPosition),
 	}
 }
 
-function getBottomCenterPosition(triggerRect: Rect, popoverRect: Rect) {
-	let top = triggerRect.top + triggerRect.height + MARGIN
-	const left = Math.max(triggerRect.left + triggerRect.width / 2 - popoverRect.width / 2, MARGIN)
+function getHorizontalPosition(triggerRect: Rect, popoverRect: Rect, position: HorizontalPosition) {
+	const minLeft = MARGIN
+	const maxLeft = window.innerWidth - popoverRect.width - MARGIN
+	let left: number
+	switch (position) {
+		case 'center':
+			left = Math.max(triggerRect.left + triggerRect.width / 2 - popoverRect.width / 2, MARGIN)
+			break
+		case 'end':
+			left = Math.max(triggerRect.left + triggerRect.width + MARGIN, MARGIN)
+			break
+		case 'start':
+			left = Math.max(triggerRect.left - triggerRect.width - popoverRect.width - MARGIN, MARGIN)
+			break
+	}
+	return clampNumber(left, minLeft, maxLeft)
+}
+
+function getVerticalPosition(triggerRect: Rect, popoverRect: Rect, position: VerticalPosition) {
+	let top: number
+
+	switch (position) {
+		case 'top':
+			top = triggerRect.top - triggerRect.height - popoverRect.height - MARGIN
+			break
+		case 'center':
+			top = triggerRect.top
+			break
+		case 'bottom':
+			top = triggerRect.top + triggerRect.height + MARGIN
+			break
+	}
 
 	if (top + popoverRect.height > window.innerHeight - MARGIN) {
 		top = triggerRect.top - MARGIN - popoverRect.height
 	}
 
-	const minLeft = MARGIN
-	const maxLeft = window.innerWidth - popoverRect.width - MARGIN
-
-	return {
-		top,
-		left: clampNumber(left, minLeft, maxLeft),
-	}
-}
-
-function getInlineRightPosition(triggerRect: Rect, popoverRect: Rect) {
-	let top = triggerRect.top
-	const left = Math.max(triggerRect.left + triggerRect.width + MARGIN, MARGIN)
-
-	if (top + popoverRect.height > window.innerHeight - MARGIN) {
-		top = triggerRect.top - MARGIN - popoverRect.height
-	}
-
-	const minLeft = MARGIN
-	const maxLeft = window.innerWidth - popoverRect.width - MARGIN
-
-	return {
-		top,
-		left: clampNumber(left, minLeft, maxLeft),
-	}
+	return top
 }
 
 Popover.Content = Content

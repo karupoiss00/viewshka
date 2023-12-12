@@ -28,4 +28,5 @@ function generateRandomGradient(username: string) {
 export {
 	generateGradient,
 	generateRandomGradient,
+	generateRandomColor,
 }

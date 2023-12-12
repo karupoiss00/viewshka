@@ -5,7 +5,7 @@
 .forgot-password-text {
   text-decoration: underline;
   margin-block-start: 15px;
-  font: var(--small-regular-text);
+  font: var(--text-small-regular);
   color: var(--text-color-subdued);
   user-select: none;
   padding-inline-start: 18px;
@@ -16,7 +16,7 @@
 }
 
 .register-text {
-  font: var(--small-regular-text);
+  font: var(--text-small-regular);
   color: var(--text-color-subdued);
   user-select: none;
   text-decoration: underline;

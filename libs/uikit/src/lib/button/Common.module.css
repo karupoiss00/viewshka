@@ -22,17 +22,17 @@
 }
 
 .button-size--small {
-    font: var(--small-regular-text);
+    font: var(--text-small-regular);
     height: 36px;
 }
 
 .button-size--medium {
-    font: var(--normal-light-text);
+    font: var(--text-normal-light);
     height: 40px;
 }
 
 .button-size--large {
-    font: var(--normal-regular-text);
+    font: var(--text-normal-regular);
     height: 60px;
 }
 

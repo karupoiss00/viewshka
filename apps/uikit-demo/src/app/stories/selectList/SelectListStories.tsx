@@ -65,7 +65,7 @@ function SelectListStories() {
 				>
 					Открыть список
 				</Button>
-				<Popover preferredPosition={'bottom-center'} triggerRef={triggerRef} onClose={() => {}}>
+				<Popover preferredHorizontalPosition={'center'} preferredVerticalPosition={'bottom'} triggerRef={triggerRef} onClose={() => {}}>
 					<Popover.Content>
 						<SelectList onItemSelect={console.log}>
 							<SelectList.Item id={'1'}>

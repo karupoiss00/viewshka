@@ -5,7 +5,7 @@
 
 .auth-text {
   margin-block-start: 31px;
-  font: var(--small-regular-text);
+  font: var(--text-small-regular);
   color: var(--text-color-subdued);
   user-select: none;
   cursor: pointer;
