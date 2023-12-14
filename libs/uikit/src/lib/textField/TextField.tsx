@@ -1,6 +1,6 @@
 import {PropsWithClassname} from '@viewshka/uikit'
 import classnames from 'classnames'
-import React, {useCallback, useEffect, useState} from 'react'
+import React, {forwardRef, Ref, useCallback, useEffect, useState} from 'react'
 import {SystemIconCloseEye} from '../icons/SystemIconCloseEye'
 import {SystemIconOpenEye} from '../icons/SystemIconOpenEye'
 import styles from './TextField.module.css'
@@ -11,13 +11,15 @@ type TextFieldProps = PropsWithClassname & {
     errorMessage?: string
     contentHidden?: boolean
 	initialValue?: string
+	value?: string
 	valid?: boolean
     onChange: (value: string) => void
     onValidate?: (value: string) => boolean
 	invalidateOnChange?: boolean
+	disabled?: boolean
 }
 
-function TextField({
+const TextField = forwardRef(({
 	size = 'default',
 	className,
 	placeholder,
@@ -26,12 +28,20 @@ function TextField({
 	onChange,
 	onValidate,
 	valid,
+	value,
 	initialValue,
 	invalidateOnChange = false,
-}: TextFieldProps) {
+	disabled,
+}: TextFieldProps, ref: Ref<HTMLInputElement>) => {
 	const [isValidData, setIsValidData] = useState(true)
 	const [isVisible, setIsVisible] = useState(!contentHidden)
 	const [text, setText] = useState(initialValue || '')
+
+	useEffect(() => {
+		if (value !== undefined) {
+			setText(value)
+		}
+	}, [value])
 
 	useEffect(() => {
 		if (valid !== undefined) {
@@ -62,15 +72,20 @@ function TextField({
 				className={classnames(styles['text-field'], {
 					[styles['text-field--default']]: isValidData,
 					[styles['text-field--error']]: !isValidData,
+					[styles['text-field--disabled']]: disabled,
 				}, styles[`text-field-size-${size}`])}
 				onBlur={() => validate(text)}
 			>
 				<input
-					className={classnames(styles['text-field-input'], styles[`text-field-input-${size}`])}
+					className={classnames(styles['text-field-input'], styles[`text-field-input-${size}`], {
+						[styles['text-field-input--disabled']]: disabled,
+					})}
 					placeholder={placeholder}
 					type={isVisible ? 'text' : 'password'}
 					value={text}
 					onChange={onChangeHandler}
+					ref={ref}
+					disabled={disabled}
 				>
 				</input>
 				<TextVisibilitySwitcher
@@ -87,7 +102,7 @@ function TextField({
 			})}>{errorMessage}</p>
 		</div>
 	)
-}
+})
 
 type VisibilityButtonProps = {
 	state: 'visible' | 'hidden'

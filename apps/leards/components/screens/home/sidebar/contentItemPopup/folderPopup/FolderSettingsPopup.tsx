@@ -33,6 +33,7 @@ function FolderSettingsPopup({folderId, folderName}: FolderSettingsPopupProps) {
 			onSettingsUpdate={settings => updateName(settings.name)}
 			onMaterialRemove={deleteFolder}
 			getSharingLink={() => getLink(folderId)}
+			closeOnEnter={true}
 		>
 
 		</MaterialSettingsPopup>

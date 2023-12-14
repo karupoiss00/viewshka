@@ -42,6 +42,7 @@ export const chmMessages = {
 	'ContentSettingsPopup.Material.Share.Public': 'публичный',
 	'ContentSettingsPopup.Material.Button.Delete': 'Кораҥдаш',
 	'ContentSettingsPopup.Material.Button.Save': 'Аралаш',
+	'ContentSettingsPopup.TextField.AddTag': `Тегым ешарыза`,
 	'Practice.Flip.Button.Repeat': 'Уэш',
 	'Practice.Flip.Button.Hard': 'Неле',
 	'Practice.Flip.Button.Good': 'Айват',

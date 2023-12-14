@@ -1,0 +1,29 @@
+.tag {
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    height: 20px;
+    gap: 10px;
+    font: var(--text-small-light);
+    color: var(--surface-color);
+    background: var(--text-color-subdued);
+    border-radius: 999px;
+    padding-inline: 40px;
+    padding-block: 9px;
+    align-items: center;
+}
+
+.remove-icon {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    inset-block-start: 4px;
+    inset-inline-end: 16px;
+    transition: opacity 100ms ease-in-out;
+    opacity: 0;
+    cursor: pointer;
+}
+
+.tag:hover .remove-icon {
+    opacity: 1;
+}

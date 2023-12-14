@@ -42,6 +42,7 @@ export const enMessages = {
 	'ContentSettingsPopup.Material.Share.Public': 'public',
 	'ContentSettingsPopup.Material.Button.Delete': 'Delete',
 	'ContentSettingsPopup.Material.Button.Save': 'Save',
+	'ContentSettingsPopup.TextField.AddTag': `Add tag to your deck`,
 	'Practice.Flip.Button.Repeat': 'Repeat',
 	'Practice.Flip.Button.Hard': 'Hard',
 	'Practice.Flip.Button.Good': 'Good',

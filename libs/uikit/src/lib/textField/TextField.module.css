@@ -13,6 +13,9 @@
     border: 1px solid;
 }
 
+.text-field--disabled {
+    background: var(--selection-color);
+}
 
 .text-field-size-default {
     height: 60px;
@@ -21,7 +24,6 @@
 .text-field-size-small {
     height: 40px;
 }
-
 
 .text-field--default {
     border-color: var(--stroke-color);
@@ -38,6 +40,10 @@
     outline: none;
     border: none;
     padding-inline: 20px;
+}
+
+.text-field-input.text-field-input--disabled {
+    background: var(--selection-color);
 }
 
 .text-field-input-default {

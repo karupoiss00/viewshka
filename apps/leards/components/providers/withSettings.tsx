@@ -23,8 +23,8 @@ const withSettings = (Component: NextComponentType) => () => {
 	useLayoutEffect(() => {
 		if (status === 'success') {
 			const settings = dataRef.current.settings
-			const locale = isLocale(settings.locale) ? settings.locale : DEFAULT_LOCALE
-			const theme = isTheme(settings.theme) ? settings.theme : DEFAULT_THEME
+			const locale = isLocale(settings?.locale) ? settings.locale : DEFAULT_LOCALE
+			const theme = isTheme(settings?.theme) ? settings.theme : DEFAULT_THEME
 			handleSetUserAction({
 				locale: locale,
 				theme: theme,
