@@ -16,14 +16,14 @@ function PersonInfo({currentProfileState}: PersonInfoProps) {
 	if (currentProfileState === 'settings') {
 		return (
 			<div className={styles['person-info']}>
+				<div title={user.email} className={styles['person-info-email']}>
+					{user.email}
+				</div>
 				{
 					isUndefined(user.avatarUrl) || !user.avatarUrl
 						? <Avatar size={'small'} type={'gradient'} name={user.name}/>
 						: <Avatar size={'small'} type={'image'} avatarUrl={user.avatarUrl}/>
 				}
-				<div>
-					{user.email}
-				</div>
 			</div>
 		)
 	}
