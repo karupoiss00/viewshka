@@ -13,7 +13,7 @@
     align-items: center;
     padding-left: 20px;
     user-select: none;
-    font: var(--small-medium-text);
+    font: var(--text-small-medium);
     cursor: pointer;
 }
 

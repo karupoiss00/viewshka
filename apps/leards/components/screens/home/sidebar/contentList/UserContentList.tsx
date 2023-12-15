@@ -84,17 +84,20 @@ function UserContentList() {
 					<SystemIconPlus/>
 				</Button>
 				<Popover
-					preferredPosition={'inline-right'}
+					relativePosition={{
+						verticalAlign: 'center',
+						horizontalAlign: 'end',
+					}}
 					triggerRef={createButtonRef}
 					visible={!popoverOpened ? popoverOpened : undefined}
 				>
 					<Popover.Content className={styles.createPopover}>
 						<ActionList onItemClick={onItemClick}>
-							<ActionList.Item id={'create-deck'}>
+							<ActionList.Item id="create-deck">
 								<SystemIconDeck/>
 								{getMessage('Button.Create.Deck')}
 							</ActionList.Item>
-							<ActionList.Item id={'create-folder'}>
+							<ActionList.Item id="create-folder">
 								<SystemIconFolder/>
 								{getMessage('Button.Create.Folder')}
 							</ActionList.Item>
@@ -118,7 +121,7 @@ function useCurrentFolderQuery(folderId: string | null) {
 	const handleResetSelection = useAction(selectionActions.reset)
 	const router = useRouter()
 	const {isError, isSuccess, data} = useQuery(
-		['sidebar-folder-content', {folderId, currentFolder}],
+		['sidebar-folder-content', {folderId, currentFolder, size: currentFolder.content?.length}],
 		async () => {
 			if (!folderId) {
 				const {data} = await DecksAPI.get().getDeckById(selectedDeckId)
@@ -135,7 +138,7 @@ function useCurrentFolderQuery(folderId: string | null) {
 			const {data} = await api.getFolderById(folderId)
 
 
-			return data.folder
+			setCurrentFolder({...data.folder})
 		},
 		{
 			retry: false,
@@ -143,10 +146,6 @@ function useCurrentFolderQuery(folderId: string | null) {
 	)
 
 	useEffect(() => {
-		if (isSuccess) {
-			setCurrentFolder(data)
-		}
-
 		if (isError) {
 			handleResetSelection()
 			router.replace('/home')

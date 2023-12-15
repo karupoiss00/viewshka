@@ -44,13 +44,13 @@
 }
 
 .header {
-    font: var(--large-light-text);
+    font: var(--text-large-light);
     color: var(--text-color-default);
     font-weight: 500;
 }
 
 .description {
-    font: var(--normal-light-text);
+    font: var(--text-normal-light);
     color: var(--text-color-default);
     width: 400px;
     white-space: break-spaces;

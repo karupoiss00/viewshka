@@ -1,4 +1,9 @@
-function arrayDiff<T>(arr1: T[], arr2: T[], isEqual: (lhs: T, rhs: T) => boolean) {
+type DiffResult<T> = {
+	added: T[]
+	removed: T[]
+}
+
+function arrayDiff<T>(arr1: T[], arr2: T[], isEqual: (lhs: T, rhs: T) => boolean): DiffResult<T> {
 	const added: T[] = []
 	const removed: T[] = []
 
@@ -38,4 +43,5 @@ function arrayDiff<T>(arr1: T[], arr2: T[], isEqual: (lhs: T, rhs: T) => boolean
 
 export {
 	arrayDiff,
+	type DiffResult,
 }

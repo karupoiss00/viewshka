@@ -42,6 +42,7 @@ export const ruMessages = {
 	'ContentSettingsPopup.Material.Share.Public': 'публичный',
 	'ContentSettingsPopup.Material.Button.Delete': 'Удалить',
 	'ContentSettingsPopup.Material.Button.Save': 'Сохранить',
+	'ContentSettingsPopup.TextField.AddTag': `Добавьте тег`,
 	'Practice.Flip.Button.Repeat': 'Заново',
 	'Practice.Flip.Button.Hard': 'Тяжело',
 	'Practice.Flip.Button.Good': 'Хорошо',
@@ -67,4 +68,6 @@ export const ruMessages = {
 	'Language.English': 'Английский',
 	'Language.Russian': 'Русский',
 	'Language.Mari': 'Марийский',
+	'Avatar.Add': 'Выбрать фото',
+	'Avatar.Delete': 'Удалить фото',
 }

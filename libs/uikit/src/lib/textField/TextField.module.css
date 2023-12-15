@@ -13,6 +13,9 @@
     border: 1px solid;
 }
 
+.text-field--disabled {
+    background: var(--selection-color);
+}
 
 .text-field-size-default {
     height: 60px;
@@ -21,7 +24,6 @@
 .text-field-size-small {
     height: 40px;
 }
-
 
 .text-field--default {
     border-color: var(--stroke-color);
@@ -40,12 +42,16 @@
     padding-inline: 20px;
 }
 
+.text-field-input.text-field-input--disabled {
+    background: var(--selection-color);
+}
+
 .text-field-input-default {
-    font: var(--normal-regular-text);
+    font: var(--text-normal-regular);
 }
 
 .text-field-input-small {
-    font: var(--normal-light-text);
+    font: var(--text-normal-light);
 }
 
 .text-field-input::placeholder {
@@ -60,7 +66,7 @@
 
 .error-text {
     color: var(--error-color);
-    font: var(--small-light-text);
+    font: var(--text-small-light);
     padding-inline-start: 20px;
     padding-block-start: 3px;
     user-select: none;

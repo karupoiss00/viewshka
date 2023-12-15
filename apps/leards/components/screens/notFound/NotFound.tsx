@@ -10,7 +10,7 @@ function get404ImageSrc() {
 function NotFound() {
 	return (
 		<div className={styles.layout}>
-			<Image src={get404ImageSrc()} alt={'background'} layout={'fill'} draggable={false}/>
+			<Image src={get404ImageSrc()} alt="background" layout="fill" draggable={false}/>
 		</div>
 	)
 }

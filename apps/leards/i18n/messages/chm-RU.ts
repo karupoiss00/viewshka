@@ -42,6 +42,7 @@ export const chmMessages = {
 	'ContentSettingsPopup.Material.Share.Public': 'публичный',
 	'ContentSettingsPopup.Material.Button.Delete': 'Кораҥдаш',
 	'ContentSettingsPopup.Material.Button.Save': 'Аралаш',
+	'ContentSettingsPopup.TextField.AddTag': `Тегым ешарыза`,
 	'Practice.Flip.Button.Repeat': 'Уэш',
 	'Practice.Flip.Button.Hard': 'Неле',
 	'Practice.Flip.Button.Good': 'Айват',
@@ -67,4 +68,6 @@ export const chmMessages = {
 	'Language.English': 'Англичан',
 	'Language.Russian': 'Руш',
 	'Language.Mari': 'Марий',
+	'Avatar.Add': 'Фотом сайлаш',
+	'Avatar.Delete': 'Фотом тораҥдаш',
 }

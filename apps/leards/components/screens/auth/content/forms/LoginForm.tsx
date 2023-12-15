@@ -4,9 +4,9 @@ import {LandingButton} from '@leards/components/screens/landing/common/button/La
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import AuthProvider from '@leards/providers/authProvider'
 import {useAction} from '@reatom/npm-react'
-import {Button, PropsWithClassname, TextField} from '@viewshka/uikit'
+import {PropsWithClassname, TextField} from '@viewshka/uikit'
 import {useRouter} from 'next/router'
-import React, {PropsWithChildren, useEffect, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {useMutation} from 'react-query'
 import {userActions} from '../../../../common/viewmodel/userAtom'
 import FormContainer from './common/FormContainer'
@@ -87,8 +87,8 @@ function LoginForm({className, onRegister, visible}: LoginFormProps) {
 			/>
 			<LandingButton
 				className={styles.submitButton}
-				type={'primary'}
-				size={'large'}
+				type="primary"
+				size="large"
 				onClick={tryAuthorize}
 				state={buttonState}
 			>

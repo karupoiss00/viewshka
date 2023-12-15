@@ -44,11 +44,11 @@ function SectionsList() {
 				{getMessage('Sidebar.Title.Materials')}
 			</p>
 			<SelectList onItemSelect={selectSection} selectedItem={selection.type}>
-				<SelectList.Item id={'user-content'}>
+				<SelectList.Item id="user-content">
 					<SystemIconFolder />
 					{getMessage('Sidebar.SectionList.UserContent')}
 				</SelectList.Item>
-				<SelectList.Item id={'library'}>
+				<SelectList.Item id="library">
 					<SystemIconPublicDecks />
 					{getMessage('Sidebar.SectionList.Library')}
 				</SelectList.Item>

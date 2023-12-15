@@ -1,13 +1,16 @@
+import {DecksAPI} from '@leards/api/DecksAPI'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
+import {SharingAPI} from '@leards/api/SharingAPI'
 import {currentFolderActions} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
+import {Folder} from '@leards/components/screens/home/viewmodel/folder/Folder'
 import {useAction} from '@reatom/npm-react'
-import React from 'react'
-import {useMutation, useQuery} from 'react-query'
+import React, {useCallback} from 'react'
+import {useMutation, useQuery, useQueryClient} from 'react-query'
 import {MaterialSettingsPopup} from '../common/MaterialSettingsPopup'
 
 type AccessType = 'public' | 'shared' | 'private'
 
-type DeckSettingsData = {
+type FolderSettingsData = {
 	name: string
 	access: AccessType
 }
@@ -16,12 +19,11 @@ const getLink = (id: string) => `https://leards.space/share/${id}`
 
 type FolderSettingsPopupProps = {
 	folderId: string
-	folderName: string
 }
-function FolderSettingsPopup({folderId, folderName}: FolderSettingsPopupProps) {
-	const {data} = useFolderSettingsQuery(folderId, folderName)
+function FolderSettingsPopup({folderId}: FolderSettingsPopupProps) {
+	const {data} = useFolderSettingsQuery(folderId)
 	const {mutate: deleteFolder} = useDeleteFolderMutation(folderId)
-	const {mutate: updateName} = useUpdateFolderMutation(folderId)
+	const {mutate: updateFolder} = useUpdateFolderMutation(folderId)
 
 	if (!data) {
 		return null
@@ -30,9 +32,10 @@ function FolderSettingsPopup({folderId, folderName}: FolderSettingsPopupProps) {
 	return (
 		<MaterialSettingsPopup
 			initialSettings={data}
-			onSettingsUpdate={settings => updateName(settings.name)}
+			onSettingsUpdate={updateFolder}
 			onMaterialRemove={deleteFolder}
 			getSharingLink={() => getLink(folderId)}
+			closeOnEnter={true}
 		>
 
 		</MaterialSettingsPopup>
@@ -48,32 +51,66 @@ function useDeleteFolderMutation(folderId: string) {
 	})
 }
 
+type UpdateFolderArgs = {
+	name: string
+	access: string
+}
+
 function useUpdateFolderMutation(folderId: string) {
 	const handleUpdateMaterial = useAction(currentFolderActions.update)
+	const queryClient = useQueryClient()
+
+	const updateName = useCallback(async (name: string) => {
+		if (!name) {
+			return
+		}
+
+		const api = FoldersAPI.get()
+		const response = await api.updateFolderById(folderId, {
+			name,
+		})
+		const folder = response.data.folder
+		handleUpdateMaterial({
+			material: {
+				type: 'folder',
+				name: folder.name,
+				id: folder.folderId,
+			},
+		})
+	}, [folderId, handleUpdateMaterial])
+
+	const updateAccess = useCallback(async (access: string) => {
+		const api = SharingAPI.get()
+		await api.setStorageAccess('folder', folderId, {
+			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+			// @ts-expect-error
+			type: access,
+		})
+	}, [folderId])
 
 	return useMutation(
-		['updateDeck', folderId],
-		async (name: string) => {
-			const response = await FoldersAPI.get().updateFolderById(folderId, {
-				name,
-			})
-			const deck = response.data.folder
-			handleUpdateMaterial({
-				material: {
-					type: 'folder',
-					name: deck.name,
-					id: deck.folderId,
-				},
-			})
+		['updateFolder', folderId],
+		async (settings: UpdateFolderArgs) => {
+			await updateName(settings.name)
+			await updateAccess(settings.access)
+			queryClient.getQueryCache().clear()
 		},
 	)
 }
 
-function useFolderSettingsQuery(folderId: string, name: string) {
-	return useQuery(['folderSettings', folderId, name], (): DeckSettingsData => ({
-		name,
-		access: 'private',
-	}))
+function useFolderSettingsQuery(folderId: string) {
+	return useQuery(['folderSettings', folderId], async () => {
+		const api = FoldersAPI.get()
+
+		const response = await api.getFolderById(folderId)
+
+		const folder = response.data.folder
+
+		return {
+			name: folder.name,
+			access: folder.accessType,
+		}
+	})
 }
 
 export {

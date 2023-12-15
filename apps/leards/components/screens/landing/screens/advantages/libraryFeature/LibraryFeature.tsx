@@ -25,13 +25,13 @@ function LibraryFeature() {
 					[styles.bottomCardVisible]: visible,
 				})}>
 					Библиотека
-					<img src="images/planet.png" alt={'planet'}/>
+					<img src="images/planet.png" alt="planet"/>
 				</Card>
 				<Card size="medium" className={classnames(styles.topCard, {
 					[styles.topCardVisible]: visible,
 				})}>
 					Library
-					<img src="images/planet.png" alt={'planet'}/>
+					<img src="images/planet.png" alt="planet"/>
 				</Card>
 			</div>
 			<AnimationTrigger ref={ref}/>

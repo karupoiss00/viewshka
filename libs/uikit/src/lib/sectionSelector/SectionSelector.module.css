@@ -31,7 +31,7 @@
 }
 
 .item--type-primary {
-    font: var(--normal-light-text);
+    font: var(--text-normal-light);
     height: 60px;
     background-color: var(--accent-color);
     border-bottom: 5px solid var(--accent-color);
@@ -49,7 +49,7 @@
 }
 
 .item--type-secondary {
-    font: var(--small-regular-text);
+    font: var(--text-small-regular);
     height: 40px;
     background-color: var(--surface-color);
     border-bottom: 5px solid var(--surface-color);

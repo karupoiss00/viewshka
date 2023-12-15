@@ -24,6 +24,6 @@
 	display: flex;
 	width: 100%;
 	align-items: center;
-	font: var(--normal-light-text);
+	font: var(--text-normal-light);
 	user-select: none;
 }

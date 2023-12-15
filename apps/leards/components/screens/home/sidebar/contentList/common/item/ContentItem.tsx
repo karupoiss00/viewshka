@@ -30,10 +30,10 @@ function ContentItem({item, editable, selected}: ContentItemProps) {
 			{editable && <>
 				<Button
 					className={styles.moreButton}
-					type={'link'}
-					size={'small'}
+					type="link"
+					size="small"
 					onClick={e => e.preventDefault()}
-					spacing={'none'}
+					spacing="none"
 					ref={settingsButtonRef}
 				>
 					<SystemIconMore/>
@@ -44,7 +44,6 @@ function ContentItem({item, editable, selected}: ContentItemProps) {
 						<ContentSettingsPopup
 							contentType={item.type}
 							contentId={item.id}
-							contentName={item.name}
 						/>
 					</Popup.Content>
 				</Popup>

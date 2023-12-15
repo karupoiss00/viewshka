@@ -14,7 +14,7 @@
 	height: 100%;
 	align-items: center;
 	justify-content: center;
-	font: var(--normal-medium-text);
+	font: var(--text-normal-medium);
 	color: #DCDCDC;
 	flex-direction: column;
 }

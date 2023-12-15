@@ -15,7 +15,7 @@ function SignUp() {
 				</Card>
 			</div>
 			<div className={styles.form}>
-				<Form initialState={'register'}/>
+				<Form initialState="register"/>
 			</div>
 		</div>
 	)

@@ -1,0 +1,20 @@
+.avatar-container {
+    position: relative;
+    height: fit-content;
+    width: fit-content;
+}
+
+.avatar-button {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--surface-color);
+    bottom: 0;
+    right: 0;
+    cursor: pointer;
+    border-radius: 50%;
+    background-color: var(--text-color-subdued);
+    width: 40px;
+    height: 40px;
+}

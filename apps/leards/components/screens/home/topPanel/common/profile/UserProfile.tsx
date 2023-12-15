@@ -6,6 +6,7 @@ import {localeToId} from '@leards/components/common/i18n/localeToMessageId'
 import {themeToId} from '@leards/components/common/i18n/themeToMessageId'
 import {settingsAction, settingsAtom} from '@leards/components/common/viewmodel/settingsAtom'
 import {userActions, userAtom} from '@leards/components/common/viewmodel/userAtom'
+import {EditableAvatar} from '@leards/components/screens/home/topPanel/common/profile/editableAvatar/EditableAvatar'
 import {goToLanding} from '@leards/components/screens/landing/Landing'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {isLocale, Locale} from '@leards/providers/localeProvider'
@@ -16,7 +17,7 @@ import {
 	Avatar,
 	Button, Dropdown,
 	Popover,
-	SystemIconAddImage, SystemIconArrowLeft,
+	SystemIconArrowLeft,
 	SystemIconClose, SystemIconLogout, SystemIconPencil,
 	SystemIconSettings,
 	TextField,
@@ -30,7 +31,7 @@ type ProfilePopupState = 'default' | 'settings' | 'editing'
 
 function UserProfile() {
 	const [userInfo] = useAtom(userAtom)
-	const triggerRef = useRef<HTMLDivElement>(null)
+	const triggerRef = useRef()
 	const [profileState, setProfileState] = useState<ProfilePopupState>('default')
 
 	const buttonClick = () => {
@@ -40,12 +41,19 @@ function UserProfile() {
 	return (
 		<div className={styles['user-avatar-panel']}>
 			<div ref={triggerRef} className={styles['user-avatar']}>
-				{isUndefined(userInfo.avatarUrl) || !userInfo.avatarUrl
-					? <Avatar size={'small'} type={'gradient'} name={userInfo.name} />
-					: <Avatar size={'small'} type={'image'} avatarUrl={userInfo.avatarUrl} />
+				{isUndefined(userInfo?.avatarUrl) || !userInfo?.avatarUrl
+					? <Avatar size="small" type="gradient" name={userInfo?.name} />
+					: <Avatar size="small" type="image" avatarUrl={userInfo?.avatarUrl} />
 				}
 			</div>
-			<Popover preferredPosition={'bottom-center'} triggerRef={triggerRef} onClose={buttonClick}>
+			<Popover
+				relativePosition={{
+					verticalAlign: 'bottom',
+					horizontalAlign: 'center',
+				}}
+				triggerRef={triggerRef}
+				onClose={buttonClick}
+			>
 				<PopoverContent buttonClick={buttonClick} profileState={profileState} setProfileState={setProfileState}/>
 			</Popover>
 		</div>
@@ -67,19 +75,19 @@ function PopoverContent({buttonClick, profileState, setProfileState}: PopoverCon
 			<div className={styles['profile-navigation-bar']}>
 				<Popover.Close onClose={noop}>
 					<div hidden={profileState !== 'default'}>
-						<Button className={styles['profile-popover-navigation-button']} type={'link'} size={'small'}>
+						<Button className={styles['profile-popover-navigation-button']} type="link" size="small">
 							<SystemIconClose />
 						</Button>
 					</div>
 				</Popover.Close>
 				<div hidden={profileState === 'default'} onClick={buttonClick}>
-					<Button className={styles['profile-popover-navigation-button']} type={'link'} size={'small'}>
+					<Button className={styles['profile-popover-navigation-button']} type="link" size="small">
 						<SystemIconArrowLeft/>
 					</Button>
 				</div>
 				<PersonInfo currentProfileState={profileState}/>
 				<div hidden={profileState !== 'default'} onClick={() => logoutUser()}>
-					<Button className={styles['profile-popover-button-logout']} type={'link'} size={'small'}>
+					<Button className={styles['profile-popover-button-logout']} type="link" size="small">
 						<SystemIconLogout/>
 					</Button>
 				</div>
@@ -132,32 +140,30 @@ function Profile({showSettings, showEditing}: ProfileProps) {
 	const [userInfo] = useAtom(userAtom)
 	const getMessage = useMessages()
 	const {mutate: updateAvatar} = useUpdateAvatarMutation(userInfo.id)
+	const {mutate: removeAvatar} = useRemoveAvatarMutation(userInfo.id)
 
-	const onAvatarClick = () => {
+	const addImage = () => {
 		loadImageFromDisk().then(file => {
 			updateAvatar(file)
 		})
 	}
 
+	const deleteImage = () => {
+		removeAvatar()
+	}
+
 	return (
 		<div className={styles['profile-popover-content']}>
 			<div className={styles['avatar-container']}>
-				{
-					isUndefined(userInfo.avatarUrl) || !userInfo.avatarUrl
-						? <Avatar size={'large'} type={'gradient'} name={userInfo.name}/>
-						: <Avatar size={'large'} type={'image'} avatarUrl={userInfo.avatarUrl} />
-				}
-				<div className={styles['avatar-overlay']} onClick={onAvatarClick}>
-					<SystemIconAddImage/>
-				</div>
+				<EditableAvatar addImage={addImage} deleteImage={deleteImage}/>
 			</div>
 			<div className={styles['profile-popover-username']}>
 				{userInfo.name}
 			</div>
 			<div className={styles['profile-popover-buttons']}>
 				<Button className={styles['profile-popover-button']}
-					type={'secondary'}
-					size={'medium'}
+					type="secondary"
+					size="medium"
 					onClick={showSettings}
 				>
 					<SystemIconSettings/>
@@ -166,8 +172,8 @@ function Profile({showSettings, showEditing}: ProfileProps) {
 					</div>
 				</Button>
 				<Button className={styles['profile-popover-button']}
-					type={'secondary'}
-					size={'medium'}
+					type="secondary"
+					size="medium"
 					onClick={showEditing}
 				>
 					<SystemIconPencil/>
@@ -213,6 +219,16 @@ function useUpdateAvatarMutation(userId: string) {
 	})
 }
 
+function useRemoveAvatarMutation(userId: string) {
+	const handleUpdateAvatar = useAction(userActions.setAvatar)
+
+	return useMutation(async () => {
+		await AccountsAPI.get().removeAvatarByUserId(userId)
+
+		handleUpdateAvatar(null)
+	})
+}
+
 function Settings() {
 	const getMessage = useMessages()
 	const [userInfo] = useAtom(userAtom)
@@ -250,8 +266,8 @@ function Settings() {
 				</div>
 				<Button
 					className={styles['profile-button-settings-confirm']}
-					type={'primary'}
-					size={'medium'}
+					type="primary"
+					size="medium"
 					onClick={tryUpdate}
 				>
 					{getMessage('Profile.Confirm')}
@@ -363,8 +379,8 @@ function Editing() {
 				/>
 				<Button
 					className={styles['profile-button-confirm']}
-					type={'primary'}
-					size={'medium'}
+					type="primary"
+					size="medium"
 					onClick={tryUpdate}
 				>
 					<div>{getMessage('Profile.Confirm')}</div>

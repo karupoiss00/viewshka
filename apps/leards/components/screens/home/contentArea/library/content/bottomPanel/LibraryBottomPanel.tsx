@@ -48,8 +48,8 @@ function TrainBottomPanel({disabled, selectedContent}: TrainBottomPanelProps) {
 	const getMessage = useMessages()
 	return (
 		<Button
-			type={'secondary'}
-			size={'medium'}
+			type="secondary"
+			size="medium"
 			onClick={() => selectedContent && goToFlipPractice({
 				storageType: selectedContent.type,
 				storageId: selectedContent.id,
@@ -67,15 +67,15 @@ function AddMaterialBottomPanel() {
 	return (
 		<div className={styles.addMaterialBottomPanel}>
 			<Button
-				type={'secondary'}
-				size={'medium'}
+				type="secondary"
+				size="medium"
 				onClick={() => console.log('add')}
 			>
 				{getMessage('Button.Add.Material')}
 			</Button>
 			<Button
-				type={'secondary'}
-				size={'medium'}
+				type="secondary"
+				size="medium"
 				onClick={() => console.log('copy')}
 			>
 				{getMessage('Button.Copy.Material')}

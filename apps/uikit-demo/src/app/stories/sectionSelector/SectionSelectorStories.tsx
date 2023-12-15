@@ -7,78 +7,78 @@ function SectionSelectorStories() {
 	return (
 		<ComponentStory>
 			<StoryColumn>
-				<SectionSelector type={'primary'} onItemSelect={console.log}>
-					<SectionSelector.Item id={'1'}>
+				<SectionSelector type="primary" onItemSelect={console.log}>
+					<SectionSelector.Item id="1">
                         Первый
 					</SectionSelector.Item>
-					<SectionSelector.Item id={'2'}>
+					<SectionSelector.Item id="2">
                         Второй
 					</SectionSelector.Item>
-					<SectionSelector.Item id={'3'}>
+					<SectionSelector.Item id="3">
                         Третий
 					</SectionSelector.Item>
 				</SectionSelector>
-				<SectionSelector type={'secondary'} onItemSelect={console.log}>
-					<SectionSelector.Item id={'1'}>
+				<SectionSelector type="secondary" onItemSelect={console.log}>
+					<SectionSelector.Item id="1">
 						Первый
 					</SectionSelector.Item>
-					<SectionSelector.Item id={'2'}>
+					<SectionSelector.Item id="2">
 						Второй
 					</SectionSelector.Item>
-					<SectionSelector.Item id={'3'}>
+					<SectionSelector.Item id="3">
 						Третий
 					</SectionSelector.Item>
 				</SectionSelector>
 			</StoryColumn>
 			<StoryColumn>
-				<SectionSelector type={'primary'} onItemSelect={console.log}>
-					<SectionSelector.Item id={'1'}>
+				<SectionSelector type="primary" onItemSelect={console.log}>
+					<SectionSelector.Item id="1">
 						<SystemIconFolder/>
 					</SectionSelector.Item>
-					<SectionSelector.Item id={'2'}>
+					<SectionSelector.Item id="2">
 						<SystemIconCloseEye/>
 					</SectionSelector.Item>
-					<SectionSelector.Item id={'3'}>
+					<SectionSelector.Item id="3">
 						<SystemIconDeck/>
 					</SectionSelector.Item>
 				</SectionSelector>
-				<SectionSelector type={'secondary'} onItemSelect={console.log}>
-					<SectionSelector.Item id={'1'}>
+				<SectionSelector type="secondary" onItemSelect={console.log}>
+					<SectionSelector.Item id="1">
 						<SystemIconFolder/>
 					</SectionSelector.Item>
-					<SectionSelector.Item id={'2'}>
+					<SectionSelector.Item id="2">
 						<SystemIconCloseEye/>
 					</SectionSelector.Item>
-					<SectionSelector.Item id={'3'}>
+					<SectionSelector.Item id="3">
 						<SystemIconDeck/>
 					</SectionSelector.Item>
 				</SectionSelector>
 			</StoryColumn>
 			<StoryColumn>
-				<SectionSelector type={'primary'} onItemSelect={console.log}>
-					<SectionSelector.Item id={'1'}>
+				<SectionSelector type="primary" onItemSelect={console.log}>
+					<SectionSelector.Item id="1">
 						<SystemIconFolder/>
                         Первый
 					</SectionSelector.Item>
-					<SectionSelector.Item id={'2'}>
+					<SectionSelector.Item id="2">
 						<SystemIconCloseEye/>
                         Второй
 					</SectionSelector.Item>
-					<SectionSelector.Item id={'3'}>
+					<SectionSelector.Item id="3">
 						<SystemIconDeck/>
                         Третий
 					</SectionSelector.Item>
 				</SectionSelector>
-				<SectionSelector type={'secondary'} onItemSelect={console.log}>
-					<SectionSelector.Item id={'1'}>
+				<SectionSelector type="secondary" onItemSelect={console.log}>
+					<SectionSelector.Item id="1">
 						<SystemIconFolder/>
 						Первый
 					</SectionSelector.Item>
-					<SectionSelector.Item id={'2'}>
+					<SectionSelector.Item id="2">
 						<SystemIconCloseEye/>
 						Второй
 					</SectionSelector.Item>
-					<SectionSelector.Item id={'3'}>
+					<SectionSelector.Item id="3">
 						<SystemIconDeck/>
 						Третий
 					</SectionSelector.Item>

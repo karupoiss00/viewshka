@@ -23,8 +23,8 @@ function Form({
 			})}>
 				<img
 					className={styles.logoImage}
-					src={'/images/logo.svg'}
-					alt={'logo'}
+					src="/images/logo.svg"
+					alt="logo"
 				/>
 			</div>
 			<div className={styles.formContainer}>

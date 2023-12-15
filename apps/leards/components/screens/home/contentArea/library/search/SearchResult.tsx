@@ -14,9 +14,9 @@ function SearchResult() {
 		<div className={styles.layout}>
 			<TextField
 				className={styles.searchField}
-				placeholder={'Поиск колод'}
+				placeholder="Поиск колод"
 				onChange={setSearchString}
-				size={'small'}
+				size="small"
 			/>
 			<div className={styles.results}>
 				{!!searchString && <SortingPanel/>}
@@ -34,16 +34,16 @@ function SortingPanel() {
 	return (
 		<div className={styles.filterPanel}>
 			<SectionSelector
-				type={'secondary'}
+				type="secondary"
 				onItemSelect={() => {}}
 			>
-				<SectionSelector.Item id={'all'}>
+				<SectionSelector.Item id="all">
 					Все
 				</SectionSelector.Item>
-				<SectionSelector.Item id={'name'}>
+				<SectionSelector.Item id="name">
 					По названию
 				</SectionSelector.Item>
-				<SectionSelector.Item id={'tags'}>
+				<SectionSelector.Item id="tags">
 					По тегам
 				</SectionSelector.Item>
 			</SectionSelector>
