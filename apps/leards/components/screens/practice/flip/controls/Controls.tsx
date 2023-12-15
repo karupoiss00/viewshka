@@ -12,8 +12,8 @@ function Controls() {
 		<div className={styles.controlsContainer}>
 			<Button
 				className={styles.repeatButton}
-				type={'primary'}
-				size={'large'}
+				type="primary"
+				size="large"
 				onClick={() => handleNextCard({
 					repeatCard: true,
 				})}
@@ -22,8 +22,8 @@ function Controls() {
 			</Button>
 			<Button
 				className={styles.easyButton}
-				type={'primary'}
-				size={'large'}
+				type="primary"
+				size="large"
 				onClick={() => handleNextCard({
 					repeatCard: false,
 				})}

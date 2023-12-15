@@ -6,7 +6,7 @@ import {useMessages} from '@leards/i18n/hooks/useMessages'
 import AuthProvider from '@leards/providers/authProvider'
 import {useAction} from '@reatom/npm-react'
 import {isValidEmail, isValidPassword, isValidUsername} from '@viewshka/core'
-import {Button, TextField, PropsWithClassname} from '@viewshka/uikit'
+import {TextField, PropsWithClassname} from '@viewshka/uikit'
 import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
 import {useMutation} from 'react-query'
@@ -112,8 +112,8 @@ function RegisterForm({className, onLogin, visible}: RegisterFormProps) {
 			/>
 			<LandingButton
 				className={styles.submitButton}
-				type={'primary'}
-				size={'large'}
+				type="primary"
+				size="large"
 				onClick={tryRegister}
 				state={buttonState}
 			>

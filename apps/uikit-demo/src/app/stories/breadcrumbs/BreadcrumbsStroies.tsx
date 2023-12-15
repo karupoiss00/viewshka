@@ -8,40 +8,40 @@ function BreadcrumbsStories() {
 		<ComponentStory>
 			<StoryColumn>
 				<Breadcrumbs onItemClick={console.log}>
-					<Breadcrumbs.Item id={'1'}>
+					<Breadcrumbs.Item id="1">
 						Root
 					</Breadcrumbs.Item>
-					<Breadcrumbs.Item id={'2'}>
+					<Breadcrumbs.Item id="2">
 						Child
 					</Breadcrumbs.Item>
-					<Breadcrumbs.Item id={'3'}>
+					<Breadcrumbs.Item id="3">
 						Child of child
 					</Breadcrumbs.Item>
-					<Breadcrumbs.Item id={'3'}>
+					<Breadcrumbs.Item id="3">
 						Child of child of child
 					</Breadcrumbs.Item>
 				</Breadcrumbs>
 				<Breadcrumbs onItemClick={console.log}>
-					<Breadcrumbs.Item id={'1'}>
+					<Breadcrumbs.Item id="1">
 						Root
 					</Breadcrumbs.Item>
-					<Breadcrumbs.Item id={'2'}>
+					<Breadcrumbs.Item id="2">
 						Child
 					</Breadcrumbs.Item>
-					<Breadcrumbs.Item id={'3'}>
+					<Breadcrumbs.Item id="3">
 						Child of child
 					</Breadcrumbs.Item>
 				</Breadcrumbs>
 				<Breadcrumbs onItemClick={console.log}>
-					<Breadcrumbs.Item id={'1'}>
+					<Breadcrumbs.Item id="1">
 						Root
 					</Breadcrumbs.Item>
-					<Breadcrumbs.Item id={'2'}>
+					<Breadcrumbs.Item id="2">
 						Child
 					</Breadcrumbs.Item>
 				</Breadcrumbs>
 				<Breadcrumbs onItemClick={console.log}>
-					<Breadcrumbs.Item id={'1'}>
+					<Breadcrumbs.Item id="1">
 						Root
 					</Breadcrumbs.Item>
 				</Breadcrumbs>

@@ -18,23 +18,23 @@ function WorkspaceFeature() {
 					[styles.topCardVisible]: visible,
 				})}>
 					Participant
-					<img src="images/person.png" alt={'person'}/>
+					<img src="images/person.png" alt="person"/>
 				</Card>
 				<Card size="small" className={classnames(styles.bottomCard, {
 					[styles.bottomCardVisible]: visible,
 				})}>
 					Participant
-					<img src="images/person.png" alt={'person'}/>
+					<img src="images/person.png" alt="person"/>
 				</Card>
 				<Card size="small" className={classnames(styles.rightCard, {
 					[styles.rightCardVisible]: visible,
 				})}>
 					Participant
-					<img src="images/person.png" alt={'person'}/>
+					<img src="images/person.png" alt="person"/>
 				</Card>
 				<Card size="medium" className={styles.leftCard}>
 					Workspace
-					<img src="images/workspace.png" alt={'workspace'}/>
+					<img src="images/workspace.png" alt="workspace"/>
 				</Card>
 			</div>
 			<div className={styles.textContainer}>

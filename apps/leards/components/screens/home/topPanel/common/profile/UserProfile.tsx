@@ -17,7 +17,7 @@ import {
 	Avatar,
 	Button, Dropdown,
 	Popover,
-	SystemIconAddImage, SystemIconArrowLeft,
+	SystemIconArrowLeft,
 	SystemIconClose, SystemIconLogout, SystemIconPencil,
 	SystemIconSettings,
 	TextField,
@@ -42,13 +42,15 @@ function UserProfile() {
 		<div className={styles['user-avatar-panel']}>
 			<div ref={triggerRef} className={styles['user-avatar']}>
 				{isUndefined(userInfo?.avatarUrl) || !userInfo?.avatarUrl
-					? <Avatar size={'small'} type={'gradient'} name={userInfo?.name} />
-					: <Avatar size={'small'} type={'image'} avatarUrl={userInfo?.avatarUrl} />
+					? <Avatar size="small" type="gradient" name={userInfo?.name} />
+					: <Avatar size="small" type="image" avatarUrl={userInfo?.avatarUrl} />
 				}
 			</div>
 			<Popover
-				preferredHorizontalPosition={'center'}
-				preferredVerticalPosition={'bottom'}
+				relativePosition={{
+					verticalAlign: 'bottom',
+					horizontalAlign: 'center',
+				}}
 				triggerRef={triggerRef}
 				onClose={buttonClick}
 			>
@@ -73,19 +75,19 @@ function PopoverContent({buttonClick, profileState, setProfileState}: PopoverCon
 			<div className={styles['profile-navigation-bar']}>
 				<Popover.Close onClose={noop}>
 					<div hidden={profileState !== 'default'}>
-						<Button className={styles['profile-popover-navigation-button']} type={'link'} size={'small'}>
+						<Button className={styles['profile-popover-navigation-button']} type="link" size="small">
 							<SystemIconClose />
 						</Button>
 					</div>
 				</Popover.Close>
 				<div hidden={profileState === 'default'} onClick={buttonClick}>
-					<Button className={styles['profile-popover-navigation-button']} type={'link'} size={'small'}>
+					<Button className={styles['profile-popover-navigation-button']} type="link" size="small">
 						<SystemIconArrowLeft/>
 					</Button>
 				</div>
 				<PersonInfo currentProfileState={profileState}/>
 				<div hidden={profileState !== 'default'} onClick={() => logoutUser()}>
-					<Button className={styles['profile-popover-button-logout']} type={'link'} size={'small'}>
+					<Button className={styles['profile-popover-button-logout']} type="link" size="small">
 						<SystemIconLogout/>
 					</Button>
 				</div>
@@ -160,8 +162,8 @@ function Profile({showSettings, showEditing}: ProfileProps) {
 			</div>
 			<div className={styles['profile-popover-buttons']}>
 				<Button className={styles['profile-popover-button']}
-					type={'secondary'}
-					size={'medium'}
+					type="secondary"
+					size="medium"
 					onClick={showSettings}
 				>
 					<SystemIconSettings/>
@@ -170,8 +172,8 @@ function Profile({showSettings, showEditing}: ProfileProps) {
 					</div>
 				</Button>
 				<Button className={styles['profile-popover-button']}
-					type={'secondary'}
-					size={'medium'}
+					type="secondary"
+					size="medium"
 					onClick={showEditing}
 				>
 					<SystemIconPencil/>
@@ -264,8 +266,8 @@ function Settings() {
 				</div>
 				<Button
 					className={styles['profile-button-settings-confirm']}
-					type={'primary'}
-					size={'medium'}
+					type="primary"
+					size="medium"
 					onClick={tryUpdate}
 				>
 					{getMessage('Profile.Confirm')}
@@ -377,8 +379,8 @@ function Editing() {
 				/>
 				<Button
 					className={styles['profile-button-confirm']}
-					type={'primary'}
-					size={'medium'}
+					type="primary"
+					size="medium"
 					onClick={tryUpdate}
 				>
 					<div>{getMessage('Profile.Confirm')}</div>

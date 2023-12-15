@@ -21,8 +21,8 @@ function PersonInfo({currentProfileState}: PersonInfoProps) {
 				</div>
 				{
 					isUndefined(user.avatarUrl) || !user.avatarUrl
-						? <Avatar size={'small'} type={'gradient'} name={user.name}/>
-						: <Avatar size={'small'} type={'image'} avatarUrl={user.avatarUrl}/>
+						? <Avatar size="small" type="gradient" name={user.name}/>
+						: <Avatar size="small" type="image" avatarUrl={user.avatarUrl}/>
 				}
 			</div>
 		)

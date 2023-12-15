@@ -18,13 +18,13 @@ function SharingFeature() {
 					[styles.bottomCardVisible]: visible,
 				})}>
 					Делиться
-					<img src="images/coffee.png" alt={'coffee'}/>
+					<img src="images/coffee.png" alt="coffee"/>
 				</Card>
 				<Card size="medium" className={classnames(styles.topCard, {
 					[styles.topCardVisible]: visible,
 				})}>
 					Share
-					<img src="images/coffee.png" alt={'coffee'}/>
+					<img src="images/coffee.png" alt="coffee"/>
 				</Card>
 			</div>
 			<div className={styles.textContainer}>

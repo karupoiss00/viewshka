@@ -42,15 +42,15 @@ function ResultFooter({onRestart, onExit}: ResultFooterProps) {
 	return (
 		<div className={styles.footer}>
 			<Button
-				type={'primary'}
-				size={'medium'}
+				type="primary"
+				size="medium"
 				onClick={onExit}
 			>
 				{getMessage('Practice.Flip.Button.Exit')}
 			</Button>
 			<Button
-				type={'secondary'}
-				size={'medium'}
+				type="secondary"
+				size="medium"
 				onClick={onRestart}
 			>
 				{getMessage('Practice.Flip.Button.Restart')}

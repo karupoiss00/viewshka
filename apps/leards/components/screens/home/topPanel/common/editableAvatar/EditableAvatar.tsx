@@ -14,14 +14,14 @@ type EditableAvatarProps = {
 function EditableAvatar({addImage, deleteImage}: EditableAvatarProps) {
 	const [user] = useAtom(userAtom)
 
-	const avatarExist = () => !isUndefined(user.avatarUrl) && user.avatarUrl != undefined
+	const avatarExist = !isUndefined(user.avatarUrl) && user.avatarUrl !== undefined
 
 	return (
 		<div className={styles['avatar-container']}>
 			{
-				avatarExist()
-					? <Avatar size={'large'} type={'image'} avatarUrl={user.avatarUrl}/>
-					: <Avatar size={'large'} type={'gradient'} name={user.name}/>
+				avatarExist
+					? <Avatar size="large" type="image" avatarUrl={user.avatarUrl}/>
+					: <Avatar size="large" type="gradient" name={user.name}/>
 			}
 			<AvatarActionButton
 				addImage={addImage}
@@ -42,7 +42,7 @@ function AvatarActionButton({addImage, deleteImage}: AvatarActionListProps) {
 	const listRef = useRef()
 	const [popoverOpened, setPopoverOpened] = useState(false)
 
-	const avatarExist = () => !isUndefined(user.avatarUrl) && user.avatarUrl != undefined
+	const avatarExist = !isUndefined(user.avatarUrl) && user.avatarUrl !== undefined
 
 	const onItemClick = (id: string) => {
 		if (id === 'add-image') {
@@ -59,7 +59,7 @@ function AvatarActionButton({addImage, deleteImage}: AvatarActionListProps) {
 			<div
 				className={styles['avatar-button']}
 				style={{
-					backgroundColor: generateColor(avatarExist(), user.name),
+					backgroundColor: generateColor(avatarExist, user.name),
 				}}
 				ref={listRef}
 				onClick={() => setPopoverOpened(true)}
@@ -67,17 +67,19 @@ function AvatarActionButton({addImage, deleteImage}: AvatarActionListProps) {
 				<SystemIconCamera/>
 			</div>
 			<Popover
-				preferredHorizontalPosition={'end'}
-				preferredVerticalPosition={'bottom'}
+				relativePosition={{
+					verticalAlign: 'bottom',
+					horizontalAlign: 'end',
+				}}
 				triggerRef={listRef}
 				visible={!popoverOpened ? popoverOpened : undefined}
 			>
 				<Popover.Content>
 					<ActionList onItemClick={onItemClick}>
-						<ActionList.Item id={'add-image'}>
+						<ActionList.Item id="add-image">
 							{getMessage('Avatar.Add')}
 						</ActionList.Item>
-						<ActionList.Item id={'delete-image'}>
+						<ActionList.Item id="delete-image">
 							{getMessage('Avatar.Delete')}
 						</ActionList.Item>
 					</ActionList>

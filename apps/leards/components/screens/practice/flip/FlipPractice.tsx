@@ -56,7 +56,7 @@ function FlipPractice({loadCards}: FlipPracticeProps) {
 			<PracticeTopPanel materialName={materialName} />
 			<ProgressBar progress={progress} />
 			<div className={styles.content}>
-				<Button type={'link'} size={'medium'} onClick={() => router.back()} className={styles.exit}>
+				<Button type="link" size="medium" onClick={() => router.back()} className={styles.exit}>
 					<div className={styles.exitContent}>
 						<SystemIconArrowLeft/>
 						{getMessage('Practice.Flip.Button.Exit')}

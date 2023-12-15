@@ -1,13 +1,12 @@
 import {DecksAPI} from '@leards/api/DecksAPI'
 import {FoldersAPI} from '@leards/api/FoldersAPI'
-import {LibraryAPI} from '@leards/api/LibraryAPI'
 import {SELECTED_FOLDER_QUERY_KEY} from '@leards/components/screens/home/sidebar/contentList/UserContentList'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
+import {useEventListener} from '@viewshka/core'
 import {Button, Checkbox, Popup, PopupContext, TextField} from '@viewshka/uikit'
 import React, {useCallback, useContext, useRef, useState} from 'react'
 import {useMutation, useQueryClient} from 'react-query'
-import {useEventListener} from '../../../../../../../libs/core/src/hooks/useEventListener'
 import {selectedFolderIdAtom} from '../../viewmodel/selectionAtom'
 import styles from './ContentSettingsPopup.module.css'
 
@@ -72,7 +71,7 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 				<span>{getMessage(CONTENT_NAME_MESSAGES.get(contentType))}</span>
 				<TextField
 					onChange={setName}
-					size={'small'}
+					size="small"
 					initialValue={contentName}
 					invalidateOnChange={true}
 					onValidate={value => {
@@ -93,8 +92,8 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 				<div className={styles.shareButtonContainer}>
 					<Button
 						className={styles.shareButton}
-						type={'secondary'}
-						size={'small'}
+						type="secondary"
+						size="small"
 						onClick={copyShareLink}
 					>
 						{getMessage('ContentSettingsPopup.Material.Button.Copy')}
@@ -111,15 +110,15 @@ function ContentSettingsPopup({contentType, contentId, contentName}: ContentSett
 				<Popup.Close onClick={deleteMaterial}>
 					<Button
 						className={styles.closeButton}
-						type={'secondary'}
-						size={'small'}
+						type="secondary"
+						size="small"
 					>
 						{getMessage('ContentSettingsPopup.Material.Button.Delete')}
 					</Button>
 				</Popup.Close>
 				<Button
-					type={'primary'}
-					size={'small'}
+					type="primary"
+					size="small"
 					state={nameValid ? 'default' : 'disabled'}
 					onClick={onUpdate}
 				>
