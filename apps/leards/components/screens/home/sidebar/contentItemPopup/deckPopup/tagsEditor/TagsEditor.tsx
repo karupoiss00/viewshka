@@ -19,12 +19,18 @@ function TagsEditor({tags: _tags, onChange}: TagsEditorProps) {
 	const inputRef = useRef<HTMLInputElement>(null)
 	const {initialTags, tags, addTag, removeTag} = useDeckTags(_tags)
 
+	const isValidTagName = useCallback((value: string) => {
+		const preparedValue = value.trim()
+		return preparedValue.length < MAX_TAG_LENGTH
+	}, [])
+
 	const onEnter = useCallback((e: KeyboardEvent) => {
-		if (e.key === 'Enter' && !!value && value.length < MAX_TAG_LENGTH) {
+		if (e.key === 'Enter' && isValidTagName(value)) {
 			setValue('')
-			addTag(value.replace(' ', '_'))
+			addTag(value.trim().replace(' ', '_'))
 		}
-	}, [addTag, value])
+	}, [addTag, isValidTagName, value])
+
 
 	useEventListener('keydown', onEnter, inputRef)
 
@@ -46,7 +52,7 @@ function TagsEditor({tags: _tags, onChange}: TagsEditorProps) {
 				ref={inputRef}
 				value={value}
 				onChange={newValue => setValue(newValue)}
-				onValidate={v => v.length < MAX_TAG_LENGTH}
+				onValidate={isValidTagName}
 				invalidateOnChange={true}
 				placeholder={getMessage('ContentSettingsPopup.TextField.AddTag')}
 				disabled={tags.length >= MAX_TAGS_COUNT}
