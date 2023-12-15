@@ -5,16 +5,15 @@ import {FolderSettingsPopup} from './folderPopup/FolderSettingsPopup'
 type ContentSettingsPopupProps = {
 	contentType: string
 	contentId: string
-	contentName: string
 }
-function ContentSettingsPopup({contentType, contentId, contentName}: ContentSettingsPopupProps) {
+function ContentSettingsPopup({contentType, contentId}: ContentSettingsPopupProps) {
 
 	if (contentType === 'deck') {
-		return <DeckSettingsPopup deckId={contentId} deckName={contentName}/>
+		return <DeckSettingsPopup deckId={contentId}/>
 	}
 
 	if (contentType === 'folder') {
-		return <FolderSettingsPopup folderId={contentId} folderName={contentName}/>
+		return <FolderSettingsPopup folderId={contentId}/>
 	}
 
 	console.error(`Unknown content type: ${contentType}`)

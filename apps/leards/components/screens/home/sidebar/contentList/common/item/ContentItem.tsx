@@ -44,7 +44,6 @@ function ContentItem({item, editable, selected}: ContentItemProps) {
 						<ContentSettingsPopup
 							contentType={item.type}
 							contentId={item.id}
-							contentName={item.name}
 						/>
 					</Popup.Content>
 				</Popup>
