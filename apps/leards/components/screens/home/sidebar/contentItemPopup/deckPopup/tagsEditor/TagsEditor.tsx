@@ -21,8 +21,8 @@ function TagsEditor({tags: _tags, onChange}: TagsEditorProps) {
 
 	const isValidTagName = useCallback((value: string) => {
 		const preparedValue = value.trim()
-		return preparedValue.length < MAX_TAG_LENGTH
-	}, [])
+		return preparedValue.length < MAX_TAG_LENGTH && !tags.includes(preparedValue)
+	}, [tags])
 
 	const onEnter = useCallback((e: KeyboardEvent) => {
 		if (e.key === 'Enter' && isValidTagName(value)) {

@@ -11,14 +11,15 @@
     padding-inline: 40px;
     padding-block: 9px;
     align-items: center;
+    justify-content: center;
 }
 
 .remove-icon {
     position: absolute;
-    width: 20px;
-    height: 20px;
-    inset-block-start: 4px;
-    inset-inline-end: 16px;
+    width: 12px;
+    height: 12px;
+    inset-block-start: 8px;
+    inset-inline-end: 12px;
     transition: opacity 100ms ease-in-out;
     opacity: 0;
     cursor: pointer;
