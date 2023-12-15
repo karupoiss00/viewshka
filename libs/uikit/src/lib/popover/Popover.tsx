@@ -1,23 +1,20 @@
-import {clampNumber, useEventListener, useResizeObserver} from '@viewshka/core'
+import {addHookDeps, clampNumber, useEventListener, useResizeObserver} from '@viewshka/core'
 import classnames from 'classnames'
 import * as React from 'react'
-import {
-	PropsWithChildren,
-	useCallback,
-	useContext, useEffect,
-	useLayoutEffect,
-	useRef,
-	useState,
-} from 'react'
+import {PropsWithChildren, useCallback, useContext, useEffect, useLayoutEffect, useRef, useState} from 'react'
 import {createPortal} from 'react-dom'
-import {addHookDeps} from '../../../../core/src/utils/addHookDeps'
 import {useFocusTrapping} from '../hooks/useFocusTrapping'
 import {useOutsideClick} from '../hooks/useOutsideClick'
 import {getPopoverLayerElement} from './layer/PopoverLayer'
 import styles from './Popover.module.css'
 
-type HorizontalPosition = 'start' | 'center' | 'end'//'bottom-center' | 'inline-right' | 'bottom-right';
+type HorizontalPosition = 'start' | 'center' | 'end'
 type VerticalPosition = 'top' | 'center' | 'bottom'
+
+type RelativePosition = {
+	verticalAlign: VerticalPosition,
+	horizontalAlign: HorizontalPosition,
+}
 
 const DEFAULT_RECT = {
 	left: 0,
@@ -33,8 +30,7 @@ type Rect = Pick<DOMRect, 'left' | 'top' | 'height' | 'width'>;
 type PopoverContextData = {
 	show: boolean,
 	setShow: React.Dispatch<React.SetStateAction<boolean>>,
-	preferredHorizontalPosition: HorizontalPosition,
-	preferredVerticalPosition: VerticalPosition,
+	relativePosition: RelativePosition,
 	triggerRect: Rect,
 	setTriggerRect: React.Dispatch<React.SetStateAction<Rect>>,
 }
@@ -44,8 +40,10 @@ const PopoverContext = React.createContext<PopoverContextData>({
 	setShow: () => {
 		throw new Error('PopoverContext setIsShow should be used under provider')
 	},
-	preferredHorizontalPosition: 'center',
-	preferredVerticalPosition: 'bottom',
+	relativePosition: {
+		verticalAlign: 'bottom',
+		horizontalAlign: 'center',
+	},
 	triggerRect: DEFAULT_RECT,
 	setTriggerRect: () => {
 		throw new Error(
@@ -56,8 +54,7 @@ const PopoverContext = React.createContext<PopoverContextData>({
 
 interface PopoverProps {
 	children: React.ReactNode
-	preferredHorizontalPosition: HorizontalPosition
-	preferredVerticalPosition: VerticalPosition
+	relativePosition?: RelativePosition,
 	triggerRef?: React.RefObject<HTMLElement>
 	onClose?: () => void
 	visible?: boolean
@@ -66,8 +63,10 @@ interface PopoverProps {
 function Popover({
 	children,
 	triggerRef,
-	preferredHorizontalPosition = 'center',
-	preferredVerticalPosition = 'bottom',
+	relativePosition = {
+		verticalAlign: 'bottom',
+		horizontalAlign: 'center',
+	},
 	onClose,
 	visible = true,
 }: PopoverProps) {
@@ -110,8 +109,7 @@ function Popover({
 	const contextValue = {
 		show,
 		setShow,
-		preferredHorizontalPosition,
-		preferredVerticalPosition,
+		relativePosition,
 		triggerRect,
 		setTriggerRect,
 	}
@@ -150,7 +148,7 @@ interface PopoverWindowProps extends PropsWithChildren {
 }
 
 function PopoverWindow({className, children}: PopoverWindowProps) {
-	const {triggerRect, preferredHorizontalPosition, preferredVerticalPosition, setShow} = useContext(PopoverContext)
+	const {triggerRect, relativePosition, setShow} = useContext(PopoverContext)
 	const bodyRef = useRef(document.body)
 	const popoverWindowRef = useRef<HTMLDivElement>(null)
 	const [coords, setCoords] = useState({
@@ -171,11 +169,11 @@ function PopoverWindow({className, children}: PopoverWindowProps) {
 
 		const rect = element.getBoundingClientRect()
 
-		const coords = getPopoverCoords(triggerRect, rect, preferredHorizontalPosition, preferredVerticalPosition)
+		const coords = getPopoverCoords(triggerRect, rect, relativePosition)
 
 		setCoords(coords)
 		addHookDeps(bodySize)
-	}, [bodySize, preferredHorizontalPosition, preferredVerticalPosition, triggerRect])
+	}, [bodySize, relativePosition, triggerRect])
 
 	useFocusTrapping(popoverWindowRef)
 	useOutsideClick(popoverWindowRef, closePopover, [getPopoverLayerElement()])
@@ -209,22 +207,19 @@ function Close({children, onClose}: CloseProps) {
 
 		e.stopPropagation()
 	}
-	const childrenToClosePopover = React.cloneElement(children, {
+	return React.cloneElement(children, {
 		onClick,
 	})
-
-	return childrenToClosePopover
 }
 
 function getPopoverCoords(
 	triggerRect: Rect,
 	popoverRect: Rect,
-	horizontalPosition: HorizontalPosition,
-	verticalPosition: VerticalPosition,
+	relativePosition: RelativePosition,
 ) {
 	return {
-		top: getVerticalPosition(triggerRect, popoverRect, verticalPosition),
-		left: getHorizontalPosition(triggerRect, popoverRect, horizontalPosition),
+		top: getVerticalPosition(triggerRect, popoverRect, relativePosition.verticalAlign),
+		left: getHorizontalPosition(triggerRect, popoverRect, relativePosition.horizontalAlign),
 	}
 }
 

@@ -5,7 +5,7 @@ const POPUP_LAYER_KEY = 'popup-layer'
 
 function PopupLayer() {
 	return (
-		<div className={styles['popup-layer']} data-layer-key={'popup-layer'}></div>
+		<div className={styles['popup-layer']} data-layer-key="popup-layer"></div>
 	)
 }
 

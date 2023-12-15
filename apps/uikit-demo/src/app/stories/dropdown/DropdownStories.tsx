@@ -6,10 +6,10 @@ function DropdownStories() {
 	return (
 		<ComponentStory>
 			<StoryColumn width={200}>
-				<Dropdown onItemSelect={console.log} placeholder={'Выберите'}>
-					<Dropdown.Item id={'1'} value={'Первый'}/>
-					<Dropdown.Item id={'2'} value={'Второй'}/>
-					<Dropdown.Item id={'3'} value={'Третий'}/>
+				<Dropdown onItemSelect={console.log} placeholder="Выберите">
+					<Dropdown.Item id="1" value="Первый"/>
+					<Dropdown.Item id="2" value="Второй"/>
+					<Dropdown.Item id="3" value="Третий"/>
 				</Dropdown>
 			</StoryColumn>
 		</ComponentStory>

@@ -66,15 +66,15 @@ function ResultFooter({onContinuePractice, onExit}: ResultFooterProps) {
 	return (
 		<div className={styles.footer}>
 			<Button
-				type={'primary'}
-				size={'medium'}
+				type="primary"
+				size="medium"
 				onClick={onContinuePractice}
 			>
 				{getMessage('Practice.Flip.Button.Continue')}
 			</Button>
 			<Button
-				type={'secondary'}
-				size={'medium'}
+				type="secondary"
+				size="medium"
 				onClick={onExit}
 			>
 				{getMessage('Practice.Flip.Button.Exit')}

@@ -1,4 +1,4 @@
-import {Button, TextField, Popup, PopupLayer} from '@viewshka/uikit'
+import {Button, TextField, Popup} from '@viewshka/uikit'
 import React, {useRef} from 'react'
 import ComponentStory from '../../common/ComponentStory'
 import {addStory} from '../../stories'
@@ -9,8 +9,8 @@ function PopupStories() {
 	return (
 		<ComponentStory>
 			<Button
-				type={'primary'}
-				size={'small'}
+				type="primary"
+				size="small"
 				onClick={() => {}}
 				ref={buttonRef}
 			>
@@ -19,14 +19,14 @@ function PopupStories() {
 			<Popup triggerRef={buttonRef}>
 				<Popup.Content className={styles['popup']}>
 					<TextField
-						size={'small'}
+						size="small"
 						onChange={console.log}
-						placeholder={'Введите номер карты'}
+						placeholder="Введите номер карты"
 					/>
 					<Popup.Close>
 						<Button
-							type={'primary'}
-							size={'small'}
+							type="primary"
+							size="small"
 							onClick={() => {}}
 						>
 								Отправить

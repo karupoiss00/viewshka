@@ -30,10 +30,10 @@ function ContentItem({item, editable, selected}: ContentItemProps) {
 			{editable && <>
 				<Button
 					className={styles.moreButton}
-					type={'link'}
-					size={'small'}
+					type="link"
+					size="small"
 					onClick={e => e.preventDefault()}
-					spacing={'none'}
+					spacing="none"
 					ref={settingsButtonRef}
 				>
 					<SystemIconMore/>

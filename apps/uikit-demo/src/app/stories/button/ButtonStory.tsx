@@ -16,24 +16,24 @@ function ButtonStory() {
 			<StoryColumn>
 				<div className={styles['size-container']}>
 					<h2 className={styles['size-name']}>Small</h2>
-					<ButtonVariants type={'primary'} size={'small'} />
-					<ButtonVariants type={'secondary'} size={'small'} />
-					<ButtonVariants type={'link'} size={'small'} />
-					<ButtonVariants type={'ghost'} size={'small'} />
+					<ButtonVariants type="primary" size="small" />
+					<ButtonVariants type="secondary" size="small" />
+					<ButtonVariants type="link" size="small" />
+					<ButtonVariants type="ghost" size="small" />
 				</div>
 				<div className={styles['size-container']}>
 					<h2 className={styles['size-name']}>Medium</h2>
-					<ButtonVariants type={'primary'} size={'medium'} />
-					<ButtonVariants type={'secondary'} size={'medium'} />
-					<ButtonVariants type={'link'} size={'medium'} />
-					<ButtonVariants type={'ghost'} size={'medium'} />
+					<ButtonVariants type="primary" size="medium" />
+					<ButtonVariants type="secondary" size="medium" />
+					<ButtonVariants type="link" size="medium" />
+					<ButtonVariants type="ghost" size="medium" />
 				</div>
 				<div className={styles['size-container']}>
 					<h2 className={styles['size-name']}>Large</h2>
-					<ButtonVariants type={'primary'} size={'large'} />
-					<ButtonVariants type={'secondary'} size={'large'} />
-					<ButtonVariants type={'link'} size={'large'} />
-					<ButtonVariants type={'ghost'} size={'large'} />
+					<ButtonVariants type="primary" size="large" />
+					<ButtonVariants type="secondary" size="large" />
+					<ButtonVariants type="link" size="large" />
+					<ButtonVariants type="ghost" size="large" />
 				</div>
 			</StoryColumn>
 		</ComponentStory>
@@ -55,20 +55,19 @@ function ButtonsRow({children, name, className}: ButtonsRowProps) {
 }
 
 type ButtonVariantsProps = {
-  type: ButtonType;
-  size: ButtonSize;
-  showType?: boolean;
+  type: ButtonType
+  size: ButtonSize
 };
 
-function ButtonVariants({type, size, showType = false}: ButtonVariantsProps) {
+function ButtonVariants({type, size}: ButtonVariantsProps) {
 	return (
 		<ButtonsRow name={type} className={styles['type-name']}>
 			<div className={styles['button-column']}>
-				<ButtonStateVariants state={'default'} size={size} type={type} />
-				<ButtonStateVariants state={'hovered'} size={size} type={type} />
-				<ButtonStateVariants state={'pressed'} size={size} type={type} />
-				<ButtonStateVariants state={'disabled'} size={size} type={type} />
-				<ButtonStateVariants state={'loading'} size={size} type={type} />
+				<ButtonStateVariants state="default" size={size} type={type} />
+				<ButtonStateVariants state="hovered" size={size} type={type} />
+				<ButtonStateVariants state="pressed" size={size} type={type} />
+				<ButtonStateVariants state="disabled" size={size} type={type} />
+				<ButtonStateVariants state="loading" size={size} type={type} />
 			</div>
 		</ButtonsRow>
 	)

@@ -18,8 +18,8 @@ function UserContentBottomPanel({storageType, storageId}: UserContentBottomPanel
 	return (
 		<BottomPanel>
 			<Button
-				type={'secondary'}
-				size={'medium'}
+				type="secondary"
+				size="medium"
 				state={canPractice ? 'default' : 'disabled'}
 				onClick={() => {
 					goToFlipPractice({
@@ -31,8 +31,8 @@ function UserContentBottomPanel({storageType, storageId}: UserContentBottomPanel
 				{getMessage('Button.Practice.Flip')}
 			</Button>
 			<Button
-				type={'secondary'}
-				size={'medium'}
+				type="secondary"
+				size="medium"
 				state={canPractice ? 'default' : 'disabled'}
 				onClick={() => {}}
 			>

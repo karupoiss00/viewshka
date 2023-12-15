@@ -84,18 +84,20 @@ function UserContentList() {
 					<SystemIconPlus/>
 				</Button>
 				<Popover
-					preferredHorizontalPosition={'end'}
-					preferredVerticalPosition={'center'}
+					relativePosition={{
+						verticalAlign: 'center',
+						horizontalAlign: 'end',
+					}}
 					triggerRef={createButtonRef}
 					visible={!popoverOpened ? popoverOpened : undefined}
 				>
 					<Popover.Content className={styles.createPopover}>
 						<ActionList onItemClick={onItemClick}>
-							<ActionList.Item id={'create-deck'}>
+							<ActionList.Item id="create-deck">
 								<SystemIconDeck/>
 								{getMessage('Button.Create.Deck')}
 							</ActionList.Item>
-							<ActionList.Item id={'create-folder'}>
+							<ActionList.Item id="create-folder">
 								<SystemIconFolder/>
 								{getMessage('Button.Create.Folder')}
 							</ActionList.Item>

@@ -6,27 +6,27 @@ import {addStory} from '../../stories'
 function TextFieldStory() {
 	return (
 		<ComponentStory>
-			<StoryColumn width={400} name={'Small'}>
+			<StoryColumn width={400} name="Small">
 				<TextField
-					size={'small'}
+					size="small"
 					onChange={console.log}
 				/>
 				<TextField
-					size={'small'}
-					placeholder={'Введите текст'}
-					onChange={console.log}
-				/>
-			</StoryColumn>
-			<StoryColumn width={400} name={'Default'}>
-				<TextField
-					onChange={console.log}
-				/>
-				<TextField
-					placeholder={'Введите текст'}
+					size="small"
+					placeholder="Введите текст"
 					onChange={console.log}
 				/>
 			</StoryColumn>
-			<StoryColumn width={400} name={'Error'}>
+			<StoryColumn width={400} name="Default">
+				<TextField
+					onChange={console.log}
+				/>
+				<TextField
+					placeholder="Введите текст"
+					onChange={console.log}
+				/>
+			</StoryColumn>
+			<StoryColumn width={400} name="Error">
 				<TextField
 					onChange={console.log}
 					valid={false}
@@ -34,23 +34,23 @@ function TextFieldStory() {
 				/>
 				<TextField
 					onChange={console.log}
-					placeholder={'Введите текст'}
+					placeholder="Введите текст"
 					valid={false}
-					errorMessage={'Сообщение об ошибке'}
+					errorMessage="Сообщение об ошибке"
 					onValidate={() => false}
 				/>
 			</StoryColumn>
-			<StoryColumn width={400} name={'Hidden content'}>
+			<StoryColumn width={400} name="Hidden content">
 				<TextField
-					placeholder={'Введите текст'}
+					placeholder="Введите текст"
 					onChange={console.log}
 					contentHidden={true}
 				/>
 				<TextField
-					placeholder={'Введите текст'}
+					placeholder="Введите текст"
 					onChange={console.log}
 					contentHidden={true}
-					initialValue={'initial value'}
+					initialValue="initial value"
 				/>
 			</StoryColumn>
 		</ComponentStory>
