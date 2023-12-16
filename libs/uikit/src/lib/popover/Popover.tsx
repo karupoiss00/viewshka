@@ -33,6 +33,7 @@ type PopoverContextData = {
 	relativePosition: RelativePosition,
 	triggerRect: Rect,
 	setTriggerRect: React.Dispatch<React.SetStateAction<Rect>>,
+	noCloseOuterElements: boolean,
 }
 
 const PopoverContext = React.createContext<PopoverContextData>({
@@ -50,6 +51,7 @@ const PopoverContext = React.createContext<PopoverContextData>({
 			'PopoverContext setTriggerRect should be used under provider',
 		)
 	},
+	noCloseOuterElements: false,
 })
 
 interface PopoverProps {
@@ -58,6 +60,7 @@ interface PopoverProps {
 	triggerRef?: React.RefObject<HTMLElement>
 	onClose?: () => void
 	visible?: boolean
+	noCloseOuterElements?: boolean
 }
 
 function Popover({
@@ -69,6 +72,7 @@ function Popover({
 	},
 	onClose,
 	visible = true,
+	noCloseOuterElements = false,
 }: PopoverProps) {
 	const [show, setShow] = useState(false)
 	const [triggerRect, setTriggerRect] = useState(DEFAULT_RECT)
@@ -112,6 +116,7 @@ function Popover({
 		relativePosition,
 		triggerRect,
 		setTriggerRect,
+		noCloseOuterElements,
 	}
 
 	return (
@@ -148,7 +153,7 @@ interface PopoverWindowProps extends PropsWithChildren {
 }
 
 function PopoverWindow({className, children}: PopoverWindowProps) {
-	const {triggerRect, relativePosition, setShow} = useContext(PopoverContext)
+	const {triggerRect, relativePosition, setShow, noCloseOuterElements} = useContext(PopoverContext)
 	const bodyRef = useRef(document.body)
 	const popoverWindowRef = useRef<HTMLDivElement>(null)
 	const [coords, setCoords] = useState({
@@ -160,6 +165,8 @@ function PopoverWindow({className, children}: PopoverWindowProps) {
 	}, [setShow])
 
 	const bodySize = useResizeObserver(bodyRef)
+
+	const arrayPopoverLayerElement = noCloseOuterElements ? [] : [getPopoverLayerElement()]
 
 	useLayoutEffect(() => {
 		const element = popoverWindowRef.current
@@ -176,7 +183,8 @@ function PopoverWindow({className, children}: PopoverWindowProps) {
 	}, [bodySize, relativePosition, triggerRect])
 
 	useFocusTrapping(popoverWindowRef)
-	useOutsideClick(popoverWindowRef, closePopover, [getPopoverLayerElement()])
+
+	useOutsideClick(popoverWindowRef, closePopover, arrayPopoverLayerElement)
 
 	return (
 		<div
