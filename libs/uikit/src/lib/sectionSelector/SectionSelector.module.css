@@ -45,12 +45,13 @@
 .item--type-secondary.item--selected,
 .item--type-secondary.item--selected:hover {
     background-color: var(--surface-color);
-    border-color: var(--text-color-default);
+    border: 1px solid var(--selection-color);
+    border-bottom: 5px solid var(--text-color-default);
 }
 
 .item--type-secondary {
     font: var(--text-small-regular);
     height: 40px;
     background-color: var(--surface-color);
-    border-bottom: 5px solid var(--surface-color);
+    border: 1px solid var(--selection-color);
 }

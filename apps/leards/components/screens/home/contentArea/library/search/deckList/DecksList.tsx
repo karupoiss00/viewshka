@@ -1,11 +1,11 @@
-import {Content} from '@leards/api/generated'
+import {SearchResult} from '@leards/api/generated'
 import {isLast} from '@viewshka/core'
 import React from 'react'
 import {Deck} from './deck/Deck'
 import styles from './DecksList.module.css'
 
 type DecksListProps = {
-	decks: Content[]
+	decks: SearchResult[]
 }
 function DecksList({decks}: DecksListProps) {
 	const listElements = decks.map((deck, index) => (
@@ -13,7 +13,7 @@ function DecksList({decks}: DecksListProps) {
 			<Deck
 				id={deck.id}
 				name={deck.name}
-				tags={['#Английский', '#От_Васяна']}
+				tags={deck.tags}
 				key={`deck-${index}`}
 			/>
 			{
