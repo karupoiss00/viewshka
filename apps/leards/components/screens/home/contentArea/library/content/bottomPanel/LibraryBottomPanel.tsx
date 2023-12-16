@@ -9,7 +9,7 @@ import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {Button} from '@viewshka/uikit'
 import React, {useEffect, useState} from 'react'
-import {useMutation, useQueryClient} from 'react-query'
+import {useMutation} from 'react-query'
 import styles from './LibraryBottomPanel.module.css'
 
 interface LibraryBottomPanelProps {
