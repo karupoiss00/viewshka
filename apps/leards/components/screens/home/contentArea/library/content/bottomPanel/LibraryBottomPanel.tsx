@@ -1,3 +1,5 @@
+import {LibraryAPI} from '@leards/api/LibraryAPI'
+import {userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {BottomPanel} from '@leards/components/screens/home/contentArea/common/BottomPanel'
 import {favoritesAtom} from '@leards/components/screens/home/contentArea/library/viewmodel/favoritesAtom'
 import {currentDeckAtom} from '@leards/components/screens/home/viewmodel/currentDeckAtom'
@@ -7,6 +9,7 @@ import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {Button} from '@viewshka/uikit'
 import React, {useEffect, useState} from 'react'
+import {useMutation} from 'react-query'
 import styles from './LibraryBottomPanel.module.css'
 
 interface LibraryBottomPanelProps {
@@ -63,13 +66,19 @@ function TrainBottomPanel({disabled, selectedContent}: TrainBottomPanelProps) {
 
 function AddMaterialBottomPanel() {
 	const getMessage = useMessages()
+	const [deck] = useAtom(currentDeckAtom)
+	const {mutate: addToFavorites} = useAddToFavoriteMutation()
+
+	if (!deck) {
+		return null
+	}
 
 	return (
 		<div className={styles.addMaterialBottomPanel}>
 			<Button
 				type="secondary"
 				size="medium"
-				onClick={() => console.log('add')}
+				onClick={() => addToFavorites(deck.deckId)}
 			>
 				{getMessage('Button.Add.Material')}
 			</Button>
@@ -82,6 +91,21 @@ function AddMaterialBottomPanel() {
 			</Button>
 		</div>
 	)
+}
+
+function useAddToFavoriteMutation() {
+	const [user] = useAtom(userAtom)
+	const [, setFavorites] = useAtom(favoritesAtom)
+
+	return useMutation(async (deckId: string) => {
+		if (!user) {
+			return
+		}
+		const api = LibraryAPI.get()
+		await api.addStorageToFavorite(user.id, 'deck', deckId)
+		const {data} = await api.getFavoriteStorages(user.id)
+		setFavorites(data.favoriteStorages)
+	})
 }
 
 export {

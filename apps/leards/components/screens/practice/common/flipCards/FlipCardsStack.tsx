@@ -1,7 +1,7 @@
 import {Card as CardData} from '@leards/api/generated'
-import {getRandomNumber} from '@viewshka/core'
+import {getRandomNumber, useLayoutEffect} from '@viewshka/core'
 import classnames from 'classnames'
-import React, {MouseEventHandler, useCallback, useRef, useState, useEffect} from 'react'
+import React, {MouseEventHandler, useCallback, useRef, useState} from 'react'
 import styles from './FlipCardsStack.module.css'
 
 const MAX_ROTATION_DEG = 15
@@ -22,7 +22,7 @@ function FlipCardsStack({topCard, cardsLeft} : FlipCardsProps) {
 		ghosts.push(<CardGhost key={i}/>)
 	}
 
-	useEffect(() => {
+	useLayoutEffect(() => {
 		setActiveSide('front')
 	}, [topCard])
 

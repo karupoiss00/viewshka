@@ -1,14 +1,40 @@
-import {useAtom} from '@reatom/npm-react'
-import {SectionSelector, SystemIconDeck, TextField} from '@viewshka/uikit'
-import React from 'react'
+import {
+	SearchPublicStoragesOrderByEnum,
+	SearchPublicStoragesSearchTypeEnum,
+	SearchPublicStoragesSortTypeEnum,
+	SearchResult as SearchResultData,
+} from '@leards/api/generated'
+import {SearchAPI} from '@leards/api/SearchAPI'
+import {useAction} from '@reatom/npm-react'
+import {useDebounce} from '@viewshka/core'
+import {TextField} from '@viewshka/uikit'
+import React, {useCallback, useEffect, useState} from 'react'
 import {useQuery} from 'react-query'
-import {searchStringAtom} from '../viewmodel/searchStringAtom'
+import {selectionActions} from '../../../viewmodel/selectionAtom'
 import {DecksList} from './deckList/DecksList'
 import styles from './SearchResult.module.css'
+import {SortingPanel} from './sortingPanel/SortingPanel'
+
+const PAGE_SIZE = 1000
+const DEBOUNCE_DELAY = 1000
 
 function SearchResult() {
-	//const [searchResult] = useAtom(searchResultAtom)
-	const [searchString, setSearchString] = useAtom(searchStringAtom)
+	const handleSelectDeckAction = useAction(selectionActions.selectDeck)
+	const [searchString, setSearchString] = useState('')
+	const [searchType, setSearchType] = useState<SearchPublicStoragesSearchTypeEnum>('all')
+	const [orderBy, setOrderBy] = useState<SearchPublicStoragesOrderByEnum>('asc')
+	const [sortType, setSortType] = useState<SearchPublicStoragesSortTypeEnum>('name')
+	const debouncedSearchString = useDebounce(searchString, DEBOUNCE_DELAY)
+	const searchResult = useSearchQuery({
+		searchString: debouncedSearchString,
+		searchType,
+		orderBy,
+		sortType,
+	})
+
+	const selectDeck = useCallback((id: string) => handleSelectDeckAction({
+		deckId: id,
+	}), [handleSelectDeckAction])
 
 	return (
 		<div className={styles.layout}>
@@ -19,10 +45,20 @@ function SearchResult() {
 				size="small"
 			/>
 			<div className={styles.results}>
-				{!!searchString && <SortingPanel/>}
+				{
+					!!searchString
+					&& <SortingPanel
+						onSearchTypeChange={setSearchType}
+						onSortParameterChange={setSortType}
+						onOrderByChange={setOrderBy}
+					/>
+				}
 				{
 					searchString
-						? <MostPopularDecks/> //<DecksList decks={searchResult}/>
+						? <DecksList
+							decks={searchResult}
+							onDeckClick={selectDeck}
+						/>
 						: <MostPopularDecks/>
 				}
 			</div>
@@ -30,112 +66,9 @@ function SearchResult() {
 	)
 }
 
-function SortingPanel() {
-	return (
-		<div className={styles.filterPanel}>
-			<SectionSelector
-				type="secondary"
-				onItemSelect={() => {}}
-			>
-				<SectionSelector.Item id="all">
-					Все
-				</SectionSelector.Item>
-				<SectionSelector.Item id="name">
-					По названию
-				</SectionSelector.Item>
-				<SectionSelector.Item id="tags">
-					По тегам
-				</SectionSelector.Item>
-			</SectionSelector>
-			<SystemIconDeck/>
-		</div>
-	)
-}
-
 function MostPopularDecks() {
 	const {data, isLoading} = useQuery('popularDecks', async () => ({
-		content: [
-			{
-				id: '1',
-				name: 'животные🐶',
-			},
-			{
-				id: '2',
-				name: 'еда🍉',
-			},
-			{
-				id: '3',
-				name: 'эмоции😄',
-			},
-			{
-				id: '4',
-				name: 'природа🌳',
-			},
-			{
-				id: '5',
-				name: 'технологии🔧',
-			},
-			{
-				id: '6',
-				name: 'искусство🎨',
-			},
-			{
-				id: '7',
-				name: 'спорт⚽',
-			},
-			{
-				id: '8',
-				name: 'музыка🎵',
-			},
-			{
-				id: '9',
-				name: 'путешествия✈️',
-			},
-			{
-				id: '10',
-				name: 'наука🔬',
-			},
-			{
-				id: '11',
-				name: 'фильмы🎥',
-			},
-			{
-				id: '12',
-				name: 'литература📚',
-			},
-			{
-				id: '13',
-				name: 'мода👗',
-			},
-			{
-				id: '14',
-				name: 'история📜',
-			},
-			{
-				id: '15',
-				name: 'автомобили🚗',
-			},
-			{
-				id: '16',
-				name: 'компьютеры💻',
-			},
-			{
-				id: '17',
-				name: 'здоровье🏥',
-			},
-			{
-				id: '18',
-				name: 'образование📖',
-			},
-			{
-				id: '19',
-				name: 'домашние дела🏠',
-			},
-			{
-				id: '20',
-				name: 'мемы😂',
-			},
-		],
+		content: [],
 	}))
 
 	if (!data || isLoading) {
@@ -143,8 +76,56 @@ function MostPopularDecks() {
 	}
 
 	return (
-		<DecksList decks={data.content}/>
+		<DecksList decks={data.content} onDeckClick={() => {}}/>
 	)
+}
+
+type SearchQueryParams = {
+	searchString: string
+	searchType: SearchPublicStoragesSearchTypeEnum
+	orderBy: SearchPublicStoragesOrderByEnum
+	sortType: SearchPublicStoragesSortTypeEnum
+}
+function useSearchQuery({searchString, searchType, orderBy, sortType}: SearchQueryParams) {
+	const [result, setResult] = useState<SearchResultData[]>([])
+
+	const {data, status} = useQuery(['librarySearch', searchString, searchType, orderBy, sortType], async () => {
+		const tags = parseTags(searchString)
+		const searchStr = prepareSearchString(searchString)
+		const response = await SearchAPI.get().searchPublicStorages(
+			searchType,
+			sortType,
+			orderBy,
+			0,
+			PAGE_SIZE,
+			searchStr,
+			tags,
+		)
+
+		return response.data
+	})
+
+	useEffect(() => {
+		if (status === 'success') {
+			setResult(data.filter(data => data.type === 'deck'))
+		}
+	}, [data, status])
+
+	return result
+}
+
+function prepareSearchString(str: string): string {
+	return str
+		.split(' ')
+		.filter(word => word[0] !== '#')
+		.join(' ')
+}
+
+function parseTags(str: string): Array<string> {
+	return str
+		.split(' ')
+		.filter(word => word[0] === '#')
+		.map(s => s.substring(1))
 }
 
 export {

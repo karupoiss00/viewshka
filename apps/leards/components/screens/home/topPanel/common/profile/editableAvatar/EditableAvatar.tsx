@@ -73,6 +73,7 @@ function AvatarActionButton({addImage, deleteImage}: AvatarActionListProps) {
 				}}
 				triggerRef={listRef}
 				visible={!popoverOpened ? popoverOpened : undefined}
+				noCloseOuterElements={true}
 			>
 				<Popover.Content>
 					<ActionList onItemClick={onItemClick}>
