@@ -5,10 +5,12 @@ import {
 	SearchResult as SearchResultData,
 } from '@leards/api/generated'
 import {SearchAPI} from '@leards/api/SearchAPI'
+import {useAction} from '@reatom/npm-react'
 import {useDebounce} from '@viewshka/core'
 import {TextField} from '@viewshka/uikit'
-import React, {useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {useQuery} from 'react-query'
+import {selectionActions} from '../../../viewmodel/selectionAtom'
 import {DecksList} from './deckList/DecksList'
 import styles from './SearchResult.module.css'
 import {SortingPanel} from './sortingPanel/SortingPanel'
@@ -17,6 +19,7 @@ const PAGE_SIZE = 1000
 const DEBOUNCE_DELAY = 1000
 
 function SearchResult() {
+	const handleSelectDeckAction = useAction(selectionActions.selectDeck)
 	const [searchString, setSearchString] = useState('')
 	const [searchType, setSearchType] = useState<SearchPublicStoragesSearchTypeEnum>('all')
 	const [orderBy, setOrderBy] = useState<SearchPublicStoragesOrderByEnum>('asc')
@@ -28,6 +31,10 @@ function SearchResult() {
 		orderBy,
 		sortType,
 	})
+
+	const selectDeck = useCallback((id: string) => handleSelectDeckAction({
+		deckId: id,
+	}), [handleSelectDeckAction])
 
 	return (
 		<div className={styles.layout}>
@@ -48,7 +55,10 @@ function SearchResult() {
 				}
 				{
 					searchString
-						? <DecksList decks={searchResult}/>
+						? <DecksList
+							decks={searchResult}
+							onDeckClick={selectDeck}
+						/>
 						: <MostPopularDecks/>
 				}
 			</div>
@@ -58,108 +68,7 @@ function SearchResult() {
 
 function MostPopularDecks() {
 	const {data, isLoading} = useQuery('popularDecks', async () => ({
-		content: [
-			{
-				id: '1',
-				name: 'животные🐶',
-				tags: [],
-			},
-			{
-				id: '2',
-				name: 'еда🍉',
-				tags: [],
-			},
-			{
-				id: '3',
-				name: 'эмоции😄',
-				tags: [],
-			},
-			{
-				id: '4',
-				name: 'природа🌳',
-				tags: [],
-			},
-			{
-				id: '5',
-				name: 'технологии🔧',
-				tags: [],
-			},
-			{
-				id: '6',
-				name: 'искусство🎨',
-				tags: [],
-			},
-			{
-				id: '7',
-				name: 'спорт⚽',
-				tags: [],
-			},
-			{
-				id: '8',
-				name: 'музыка🎵',
-				tags: [],
-			},
-			{
-				id: '9',
-				name: 'путешествия✈️',
-				tags: [],
-			},
-			{
-				id: '10',
-				name: 'наука🔬',
-				tags: [],
-			},
-			{
-				id: '11',
-				name: 'фильмы🎥',
-				tags: [],
-			},
-			{
-				id: '12',
-				name: 'литература📚',
-				tags: [],
-			},
-			{
-				id: '13',
-				name: 'мода👗',
-				tags: [],
-			},
-			{
-				id: '14',
-				name: 'история📜',
-				tags: [],
-			},
-			{
-				id: '15',
-				name: 'автомобили🚗',
-				tags: [],
-			},
-			{
-				id: '16',
-				name: 'компьютеры💻',
-				tags: [],
-			},
-			{
-				id: '17',
-				name: 'здоровье🏥',
-				tags: [],
-			},
-			{
-				id: '18',
-				name: 'образование📖',
-				tags: [],
-			},
-			{
-				id: '19',
-				name: 'домашние дела🏠',
-				tags: [],
-			},
-			{
-				id: '20',
-				name: 'мемы😂',
-				tags: [],
-			},
-		],
+		content: [],
 	}))
 
 	if (!data || isLoading) {
@@ -167,7 +76,7 @@ function MostPopularDecks() {
 	}
 
 	return (
-		<DecksList decks={data.content}/>
+		<DecksList decks={data.content} onDeckClick={() => {}}/>
 	)
 }
 

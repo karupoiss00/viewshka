@@ -9,15 +9,12 @@ import React, {useEffect} from 'react'
 import {useQuery} from 'react-query'
 import {useSetSelectedStorageParam} from '../../hooks/useLoadSelectionParams'
 
-const FAVORITE_DECKS_QUERY_KEY = 'sidebar-favorites'
-
 function FavoriteDecksList() {
 	const [user] = useAtom(userAtom)
 	const [selectedDeckId] = useAtom(selectedDeckIdAtom)
 	const [favorites] = useAtom(favoritesAtom)
 	const setStorageQueryParam = useSetSelectedStorageParam()
 	const handleSelectFolderAction = useAction(selectionActions.selectDeck)
-
 
 	useFavoritesQuery(user.id)
 
@@ -41,8 +38,7 @@ function FavoriteDecksList() {
 function useFavoritesQuery(userId: string) {
 	const router = useRouter()
 	const [, setFavorites] = useAtom(favoritesAtom)
-	const queryKey = [FAVORITE_DECKS_QUERY_KEY]
-	const {isError, isSuccess, data} = useQuery(queryKey, async () => {
+	const {isError, isSuccess, data} = useQuery(['sidebar-favorites'], async () => {
 		const api = LibraryAPI.get()
 		const {data} = await api.getFavoriteStorages(userId)
 

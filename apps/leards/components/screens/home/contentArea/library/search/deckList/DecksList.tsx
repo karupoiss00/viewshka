@@ -6,15 +6,16 @@ import styles from './DecksList.module.css'
 
 type DecksListProps = {
 	decks: SearchResult[]
+	onDeckClick: (deckId: string) => void
 }
-function DecksList({decks}: DecksListProps) {
+function DecksList({decks, onDeckClick}: DecksListProps) {
 	const listElements = decks.map((deck, index) => (
 		<div key={`deck-with-separator-${index}`}>
 			<Deck
-				id={deck.id}
 				name={deck.name}
 				tags={deck.tags}
-				key={`deck-${index}`}
+				key={deck.id}
+				onClick={() => onDeckClick(deck.id)}
 			/>
 			{
 				!isLast(decks, index)
