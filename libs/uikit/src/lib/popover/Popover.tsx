@@ -33,7 +33,7 @@ type PopoverContextData = {
 	relativePosition: RelativePosition,
 	triggerRect: Rect,
 	setTriggerRect: React.Dispatch<React.SetStateAction<Rect>>,
-	notExcludedElements: boolean,
+	noCloseOuterElements: boolean,
 }
 
 const PopoverContext = React.createContext<PopoverContextData>({
@@ -51,7 +51,7 @@ const PopoverContext = React.createContext<PopoverContextData>({
 			'PopoverContext setTriggerRect should be used under provider',
 		)
 	},
-	notExcludedElements: false,
+	noCloseOuterElements: false,
 })
 
 interface PopoverProps {
@@ -60,7 +60,7 @@ interface PopoverProps {
 	triggerRef?: React.RefObject<HTMLElement>
 	onClose?: () => void
 	visible?: boolean
-	notExcludedElements?: boolean
+	noCloseOuterElements?: boolean
 }
 
 function Popover({
@@ -72,7 +72,7 @@ function Popover({
 	},
 	onClose,
 	visible = true,
-	notExcludedElements = false,
+	noCloseOuterElements = false,
 }: PopoverProps) {
 	const [show, setShow] = useState(false)
 	const [triggerRect, setTriggerRect] = useState(DEFAULT_RECT)
@@ -116,7 +116,7 @@ function Popover({
 		relativePosition,
 		triggerRect,
 		setTriggerRect,
-		notExcludedElements,
+		noCloseOuterElements,
 	}
 
 	return (
@@ -153,7 +153,7 @@ interface PopoverWindowProps extends PropsWithChildren {
 }
 
 function PopoverWindow({className, children}: PopoverWindowProps) {
-	const {triggerRect, relativePosition, setShow, notExcludedElements} = useContext(PopoverContext)
+	const {triggerRect, relativePosition, setShow, noCloseOuterElements} = useContext(PopoverContext)
 	const bodyRef = useRef(document.body)
 	const popoverWindowRef = useRef<HTMLDivElement>(null)
 	const [coords, setCoords] = useState({
@@ -166,7 +166,7 @@ function PopoverWindow({className, children}: PopoverWindowProps) {
 
 	const bodySize = useResizeObserver(bodyRef)
 
-	const arrayPopoverLayerElement = notExcludedElements ? [] : [getPopoverLayerElement()]
+	const arrayPopoverLayerElement = noCloseOuterElements ? [] : [getPopoverLayerElement()]
 
 	useLayoutEffect(() => {
 		const element = popoverWindowRef.current
