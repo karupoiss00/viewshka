@@ -15,6 +15,7 @@ export const chmMessages = {
 	'Error.PasswordNotMatching': 'Пароль-влак келшен огыт тол',
 	'Button.Create.Folder': 'Папкым ышташ',
 	'Button.Create.Deck': 'Колодым ышташ',
+	'Button.Import.Quizlet.Deck': 'Импортироватлаш Quizlet',
 	'Button.Practice.SpaceRepetition': 'Интервальный угыч ушештарымаш',
 	'Button.Practice.Flip': 'Картычке',
 	'Button.Add.Material': 'Ешараш',
@@ -70,4 +71,6 @@ export const chmMessages = {
 	'Language.Mari': 'Марий',
 	'Avatar.Add': 'Фотом сайлаш',
 	'Avatar.Delete': 'Фотом тораҥдаш',
+	'QuizletImportPopup.Header': 'Колодыш ссылкым шындыза',
+	'QuizletImportPopup.Button.Import': 'Аралаш',
 }

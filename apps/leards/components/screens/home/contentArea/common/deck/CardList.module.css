@@ -1,12 +1,12 @@
 .card {
     display: flex;
     width: 80%;
-    max-width: 1290px;
+    max-width: 1245px;
     height: 64px;
     background: var(--surface-color);
     outline: 2px solid var(--stroke-color);
     padding-block: 13px;
-    padding-inline-start: 45px;
+    padding-inline: 45px;
 }
 
 .list {

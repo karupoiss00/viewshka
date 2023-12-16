@@ -3,6 +3,9 @@ import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {useSetSelectedStorageParam} from '@leards/components/screens/home/hooks/useLoadSelectionParams'
 import {ContentList} from '@leards/components/screens/home/sidebar/contentList/common/ContentList'
+import {
+	QuizletImportPopup,
+} from '@leards/components/screens/home/sidebar/contentList/quizletImportPopup/QuizletImportPopup'
 import {currentFolderActions, currentFolderAtom} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
 import {
 	selectedDeckIdAtom,
@@ -11,9 +14,17 @@ import {
 } from '@leards/components/screens/home/viewmodel/selectionAtom'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
-import {ActionList, Button, Popover, SystemIconDeck, SystemIconFolder, SystemIconPlus} from '@viewshka/uikit'
+import {
+	ActionList,
+	Button,
+	Popover, Popup,
+	SystemIconDeck,
+	SystemIconFolder,
+	SystemIconLetterQ,
+	SystemIconPlus,
+} from '@viewshka/uikit'
 import {useRouter} from 'next/router'
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useCallback, useEffect, useRef, useState} from 'react'
 import {useMutation, useQuery} from 'react-query'
 import styles from './UserContentList.module.css'
 
@@ -27,6 +38,11 @@ function UserContentList() {
 	const handleSelectFolderAction = useAction(selectionActions.selectFolder)
 	const createButtonRef = useRef()
 	const [popoverOpened, setPopoverOpened] = useState(false)
+	const [importPopupOpened, setImportPopupOpened] = useState(false)
+
+	const onImportPopupClose = useCallback(() => {
+		setImportPopupOpened(false)
+	}, [])
 
 	const {mutate: createDeck} = useDeckCreateMutation()
 	const {mutate: createFolder} = useFolderCreateMutation()
@@ -62,6 +78,10 @@ function UserContentList() {
 
 		if (id === 'create-folder') {
 			createFolder()
+		}
+
+		if (id === 'quizlet-import') {
+			setImportPopupOpened(true)
 		}
 
 		setPopoverOpened(false)
@@ -101,9 +121,18 @@ function UserContentList() {
 								<SystemIconFolder/>
 								{getMessage('Button.Create.Folder')}
 							</ActionList.Item>
+							<ActionList.Item id="quizlet-import">
+								<SystemIconLetterQ/>
+								{getMessage('Button.Import.Quizlet.Deck')}
+							</ActionList.Item>
 						</ActionList>
 					</Popover.Content>
 				</Popover>
+				<Popup opened={importPopupOpened} onClose={onImportPopupClose}>
+					<Popup.Content>
+						<QuizletImportPopup onImportComplete={onImportPopupClose}/>
+					</Popup.Content>
+				</Popup>
 			</div>
 			<ContentList
 				onItemSelect={setSelection}

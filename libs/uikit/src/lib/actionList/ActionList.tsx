@@ -1,6 +1,6 @@
 import {PropsWithClassname} from '@viewshka/uikit'
 import classnames from 'classnames'
-import {PropsWithChildren, ReactElement, useContext} from 'react'
+import {forwardRef, PropsWithChildren, ReactElement, useContext} from 'react'
 import * as React from 'react'
 import styles from './ActionList.module.css'
 
@@ -40,7 +40,7 @@ function ActionList({
 	)
 }
 
-function Item({id, children, className: externalStyle}: ItemProps) {
+const Item = forwardRef<HTMLDivElement, ItemProps>(({id, children, className: externalStyle}: ItemProps, ref) => {
 	const {onItemClick} = useContext(ListContext)
 	const className = classnames(styles['item'], externalStyle)
 	const onClick = (e: React.MouseEvent<HTMLElement>) => {
@@ -50,11 +50,16 @@ function Item({id, children, className: externalStyle}: ItemProps) {
 	}
 
 	return (
-		<div className={className} onClick={onClick}>
+		<div
+			className={className}
+			onClick={onClick}
+			ref={ref}
+		>
 			{children}
 		</div>
 	)
-}
+})
+
 
 ActionList.Item = Item
 
