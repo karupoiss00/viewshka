@@ -14,7 +14,7 @@
 .switcher {
     width: 30px;
     height: 30px;
-    border-radius: 50%;
+    border-radius: 15px;
     transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 

@@ -1,5 +1,5 @@
 import classnames from 'classnames'
-import {useState} from 'react'
+import {useCallback, useState} from 'react'
 import styles from './Switcher.module.css'
 
 type SwitcherProps = {
@@ -10,10 +10,10 @@ type SwitcherProps = {
 function Switcher({onClick, initialValue = false}: SwitcherProps) {
 	const [switchState, setSwitchState] = useState(initialValue)
 
-	const onSwitch = () => {
+	const onSwitch = useCallback(() => {
 		onClick(!switchState)
 		setSwitchState(!switchState)
-	}
+	}, [onClick, switchState])
 
 	const switcherClassName = classnames(styles['switcher'], {
 		[styles['switcher--off']]: !switchState,
