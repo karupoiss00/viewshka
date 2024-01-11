@@ -1,0 +1,24 @@
+.preloader {
+    width: 24px;
+    height: 24px;
+    border: 2px solid transparent;
+    border-top-color: var(--text-color-default);
+    border-radius: 50%;
+    animation: loading-spinner 1s ease infinite;
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@keyframes loading-spinner {
+    from {
+        transform: rotate(0turn);
+    }
+
+    to {
+        transform: rotate(1turn);
+    }
+}

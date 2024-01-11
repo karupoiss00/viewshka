@@ -3,7 +3,7 @@ import classnames from 'classnames'
 import {Gradient} from '../types/Gradient'
 import styles from './Avatar.module.css'
 
-type AvatarSize = 'large' | 'medium' | 'small'
+type AvatarSize = 'large' | 'medium' | 'small' | 'xsmall'
 
 type CommonAvatarProps = {
     size: AvatarSize
@@ -47,13 +47,9 @@ function AvatarImage({avatarUrl, size}: AvatarImageProps) {
 }
 
 function GradientAvatar({name, size, gradient}: GradientAvatarProps) {
-	const containerClassName = classnames(styles['avatar-container'], {
-		[styles[`avatar-container--${size}`]]: true,
-	})
+	const containerClassName = classnames(styles['avatar-container'], styles[`avatar-container--${size}`])
 
-	const textClassName = classnames(styles['avatar-text'], {
-		[styles[`avatar-text--${size}`]]: true,
-	})
+	const textClassName = classnames(styles['avatar-text'], styles[`avatar-text--${size}`])
 
 	const backgroundGradient = gradient == null
 		? generateRandomGradient(name)

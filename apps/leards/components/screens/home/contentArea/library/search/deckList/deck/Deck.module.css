@@ -8,6 +8,7 @@
     color: var(--text-color-default);
     align-items: center;
     cursor: pointer;
+    padding-inline: 37px 12px;
 }
 
 .deck:hover {
@@ -20,10 +21,17 @@
 
 .icon {
     padding-block: 20px;
-    padding-inline: 37px 63px;
+    padding-inline-end: 63px;
 }
 
 .info-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    flex-grow: 1;
+}
+
+.deck-info-container {
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -40,4 +48,23 @@
     gap: 5px;
     color: var(--text-color-subdued);
     font: var(--text-xsmall-light);
+}
+
+.author-container {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    align-items: center;
+    height: 24px;
+    align-self: end;
+}
+
+.author-name {
+    align-items: center;
+    font: var(--text-xsmall-regular);
+    color: var(--text-color-subdued);
+    max-width: 145px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }

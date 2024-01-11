@@ -14,7 +14,7 @@
 .list > *:last-child:after {
     display: flex;
     content: '';
-    height: 500px;
+    height: 400px;
 }
 
 .separator {

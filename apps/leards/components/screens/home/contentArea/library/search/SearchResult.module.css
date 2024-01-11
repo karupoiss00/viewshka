@@ -18,3 +18,8 @@
     height: 100%;
     gap: 20px;
 }
+
+.loading-container {
+    flex-grow: 1;
+    flex-shrink: 0;
+}

@@ -11,14 +11,19 @@
     height: 160px;
 }
 
+.avatar-container--medium {
+    width: 60px;
+    height: 60px;
+}
+
 .avatar-container--small {
     width: 36px;
     height: 36px;
 }
 
-.avatar-container--medium {
-    width: 60px;
-    height: 60px;
+.avatar-container--xsmall {
+    width: 24px;
+    height: 24px;
 }
 
 .avatar-gradient {
@@ -45,6 +50,10 @@
 }
 
 .avatar-text--small {
+    font: var(--text-xsmall-light);
+}
+
+.avatar-text--xsmall {
     font: var(--text-xsmall-light);
 }
 

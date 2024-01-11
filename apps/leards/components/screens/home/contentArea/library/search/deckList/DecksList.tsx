@@ -1,20 +1,23 @@
 import {SearchResult} from '@leards/api/generated'
 import {isLast} from '@viewshka/core'
-import React from 'react'
+import {PropsWithOnlyChild} from '@viewshka/uikit'
+import React, {PropsWithChildren} from 'react'
 import {Deck} from './deck/Deck'
 import styles from './DecksList.module.css'
 
-type DecksListProps = {
+type DecksListProps = PropsWithOnlyChild & {
 	decks: SearchResult[]
 	onDeckClick: (deckId: string) => void
 }
-function DecksList({decks, onDeckClick}: DecksListProps) {
+function DecksList({decks, onDeckClick, children}: DecksListProps) {
 	const listElements = decks.map((deck, index) => (
 		<div key={`deck-with-separator-${index}`}>
 			<Deck
 				name={deck.name}
 				tags={deck.tags}
 				key={deck.id}
+				authorAvatarUrl={deck.profileIconPath}
+				authorName={deck.authorName}
 				onClick={() => onDeckClick(deck.id)}
 			/>
 			{
@@ -30,6 +33,7 @@ function DecksList({decks, onDeckClick}: DecksListProps) {
 	return (
 		<div className={styles.list}>
 			{listElements}
+			{children}
 		</div>
 	)
 }
