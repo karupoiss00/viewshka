@@ -1,4 +1,4 @@
-import FlipCardsStack from '@leards/components/screens/practice/common/flipCards/FlipCardsStack'
+import {FlipCardsStack} from '@leards/components/screens/practice/common/flipCards/FlipCardsStack'
 import Controls from '@leards/components/screens/practice/flip/controls/Controls'
 import {cardsLeftAtom, currentCardAtom} from '@leards/components/screens/practice/flip/viewmodel/practiceAtom'
 import {useAtom} from '@reatom/npm-react'

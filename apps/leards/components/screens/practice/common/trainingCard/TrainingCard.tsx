@@ -1,7 +1,7 @@
 import React, {PropsWithChildren} from 'react'
-import styles from './ResultCard.module.css'
+import styles from './TrainingCard.module.css'
 
-function ResultCard({children}: PropsWithChildren) {
+function TrainingCard({children}: PropsWithChildren) {
 	return (
 		<div className={styles.resultCard}>
 			{children}
@@ -10,5 +10,5 @@ function ResultCard({children}: PropsWithChildren) {
 }
 
 export {
-	ResultCard,
+	TrainingCard,
 }

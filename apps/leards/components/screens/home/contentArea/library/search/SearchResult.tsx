@@ -10,7 +10,6 @@ import {useAction} from '@reatom/npm-react'
 import {useDebounce} from '@viewshka/core'
 import {ReachablePreloaderContainer, TextField} from '@viewshka/uikit'
 import React, {useCallback, useState} from 'react'
-import {useQuery} from 'react-query'
 import {selectionActions} from '../../../viewmodel/selectionAtom'
 import {DecksList} from './deckList/DecksList'
 import styles from './SearchResult.module.css'
@@ -75,16 +74,30 @@ function SearchResult() {
 }
 
 function MostPopularDecks() {
-	const {data, isLoading} = useQuery('popularDecks', async () => ({
-		content: [],
-	}))
+	const handleSelectDeckAction = useAction(selectionActions.selectDeck)
+	const selectDeck = useCallback((id: string) => handleSelectDeckAction({
+		deckId: id,
+	}), [handleSelectDeckAction])
 
-	if (!data || isLoading) {
-		return null
-	}
+	const {visibleItems, showPreloader, revealNext} = usePaginatedSearchQuery({
+		searchString: '#2',
+		searchType: 'name',
+		orderBy: 'desc',
+		sortType: 'rating',
+	})
 
 	return (
-		<DecksList decks={data.content} onDeckClick={() => {}}/>
+		<DecksList
+			decks={visibleItems.filter(x => !!x)}
+			onDeckClick={selectDeck}
+		>
+			{
+				showPreloader && <ReachablePreloaderContainer
+					className={styles.loadingContainer}
+					onPreloaderReached={revealNext}
+				/>
+			}
+		</DecksList>
 	)
 }
 

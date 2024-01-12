@@ -1,4 +1,4 @@
-import {ResultCard} from '@leards/components/screens/practice/flip/results/common/ResultCard'
+import {TrainingCard} from '@leards/components/screens/practice/common/trainingCard/TrainingCard'
 import {practiceActions, practiceAtom} from '@leards/components/screens/practice/flip/viewmodel/practiceAtom'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
@@ -22,7 +22,7 @@ function IntermediateResult({onExit}: IntermediateResultProps) {
 
 	return (
 		<div className={styles.container}>
-			<ResultCard>
+			<TrainingCard>
 				<div className={styles.header}>{getMessage('Practice.Flip.WantContinue')}</div>
 				<Stats
 					learnedCardsCount={cardsLearned}
@@ -32,7 +32,7 @@ function IntermediateResult({onExit}: IntermediateResultProps) {
 					onContinuePractice={() => handleContinuePracticeAction()}
 					onExit={onExit}
 				/>
-			</ResultCard>
+			</TrainingCard>
 		</div>
 	)
 }
