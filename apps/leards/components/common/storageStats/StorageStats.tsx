@@ -12,13 +12,14 @@ import {useQuery} from 'react-query'
 type StorageStatsProps = {
 	storageType: StorageType
 	storageId: string
+	pieHole?: number
 }
-function StorageStats({storageType, storageId}: StorageStatsProps) {
+function StorageStats({storageType, storageId, pieHole = 0.6}: StorageStatsProps) {
 	const [settings] = useAtom(settingsAtom)
 	const getMessage = useMessages()
 	const stats = useStorageStatsQuery(storageType, storageId)
 	const options = {
-		pieHole: 0.6,
+		pieHole,
 		backgroundColor: 'transparent',
 		slices: {
 			0: {

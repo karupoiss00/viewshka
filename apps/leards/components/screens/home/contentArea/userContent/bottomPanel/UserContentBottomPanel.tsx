@@ -71,7 +71,7 @@ function StatsButton({deckId}: StatsButtonProps) {
 			</Button>
 			<Popup triggerRef={buttonRef}>
 				<Popup.Content className={styles.statsPopup}>
-					<StorageStats storageType={'deck'} storageId={deckId}/>
+					<StorageStats storageType={'deck'} storageId={deckId} pieHole={0.4}/>
 				</Popup.Content>
 			</Popup>
 		</>
