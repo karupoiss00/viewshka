@@ -79,6 +79,6 @@ export const ruMessages = {
 	'SpaceRepetition.Button.Finish': 'Выйти',
 	'SpaceRepetition.Stats.New': 'Новые',
 	'SpaceRepetition.Stats.Learning': 'Изучаемые',
-	'SpaceRepetition.Stats.Review': 'Изученные',
-	'SpaceRepetition.Stats.Repeat': 'Требующие повторения',
+	'SpaceRepetition.Stats.Review': 'Выученные',
+	'SpaceRepetition.Stats.Repeat': 'Повторяемые',
 }

@@ -80,5 +80,5 @@ export const enMessages = {
 	'SpaceRepetition.Stats.New': 'New',
 	'SpaceRepetition.Stats.Learning': 'Learning',
 	'SpaceRepetition.Stats.Review': 'Review',
-	'SpaceRepetition.Stats.Repeat': 'Need to repeat',
+	'SpaceRepetition.Stats.Repeat': 'Relearning',
 }
