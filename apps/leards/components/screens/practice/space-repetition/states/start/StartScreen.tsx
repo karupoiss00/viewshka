@@ -1,6 +1,7 @@
 import {Card} from '@leards/api/generated'
 import {TrainingCard} from '@leards/components/screens/practice/common/trainingCard/TrainingCard'
 import {repetitionActions} from '@leards/components/screens/practice/space-repetition/viewmodel/repetitionStateAtom'
+import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction} from '@reatom/npm-react'
 import {Button} from '@viewshka/uikit'
 import React from 'react'
@@ -10,6 +11,7 @@ type StartScreenProps = {
 	firstCard: Card
 }
 function StartScreen({firstCard}: StartScreenProps) {
+	const getMessage = useMessages()
 	const handleStartRepetitionAction = useAction(repetitionActions.showNextCard)
 	const start = () => {
 		handleStartRepetitionAction({
@@ -21,11 +23,11 @@ function StartScreen({firstCard}: StartScreenProps) {
 		<div className={styles.container}>
 			<TrainingCard>
 				<div className={styles.description}>
-					Интервальные повторения — техника удержания в памяти, заключающаяся в повторении запомненного учебного материала по определённым, постоянно возрастающим интервалам.
+					{getMessage('SpaceRepetition.Description')}
 				</div>
 				<div className={styles.buttonContainer}>
 					<Button type="primary" size="medium" onClick={start}>
-						Начать
+						{getMessage('SpaceRepetition.Button.Start')}
 					</Button>
 				</div>
 			</TrainingCard>

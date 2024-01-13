@@ -6,6 +6,7 @@ import {IntermediateResult} from '@leards/components/screens/practice/flip/resul
 import {TotalResult} from '@leards/components/screens/practice/flip/results/TotalResult'
 import Controls from '@leards/components/screens/practice/space-repetition/controls/Controls'
 import {useStorageParams} from '@leards/components/screens/practice/space-repetition/hooks/useStorageParams'
+import {FinishScreen} from '@leards/components/screens/practice/space-repetition/states/finish/FinishScreen'
 import {CardScreen} from '@leards/components/screens/practice/space-repetition/states/inProgress/CardScreen'
 import {StartScreen} from '@leards/components/screens/practice/space-repetition/states/start/StartScreen'
 import {
@@ -34,7 +35,7 @@ function SpaceRepetition() {
 	const contentMap = {
 		'start': <StartScreen firstCard={firstCard}/>,
 		'in-progress': <CardScreen/>,
-		'finished': <div>завершено</div>,
+		'finished': <FinishScreen/>,
 	}
 
 	return (

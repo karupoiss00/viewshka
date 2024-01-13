@@ -48,8 +48,6 @@ function useBatchedListItems<ITEM>(props: BatchedListItemsArgs<ITEM>): BatchedLi
 		[batchSize, batchDelay],
 	)
 
-	console.log(batchSize, visibleCount, items.length)
-
 	return {
 		visibleItems,
 		showPreloader: !!batchSize && visibleCount < items.length,

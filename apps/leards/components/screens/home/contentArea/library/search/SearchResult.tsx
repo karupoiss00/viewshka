@@ -3,9 +3,11 @@ import {
 	SearchPublicStoragesSearchTypeEnum,
 	SearchPublicStoragesSortTypeEnum,
 } from '@leards/api/generated'
+import {EmptyPlaceholder} from '@leards/components/common/placeholder/EmptyPlaceholder'
 import {
 	usePaginatedSearchQuery,
 } from '@leards/components/screens/home/contentArea/library/search/usePaginatedSearchQuery'
+import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction} from '@reatom/npm-react'
 import {useDebounce} from '@viewshka/core'
 import {ReachablePreloaderContainer, TextField} from '@viewshka/uikit'
@@ -30,7 +32,7 @@ function SearchResult() {
 		orderBy,
 		sortType,
 	})
-
+	const searchResult = visibleItems.filter(x => !!x)
 	const selectDeck = useCallback((id: string) => handleSelectDeckAction({
 		deckId: id,
 	}), [handleSelectDeckAction])
@@ -54,17 +56,19 @@ function SearchResult() {
 				}
 				{
 					searchString
-						? <DecksList
-							decks={visibleItems.filter(x => !!x)}
-							onDeckClick={selectDeck}
-						>
-							{
-								showPreloader && <ReachablePreloaderContainer
-									className={styles.loadingContainer}
-									onPreloaderReached={revealNext}
-								/>
-							}
-						</DecksList>
+						? searchResult.length > 0
+							? <DecksList
+								decks={searchResult}
+								onDeckClick={selectDeck}
+							>
+								{
+									showPreloader && <ReachablePreloaderContainer
+										className={styles.loadingContainer}
+										onPreloaderReached={revealNext}
+									/>
+								}
+							</DecksList>
+							: <Placeholder/>
 						: <MostPopularDecks/>
 				}
 
@@ -101,6 +105,12 @@ function MostPopularDecks() {
 	)
 }
 
+
+function Placeholder() {
+	const getMessage = useMessages()
+
+	return <EmptyPlaceholder text={getMessage('Library.Search.Placeholder.NothingFound')}/>
+}
 
 export {
 	SearchResult,

@@ -1,4 +1,5 @@
 import {SpaceRepetitionAPI} from '@leards/api/SpaceRepetitionAPI'
+import {StorageStats} from '@leards/components/common/storageStats/StorageStats'
 import {userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {BottomPanel} from '@leards/components/screens/home/contentArea/common/BottomPanel'
 import {StorageType} from '@leards/components/screens/home/viewmodel/selection/Selection'
@@ -7,9 +8,10 @@ import {goToSpaceRepetition} from '@leards/components/screens/practice/space-rep
 import {useCardsQuery} from '@leards/hooks/useCardsQuery'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
-import {Button} from '@viewshka/uikit'
-import React, {useEffect, useState} from 'react'
+import {Button, Popup} from '@viewshka/uikit'
+import React, {useEffect, useRef, useState} from 'react'
 import {useQuery} from 'react-query'
+import styles from './UserContentBottomPanel.module.css'
 
 interface UserContentBottomPanelProps {
 	storageType: StorageType,
@@ -45,7 +47,34 @@ function UserContentBottomPanel({storageType, storageId}: UserContentBottomPanel
 			>
 				{getMessage('Button.Practice.SpaceRepetition')}
 			</Button>
+			{storageType === 'deck' && !!cards.length && <StatsButton deckId={storageId}/>}
 		</BottomPanel>
+	)
+}
+
+type StatsButtonProps = {
+	deckId: string
+}
+
+function StatsButton({deckId}: StatsButtonProps) {
+	const buttonRef = useRef<HTMLButtonElement>(null)
+	const getMessage = useMessages()
+
+	return (
+		<>
+			<Button
+				type="secondary"
+				size="medium"
+				ref={buttonRef}
+			>
+				{getMessage('Button.DeckStats')}
+			</Button>
+			<Popup triggerRef={buttonRef}>
+				<Popup.Content className={styles.statsPopup}>
+					<StorageStats storageType={'deck'} storageId={deckId}/>
+				</Popup.Content>
+			</Popup>
+		</>
 	)
 }
 

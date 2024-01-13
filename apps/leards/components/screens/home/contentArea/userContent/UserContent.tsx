@@ -1,5 +1,3 @@
-import {DecksAPI} from '@leards/api/DecksAPI'
-import {FoldersAPI} from '@leards/api/FoldersAPI'
 import {userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {
 	UserContentBottomPanel,
@@ -8,6 +6,7 @@ import {SelectedStorageData} from '@leards/components/screens/home/viewmodel/sel
 import {useAtom} from '@reatom/npm-react'
 import React from 'react'
 import {DeckViewer} from '../common/deck/DeckViewer'
+import {FolderStats} from './stats/FolderStats'
 import styles from './UserContent.module.css'
 
 
@@ -25,6 +24,10 @@ function UserContent({selectedContent}: UserContentProps) {
 			{
 				storageType === 'deck'
 					&& <DeckViewer deckId={storageId} readonly={false}/>
+			}
+			{
+				storageType === 'folder'
+				&& <FolderStats storageType={storageType} storageId={storageId}/>
 			}
 			{showBottomPanel && <UserContentBottomPanel storageType={storageType} storageId={storageId}/>}
 		</div>
