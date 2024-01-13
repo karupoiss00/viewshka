@@ -37,7 +37,7 @@ function loadLocalUserData(provider: IUserProvider): Omit<User, 'authToken'> | n
 	const rootFolderId = provider.getRootFolderId()
 	const name = provider.getName()
 
-	if (!email || !userId || !profileIcon || !rootFolderId || !name) {
+	if (!email || !userId || !rootFolderId || !name) {
 		return null
 	}
 

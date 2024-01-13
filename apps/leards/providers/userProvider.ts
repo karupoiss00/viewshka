@@ -1,3 +1,5 @@
+import {isNull, isUndefined} from '@viewshka/core'
+
 interface IUserProvider {
 	getUserId(): string | null;
 
@@ -33,7 +35,15 @@ const UserProvider: IUserProvider = {
 	setName: (name: string) => window.localStorage.setItem(USER_NAME_KEY, name),
 	getEmail: () => window.localStorage.getItem(USER_EMAIL_KEY),
 	setEmail: (email: string) => window.localStorage.setItem(USER_EMAIL_KEY, email),
-	getAvatarUrl: () => window.localStorage.getItem(USER_AVATAR_URL_KEY),
+	getAvatarUrl: () => {
+		const urlStr = window.localStorage.getItem(USER_AVATAR_URL_KEY)
+
+		if (!urlStr || isNull(urlStr) || isUndefined(urlStr)) {
+			return null
+		}
+
+		return urlStr
+	},
 	setAvatarUrl: (avatarUrl: string) => window.localStorage.setItem(USER_AVATAR_URL_KEY, avatarUrl),
 	getRootFolderId: () => window.localStorage.getItem(USER_ROOT_FOLDER_ID_KEY),
 	setRootFolderId: (id: string) => window.localStorage.setItem(USER_ROOT_FOLDER_ID_KEY, id),
