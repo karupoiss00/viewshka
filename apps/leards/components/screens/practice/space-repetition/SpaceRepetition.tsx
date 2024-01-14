@@ -69,16 +69,15 @@ function useStartupData() {
 
 	const handleFinishSpaceRepetition = useAction(repetitionActions.finishRepetition)
 	const {name: title, isLoading: nameLoading} = useStorageNameQuery(storageType, storageId)
-	const {data: firstCard, status, isLoading: firstCardLoading} = useQuery('space-repetition-init', async () => {
+	const {data: firstCard, status, isLoading: firstCardLoading} = useQuery(['space-repetition-init', storageId, storageType], async () => {
 		const response = await SpaceRepetitionAPI.get().getNextCard(
 			user.id,
 			storageType,
 			storageId,
 		)
 
-		return response.data.card
-	},
-	)
+		return response.data
+	})
 
 	useEffect(() => {
 		if (status !== 'success') {

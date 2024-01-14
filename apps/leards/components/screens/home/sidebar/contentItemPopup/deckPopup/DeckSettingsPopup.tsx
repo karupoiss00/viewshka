@@ -46,11 +46,10 @@ function DeckSettingsPopup({deckId}: DeckSettingsPopupProps) {
 }
 
 function useDeleteDeckMutation(deckId: string) {
-	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
 	const handleDeleteContent = useAction(currentFolderActions.remove)
 
 	return useMutation(['removeDeck', deckId], async () => {
-		await DecksAPI.get().deleteDeckById(selectedFolderId, deckId)
+		await DecksAPI.get().deleteDeckById(deckId)
 		handleDeleteContent({contentId: deckId})
 	})
 }
@@ -88,7 +87,7 @@ function useUpdateDeckMutation(deckId: string) {
 		}
 
 		const api = DecksAPI.get()
-		const response = await api.updateDeckById(selectedFolderId, deckId, {
+		const response = await api.updateDeckById(deckId, {
 			name,
 		})
 		const deck = response.data.deck

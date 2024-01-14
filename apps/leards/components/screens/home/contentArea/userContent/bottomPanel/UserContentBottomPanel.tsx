@@ -5,9 +5,10 @@ import {BottomPanel} from '@leards/components/screens/home/contentArea/common/Bo
 import {StorageType} from '@leards/components/screens/home/viewmodel/selection/Selection'
 import {goToFlipPractice} from '@leards/components/screens/practice/flip/FlipPractice'
 import {goToSpaceRepetition} from '@leards/components/screens/practice/space-repetition/SpaceRepetition'
+import {repetitionActions} from '@leards/components/screens/practice/space-repetition/viewmodel/repetitionStateAtom'
 import {useCardsQuery} from '@leards/hooks/useCardsQuery'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
-import {useAtom} from '@reatom/npm-react'
+import {useAction, useAtom} from '@reatom/npm-react'
 import {Button, Popup} from '@viewshka/uikit'
 import React, {useEffect, useRef, useState} from 'react'
 import {useQuery} from 'react-query'
@@ -22,6 +23,7 @@ function UserContentBottomPanel({storageType, storageId}: UserContentBottomPanel
 	const {cards} = useCardsQuery(storageType, storageId)
 	const canPractice = !!cards.length
 	const canStartSpaceRepetition = useSpaceRepetitionAvailable(storageId, storageType)
+	const handleStartSpaceRepetition = useAction(repetitionActions.startRepetition)
 
 	return (
 		<BottomPanel>
@@ -40,10 +42,13 @@ function UserContentBottomPanel({storageType, storageId}: UserContentBottomPanel
 				type="secondary"
 				size="medium"
 				state={canStartSpaceRepetition ? 'default' : 'disabled'}
-				onClick={() => goToSpaceRepetition({
-					storageId,
-					storageType,
-				})}
+				onClick={() => {
+					handleStartSpaceRepetition()
+					goToSpaceRepetition({
+						storageId,
+						storageType,
+					})
+				}}
 			>
 				{getMessage('Button.Practice.SpaceRepetition')}
 			</Button>
@@ -78,13 +83,13 @@ function StatsButton({deckId}: StatsButtonProps) {
 	)
 }
 
-function useSpaceRepetitionAvailable(storageId: string, storageType: string) {
+function useSpaceRepetitionAvailable(storageId: string, storageType: StorageType) {
 	const [user] = useAtom(userAtom)
 	const [available, setAvailable] = useState(false)
 
 	const {data, status} = useQuery(['repetitionAvailable', storageId, storageType], async () => {
 		const response = await SpaceRepetitionAPI.get().getNextCard(user.id, storageType, storageId)
-		return !!response.data.card
+		return !!response.data
 	})
 
 	useEffect(() => {

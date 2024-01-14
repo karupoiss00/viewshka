@@ -20,6 +20,12 @@ const repetitionStateAtom = atom<RepetitionState>({
 	state: 'start',
 })
 
+const startRepetition = action(ctx => {
+	repetitionStateAtom(ctx, {
+		state: 'start',
+	})
+})
+
 type StartRepetitionActionPayload = {
 	card: Card
 }
@@ -38,6 +44,7 @@ const finishRepetition = action(ctx => {
 })
 
 const repetitionActions = {
+	startRepetition,
 	showNextCard,
 	finishRepetition,
 } as const

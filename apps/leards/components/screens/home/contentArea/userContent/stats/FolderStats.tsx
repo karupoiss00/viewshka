@@ -4,13 +4,12 @@ import React from 'react'
 import styles from './FolderStats.module.css'
 
 type FolderStatsProps = {
-	storageType: StorageType
-	storageId: string
+	folderId: string
 }
 function FolderStats(props: FolderStatsProps) {
 	return (
 		<div className={styles.container}>
-			<StorageStats {...props}/>
+			<StorageStats storageType="folder" storageId={props.folderId}/>
 		</div>
 	)
 }

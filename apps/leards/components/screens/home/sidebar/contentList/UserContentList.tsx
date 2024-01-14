@@ -160,7 +160,7 @@ function useDeckCreateMutation() {
 	const handleAddMaterial = useAction(currentFolderActions.add)
 
 	return useMutation(async () => {
-		const response = await DecksAPI.get().createNewDeck(selectedFolderId, {
+		const response = await DecksAPI.get().createNewDeck({
 			parentFolderId: selectedFolderId,
 			name: getMessage('Deck.DefaultName'),
 			userId: user.id,

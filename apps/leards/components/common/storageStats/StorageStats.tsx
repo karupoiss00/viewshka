@@ -1,4 +1,4 @@
-import {SpaceRepetitionAPI, StorageStatistics} from '@leards/api/SpaceRepetitionAPI'
+import {SpaceRepetitionAPI} from '@leards/api/SpaceRepetitionAPI'
 import {EmptyPlaceholder} from '@leards/components/common/placeholder/EmptyPlaceholder'
 import {settingsAtom} from '@leards/components/common/viewmodel/settingsAtom'
 import {userAtom} from '@leards/components/common/viewmodel/userAtom'
@@ -42,7 +42,7 @@ function StorageStats({storageType, storageId, pieHole = 0.6}: StorageStatsProps
 		},
 	}
 
-	if (!stats) {
+	if (!stats || Object.values(stats).every(count => count === 0)) {
 		return <EmptyPlaceholder text={getMessage('ContentArea.Stats.Placeholder')}/>
 	}
 
@@ -66,10 +66,12 @@ function StorageStats({storageType, storageId, pieHole = 0.6}: StorageStatsProps
 
 function useStorageStatsQuery(storageType: StorageType, storageId: string) {
 	const [user] = useAtom(userAtom)
-	const [stats, setStats] = useState<StorageStatistics>(null)
+	const [stats, setStats] = useState(null)
 	const {data, isSuccess} = useQuery(['stats', storageId, storageType], async () => {
 		const response = await SpaceRepetitionAPI.get().getStorageStats(user.id, storageType, storageId)
 		return response.data
+	}, {
+		refetchInterval: 1000,
 	})
 
 	useEffect(() => {

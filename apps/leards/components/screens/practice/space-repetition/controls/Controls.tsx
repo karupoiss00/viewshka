@@ -1,4 +1,5 @@
-import {AnswerType, SpaceRepetitionAPI} from '@leards/api/SpaceRepetitionAPI'
+import {ReviewAnswerEnum} from '@leards/api/generated'
+import {SpaceRepetitionAPI} from '@leards/api/SpaceRepetitionAPI'
 import {userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {useStorageParams} from '@leards/components/screens/practice/space-repetition/hooks/useStorageParams'
 import {repetitionActions} from '@leards/components/screens/practice/space-repetition/viewmodel/repetitionStateAtom'
@@ -18,16 +19,20 @@ function Controls({cardId}: ControlsProps) {
 	const handleFinishRepetition = useAction(repetitionActions.finishRepetition)
 	const getMessage = useMessages()
 
-	const reviewCard = useCallback(async (answer: AnswerType) => {
-		await SpaceRepetitionAPI.get().answerCard(user.id, cardId, answer)
+	const reviewCard = useCallback(async (answer: ReviewAnswerEnum) => {
+		await SpaceRepetitionAPI.get().reviewCard({
+			userId: user.id,
+			cardId,
+			reviewAnswer: answer,
+		})
 		const response = await SpaceRepetitionAPI.get().getNextCard(
 			user.id,
 			storageType,
 			storageId,
 		)
-		if (response.data.card) {
+		if (response.data) {
 			handleSwitchToNextCard({
-				card: response.data.card,
+				card: response.data,
 			})
 		}
 		else {

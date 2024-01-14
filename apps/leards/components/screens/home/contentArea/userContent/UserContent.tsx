@@ -27,7 +27,7 @@ function UserContent({selectedContent}: UserContentProps) {
 			}
 			{
 				storageType === 'folder'
-				&& <FolderStats storageType={storageType} storageId={storageId}/>
+				&& <FolderStats folderId={storageId || rootFolderId}/>
 			}
 			{showBottomPanel && <UserContentBottomPanel storageType={storageType} storageId={storageId}/>}
 		</div>
