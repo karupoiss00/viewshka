@@ -3,6 +3,7 @@ import {EmptyPlaceholder} from '@leards/components/common/placeholder/EmptyPlace
 import {settingsAtom} from '@leards/components/common/viewmodel/settingsAtom'
 import {userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {StorageType} from '@leards/components/screens/home/viewmodel/selection/Selection'
+import {selectionAtom} from '@leards/components/screens/home/viewmodel/selectionAtom'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {useEffect, useState} from 'react'
@@ -66,12 +67,11 @@ function StorageStats({storageType, storageId, pieHole = 0.6}: StorageStatsProps
 
 function useStorageStatsQuery(storageType: StorageType, storageId: string) {
 	const [user] = useAtom(userAtom)
+	const [selection] = useAtom(selectionAtom)
 	const [stats, setStats] = useState(null)
-	const {data, isSuccess} = useQuery(['stats', storageId, storageType], async () => {
+	const {data, isSuccess} = useQuery(['stats', selection.content?.id, storageId, storageType], async () => {
 		const response = await SpaceRepetitionAPI.get().getStorageStats(user.id, storageType, storageId)
 		return response.data
-	}, {
-		refetchInterval: 1000,
 	})
 
 	useEffect(() => {
