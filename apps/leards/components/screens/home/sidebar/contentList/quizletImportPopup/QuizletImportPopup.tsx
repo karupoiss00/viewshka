@@ -81,7 +81,7 @@ function useImportDeckMutation() {
 			onImportComplete()
 		}
 
-		const response = await DecksAPI.get().createNewDeck(selectedFolderId, {
+		const response = await DecksAPI.get().createNewDeck({
 			userId: user.id,
 			parentFolderId: selectedFolderId,
 			name: data.cards[0].front,
