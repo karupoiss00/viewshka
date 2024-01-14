@@ -18,15 +18,15 @@ function TokensStory() {
 			</StoryColumn>
 
 			<StoryColumn width={500} name="Fonts">
-				<FontExample fontName="--large-regular-text"/>
-				<FontExample fontName="--large-light-text"/>
-				<FontExample fontName="--normal-medium-text" />
-				<FontExample fontName="--normal-regular-text" />
-				<FontExample fontName="--normal-light-text" />
-				<FontExample fontName="--small-medium-text" />
-				<FontExample fontName="--small-regular-text" />
-				<FontExample fontName="--small-light-text" />
-				<FontExample fontName="--xsmall-light-text" />
+				<FontExample fontName="--text-large-regular"/>
+				<FontExample fontName="--text-large-light"/>
+				<FontExample fontName="--text-normal-medium" />
+				<FontExample fontName="--text-normal-regular" />
+				<FontExample fontName="--text-normal-light" />
+				<FontExample fontName="--text-small-medium" />
+				<FontExample fontName="--text-small-regular" />
+				<FontExample fontName="--text-small-light" />
+				<FontExample fontName="--text-xsmall-light" />
 			</StoryColumn>
 		</ComponentStory>
 	)
