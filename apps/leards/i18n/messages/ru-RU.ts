@@ -15,6 +15,7 @@ export const ruMessages = {
 	'Error.PasswordNotMatching': 'Пароли не совпадают',
 	'Button.Create.Folder': 'Создать папку',
 	'Button.Create.Deck': 'Создать колоду',
+	'Button.Import.Quizlet.Deck': 'Выгрузить из Quizlet',
 	'Button.Practice.SpaceRepetition': 'Интервальное повторение',
 	'Button.Practice.Flip': 'Карточки',
 	'Button.Add.Material': 'Добавить',
@@ -81,4 +82,6 @@ export const ruMessages = {
 	'SpaceRepetition.Stats.Learning': 'Изучаемые',
 	'SpaceRepetition.Stats.Review': 'Освоенные',
 	'SpaceRepetition.Stats.Repeat': 'Повторно изучаемые',
+	'QuizletImportPopup.Header': 'Вставьте ссылку на колоду:',
+	'QuizletImportPopup.Button.Import': 'Сохранить',
 }

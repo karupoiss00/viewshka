@@ -5,7 +5,7 @@ import {
 	MouseEvent,
 	PropsWithChildren,
 	useCallback,
-	useContext, useMemo,
+	useContext, useEffect, useMemo,
 	useRef,
 	useState,
 } from 'react'
@@ -35,9 +35,12 @@ const PopupContext = React.createContext<PopupContextData>({
 interface PopupProps {
 	children: React.ReactNode
 	triggerRef?: React.RefObject<HTMLElement>,
+
+	onClose?: () => void
+	opened?: boolean,
 }
 
-function Popup({children, triggerRef}: PopupProps) {
+function Popup({children, triggerRef, opened, onClose}: PopupProps) {
 	const [show, setShow] = useState(false)
 
 	const contextValue = useMemo(() => ({
@@ -47,9 +50,23 @@ function Popup({children, triggerRef}: PopupProps) {
 	}), [show])
 
 
+	useEffect(() => {
+		setShow(!!opened)
+	}, [opened])
+
+	useEffect(() => {
+		if (!show) {
+			onClose && onClose()
+		}
+	}, [onClose, show])
+
 	useEventListener(
 		'mousedown',
-		() => setShow(isShow => !isShow),
+		() => {
+			if (triggerRef?.current) {
+				setShow(isShow => !isShow)
+			}
+		},
 		triggerRef,
 	)
 

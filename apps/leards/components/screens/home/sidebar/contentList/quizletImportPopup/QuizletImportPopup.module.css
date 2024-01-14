@@ -1,0 +1,17 @@
+.popup {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+    justify-content: center;
+}
+
+.header {
+    font: var(--text-normal-regular);
+    color: var(--text-color-default);
+}
+
+.text-field {
+    width: 500px;
+    margin-block-end: 30px;
+}

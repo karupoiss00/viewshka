@@ -15,6 +15,7 @@ export const enMessages = {
 	'Error.PasswordNotMatching': 'Passwords not matching',
 	'Button.Create.Folder': 'Create folder',
 	'Button.Create.Deck': 'Create deck',
+	'Button.Import.Quizlet.Deck': 'Import from Quizlet',
 	'Button.Practice.SpaceRepetition': 'Space Repetition',
 	'Button.Practice.Flip': 'Flip Cards',
 	'Button.Add.Material': 'Add',
@@ -81,4 +82,6 @@ export const enMessages = {
 	'SpaceRepetition.Stats.Learning': 'Learning',
 	'SpaceRepetition.Stats.Review': 'Review',
 	'SpaceRepetition.Stats.Repeat': 'Relearning',
+	'QuizletImportPopup.Header': 'Paste deck\'s link:',
+	'QuizletImportPopup.Button.Import': 'Import',
 }
