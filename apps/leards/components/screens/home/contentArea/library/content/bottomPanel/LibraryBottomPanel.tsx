@@ -1,3 +1,4 @@
+import {DecksAPI} from '@leards/api/DecksAPI'
 import {LibraryAPI} from '@leards/api/LibraryAPI'
 import {userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {BottomPanel} from '@leards/components/screens/home/contentArea/common/BottomPanel'
@@ -8,8 +9,9 @@ import {goToFlipPractice} from '@leards/components/screens/practice/flip/FlipPra
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {Button} from '@viewshka/uikit'
+import {useRouter} from 'next/router'
 import React, {useEffect, useState} from 'react'
-import {useMutation} from 'react-query'
+import {useMutation, useQueryClient} from 'react-query'
 import styles from './LibraryBottomPanel.module.css'
 
 interface LibraryBottomPanelProps {
@@ -68,7 +70,7 @@ function AddMaterialBottomPanel() {
 	const getMessage = useMessages()
 	const [deck] = useAtom(currentDeckAtom)
 	const {mutate: addToFavorites} = useAddToFavoriteMutation()
-
+	const {mutate: copyToRoot} = useCopyDeckMutation()
 	if (!deck) {
 		return null
 	}
@@ -85,7 +87,7 @@ function AddMaterialBottomPanel() {
 			<Button
 				type="secondary"
 				size="medium"
-				onClick={() => console.log('copy')}
+				onClick={() => copyToRoot(deck.deckId)}
 			>
 				{getMessage('Button.Copy.Material')}
 			</Button>
@@ -105,6 +107,30 @@ function useAddToFavoriteMutation() {
 		await api.addStorageToFavorite(user.id, 'deck', deckId)
 		const {data} = await api.getFavoriteStorages(user.id)
 		setFavorites([...data.favoriteStorages])
+	})
+}
+
+function useCopyDeckMutation() {
+	const router = useRouter()
+	const queryClient = useQueryClient()
+	const [user] = useAtom(userAtom)
+
+	return useMutation(async (deckId: string) => {
+		if (!user) {
+			return
+		}
+		const api = DecksAPI.get()
+		const {data} = await api.cloneDeckById({
+			userId: user.id,
+			deckId,
+			parentFolderId: user.rootFolderId,
+		})
+
+		await queryClient.refetchQueries(['sidebar-folder-content'])
+
+		console.log(data.deck.content)
+
+		router.push(`/home?section=user-content&storageType=deck&storageId=${data.deck.deckId}`)
 	})
 }
 

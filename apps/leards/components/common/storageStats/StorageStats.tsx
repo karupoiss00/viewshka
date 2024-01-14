@@ -2,6 +2,7 @@ import {SpaceRepetitionAPI} from '@leards/api/SpaceRepetitionAPI'
 import {EmptyPlaceholder} from '@leards/components/common/placeholder/EmptyPlaceholder'
 import {settingsAtom} from '@leards/components/common/viewmodel/settingsAtom'
 import {userAtom} from '@leards/components/common/viewmodel/userAtom'
+import {currentFolderAtom} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
 import {StorageType} from '@leards/components/screens/home/viewmodel/selection/Selection'
 import {selectionAtom} from '@leards/components/screens/home/viewmodel/selectionAtom'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
@@ -68,8 +69,9 @@ function StorageStats({storageType, storageId, pieHole = 0.6}: StorageStatsProps
 function useStorageStatsQuery(storageType: StorageType, storageId: string) {
 	const [user] = useAtom(userAtom)
 	const [selection] = useAtom(selectionAtom)
+	const [currentFolder] = useAtom(currentFolderAtom)
 	const [stats, setStats] = useState(null)
-	const {data, isSuccess} = useQuery(['stats', selection.content?.id, storageId, storageType], async () => {
+	const {data, isSuccess} = useQuery(['stats', selection.content?.id, storageId, storageType, currentFolder?.content?.length], async () => {
 		const response = await SpaceRepetitionAPI.get().getStorageStats(user.id, storageType, storageId)
 		return response.data
 	})
