@@ -1,11 +1,9 @@
 import {DecksAPI} from '@leards/api/DecksAPI'
-import {Deck} from '@leards/api/generated'
 import {SharingAPI} from '@leards/api/SharingAPI'
 import {TagsAPI} from '@leards/api/TagsAPI'
 import {userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {TagsEditor} from '@leards/components/screens/home/sidebar/contentItemPopup/deckPopup/tagsEditor/TagsEditor'
 import {currentFolderActions} from '@leards/components/screens/home/viewmodel/currentFolderAtom'
-import {selectedFolderIdAtom} from '@leards/components/screens/home/viewmodel/selectionAtom'
 import {useAction, useAtom} from '@reatom/npm-react'
 import React, {useCallback, useState} from 'react'
 import {useMutation, useQuery, useQueryClient} from 'react-query'
@@ -62,7 +60,6 @@ type UpdateDeckArgs = {
 }
 function useUpdateDeckMutation(deckId: string) {
 	const [user] = useAtom(userAtom)
-	const [selectedFolderId] = useAtom(selectedFolderIdAtom)
 	const handleUpdateMaterial = useAction(currentFolderActions.update)
 	const queryClient = useQueryClient()
 
@@ -98,7 +95,7 @@ function useUpdateDeckMutation(deckId: string) {
 				id: deck.deckId,
 			},
 		})
-	}, [deckId, handleUpdateMaterial, selectedFolderId])
+	}, [deckId, handleUpdateMaterial])
 
 	const updateAccess = useCallback(async (access: string) => {
 		const api = SharingAPI.get()
