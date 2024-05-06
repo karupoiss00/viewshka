@@ -16,7 +16,7 @@ function DecksList({decks, onDeckClick, children}: DecksListProps) {
 				name={deck.name}
 				tags={deck.tags}
 				key={deck.id}
-				authorAvatarUrl={deck.profileIconPath}
+				authorAvatarUrl={deck.profileIcon}
 				authorName={deck.authorName}
 				onClick={() => onDeckClick(deck.id)}
 			/>
