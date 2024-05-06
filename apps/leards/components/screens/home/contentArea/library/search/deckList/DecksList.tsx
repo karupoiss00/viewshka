@@ -1,7 +1,7 @@
 import {SearchResult} from '@leards/api/generated'
 import {isLast} from '@viewshka/core'
 import {PropsWithOnlyChild} from '@viewshka/uikit'
-import React, {PropsWithChildren} from 'react'
+import React from 'react'
 import {Deck} from './deck/Deck'
 import styles from './DecksList.module.css'
 

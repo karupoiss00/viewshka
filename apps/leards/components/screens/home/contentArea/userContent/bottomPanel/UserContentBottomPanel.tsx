@@ -1,10 +1,18 @@
+import {SpaceRepetitionAPI} from '@leards/api/SpaceRepetitionAPI'
+import {StorageStats} from '@leards/components/common/storageStats/StorageStats'
+import {userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {BottomPanel} from '@leards/components/screens/home/contentArea/common/BottomPanel'
 import {StorageType} from '@leards/components/screens/home/viewmodel/selection/Selection'
 import {goToFlipPractice} from '@leards/components/screens/practice/flip/FlipPractice'
+import {goToSpaceRepetition} from '@leards/components/screens/practice/space-repetition/SpaceRepetition'
+import {repetitionActions} from '@leards/components/screens/practice/space-repetition/viewmodel/repetitionStateAtom'
 import {useCardsQuery} from '@leards/hooks/useCardsQuery'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
-import {Button} from '@viewshka/uikit'
-import React from 'react'
+import {useAction, useAtom} from '@reatom/npm-react'
+import {Button, Popup} from '@viewshka/uikit'
+import React, {useEffect, useRef, useState} from 'react'
+import {useQuery} from 'react-query'
+import styles from './UserContentBottomPanel.module.css'
 
 interface UserContentBottomPanelProps {
 	storageType: StorageType,
@@ -14,6 +22,8 @@ function UserContentBottomPanel({storageType, storageId}: UserContentBottomPanel
 	const getMessage = useMessages()
 	const {cards} = useCardsQuery(storageType, storageId)
 	const canPractice = !!cards.length
+	const canStartSpaceRepetition = useSpaceRepetitionAvailable(storageId, storageType)
+	const handleStartSpaceRepetition = useAction(repetitionActions.startRepetition)
 
 	return (
 		<BottomPanel>
@@ -21,25 +31,74 @@ function UserContentBottomPanel({storageType, storageId}: UserContentBottomPanel
 				type="secondary"
 				size="medium"
 				state={canPractice ? 'default' : 'disabled'}
-				onClick={() => {
-					goToFlipPractice({
-						storageId,
-						storageType,
-					})
-				}}
+				onClick={() => goToFlipPractice({
+					storageId,
+					storageType,
+				})}
 			>
 				{getMessage('Button.Practice.Flip')}
 			</Button>
 			<Button
 				type="secondary"
 				size="medium"
-				state={canPractice ? 'default' : 'disabled'}
-				onClick={() => {}}
+				state={canStartSpaceRepetition ? 'default' : 'disabled'}
+				onClick={() => {
+					handleStartSpaceRepetition()
+					goToSpaceRepetition({
+						storageId,
+						storageType,
+					})
+				}}
 			>
 				{getMessage('Button.Practice.SpaceRepetition')}
 			</Button>
+			{storageType === 'deck' && !!cards.length && <StatsButton deckId={storageId}/>}
 		</BottomPanel>
 	)
+}
+
+type StatsButtonProps = {
+	deckId: string
+}
+
+function StatsButton({deckId}: StatsButtonProps) {
+	const buttonRef = useRef<HTMLButtonElement>(null)
+	const getMessage = useMessages()
+
+	return (
+		<>
+			<Button
+				type="secondary"
+				size="medium"
+				ref={buttonRef}
+			>
+				{getMessage('Button.DeckStats')}
+			</Button>
+			<Popup triggerRef={buttonRef}>
+				<Popup.Content className={styles.statsPopup}>
+					<StorageStats storageType={'deck'} storageId={deckId} pieHole={0.4}/>
+				</Popup.Content>
+			</Popup>
+		</>
+	)
+}
+
+function useSpaceRepetitionAvailable(storageId: string, storageType: StorageType) {
+	const [user] = useAtom(userAtom)
+	const [available, setAvailable] = useState(false)
+
+	const {data, status} = useQuery(['repetitionAvailable', storageId, storageType], async () => {
+		const response = await SpaceRepetitionAPI.get().getNextCard(user.id, storageType, storageId)
+		return !!response.data
+	})
+
+	useEffect(() => {
+		if (status === 'success') {
+			setAvailable(data)
+		}
+	}, [data, status])
+
+	return available
 }
 
 export {

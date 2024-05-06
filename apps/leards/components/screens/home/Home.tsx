@@ -7,7 +7,11 @@ import Sidebar from './sidebar/Sidebar'
 import TopPanel from './topPanel/TopPanel'
 
 function Home() {
-	useLoadSelectionParams()
+	const selectionLoaded = useLoadSelectionParams()
+
+	if (!selectionLoaded) {
+		return null
+	}
 
 	return (
 		<div className={styles.layout}>

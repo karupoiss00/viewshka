@@ -28,7 +28,6 @@ type FlipPracticeProps = {
 
 function FlipPractice({loadCards}: FlipPracticeProps) {
 	const router = useRouter()
-	const getMessage = useMessages()
 	const [, setAllCards] = useAtom(cardsAtom)
 	const [practice] = useAtom(practiceAtom)
 	const [materialName, setMaterialName] = useState('')
@@ -56,15 +55,24 @@ function FlipPractice({loadCards}: FlipPracticeProps) {
 			<PracticeTopPanel materialName={materialName} />
 			<ProgressBar progress={progress} />
 			<div className={styles.content}>
-				<Button type="link" size="medium" onClick={() => router.back()} className={styles.exit}>
-					<div className={styles.exitContent}>
-						<SystemIconArrowLeft/>
-						{getMessage('Practice.Flip.Button.Exit')}
-					</div>
-				</Button>
+				<ExitButton/>
 				{contentMap[practice.status]}
 			</div>
 		</div>
+	)
+}
+
+function ExitButton() {
+	const router = useRouter()
+	const getMessage = useMessages()
+
+	return (
+		<Button type="link" size="medium" onClick={() => router.back()} className={styles.exit}>
+			<div className={styles.exitContent}>
+				<SystemIconArrowLeft/>
+				{getMessage('Practice.Flip.Button.Exit')}
+			</div>
+		</Button>
 	)
 }
 

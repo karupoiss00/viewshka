@@ -1,0 +1,50 @@
+.card {
+    display: flex;
+    font: var(--text-large-regular);
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    width: 500px;
+    height: 340px;
+    border-radius: 40px;
+    background: var(--accent-color);
+    filter: drop-shadow(2px 2px 5px rgba(56, 56, 56, 0.15));
+    color: var(--surface-color);
+    user-select: none;
+    text-align: center;
+}
+
+.card--active {
+    cursor: pointer;
+}
+
+.card--ghost {
+    pointer-events: none;
+}
+
+.card--flipping--first--part {
+    animation: cards-rotation-first-part 100ms ease-in-out;
+    transform: rotateX(90deg);
+}
+
+.card--flipping--second--part {
+    animation: cards-rotation-second-part 100ms ease-in-out;
+}
+
+@keyframes cards-rotation-first-part {
+    0% {
+        transform: rotateX(0deg);
+    }
+    100% {
+        transform: rotateX(90deg);
+    }
+}
+
+@keyframes cards-rotation-second-part {
+    0% {
+        transform: rotateX(90deg);
+    }
+    100% {
+        transform: rotateX(0deg);
+    }
+}

@@ -37,8 +37,8 @@ function FavoriteDecksList() {
 
 function useFavoritesQuery(userId: string) {
 	const router = useRouter()
-	const [, setFavorites] = useAtom(favoritesAtom)
-	const {isError, isSuccess, data} = useQuery(['sidebar-favorites'], async () => {
+	const [favorites, setFavorites] = useAtom(favoritesAtom)
+	const {isError, isSuccess, data} = useQuery(['sidebar-favorites', favorites.length], async () => {
 		const api = LibraryAPI.get()
 		const {data} = await api.getFavoriteStorages(userId)
 

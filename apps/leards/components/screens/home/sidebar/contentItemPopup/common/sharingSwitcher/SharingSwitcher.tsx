@@ -1,5 +1,5 @@
 import {useMessages} from '@leards/i18n/hooks/useMessages'
-import {Checkbox, PropsWithClassname} from '@viewshka/uikit'
+import {Checkbox, PropsWithClassname, Switcher} from '@viewshka/uikit'
 import classnames from 'classnames'
 import React from 'react'
 import styles from './SharingSwitcher.module.css'
@@ -21,7 +21,7 @@ function SharingSwitcher({className, initialValue, onChange}: SharingSwitcherPro
 					{getMessage('ContentSettingsPopup.Material.Share.Description')}
 				</div>
 			</div>
-			<Checkbox initialState={initialValue} onChange={onChange}/>
+			<Switcher initialValue={initialValue} onClick={onChange}/>
 		</div>
 	)
 }

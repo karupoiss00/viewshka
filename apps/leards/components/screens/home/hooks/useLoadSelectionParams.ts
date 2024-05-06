@@ -5,13 +5,14 @@ import {
 import {selectionAtom} from '@leards/components/screens/home/viewmodel/selectionAtom'
 import {useSearchParams} from '@leards/hooks/useSearchParams'
 import {useAtom} from '@reatom/npm-react'
-import {useCallback, useEffect} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 
 const SELECTED_STORAGE_TYPE_KEY = 'storageType'
 const SELECTED_STORAGE_ID_KEY = 'storageId'
 const SELECTED_SECTION_KEY = 'section'
 
 function useLoadSelectionParams() {
+	const [loaded, setLoaded] = useState(false)
 	const [, setSelection] = useAtom(selectionAtom)
 
 	const sectionParam = useSelectedSectionParam()
@@ -24,8 +25,12 @@ function useLoadSelectionParams() {
 			storageType: storageTypeParam,
 			storageId: storageIdParam,
 		})
+
 		setSelection(selection)
+		setLoaded(true)
 	}, [sectionParam, setSelection, storageIdParam, storageTypeParam])
+
+	return loaded
 }
 
 function useSelectedSectionParam() {

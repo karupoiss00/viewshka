@@ -104,7 +104,7 @@ function useAddToFavoriteMutation() {
 		const api = LibraryAPI.get()
 		await api.addStorageToFavorite(user.id, 'deck', deckId)
 		const {data} = await api.getFavoriteStorages(user.id)
-		setFavorites(data.favoriteStorages)
+		setFavorites([...data.favoriteStorages])
 	})
 }
 

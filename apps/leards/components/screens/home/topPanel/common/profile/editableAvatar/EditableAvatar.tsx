@@ -1,7 +1,7 @@
 import {userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
-import {generateRandomColor, isUndefined} from '@viewshka/core'
+import {generateRandomColor} from '@viewshka/core'
 import {ActionList, Avatar, Popover, SystemIconCamera} from '@viewshka/uikit'
 import {useRef, useState} from 'react'
 import styles from './EditableAvatar.module.css'
@@ -14,12 +14,10 @@ type EditableAvatarProps = {
 function EditableAvatar({addImage, deleteImage}: EditableAvatarProps) {
 	const [user] = useAtom(userAtom)
 
-	const avatarExist = !isUndefined(user.avatarUrl) && user.avatarUrl !== undefined
-
 	return (
 		<div className={styles['avatar-container']}>
 			{
-				avatarExist
+				user.avatarUrl
 					? <Avatar size="large" type="image" avatarUrl={user.avatarUrl}/>
 					: <Avatar size="large" type="gradient" name={user.name}/>
 			}
@@ -42,8 +40,6 @@ function AvatarActionButton({addImage, deleteImage}: AvatarActionListProps) {
 	const listRef = useRef()
 	const [popoverOpened, setPopoverOpened] = useState(false)
 
-	const avatarExist = !isUndefined(user.avatarUrl) && user.avatarUrl !== undefined
-
 	const onItemClick = (id: string) => {
 		if (id === 'add-image') {
 			addImage()
@@ -59,7 +55,7 @@ function AvatarActionButton({addImage, deleteImage}: AvatarActionListProps) {
 			<div
 				className={styles['avatar-button']}
 				style={{
-					backgroundColor: generateColor(avatarExist, user.name),
+					backgroundColor: generateColor(!!user.avatarUrl, user.name),
 				}}
 				ref={listRef}
 				onClick={() => setPopoverOpened(true)}

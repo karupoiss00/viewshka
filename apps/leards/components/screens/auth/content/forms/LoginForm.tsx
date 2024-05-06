@@ -1,5 +1,6 @@
 import {AccountsAPI} from '@leards/api/AccountsAPI'
 import {useFormReset} from '@leards/components/screens/auth/content/forms/hooks/useFormReset'
+import {goToHome} from '@leards/components/screens/home/Home'
 import {LandingButton} from '@leards/components/screens/landing/common/button/LandingButton'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import AuthProvider from '@leards/providers/authProvider'
@@ -63,7 +64,7 @@ function LoginForm({className, onRegister, visible}: LoginFormProps) {
 			handleSetUserAction({
 				user: data.user,
 			})
-			router.replace('/home')
+			goToHome()
 		}
 		if (status === 'error') {
 			setUnauthorized(true)

@@ -4,26 +4,26 @@
     flex-direction: row;
     align-items: center;
     padding-inline: 5px;
-    width: 70px;
-    height: 36px;
+    width: 48px;
+    height: 25px;
     background-color: var(--selection-color);
     border-radius: 20px;
     cursor: pointer;
 }
 
 .switcher {
-    width: 30px;
-    height: 30px;
+    width: 21px;
+    height: 21px;
     border-radius: 15px;
     transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
 }
 
 .switcher--off {
     background-color: var(--error-color);
-    transform: translateX(0);
+    transform: translateX(-3px);
 }
 
 .switcher--on {
     background-color: var(--access-color);
-    transform: translateX(40px);
+    transform: translateX(30px);
 }

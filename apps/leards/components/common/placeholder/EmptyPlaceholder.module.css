@@ -1,0 +1,16 @@
+.placeholder-container {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+    font: var(--text-normal-medium);
+    color: #DCDCDC;
+    flex-direction: column;
+}
+
+.placeholder {
+    width: 155px;
+    height: 155px;
+    background: url('/images/empty_sidebar_placeholder.svg') no-repeat center;
+}

@@ -1520,7 +1520,7 @@
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/RepetitionStats"
+                            "$ref": "#/definitions/RepetitionStatsData"
                         }
                     },
                     "500": {
@@ -2140,7 +2140,7 @@
                 }
             }
         },
-        "RepetitionStats": {
+        "RepetitionStatsData": {
             "type": "object",
             "properties": {
                 "learning": {

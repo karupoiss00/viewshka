@@ -7,8 +7,21 @@
 
 .cards-container {
     display: flex;
-    width: 100%;
+    flex-grow: 1;
     align-items: center;
     justify-content: center;
-    margin-block-start: auto;
+}
+
+
+.exit {
+    position: absolute;
+    inset-inline-start: 32px;
+    inset-block-start: 86px;
+}
+
+.exit-content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
 }

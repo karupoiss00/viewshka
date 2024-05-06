@@ -1,4 +1,4 @@
-import {ResultCard} from '@leards/components/screens/practice/flip/results/common/ResultCard'
+import {TrainingCard} from '@leards/components/screens/practice/common/trainingCard/TrainingCard'
 import {cardsAtom} from '@leards/components/screens/practice/flip/viewmodel/cardsAtom'
 import {practiceActions} from '@leards/components/screens/practice/flip/viewmodel/practiceAtom'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
@@ -20,7 +20,7 @@ function TotalResult({onExit}: TotalResultProps) {
 
 	return (
 		<div className={styles.container}>
-			<ResultCard>
+			<TrainingCard>
 				<div className={styles.header}>
 					{getMessage('Practice.Flip.PracticeFinished')}
 				</div>
@@ -28,7 +28,7 @@ function TotalResult({onExit}: TotalResultProps) {
 					onRestart={onRestart}
 					onExit={onExit}
 				/>
-			</ResultCard>
+			</TrainingCard>
 		</div>
 	)
 }

@@ -1,4 +1,5 @@
 import {Content} from '@leards/api/generated'
+import {EmptyPlaceholder} from '@leards/components/common/placeholder/EmptyPlaceholder'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAtom} from '@reatom/npm-react'
 import {SelectList} from '@viewshka/uikit'
@@ -54,12 +55,7 @@ function ContentList({onItemSelect, selectedItem, content, editable}: ContentLis
 function Placeholder() {
 	const getMessage = useMessages()
 
-	return (
-		<div className={styles.placeholderContainer}>
-			<div className={styles.placeholder}></div>
-			{getMessage('Sidebar.Empty.Placeholder')}
-		</div>
-	)
+	return <EmptyPlaceholder text={getMessage('Sidebar.Empty.Placeholder')}/>
 }
 
 export {
