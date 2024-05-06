@@ -16,7 +16,7 @@
         "version": "1.0"
     },
     "host": "leards.space",
-    "schemes": "https",
+    "schemes": ["https", "http"],
     "basePath": "/api/v1",
     "paths": {
         "/accounts": {
