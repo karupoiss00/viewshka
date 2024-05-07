@@ -2,11 +2,11 @@ import {SpaceRepetitionAPI} from '@leards/api/SpaceRepetitionAPI'
 import {StorageStats} from '@leards/components/common/storageStats/StorageStats'
 import {userAtom} from '@leards/components/common/viewmodel/userAtom'
 import {BottomPanel} from '@leards/components/screens/home/contentArea/common/BottomPanel'
+import {currentDeckAtom} from '@leards/components/screens/home/viewmodel/currentDeckAtom'
 import {StorageType} from '@leards/components/screens/home/viewmodel/selection/Selection'
 import {goToFlipPractice} from '@leards/components/screens/practice/flip/FlipPractice'
 import {goToSpaceRepetition} from '@leards/components/screens/practice/space-repetition/SpaceRepetition'
 import {repetitionActions} from '@leards/components/screens/practice/space-repetition/viewmodel/repetitionStateAtom'
-import {useCardsQuery} from '@leards/hooks/useCardsQuery'
 import {useMessages} from '@leards/i18n/hooks/useMessages'
 import {useAction, useAtom} from '@reatom/npm-react'
 import {Button, Popup} from '@viewshka/uikit'
@@ -14,15 +14,18 @@ import React, {useEffect, useRef, useState} from 'react'
 import {useQuery} from 'react-query'
 import styles from './UserContentBottomPanel.module.css'
 
+const SPACE_REPETITION_KEY = 'repetitionAvailable'
+
 interface UserContentBottomPanelProps {
 	storageType: StorageType,
 	storageId: string,
 }
 function UserContentBottomPanel({storageType, storageId}: UserContentBottomPanelProps) {
 	const getMessage = useMessages()
-	const {cards} = useCardsQuery(storageType, storageId)
-	const canPractice = !!cards.length
-	const canStartSpaceRepetition = useSpaceRepetitionAvailable(storageId, storageType)
+	const [currentDeck] = useAtom(currentDeckAtom)
+	const currentDeckSize = currentDeck?.content?.length
+	const canPractice = !!currentDeckSize
+	const canStartSpaceRepetition = useSpaceRepetitionAvailable(storageId, storageType, currentDeckSize)
 	const handleStartSpaceRepetition = useAction(repetitionActions.startRepetition)
 
 	return (
@@ -52,16 +55,17 @@ function UserContentBottomPanel({storageType, storageId}: UserContentBottomPanel
 			>
 				{getMessage('Button.Practice.SpaceRepetition')}
 			</Button>
-			{storageType === 'deck' && !!cards.length && <StatsButton deckId={storageId}/>}
+			{storageType === 'deck' && <StatsButton deckId={storageId} disabled={!currentDeckSize}/>}
 		</BottomPanel>
 	)
 }
 
 type StatsButtonProps = {
-	deckId: string
+	deckId: string,
+	disabled: boolean,
 }
 
-function StatsButton({deckId}: StatsButtonProps) {
+function StatsButton({deckId, disabled}: StatsButtonProps) {
 	const buttonRef = useRef<HTMLButtonElement>(null)
 	const getMessage = useMessages()
 
@@ -70,6 +74,7 @@ function StatsButton({deckId}: StatsButtonProps) {
 			<Button
 				type="secondary"
 				size="medium"
+				state={disabled ? 'disabled' : 'default'}
 				ref={buttonRef}
 			>
 				{getMessage('Button.DeckStats')}
@@ -83,19 +88,28 @@ function StatsButton({deckId}: StatsButtonProps) {
 	)
 }
 
-function useSpaceRepetitionAvailable(storageId: string, storageType: StorageType) {
+function useSpaceRepetitionAvailable(storageId: string, storageType: StorageType, currentDeckSize: number) {
 	const [user] = useAtom(userAtom)
 	const [available, setAvailable] = useState(false)
 
-	const {data, status} = useQuery(['repetitionAvailable', storageId, storageType], async () => {
-		const response = await SpaceRepetitionAPI.get().getNextCard(user.id, storageType, storageId)
-		return !!response.data
+	const {data, status} = useQuery([SPACE_REPETITION_KEY, storageId, storageType, currentDeckSize], async () => {
+		if (!currentDeckSize) {
+			return false
+		}
+
+		try {
+			const response = await SpaceRepetitionAPI.get().getNextCard(user.id, storageType, storageId)
+			return !!response.data
+		}
+		catch {
+			return false
+		}
+	}, {
+		retryDelay: 1000,
 	})
 
 	useEffect(() => {
-		if (status === 'success') {
-			setAvailable(data)
-		}
+		setAvailable(status === 'success' && !!data)
 	}, [data, status])
 
 	return available
@@ -103,4 +117,5 @@ function useSpaceRepetitionAvailable(storageId: string, storageType: StorageType
 
 export {
 	UserContentBottomPanel,
+	SPACE_REPETITION_KEY,
 }

@@ -23,11 +23,8 @@ function UserContent({selectedContent}: UserContentProps) {
 		<div className={styles.container}>
 			{
 				storageType === 'deck'
-					&& <DeckViewer deckId={storageId} readonly={false}/>
-			}
-			{
-				storageType === 'folder'
-				&& <FolderStats folderId={storageId || rootFolderId}/>
+					? <DeckViewer deckId={storageId} readonly={false}/>
+					: <FolderStats folderId={storageId || rootFolderId}/>
 			}
 			{showBottomPanel && <UserContentBottomPanel storageType={storageType} storageId={storageId}/>}
 		</div>
