@@ -67,7 +67,6 @@
     inset-block-start: 22px;
     inset-inline-end: -84px;
     color: var(--text-color-subdued);
-    background: var(--surface-color);
     opacity: 1;
     transition: opacity 150ms ease-in-out;
 }

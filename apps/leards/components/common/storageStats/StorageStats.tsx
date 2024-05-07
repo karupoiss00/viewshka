@@ -71,7 +71,7 @@ function useStorageStatsQuery(storageType: StorageType, storageId: string) {
 		const response = await SpaceRepetitionAPI.get().getStorageStats(user.id, storageType, storageId)
 		return response.data
 	}, {
-		refetchInterval: 1000,
+		refetchOnMount: true,
 	})
 
 	useEffect(() => {
